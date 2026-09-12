@@ -1,0 +1,81 @@
+<!-- TOP ANNOUNCEMENT BAR -->
+<div class="bg-[var(--koi-dark)] text-white text-xs py-2 px-4 text-center font-medium tracking-wide flex justify-between items-center px-4 sm:px-8">
+  <div class="hidden md:flex items-center gap-4 text-[var(--koi-gold)]">
+    <span><i class="fa-solid fa-store mr-1"></i> 50+ Cửa hàng toàn quốc</span>
+    <span><i class="fa-solid fa-clock mr-1"></i> 08:00 - 22:30 Hằng ngày</span>
+  </div>
+  <div class="mx-auto md:mx-0">
+    <span>✨ Thưởng thức Trân Châu Hoàng Kim nguyên vị pha tay thủ công! </span>
+    <a href="#menu-section" class="text-[var(--koi-gold)] underline font-semibold ml-2 hover:text-white transition">Thử Ngay</a>
+  </div>
+  <div class="hidden md:flex items-center gap-3">
+    <span class="cursor-pointer hover:text-[var(--koi-gold)]">VN</span>
+    <span>|</span>
+    <span class="cursor-pointer hover:text-[var(--koi-gold)] opacity-70">EN</span>
+  </div>
+</div>
+
+<!-- HEADER / NAVBAR -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-amber-100 shadow-sm transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+
+      <!-- LOGO KOI THÉ INSPIRED -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-12 h-12 rounded-full bg-[var(--koi-dark)] flex items-center justify-center border-2 border-[var(--koi-gold)] group-hover:rotate-12 transition-transform duration-300">
+          <span class="text-[var(--koi-gold)] font-serif text-2xl font-extrabold tracking-tighter">KOI</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-serif text-xl font-bold tracking-widest text-[var(--koi-dark)]">KOI Thé</span>
+          <span class="text-[9px] uppercase tracking-[0.25em] text-[var(--koi-gold)] font-semibold">Handcrafted Tea</span>
+        </div>
+      </a>
+
+      <!-- DESKTOP NAV -->
+      <nav class="hidden lg:flex items-center gap-8 font-medium text-sm">
+        <a href="#" class="text-[var(--koi-gold)] font-bold relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--koi-gold)]">Trang chủ</a>
+        <a href="#menu-section" class="text-gray-700 hover:text-[var(--koi-gold)] transition">Menu & Thức Uống</a>
+        <a href="#story-section" class="text-gray-700 hover:text-[var(--koi-gold)] transition">Câu Chuyện Thương Hiệu</a>
+        <a href="#stores-section" class="text-gray-700 hover:text-[var(--koi-gold)] transition">Hệ Thống Cửa Hàng</a>
+        <a href="#promos-section" class="text-gray-700 hover:text-[var(--koi-gold)] transition">Khuyến Mãi</a>
+        <a href="#contact-section" class="text-gray-700 hover:text-[var(--koi-gold)] transition">Liên Hệ</a>
+      </nav>
+
+      <!-- RIGHT ACTION BUTTONS -->
+      <div class="flex items-center gap-4">
+        <!-- Quick Search -->
+        <div class="hidden sm:flex items-center bg-gray-100 rounded-full px-3 py-1.5 border border-transparent focus-within:border-[var(--koi-gold)] focus-within:bg-white transition">
+          <i class="fa-solid fa-magnifying-glass text-gray-400 text-xs mr-2"></i>
+          <input type="text" placeholder="Tìm trà sữa, topping..." class="bg-transparent text-xs outline-none w-32 focus:w-44 transition-all">
+        </div>
+
+        <!-- Cart Button -->
+        <button id="open-cart-btn" class="relative p-2.5 rounded-full text-gray-700 hover:text-[var(--koi-gold)] hover:bg-amber-50 transition">
+          <i class="fa-solid fa-bag-shopping text-xl"></i>
+          <span id="cart-badge" class="absolute -top-1 -right-1 bg-[var(--koi-gold)] text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow">2</span>
+        </button>
+
+        <!-- Order Now CTA -->
+        <a href="#menu-section" class="hidden sm:inline-flex btn-gold px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider items-center gap-2">
+          <span>Đặt Hàng Online</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </a>
+
+        <!-- Mobile Hamburger -->
+        <button id="mobile-menu-toggle" class="lg:hidden p-2 text-gray-700 focus:outline-none">
+          <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE NAV DRAWER -->
+  <div id="mobile-nav-drawer" class="hidden lg:hidden bg-white border-b border-amber-100 px-6 py-4 space-y-3">
+    <a href="#" class="block text-[var(--koi-gold)] font-bold text-sm">Trang chủ</a>
+    <a href="#menu-section" class="block text-gray-700 font-medium text-sm">Menu & Thức Uống</a>
+    <a href="#story-section" class="block text-gray-700 font-medium text-sm">Câu Chuyện Thương Hiệu</a>
+    <a href="#stores-section" class="block text-gray-700 font-medium text-sm">Hệ Thống Cửa Hàng</a>
+    <a href="#promos-section" class="block text-gray-700 font-medium text-sm">Khuyến Mãi</a>
+    <a href="#contact-section" class="block text-gray-700 font-medium text-sm">Liên Hệ</a>
+  </div>
+</header>

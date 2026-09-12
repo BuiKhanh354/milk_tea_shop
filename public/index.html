@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KOI Thé - Premium Handcrafted Milk Tea</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/koi-style.css">
+</head>
+<body class="antialiased bg-[var(--koi-cream)] text-[var(--koi-dark)]">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="bg-[var(--koi-dark)] text-white text-xs py-2 px-4 text-center font-medium tracking-wide flex justify-between items-center px-4 sm:px-8">
+    <div class="hidden md:flex items-center gap-4 text-[var(--koi-gold)]">
+      <span><i class="fa-solid fa-store mr-1"></i> 50+ Cửa hàng toàn quốc</span>
+      <span><i class="fa-solid fa-clock mr-1"></i> 08:00 - 22:30 Hằng ngày</span>
+    </div>
+    <div class="mx-auto md:mx-0">
+      <span>✨ Thưởng thức Trân Châu Hoàng Kim nguyên vị pha tay thủ công! </span>
+      <a href="#menu-section" class="text-[var(--koi-gold)] underline font-semibold ml-2 hover:text-white transition">Thử Ngay</a>
+    </div>
+    <div class="hidden md:flex items-center gap-3">
+      <span class="cursor-pointer hover:text-[var(--koi-gold)]">VN</span>
+      <span>|</span>
+      <span class="cursor-pointer hover:text-[var(--koi-gold)] opacity-70">EN</span>
+    </div>
+  </div>
+
+  <!-- HEADER / NAVBAR -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-amber-100 shadow-sm transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+
+        <!-- LOGO KOI THÉ INSPIRED -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-12 h-12 rounded-full bg-[var(--koi-dark)] flex items-center justify-center border-2 border-[var(--koi-gold)] group-hover:rotate-12 transition-transform duration-300">
+            <span class="text-[var(--koi-gold)] font-serif text-2xl font-extrabold tracking-tighter">KOI</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-serif text-xl font-bold tracking-widest text-[var(--koi-dark)]">KOI Thé</span>
+            <span class="text-[9px] uppercase tracking-[0.25em] text-[var(--koi-gold)] font-semibold">Handcrafted Tea</span>
+          </div>
+        </a>
+
+        <!-- DESKTOP NAV -->
+        <nav class="hidden lg:flex items-center gap-8 font-medium text-sm">
+          <a href="#" class="text-[var(--koi-gold)] font-bold relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--koi-gold)]">Trang chủ</a>
+          <a href="#menu-section" class="text-gray-700 hover:text-[var(--koi-gold)] transition">Menu & Thức Uống</a>
+          <a href="#story-section" class="text-gray-700 hover:text-[var(--koi-gold)] transition">Câu Chuyện Thương Hiệu</a>
+          <a href="#stores-section" class="text-gray-700 hover:text-[var(--koi-gold)] transition">Hệ Thống Cửa Hàng</a>
+          <a href="#promos-section" class="text-gray-700 hover:text-[var(--koi-gold)] transition">Khuyến Mãi</a>
+          <a href="#contact-section" class="text-gray-700 hover:text-[var(--koi-gold)] transition">Liên Hệ</a>
+        </nav>
+
+        <!-- RIGHT ACTION BUTTONS -->
+        <div class="flex items-center gap-4">
+          <div class="hidden sm:flex items-center bg-gray-100 rounded-full px-3 py-1.5 border border-transparent focus-within:border-[var(--koi-gold)] focus-within:bg-white transition">
+            <i class="fa-solid fa-magnifying-glass text-gray-400 text-xs mr-2"></i>
+            <input type="text" placeholder="Tìm trà sữa, topping..." class="bg-transparent text-xs outline-none w-32 focus:w-44 transition-all">
+          </div>
+
+          <button id="open-cart-btn" class="relative p-2.5 rounded-full text-gray-700 hover:text-[var(--koi-gold)] hover:bg-amber-50 transition">
+            <i class="fa-solid fa-bag-shopping text-xl"></i>
+            <span id="cart-badge" class="absolute -top-1 -right-1 bg-[var(--koi-gold)] text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow">2</span>
+          </button>
+
+          <a href="#menu-section" class="hidden sm:inline-flex btn-gold px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider items-center gap-2">
+            <span>Đặt Hàng Online</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </a>
+
+          <button id="mobile-menu-toggle" class="lg:hidden p-2 text-gray-700 focus:outline-none">
+            <i class="fa-solid fa-bars text-2xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div id="mobile-nav-drawer" class="hidden lg:hidden bg-white border-b border-amber-100 px-6 py-4 space-y-3">
+      <a href="#" class="block text-[var(--koi-gold)] font-bold text-sm">Trang chủ</a>
+      <a href="#menu-section" class="block text-gray-700 font-medium text-sm">Menu & Thức Uống</a>
+      <a href="#story-section" class="block text-gray-700 font-medium text-sm">Câu Chuyện Thương Hiệu</a>
+      <a href="#stores-section" class="block text-gray-700 font-medium text-sm">Hệ Thống Cửa Hàng</a>
+      <a href="#promos-section" class="block text-gray-700 font-medium text-sm">Khuyến Mãi</a>
+      <a href="#contact-section" class="block text-gray-700 font-medium text-sm">Liên Hệ</a>
+    </div>
+  </header>
+
+  <!-- HERO CAROUSEL SECTION -->
+  <section class="relative bg-gradient-to-b from-amber-50/50 via-white to-[var(--koi-cream)] overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-6 z-10 space-y-6 text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-100/80 border border-amber-300 text-[var(--koi-dark)] text-xs font-semibold">
+            <span class="w-2 h-2 rounded-full bg-[var(--koi-gold)] animate-ping"></span>
+            <span>Signature Golden Boba Series</span>
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-[var(--koi-dark)] leading-tight">
+            Nghệ Thuật Trà <br class="hidden sm:block"/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[var(--koi-gold)] to-amber-700">Pha Tay Chuẩn Vị</span>
+          </h1>
+
+          <p class="text-gray-600 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed">
+            Hương vị trà nguyên lá thượng hạng hòa quyện cùng lớp kem Macchiato sánh mịn và Trân Châu Hoàng Kim dẻo quánh trứ danh từ KOI Thé.
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+            <a href="#menu-section" class="w-full sm:w-auto btn-gold px-8 py-4 rounded-full font-bold text-sm tracking-wide shadow-lg flex items-center justify-center gap-3">
+              <span>Khám Phá Menu</span>
+              <i class="fa-solid fa-utensils text-xs"></i>
+            </a>
+            <a href="#story-section" class="w-full sm:w-auto btn-outline-gold px-8 py-4 rounded-full font-bold text-sm tracking-wide flex items-center justify-center gap-2">
+              <i class="fa-solid fa-play text-xs"></i>
+              <span>Quy Trình Pha Trà</span>
+            </a>
+          </div>
+
+          <div class="pt-8 border-t border-amber-200/60 grid grid-cols-3 gap-4 text-center lg:text-left">
+            <div>
+              <p class="text-2xl font-bold text-[var(--koi-dark)] font-serif">100%</p>
+              <p class="text-xs text-gray-500 font-medium">Trà tươi nấu hằng ngày</p>
+            </div>
+            <div>
+              <p class="text-2xl font-bold text-[var(--koi-gold)] font-serif">Golden</p>
+              <p class="text-xs text-gray-500 font-medium">Trân châu hoàng kim</p>
+            </div>
+            <div>
+              <p class="text-2xl font-bold text-[var(--koi-dark)] font-serif">Exact</p>
+              <p class="text-xs text-gray-500 font-medium">Tỷ lệ đường đá chuẩn</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 relative flex justify-center items-center">
+          <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-amber-200/40 blur-3xl -z-10 animate-pulse"></div>
+
+          <div class="relative w-full max-w-md aspect-square rounded-3xl p-6 bg-gradient-to-tr from-amber-100/50 via-white to-amber-50 border border-amber-200/60 shadow-2xl flex flex-col items-center justify-center text-center">
+            
+            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur shadow-md px-3 py-1.5 rounded-full border border-amber-200 flex items-center gap-1.5 text-xs font-bold text-amber-800">
+              <i class="fa-solid fa-crown text-[var(--koi-gold)]"></i>
+              <span>Best Seller #1</span>
+            </div>
+
+            <div class="relative w-56 h-72 my-4 transition-transform duration-500 hover:scale-105">
+              <svg viewBox="0 0 200 300" class="w-full h-full drop-shadow-2xl">
+                <path d="M 40 50 L 160 50 L 145 270 C 143 285, 130 290, 115 290 L 85 290 C 70 290, 57 285, 55 270 Z" fill="rgba(255, 255, 255, 0.85)" stroke="#D4AF37" stroke-width="3"/>
+                <path d="M 43 75 L 157 75 L 144 268 C 142 280, 130 285, 115 285 L 85 285 C 70 285, 58 280, 56 268 Z" fill="#E8C382"/>
+                <path d="M 41 55 L 159 55 L 157 85 L 43 85 Z" fill="#FFFDF9"/>
+                <circle cx="75" cy="265" r="10" fill="#D4AF37" opacity="0.9" stroke="#9E7628" stroke-width="1"/>
+                <circle cx="95" cy="270" r="11" fill="#C5A059" opacity="0.9" stroke="#9E7628" stroke-width="1"/>
+                <circle cx="118" cy="263" r="10" fill="#DAA520" opacity="0.9" stroke="#9E7628" stroke-width="1"/>
+                <circle cx="85" cy="248" r="9" opacity="0.95" fill="#D4AF37"/>
+                <circle cx="108" cy="250" r="10" opacity="0.95" fill="#B8860B"/>
+                <circle cx="128" cy="252" r="9" opacity="0.9" fill="#D4AF37"/>
+                <rect x="110" y="5" width="12" height="100" rx="3" fill="#1C1C1E" transform="rotate(8 110 5)"/>
+                <circle cx="100" cy="160" r="28" fill="#1C1C1E" stroke="#C5A059" stroke-width="2"/>
+                <text x="100" y="167" font-family="serif" font-size="16" font-weight="bold" fill="#C5A059" text-anchor="middle">KOI</text>
+              </svg>
+            </div>
+
+            <h3 class="font-serif text-xl font-bold text-[var(--koi-dark)]">Trà Sữa Trân Châu Hoàng Kim</h3>
+            <p class="text-xs text-[var(--koi-gold)] font-semibold mt-1">Golden Jumbo Boba Milk Tea</p>
+            <p class="text-xs text-gray-500 mt-1">58.000 VNĐ • Size M</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- BRAND CRAFTSMANSHIP / VALUES -->
+  <section id="story-section" class="py-16 bg-white border-y border-amber-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="text-xs uppercase tracking-[0.3em] text-[var(--koi-gold)] font-bold mb-2">Bí Quyết KOI Thé</h2>
+        <h3 class="text-3xl font-serif font-bold text-[var(--koi-dark)]">4 Tiêu Chuẩn Tạo Nên Tách Trà Hảo Hạng</h3>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-8">
+        <div class="text-center p-6 rounded-2xl bg-[var(--koi-cream)] border border-amber-100 hover:shadow-md transition">
+          <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-amber-100 flex items-center justify-center text-[var(--koi-gold)] text-2xl">
+            <i class="fa-solid fa-leaf"></i>
+          </div>
+          <h4 class="font-serif font-bold text-lg mb-2">100% Trà Tươi</h4>
+          <p class="text-xs text-gray-600 leading-relaxed">Lá trà nguyên chất được thu hoạch từ vùng cao nguyên, pha mới mỗi 2 tiếng tại cửa hàng.</p>
+        </div>
+
+        <div class="text-center p-6 rounded-2xl bg-[var(--koi-cream)] border border-amber-100 hover:shadow-md transition">
+          <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-amber-100 flex items-center justify-center text-[var(--koi-gold)] text-2xl">
+            <i class="fa-solid fa-circle-dot"></i>
+          </div>
+          <h4 class="font-serif font-bold text-lg mb-2">Trân Châu Hoàng Kim</h4>
+          <p class="text-xs text-gray-600 leading-relaxed">Hạt trân châu vàng óng, độ dẻo mềm hoàn hảo được nấu công phu theo khung giờ vàng.</p>
+        </div>
+
+        <div class="text-center p-6 rounded-2xl bg-[var(--koi-cream)] border border-amber-100 hover:shadow-md transition">
+          <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-amber-100 flex items-center justify-center text-[var(--koi-gold)] text-2xl">
+            <i class="fa-solid fa-glass-water"></i>
+          </div>
+          <h4 class="font-serif font-bold text-lg mb-2">Chuẩn Định Lượng</h4>
+          <p class="text-xs text-gray-600 leading-relaxed">Công thức đo lường chính xác lượng đường, đá và sữa đảm bảo hương vị đồng nhất.</p>
+        </div>
+
+        <div class="text-center p-6 rounded-2xl bg-[var(--koi-cream)] border border-amber-100 hover:shadow-md transition">
+          <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-amber-100 flex items-center justify-center text-[var(--koi-gold)] text-2xl">
+            <i class="fa-solid fa-heart"></i>
+          </div>
+          <h4 class="font-serif font-bold text-lg mb-2">Pha Trà Tận Tâm</h4>
+          <p class="text-xs text-gray-600 leading-relaxed">Đội ngũ Barista được đào tạo nghiêm ngặt chuẩn quốc tế gửi gắm yêu thương vào từng ly trà.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU / PRODUCT HIGHLIGHTS SECTION -->
+  <section id="menu-section" class="py-16 bg-[var(--koi-cream)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span class="text-xs uppercase tracking-[0.25em] text-[var(--koi-gold)] font-bold">Thực Đơn Đặc Bắt</span>
+          <h2 class="text-3xl font-serif font-extrabold text-[var(--koi-dark)] mt-1">Sản Phẩm Nổi Bật</h2>
+        </div>
+
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+          <button class="filter-tab active-tab btn-gold px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap" data-category="all">Tất Cả</button>
+          <button class="filter-tab bg-white hover:bg-amber-50 text-gray-700 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap border border-amber-200 transition" data-category="signature">Signature Boba</button>
+          <button class="filter-tab bg-white hover:bg-amber-50 text-gray-700 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap border border-amber-200 transition" data-category="macchiato">Macchiato Cream</button>
+          <button class="filter-tab bg-white hover:bg-amber-50 text-gray-700 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap border border-amber-200 transition" data-category="fruit">Trà Trái Cây</button>
+          <button class="filter-tab bg-white hover:bg-amber-50 text-gray-700 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap border border-amber-200 transition" data-category="milk">Flavored Milk</button>
+        </div>
+      </div>
+
+      <!-- PRODUCT GRID -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="product-container">
+
+        <!-- Product Card 1 -->
+        <div class="product-item koi-card p-5 flex flex-col justify-between relative" data-category="signature">
+          <span class="absolute top-4 left-4 bg-[var(--koi-dark)] text-[var(--koi-gold)] text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Best Seller</span>
+          
+          <div class="w-full h-48 rounded-xl bg-amber-50/60 flex items-center justify-center my-2 p-4">
+            <svg viewBox="0 0 160 220" class="w-32 h-40 drop-shadow-md">
+              <path d="M 30 30 L 130 30 L 118 200 C 117 210, 105 215, 90 215 L 70 215 C 55 215, 43 210, 42 200 Z" fill="rgba(255,255,255,0.9)" stroke="#C5A059" stroke-width="2"/>
+              <rect x="32" y="50" width="96" height="148" rx="2" fill="#DDB166"/>
+              <circle cx="65" cy="185" r="8" fill="#C5A059"/><circle cx="80" cy="190" r="9" fill="#B8860B"/><circle cx="95" cy="183" r="8" fill="#D4AF37"/>
+              <circle cx="80" cy="115" r="20" fill="#1C1C1E"/><text x="80" y="120" font-family="serif" font-size="12" fill="#C5A059" text-anchor="middle" font-weight="bold">KOI</text>
+            </svg>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex items-center gap-1 text-amber-500 text-xs">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <span class="text-gray-400 text-[10px] ml-1">(4.9)</span>
+            </div>
+            <h4 class="font-serif font-bold text-base text-[var(--koi-dark)]">Trà Sữa Trân Châu Hoàng Kim</h4>
+            <p class="text-xs text-gray-500">Golden Jumbo Boba Milk Tea</p>
+
+            <div class="flex items-center gap-2 pt-1">
+              <span class="sugar-ice-badge text-[10px] font-semibold px-2 py-0.5 rounded">Đường 70%</span>
+              <span class="sugar-ice-badge text-[10px] font-semibold px-2 py-0.5 rounded">Đá 70%</span>
+            </div>
+
+            <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+              <span class="font-bold text-lg text-[var(--koi-dark)]">58.000đ</span>
+              <button onclick="openCustomizer('Trà Sữa Trân Châu Hoàng Kim', 58000)" class="btn-gold px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1">
+                <i class="fa-solid fa-plus text-[10px]"></i>
+                <span>Thêm</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Card 2 -->
+        <div class="product-item koi-card p-5 flex flex-col justify-between relative" data-category="macchiato">
+          <span class="absolute top-4 left-4 bg-amber-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Hot</span>
+          
+          <div class="w-full h-48 rounded-xl bg-amber-50/60 flex items-center justify-center my-2 p-4">
+            <svg viewBox="0 0 160 220" class="w-32 h-40 drop-shadow-md">
+              <path d="M 30 30 L 130 30 L 118 200 C 117 210, 105 215, 90 215 L 70 215 C 55 215, 43 210, 42 200 Z" fill="rgba(255,255,255,0.9)" stroke="#C5A059" stroke-width="2"/>
+              <rect x="32" y="80" width="96" height="118" fill="#4A7C59"/>
+              <rect x="31" y="32" width="98" height="48" fill="#FFFDF9"/>
+              <circle cx="80" cy="135" r="20" fill="#1C1C1E"/><text x="80" y="140" font-family="serif" font-size="12" fill="#C5A059" text-anchor="middle" font-weight="bold">KOI</text>
+            </svg>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex items-center gap-1 text-amber-500 text-xs">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+              <span class="text-gray-400 text-[10px] ml-1">(4.8)</span>
+            </div>
+            <h4 class="font-serif font-bold text-base text-[var(--koi-dark)]">Lục Trà Macchiato</h4>
+            <p class="text-xs text-gray-500">Green Tea Macchiato Layer</p>
+
+            <div class="flex items-center gap-2 pt-1">
+              <span class="sugar-ice-badge text-[10px] font-semibold px-2 py-0.5 rounded">Kem béo chuẩn</span>
+              <span class="sugar-ice-badge text-[10px] font-semibold px-2 py-0.5 rounded">Đá 50%</span>
+            </div>
+
+            <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+              <span class="font-bold text-lg text-[var(--koi-dark)]">62.000đ</span>
+              <button onclick="openCustomizer('Lục Trà Macchiato', 62000)" class="btn-gold px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1">
+                <i class="fa-solid fa-plus text-[10px]"></i>
+                <span>Thêm</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Card 3 -->
+        <div class="product-item koi-card p-5 flex flex-col justify-between relative" data-category="fruit">
+          <div class="w-full h-48 rounded-xl bg-orange-50/60 flex items-center justify-center my-2 p-4">
+            <svg viewBox="0 0 160 220" class="w-32 h-40 drop-shadow-md">
+              <path d="M 30 30 L 130 30 L 118 200 C 117 210, 105 215, 90 215 L 70 215 C 55 215, 43 210, 42 200 Z" fill="rgba(255,255,255,0.9)" stroke="#C5A059" stroke-width="2"/>
+              <rect x="32" y="32" width="96" height="166" fill="#E67E22" opacity="0.85"/>
+              <circle cx="80" cy="115" r="20" fill="#1C1C1E"/><text x="80" y="120" font-family="serif" font-size="12" fill="#C5A059" text-anchor="middle" font-weight="bold">KOI</text>
+            </svg>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex items-center gap-1 text-amber-500 text-xs">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <span class="text-gray-400 text-[10px] ml-1">(5.0)</span>
+            </div>
+            <h4 class="font-serif font-bold text-base text-[var(--koi-dark)]">Trà Chanh Chanh Dây Tươi</h4>
+            <p class="text-xs text-gray-500">Passion Fruit Green Tea</p>
+
+            <div class="flex items-center gap-2 pt-1">
+              <span class="sugar-ice-badge text-[10px] font-semibold px-2 py-0.5 rounded">Tươi mát</span>
+              <span class="sugar-ice-badge text-[10px] font-semibold px-2 py-0.5 rounded">Đường 50%</span>
+            </div>
+
+            <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+              <span class="font-bold text-lg text-[var(--koi-dark)]">55.000đ</span>
+              <button onclick="openCustomizer('Trà Chanh Chanh Dây Tươi', 55000)" class="btn-gold px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1">
+                <i class="fa-solid fa-plus text-[10px]"></i>
+                <span>Thêm</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Card 4 -->
+        <div class="product-item koi-card p-5 flex flex-col justify-between relative" data-category="milk">
+          <div class="w-full h-48 rounded-xl bg-amber-50/60 flex items-center justify-center my-2 p-4">
+            <svg viewBox="0 0 160 220" class="w-32 h-40 drop-shadow-md">
+              <path d="M 30 30 L 130 30 L 118 200 C 117 210, 105 215, 90 215 L 70 215 C 55 215, 43 210, 42 200 Z" fill="rgba(255,255,255,0.9)" stroke="#C5A059" stroke-width="2"/>
+              <rect x="32" y="32" width="96" height="166" fill="#795548" opacity="0.9"/>
+              <circle cx="80" cy="115" r="20" fill="#1C1C1E"/><text x="80" y="120" font-family="serif" font-size="12" fill="#C5A059" text-anchor="middle" font-weight="bold">KOI</text>
+            </svg>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex items-center gap-1 text-amber-500 text-xs">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+              <span class="text-gray-400 text-[10px] ml-1">(4.6)</span>
+            </div>
+            <h4 class="font-serif font-bold text-base text-[var(--koi-dark)]">Sữa Tươi Sô-cô-la Trân Châu</h4>
+            <p class="text-xs text-gray-500">Chocolate Fresh Milk Boba</p>
+
+            <div class="flex items-center gap-2 pt-1">
+              <span class="sugar-ice-badge text-[10px] font-semibold px-2 py-0.5 rounded">Đậm vị</span>
+              <span class="sugar-ice-badge text-[10px] font-semibold px-2 py-0.5 rounded">Đá 70%</span>
+            </div>
+
+            <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+              <span class="font-bold text-lg text-[var(--koi-dark)]">65.000đ</span>
+              <button onclick="openCustomizer('Sữa Tươi Sô-cô-la Trân Châu', 65000)" class="btn-gold px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1">
+                <i class="fa-solid fa-plus text-[10px]"></i>
+                <span>Thêm</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STORE FINDER & DELIVERY SECTION -->
+  <section id="stores-section" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-12 gap-8 items-center rounded-3xl bg-[var(--koi-dark)] text-white p-8 lg:p-12 shadow-2xl relative overflow-hidden">
+        
+        <div class="absolute -right-16 -bottom-16 text-[var(--koi-gold)] opacity-10 font-serif text-[18rem] font-bold select-none pointer-events-none">KOI</div>
+
+        <div class="lg:col-span-7 space-y-6 z-10">
+          <span class="text-xs uppercase tracking-[0.3em] text-[var(--koi-gold)] font-bold">Hệ Thống Cửa Hàng KOI Thé</span>
+          <h3 class="text-3xl sm:text-4xl font-serif font-bold">Tìm Cửa Hàng KOI Thé Gần Bạn Nhất</h3>
+          <p class="text-gray-300 text-sm max-w-lg leading-relaxed">
+            Hơn 50 không gian thưởng trà sang trọng tại TP.HCM, Hà Nội, Bình Dương và Đà Nẵng sẵn sàng phục vụ quý khách.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-3 pt-2">
+            <select class="bg-gray-800 text-white border border-gray-700 rounded-full px-5 py-3 text-sm focus:outline-none focus:border-[var(--koi-gold)]">
+              <option>-- Chọn TP / Tỉnh --</option>
+              <option selected>Hồ Chí Minh (32 cửa hàng)</option>
+              <option>Hà Nội (12 cửa hàng)</option>
+              <option>Đà Nẵng (4 cửa hàng)</option>
+            </select>
+            <button class="btn-gold px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Định vị gần tôi</span>
+            </button>
+          </div>
+
+          <div class="pt-6 border-t border-gray-800">
+            <p class="text-xs text-gray-400 font-medium mb-3">Hoặc đặt giao hàng tận nơi qua các đối tác:</p>
+            <div class="flex flex-wrap gap-4 items-center">
+              <span class="bg-gray-800 px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-400 border border-gray-700"><i class="fa-solid fa-motorcycle mr-1"></i> GrabFood</span>
+              <span class="bg-gray-800 px-3 py-1.5 rounded-lg text-xs font-bold text-orange-400 border border-gray-700"><i class="fa-solid fa-bag-shopping mr-1"></i> ShopeeFood</span>
+              <span class="bg-gray-800 px-3 py-1.5 rounded-lg text-xs font-bold text-sky-400 border border-gray-700"><i class="fa-solid fa-shield-halved mr-1"></i> GoFood</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 z-10">
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 space-y-4">
+            <h4 class="text-sm font-bold text-[var(--koi-gold)] uppercase tracking-wider"><i class="fa-solid fa-clock mr-2"></i>Giờ Mở Cửa Phục Vụ</h4>
+            <div class="flex justify-between text-xs py-2 border-b border-white/10">
+              <span class="text-gray-300">Thứ 2 - Thứ 6:</span>
+              <span class="font-bold text-white">08:30 - 22:00</span>
+            </div>
+            <div class="flex justify-between text-xs py-2 border-b border-white/10">
+              <span class="text-gray-300">Thứ 7 - Chủ Nhật:</span>
+              <span class="font-bold text-white">08:00 - 22:30</span>
+            </div>
+            <div class="flex justify-between text-xs py-2">
+              <span class="text-gray-300">Hotline Đặt Hàng:</span>
+              <span class="font-bold text-[var(--koi-gold)]">1900 633 988</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contact-section" class="bg-[var(--koi-dark)] text-gray-400 text-xs border-t border-gray-800 pt-16 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-12 border-b border-gray-800">
+        
+        <div class="lg:col-span-2 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center border-2 border-[var(--koi-gold)]">
+              <span class="text-[var(--koi-dark)] font-serif text-lg font-bold">KOI</span>
+            </div>
+            <span class="font-serif text-xl font-bold text-white tracking-widest">KOI Thé Vietnam</span>
+          </div>
+          <p class="text-gray-400 text-xs max-w-sm leading-relaxed">
+            Thương hiệu trà sữa hàng đầu Đài Loan, kiên định mang đến trải nghiệm trà pha tay đích thực và chất lượng chuẩn mực quốc tế.
+          </p>
+          <div class="flex items-center gap-3 pt-2">
+            <a href="#" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-[var(--koi-gold)] hover:text-white flex items-center justify-center transition"><i class="fa-brands fa-facebook-f text-xs"></i></a>
+            <a href="#" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-[var(--koi-gold)] hover:text-white flex items-center justify-center transition"><i class="fa-brands fa-instagram text-xs"></i></a>
+            <a href="#" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-[var(--koi-gold)] hover:text-white flex items-center justify-center transition"><i class="fa-brands fa-tiktok text-xs"></i></a>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <h5 class="text-white font-bold text-sm uppercase tracking-wider">Về KOI Thé</h5>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-[var(--koi-gold)] transition">Câu chuyện thương hiệu</a></li>
+            <li><a href="#" class="hover:text-[var(--koi-gold)] transition">Chất lượng nguồn trà</a></li>
+            <li><a href="#" class="hover:text-[var(--koi-gold)] transition">Tuyển dụng Barista</a></li>
+            <li><a href="#" class="hover:text-[var(--koi-gold)] transition">Tin tức & Sự kiện</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <h5 class="text-white font-bold text-sm uppercase tracking-wider">Hỗ Trợ Khách Hàng</h5>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-[var(--koi-gold)] transition">Hướng dẫn đặt hàng</a></li>
+            <li><a href="#" class="hover:text-[var(--koi-gold)] transition">Chính sách bảo mật</a></li>
+            <li><a href="#" class="hover:text-[var(--koi-gold)] transition">Điều khoản dịch vụ</a></li>
+            <li><a href="#" class="hover:text-[var(--koi-gold)] transition">Góp ý & Khiếu nại</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <h5 class="text-white font-bold text-sm uppercase tracking-wider">Nhận Ưu Đãi VIP</h5>
+          <p class="text-xs text-gray-400">Đăng ký email để nhận mã giảm giá 20% cho đơn hàng đầu tiên!</p>
+          <div class="flex items-center">
+            <input type="email" placeholder="Email của bạn..." class="bg-gray-800 text-xs px-3 py-2 rounded-l-lg border border-gray-700 focus:outline-none w-full">
+            <button class="btn-gold px-3 py-2 rounded-r-lg text-xs font-bold"><i class="fa-solid fa-paper-plane"></i></button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row justify-between items-center text-[11px] text-gray-500 gap-4">
+        <p>© 2026 KOI Thé Inspired. Tất cả quyền được bảo lưu.</p>
+        <p>Bản quyền thuộc về Milk Tea Shop Project.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CUSTOMIZATION POPUP MODAL -->
+  <div id="customizer-modal" class="fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-6 shadow-2xl relative animate-fade-in">
+      <button onclick="closeCustomizer()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="border-b border-gray-100 pb-4">
+        <h3 id="modal-item-name" class="font-serif text-xl font-bold text-[var(--koi-dark)]">Trà Sữa Trân Châu Hoàng Kim</h3>
+        <p id="modal-item-price" class="text-sm font-bold text-[var(--koi-gold)] mt-1">58.000 VNĐ</p>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-xs font-bold uppercase tracking-wider text-gray-700">Mức Đường (Sugar Level)</label>
+        <div class="grid grid-cols-4 gap-2">
+          <button class="sugar-btn border border-amber-200 py-1.5 text-xs rounded-lg font-semibold hover:border-[var(--koi-gold)]">100%</button>
+          <button class="sugar-btn border border-[var(--koi-gold)] bg-amber-50 text-[var(--koi-gold)] py-1.5 text-xs rounded-lg font-bold">70%</button>
+          <button class="sugar-btn border border-amber-200 py-1.5 text-xs rounded-lg font-semibold hover:border-[var(--koi-gold)]">50%</button>
+          <button class="sugar-btn border border-amber-200 py-1.5 text-xs rounded-lg font-semibold hover:border-[var(--koi-gold)]">0%</button>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-xs font-bold uppercase tracking-wider text-gray-700">Mức Đá (Ice Level)</label>
+        <div class="grid grid-cols-4 gap-2">
+          <button class="ice-btn border border-[var(--koi-gold)] bg-amber-50 text-[var(--koi-gold)] py-1.5 text-xs rounded-lg font-bold">Chuẩn 100%</button>
+          <button class="ice-btn border border-amber-200 py-1.5 text-xs rounded-lg font-semibold hover:border-[var(--koi-gold)]">70% Đá</button>
+          <button class="ice-btn border border-amber-200 py-1.5 text-xs rounded-lg font-semibold hover:border-[var(--koi-gold)]">Ít Đá 30%</button>
+          <button class="ice-btn border border-amber-200 py-1.5 text-xs rounded-lg font-semibold hover:border-[var(--koi-gold)]">Không Đá</button>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-xs font-bold uppercase tracking-wider text-gray-700">Thêm Topping</label>
+        <div class="space-y-2">
+          <label class="flex items-center justify-between p-2 rounded-lg border border-gray-100 hover:bg-amber-50/50 cursor-pointer text-xs">
+            <span class="flex items-center gap-2">
+              <input type="checkbox" checked class="accent-[var(--koi-gold)]">
+              <span>Trân Châu Hoàng Kim (+10k)</span>
+            </span>
+            <span class="font-bold text-gray-600">+10.000đ</span>
+          </label>
+          <label class="flex items-center justify-between p-2 rounded-lg border border-gray-100 hover:bg-amber-50/50 cursor-pointer text-xs">
+            <span class="flex items-center gap-2">
+              <input type="checkbox" class="accent-[var(--koi-gold)]">
+              <span>Lớp Kem Macchiato (+15k)</span>
+            </span>
+            <span class="font-bold text-gray-600">+15.000đ</span>
+          </label>
+        </div>
+      </div>
+
+      <button onclick="addToCartSuccess()" class="w-full btn-gold py-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg">
+        <i class="fa-solid fa-cart-plus"></i>
+        <span>Xác Nhận Thêm Vào Giỏ</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SLIDE-OUT CART DRAWER -->
+  <div id="cart-drawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white shadow-2xl drawer-closed transition-transform duration-300 ease-in-out flex flex-col">
+    <div class="p-4 bg-[var(--koi-dark)] text-white flex items-center justify-between">
+      <div class="flex items-center gap-2 font-serif font-bold text-lg">
+        <i class="fa-solid fa-bag-shopping text-[var(--koi-gold)]"></i>
+        <span>Giỏ Hàng Của Bạn</span>
+      </div>
+      <button id="close-cart-btn" class="text-gray-400 hover:text-white text-xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="flex-1 overflow-y-auto p-4 space-y-4">
+      <div class="flex gap-3 p-3 rounded-xl border border-gray-100 bg-[var(--koi-cream)]">
+        <div class="w-16 h-16 bg-amber-100 rounded-lg flex items-center justify-center text-[var(--koi-gold)] font-bold font-serif">KOI</div>
+        <div class="flex-1 space-y-1">
+          <h5 class="font-serif font-bold text-xs">Trà Sữa Trân Châu Hoàng Kim</h5>
+          <p class="text-[10px] text-gray-500">Đường 70% • Đá 70% • Trân Châu HK</p>
+          <div class="flex items-center justify-between pt-1">
+            <span class="font-bold text-xs text-[var(--koi-gold)]">68.000đ</span>
+            <div class="flex items-center border border-gray-300 rounded px-2 py-0.5 text-xs gap-2">
+              <button class="text-gray-500 font-bold">-</button>
+              <span>1</span>
+              <button class="text-gray-500 font-bold">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4 border-t border-gray-100 space-y-3 bg-gray-50">
+      <div class="flex justify-between text-xs text-gray-600">
+        <span>Tạm tính:</span>
+        <span class="font-bold text-gray-800">68.000đ</span>
+      </div>
+      <div class="flex justify-between text-sm font-bold text-[var(--koi-dark)]">
+        <span>Tổng thanh toán:</span>
+        <span class="text-lg text-[var(--koi-gold)] font-serif">68.000đ</span>
+      </div>
+      <button class="w-full btn-gold py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2">
+        <span>Thanh Toán Đơn Hàng</span>
+        <i class="fa-solid fa-arrow-right text-xs"></i>
+      </button>
+    </div>
+  </div>
+
+  <script src="assets/js/koi-main.js"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KOI Thé - Premium Handcrafted Tea</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- KOI Custom Stylesheet -->
+  <link rel="stylesheet" href="/assets/css/koi-style.css">
+</head>
+<body class="antialiased bg-[var(--koi-cream)] text-[var(--koi-dark)]">
+
+  <!-- Header Layout -->
+  <?php include __DIR__ . '/header.html'; ?>
+
+  <!-- Main View Content Injection -->
+  <main>
+    <?php include __DIR__ . '/../customer/home.html'; ?>
+  </main>
+
+  <!-- Footer Layout -->
+  <?php include __DIR__ . '/footer.html'; ?>
+
+  <!-- CUSTOMIZATION POPUP MODAL -->
+  <div id="customizer-modal" class="fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-6 shadow-2xl relative animate-fade-in">
+      <button onclick="closeCustomizer()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="border-b border-gray-100 pb-4">
+        <h3 id="modal-item-name" class="font-serif text-xl font-bold text-[var(--koi-dark)]">Trà Sữa Trân Châu Hoàng Kim</h3>
+        <p id="modal-item-price" class="text-sm font-bold text-[var(--koi-gold)] mt-1">58.000 VNĐ</p>
+      </div>
+
+      <!-- Sugar Level Option -->
+      <div class="space-y-2">
+        <label class="text-xs font-bold uppercase tracking-wider text-gray-700">Mức Đường (Sugar Level)</label>
+        <div class="grid grid-cols-4 gap-2">
+          <button class="sugar-btn border border-amber-200 py-1.5 text-xs rounded-lg font-semibold hover:border-[var(--koi-gold)]">100%</button>
+          <button class="sugar-btn border border-[var(--koi-gold)] bg-amber-50 text-[var(--koi-gold)] py-1.5 text-xs rounded-lg font-bold">70%</button>
+          <button class="sugar-btn border border-amber-200 py-1.5 text-xs rounded-lg font-semibold hover:border-[var(--koi-gold)]">50%</button>
+          <button class="sugar-btn border border-amber-200 py-1.5 text-xs rounded-lg font-semibold hover:border-[var(--koi-gold)]">0%</button>
+        </div>
+      </div>
+
+      <!-- Ice Level Option -->
+      <div class="space-y-2">
+        <label class="text-xs font-bold uppercase tracking-wider text-gray-700">Mức Đá (Ice Level)</label>
+        <div class="grid grid-cols-4 gap-2">
+          <button class="ice-btn border border-[var(--koi-gold)] bg-amber-50 text-[var(--koi-gold)] py-1.5 text-xs rounded-lg font-bold">Chuẩn 100%</button>
+          <button class="ice-btn border border-amber-200 py-1.5 text-xs rounded-lg font-semibold hover:border-[var(--koi-gold)]">70% Đá</button>
+          <button class="ice-btn border border-amber-200 py-1.5 text-xs rounded-lg font-semibold hover:border-[var(--koi-gold)]">Ít Đá 30%</button>
+          <button class="ice-btn border border-amber-200 py-1.5 text-xs rounded-lg font-semibold hover:border-[var(--koi-gold)]">Không Đá</button>
+        </div>
+      </div>
+
+      <!-- Topping Selection -->
+      <div class="space-y-2">
+        <label class="text-xs font-bold uppercase tracking-wider text-gray-700">Thêm Topping</label>
+        <div class="space-y-2">
+          <label class="flex items-center justify-between p-2 rounded-lg border border-gray-100 hover:bg-amber-50/50 cursor-pointer text-xs">
+            <span class="flex items-center gap-2">
+              <input type="checkbox" checked class="accent-[var(--koi-gold)]">
+              <span>Trân Châu Hoàng Kim (+10k)</span>
+            </span>
+            <span class="font-bold text-gray-600">+10.000đ</span>
+          </label>
+          <label class="flex items-center justify-between p-2 rounded-lg border border-gray-100 hover:bg-amber-50/50 cursor-pointer text-xs">
+            <span class="flex items-center gap-2">
+              <input type="checkbox" class="accent-[var(--koi-gold)]">
+              <span>Lớp Kem Macchiato (+15k)</span>
+            </span>
+            <span class="font-bold text-gray-600">+15.000đ</span>
+          </label>
+        </div>
+      </div>
+
+      <button onclick="addToCartSuccess()" class="w-full btn-gold py-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg">
+        <i class="fa-solid fa-cart-plus"></i>
+        <span>Xác Nhận Thêm Vào Giỏ</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SLIDE-OUT CART DRAWER -->
+  <div id="cart-drawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white shadow-2xl drawer-closed transition-transform duration-300 ease-in-out flex flex-col">
+    <div class="p-4 bg-[var(--koi-dark)] text-white flex items-center justify-between">
+      <div class="flex items-center gap-2 font-serif font-bold text-lg">
+        <i class="fa-solid fa-bag-shopping text-[var(--koi-gold)]"></i>
+        <span>Giỏ Hàng Của Bạn</span>
+      </div>
+      <button id="close-cart-btn" class="text-gray-400 hover:text-white text-xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Cart items list -->
+    <div class="flex-1 overflow-y-auto p-4 space-y-4">
+      <div class="flex gap-3 p-3 rounded-xl border border-gray-100 bg-[var(--koi-cream)]">
+        <div class="w-16 h-16 bg-amber-100 rounded-lg flex items-center justify-center text-[var(--koi-gold)] font-bold font-serif">KOI</div>
+        <div class="flex-1 space-y-1">
+          <h5 class="font-serif font-bold text-xs">Trà Sữa Trân Châu Hoàng Kim</h5>
+          <p class="text-[10px] text-gray-500">Đường 70% • Đá 70% • Trân Châu HK</p>
+          <div class="flex items-center justify-between pt-1">
+            <span class="font-bold text-xs text-[var(--koi-gold)]">68.000đ</span>
+            <div class="flex items-center border border-gray-300 rounded px-2 py-0.5 text-xs gap-2">
+              <button class="text-gray-500 font-bold">-</button>
+              <span>1</span>
+              <button class="text-gray-500 font-bold">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Footer -->
+    <div class="p-4 border-t border-gray-100 space-y-3 bg-gray-50">
+      <div class="flex justify-between text-xs text-gray-600">
+        <span>Tạm tính:</span>
+        <span class="font-bold text-gray-800">68.000đ</span>
+      </div>
+      <div class="flex justify-between text-sm font-bold text-[var(--koi-dark)]">
+        <span>Tổng thanh toán:</span>
+        <span class="text-lg text-[var(--koi-gold)] font-serif">68.000đ</span>
+      </div>
+      <button class="w-full btn-gold py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2">
+        <span>Thanh Toán Đơn Hàng</span>
+        <i class="fa-solid fa-arrow-right text-xs"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- KOI Main JS -->
+  <script src="/assets/js/koi-main.js"></script>
+</body>
+</html>
