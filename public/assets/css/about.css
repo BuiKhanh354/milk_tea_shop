@@ -1,0 +1,98 @@
+/* About Page Specific CSS */
+
+/* About Hero */
+.about-hero {
+    padding: 8rem 0 5rem;
+    background-color: var(--vaa-ivory);
+    overflow: hidden;
+}
+
+.about-hero-image {
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.handwritten-deco {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    color: var(--vaa-caramel);
+    font-style: italic;
+    opacity: 0.8;
+}
+
+/* Philosophy */
+.philosophy-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    color: var(--vaa-sage);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+/* Ingredients */
+.ingredient-card {
+    background: transparent;
+    transition: transform var(--transition-normal);
+}
+.ingredient-card:hover {
+    transform: translateY(-10px);
+}
+.ingredient-img-wrapper {
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+}
+.ingredient-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+.ingredient-card:hover .ingredient-img-wrapper img {
+    transform: scale(1.05);
+}
+
+/* Signature Moment */
+.signature-moment {
+    background-color: var(--vaa-forest);
+    color: var(--vaa-ivory);
+}
+.signature-moment .text-caramel {
+    color: var(--vaa-sage) !important; /* using sage to pop on dark forest */
+}
+
+/* Commitments */
+.commitment-item {
+    padding: 1.5rem;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 12px;
+    background: #fff;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all var(--transition-fast);
+}
+.commitment-item:hover {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transform: translateY(-5px);
+}
+.commitment-icon {
+    width: 32px;
+    height: 32px;
+    background-color: var(--vaa-cream);
+    color: var(--vaa-forest);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* End CTA */
+.end-cta-section {
+    background-color: var(--vaa-cream);
+    padding: 6rem 0;
+    text-align: center;
+}

@@ -1,0 +1,149 @@
+/* Products Page Specific CSS */
+
+.product-hero {
+    padding: 6rem 0 3rem;
+    background-color: var(--vaa-ivory);
+}
+
+.category-nav-wrapper {
+    overflow-x: auto;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+.category-nav-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.category-link {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    color: var(--vaa-forest);
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 50px;
+    margin-right: 0.5rem;
+    transition: all var(--transition-fast);
+}
+
+.category-link:hover {
+    background-color: var(--vaa-cream);
+    color: var(--vaa-caramel);
+}
+
+.category-link.active {
+    background-color: var(--vaa-sage);
+    color: var(--vaa-forest);
+}
+
+/* Product Card overrides for 1:1 / 4:5 aspect ratio */
+.product-image-box {
+    aspect-ratio: 4/5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--vaa-cream);
+    padding: 10%;
+}
+
+.product-image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-image-box img {
+    transform: scale(1.05);
+}
+
+.fav-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 2;
+    background: #fff;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    color: var(--vaa-forest);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.fav-icon:hover, .fav-icon.active {
+    color: var(--vaa-caramel);
+}
+
+.search-input {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 50px;
+    padding: 0.6rem 1.5rem 0.6rem 2.5rem;
+    background-color: #fff;
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+.search-wrapper {
+    position: relative;
+}
+
+.search-wrapper i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(0,0,0,0.4);
+}
+
+.sort-select {
+    border: none;
+    background-color: transparent;
+    font-weight: 500;
+    color: var(--vaa-forest);
+    cursor: pointer;
+}
+
+.sort-select:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.empty-state {
+    padding: 5rem 0;
+    text-align: center;
+}
+
+/* Pagination */
+.vaa-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin-top: 3rem;
+}
+
+.vaa-pagination li a {
+    color: var(--vaa-forest);
+    text-decoration: none;
+    font-weight: 500;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all var(--transition-fast);
+}
+
+.vaa-pagination li a:hover, .vaa-pagination li a.active {
+    background-color: var(--vaa-sage);
+}
