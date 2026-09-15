@@ -30,14 +30,28 @@
                 <h3 class="font-serif fw-bold text-forest mb-1">VAA THÉ</h3>
                 <p class="text-caramel fst-italic font-serif fs-5 mb-0">GOOD TEA, GOOD MOOD</p>
             </div> -->
-            
+
             <div class="auth-image-container">
                 <!-- Using a different tea image for variety -->
                 <img src="https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&q=80&w=1200"
                     alt="Vaa The Brand Image">
             </div>
         </div>
+        <?php
+            require_once'./app/config/database.php';
 
+            if($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $name = $_POST['name'];
+                $email = $_POST['email'];
+                $password = $_POST['password'];
+                $confirm_password = $_POST['confirm_password'];
+
+                // echo $name ."<br>";
+                // echo $email ."<br>";
+                // echo $password ."<br>";
+                // echo $confirm_password ."<br>";
+            }
+        ?>
         <!-- Right Side: Register Form -->
         <div class="auth-form-side">
             <div class="auth-form-container">
@@ -55,12 +69,12 @@
                 <div id="general-error" class="alert alert-danger error-msg mb-4" role="alert" style="display: none;">
                 </div>
 
-                <form id="register-form" novalidate>
+                <form id="register-form" method="POST" action="register.php" novalidate>
 
                     <!-- Full Name -->
                     <div class="mb-4">
                         <label for="fullname" class="form-label auth-form-label">Họ và tên</label>
-                        <input type="text" class="form-control auth-input" id="fullname"
+                        <input type="text" class="form-control auth-input" id="fullname" name="name"
                             placeholder="Nhập họ và tên của bạn" autocomplete="name" required>
                         <div id="fullname-error" class="error-msg"></div>
                     </div>
@@ -68,7 +82,7 @@
                     <!-- Email -->
                     <div class="mb-4">
                         <label for="email" class="form-label auth-form-label">Email</label>
-                        <input type="email" class="form-control auth-input" id="email"
+                        <input type="email" class="form-control auth-input" id="email" name="email"
                             placeholder="Nhập địa chỉ email" autocomplete="email" required>
                         <div id="email-error" class="error-msg"></div>
                     </div>
@@ -77,20 +91,20 @@
                     <div class="mb-4">
                         <label for="password" class="form-label auth-form-label">Mật khẩu</label>
                         <div class="password-wrapper">
-                            <input type="password" class="form-control auth-input" id="password"
-                                placeholder="Tạo mật khẩu (ít nhất 6 ký tự)" autocomplete="new-password" required>
+                            <input type="password" class="form-control auth-input" id="password" name="password"
+                                placeholder="Tạo mật khẩu (ít nhất 6 ký tự)" autocomplete="new_password" required>
                             <button type="button" class="password-toggle" aria-label="Hiện mật khẩu">
                                 <i class="fa-regular fa-eye"></i>
                             </button>
                         </div>
                         <div id="password-error" class="error-msg"></div>
                     </div>
-                    
+
                     <!-- Confirm Password -->
                     <div class="mb-5">
                         <label for="confirm-password" class="form-label auth-form-label">Xác nhận mật khẩu</label>
                         <div class="password-wrapper">
-                            <input type="password" class="form-control auth-input" id="confirm-password"
+                            <input type="password" class="form-control auth-input" id="confirm-password" name="confirm_password"
                                 placeholder="Nhập lại mật khẩu" autocomplete="new-password" required>
                             <button type="button" class="password-toggle" aria-label="Hiện mật khẩu">
                                 <i class="fa-regular fa-eye"></i>
