@@ -1,4 +1,5 @@
 Tôi đang xây dựng website quản lý và bán trà sữa bằng:
+Phong cách: Minimalist Luxury / Botanical
 
 - HTML5
 - CSS3

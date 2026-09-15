@@ -38,19 +38,59 @@
             </div>
         </div>
         <?php
-            require_once'./app/config/database.php';
+        require_once __DIR__ . '/../app/config/database.php';
+        $error = "";
+        $success = "";
 
-            if($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $name = $_POST['name'];
-                $email = $_POST['email'];
-                $password = $_POST['password'];
-                $confirm_password = $_POST['confirm_password'];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = trim($_POST['name'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            $password = $_POST['password'] ?? '';
+            $confirm_password = $_POST['confirm_password'] ?? '';
 
-                // echo $name ."<br>";
-                // echo $email ."<br>";
-                // echo $password ."<br>";
-                // echo $confirm_password ."<br>";
+            // 1. Kiểm tra họ tên
+            if (empty($name)) {
+                $error = "Vui lòng nhập họ tên";
             }
+            // 2. Kiểm tra email
+            elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $error = "Email không hợp lệ";
+            }
+            // 3. Kiểm tra mật khẩu
+            elseif (strlen($password) < 6) {
+                $error = "Mật khẩu phải có ít nhất 6 ký tự";
+            }
+            // 4. Kiểm tra xác nhận mật khẩu
+            elseif ($confirm_password !== $password) {
+                $error = "Mật khẩu xác nhận không khớp";
+            } 
+            else {
+                // 5. Kiểm tra email đã tồn tại (Chuẩn MySQLi)
+                $sql = "SELECT id FROM customers WHERE email = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("s", $email);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $customer = $result->fetch_assoc();
+
+                if ($customer) {
+                    $error = "Email này đã được đăng ký!";
+                } else {
+                    // 6. Mã hoá mật khẩu và Lưu vào Database
+                    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                    
+                    $insert_sql = "INSERT INTO customers (full_name, email, password) VALUES (?, ?, ?)";
+                    $insert_stmt = $conn->prepare($insert_sql);
+                    $insert_stmt->bind_param("sss", $name, $email, $hashed_password);
+                    
+                    if ($insert_stmt->execute()) {
+                        $success = "Đăng ký thành công! Đang chuyển hướng đến đăng nhập...";
+                    } else {
+                        $error = "Có lỗi xảy ra: " . $conn->error;
+                    }
+                }
+            }
+        }
         ?>
         <!-- Right Side: Register Form -->
         <div class="auth-form-side">
@@ -66,8 +106,22 @@
                     <p class="text-muted">Đăng ký để nhận những ưu đãi đặc biệt và trải nghiệm mua sắm tuyệt vời cùng VAA THÉ.</p>
                 </div>
 
-                <div id="general-error" class="alert alert-danger error-msg mb-4" role="alert" style="display: none;">
-                </div>
+                <?php if(!empty($error)): ?>
+                    <div id="general-error" class="alert alert-danger error-msg mb-4" role="alert" style="display: block;">
+                        <?= htmlspecialchars($error) ?>
+                    </div>
+                <?php elseif(!empty($success)): ?>
+                    <div id="general-success" class="alert alert-success mb-4" role="alert" style="display: block;">
+                        <?= htmlspecialchars($success) ?>
+                        <script>
+                            setTimeout(function() {
+                                window.location.href = 'login.html';
+                            }, 2000);
+                        </script>
+                    </div>
+                <?php else: ?>
+                    <div id="general-error" class="alert alert-danger error-msg mb-4" role="alert" style="display: none;"></div>
+                <?php endif; ?>
 
                 <form id="register-form" method="POST" action="register.php" novalidate>
 

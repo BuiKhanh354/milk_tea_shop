@@ -259,6 +259,26 @@ h3 { font-size: 2rem; }
 .section-padding { padding: 6rem 0; }
 .spacer { height: 100px; }
 
+/* Hover Dropdown */
+@media (min-width: 992px) {
+  .hover-dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+  }
+}
+
+.custom-dropdown .dropdown-item {
+  color: var(--vaa-forest);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+}
+
+.custom-dropdown .dropdown-item:hover {
+  background-color: var(--vaa-cream);
+  color: var(--vaa-caramel);
+}
+
 /* Responsive adjustments */
 @media (max-width: 991.98px) {
   h1 { font-size: 2.75rem; }

@@ -1,3 +1,59 @@
+<?php
+session_start();
+require_once __DIR__ . '/../app/config/database.php';
+
+$base_url = 'http://' . $_SERVER['HTTP_HOST'] . str_replace('/login.php', '', $_SERVER['SCRIPT_NAME']);
+$error = '';
+$email_val = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $emailOrUsername = trim($_POST['email']); // Can be email or username
+    $password = $_POST['password'];
+    $email_val = htmlspecialchars($emailOrUsername);
+
+    require_once __DIR__ . '/../app/models/User.php';
+    $userModel = new User();
+    $adminUser = $userModel->authenticate($emailOrUsername, $password);
+
+    if ($adminUser) {
+        // Đăng nhập thành công với quyền Admin/Staff
+        $_SESSION['user_id'] = $adminUser['id'];
+        $_SESSION['role'] = $adminUser['role'];
+        $_SESSION['full_name'] = $adminUser['full_name'];
+
+        if ($adminUser['role'] === 'admin') {
+            header('Location: admin.php?route=dashboard');
+        } else {
+            header('Location: admin.php?route=staff_dashboard');
+        }
+        exit;
+    } else {
+        // Không phải Admin/Staff, thử đăng nhập với quyền Customer
+        $sql = "SELECT * FROM customers WHERE email = ? LIMIT 1";
+        $stmt = $conn->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("s", $emailOrUsername);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $customer = $result->fetch_assoc();
+
+            if ($customer && password_verify($password, $customer['password'])) {
+                // Đăng nhập thành công với quyền Khách hàng
+                $_SESSION['customer_id'] = $customer['id'];
+                $_SESSION['customer_name'] = $customer['full_name'];
+                $_SESSION['customer_email'] = $customer['email'];
+
+                header("Location: index.php");
+                exit;
+            } else {
+                $error = "Tài khoản hoặc mật khẩu không đúng!";
+            }
+        } else {
+            $error = "Lỗi hệ thống, vui lòng thử lại sau.";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -50,16 +106,22 @@
                     <p class="text-muted">Đăng nhập để tiếp tục hành trình cùng hương vị yêu thích của bạn.</p>
                 </div>
 
-                <div id="general-error" class="alert alert-danger error-msg mb-4" role="alert" style="display: none;">
-                </div>
+                <?php if ($error): ?>
+                    <div id="general-error" class="alert alert-danger error-msg mb-4" role="alert" style="display: block;">
+                        <?= $error ?>
+                    </div>
+                <?php else: ?>
+                    <div id="general-error" class="alert alert-danger error-msg mb-4" role="alert" style="display: none;">
+                    </div>
+                <?php endif; ?>
 
-                <form id="login-form" novalidate>
+                <form id="login-form" method="POST" action="login.php" novalidate>
 
                     <!-- Email / Username -->
                     <div class="mb-4">
-                        <label for="email" class="form-label auth-form-label">Email hoặc tên đăng nhập</label>
-                        <input type="email" class="form-control auth-input" id="email"
-                            placeholder="Nhập email hoặc tên đăng nhập" autocomplete="email" required>
+                        <label for="email" class="form-label auth-form-label">Email hoặc Tên đăng nhập</label>
+                        <input type="text" class="form-control auth-input" id="email" name="email"
+                            placeholder="Nhập email hoặc tên đăng nhập" autocomplete="email" value="<?= $email_val ?>" required>
                         <div id="email-error" class="error-msg"></div>
                     </div>
 
@@ -67,7 +129,7 @@
                     <div class="mb-4">
                         <label for="password" class="form-label auth-form-label">Mật khẩu</label>
                         <div class="password-wrapper">
-                            <input type="password" class="form-control auth-input" id="password"
+                            <input type="password" class="form-control auth-input" id="password" name="password"
                                 placeholder="Nhập mật khẩu" autocomplete="current-password" required>
                             <button type="button" class="password-toggle" id="toggle-password"
                                 aria-label="Hiện mật khẩu">

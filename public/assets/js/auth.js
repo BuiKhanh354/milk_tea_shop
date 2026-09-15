@@ -63,17 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> ĐANG ĐĂNG NHẬP...';
 
                 setTimeout(() => {
-                    if (emailInput.value === 'error@test.com') {
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = originalBtnText;
-                        if (generalError) {
-                            generalError.textContent = 'Email hoặc mật khẩu không chính xác.';
-                            generalError.style.display = 'block';
-                        }
-                    } else {
-                        window.location.href = 'index.html';
-                    }
-                }, 1500);
+                    loginForm.submit(); // Submit to server
+                }, 500);
             }
         });
     }
@@ -133,8 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> ĐANG TẠO TÀI KHOẢN...';
 
                 setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 1500);
+                    registerForm.submit(); // Bỏ qua HTML redirect, gửi form về server xử lý
+                }, 500);
             }
         });
     }

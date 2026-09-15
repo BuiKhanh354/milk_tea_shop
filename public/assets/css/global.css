@@ -1,0 +1,167 @@
+/* ==================================================
+   GLOBAL VARIABLES - VAA THÉ
+   ================================================== */
+   :root {
+    /* Color Palette */
+    --c-ivory: #F7F4ED;
+    --c-cream: #EFE8DA;
+    --c-dark: #18231D;
+    --c-forest: #263A30;
+    --c-sage: #AAB79F;
+    --c-caramel: #9A7654;
+    
+    /* Typography */
+    --f-serif: 'Cormorant Garamond', serif;
+    --f-sans: 'Inter', sans-serif;
+    
+    /* System */
+    --transition-fast: all 0.3s ease;
+    --transition-slow: all 0.5s ease;
+}
+
+/* ==================================================
+   RESET & BASE
+   ================================================== */
+body {
+    background-color: var(--c-ivory);
+    color: var(--c-dark);
+    font-family: var(--f-sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-serif {
+    font-family: var(--f-serif);
+    color: var(--c-forest);
+    font-weight: 600;
+}
+
+p {
+    margin-bottom: 1.5rem;
+}
+
+/* Typography Utilities */
+.text-ivory { color: var(--c-ivory) !important; }
+.text-cream { color: var(--c-cream) !important; }
+.text-dark { color: var(--c-dark) !important; }
+.text-forest { color: var(--c-forest) !important; }
+.text-sage { color: var(--c-sage) !important; }
+.text-caramel { color: var(--c-caramel) !important; }
+
+.bg-ivory { background-color: var(--c-ivory) !important; }
+.bg-cream { background-color: var(--c-cream) !important; }
+.bg-dark { background-color: var(--c-dark) !important; }
+.bg-forest { background-color: var(--c-forest) !important; }
+.bg-sage { background-color: var(--c-sage) !important; }
+.bg-caramel { background-color: var(--c-caramel) !important; }
+
+.border-sage { border-color: var(--c-sage) !important; }
+
+/* Transitions */
+.transition-fast { transition: var(--transition-fast); }
+
+/* Hover Effects */
+.hover-sage:hover { color: var(--c-sage) !important; }
+.hover-caramel:hover { color: var(--c-caramel) !important; }
+
+/* ==================================================
+   COMPONENTS
+   ================================================== */
+/* Buttons */
+.btn-forest {
+    background-color: var(--c-forest);
+    color: var(--c-ivory);
+    border: 1px solid var(--c-forest);
+    padding: 0.75rem 2rem;
+    font-weight: 500;
+    transition: var(--transition-fast);
+    border-radius: 0;
+}
+.btn-forest:hover {
+    background-color: transparent;
+    color: var(--c-forest);
+}
+
+.btn-sage {
+    background-color: var(--c-sage);
+    color: var(--c-forest);
+    border: 1px solid var(--c-sage);
+    padding: 0.75rem 2rem;
+    font-weight: 500;
+    transition: var(--transition-fast);
+    border-radius: 0;
+}
+.btn-sage:hover {
+    background-color: transparent;
+    color: var(--c-sage);
+}
+
+.btn-outline-forest {
+    background-color: transparent;
+    color: var(--c-forest);
+    border: 1px solid var(--c-forest);
+    padding: 0.75rem 2rem;
+    font-weight: 500;
+    transition: var(--transition-fast);
+    border-radius: 0;
+}
+.btn-outline-forest:hover {
+    background-color: var(--c-forest);
+    color: var(--c-ivory);
+}
+
+/* ==================================================
+   NAVBAR
+   ================================================== */
+.vaa-header {
+    background-color: rgba(247, 244, 237, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(170, 183, 159, 0.2);
+    padding: 1rem 0;
+    transition: var(--transition-fast);
+}
+
+.vaa-logo {
+    font-family: var(--f-serif);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--c-forest) !important;
+    letter-spacing: 2px;
+}
+
+.vaa-header .nav-link {
+    color: var(--c-dark);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding: 0.5rem 1.5rem !important;
+    position: relative;
+    transition: var(--transition-fast);
+}
+
+.vaa-header .nav-link:hover, 
+.vaa-header .nav-link.active {
+    color: var(--c-sage);
+}
+
+.vaa-header .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    background-color: var(--c-sage);
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: var(--transition-fast);
+}
+
+.vaa-header .nav-link:hover::after, 
+.vaa-header .nav-link.active::after {
+    width: 30px;
+}
+
+/* Main Content Padding for Fixed Navbar */
+.main-content {
+    min-height: 80vh;
+}

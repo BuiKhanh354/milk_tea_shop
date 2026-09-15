@@ -1,0 +1,80 @@
+/* ==================================================
+   CUSTOMER ACCOUNT STYLES
+   ================================================== */
+
+.account-sidebar {
+    position: sticky;
+    top: 100px;
+}
+
+.account-nav .nav-link {
+    color: var(--c-dark);
+    font-size: 1.05rem;
+    border-left: 3px solid transparent;
+}
+
+.account-nav .nav-link.active {
+    border-left: 3px solid var(--c-forest);
+}
+
+.account-nav .nav-link:hover:not(.active) {
+    background-color: var(--c-ivory);
+    border-left-color: var(--c-sage);
+}
+
+.account-header-bg {
+    background: linear-gradient(135deg, var(--c-forest) 0%, #1a2922 100%);
+}
+
+.stat-card {
+    background-color: white;
+    border: 1px solid var(--c-sage);
+    transition: var(--transition-fast);
+}
+
+.stat-card:hover {
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.05)!important;
+    transform: translateY(-2px);
+}
+
+.stat-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--c-ivory);
+    border-radius: 50%;
+}
+
+.avatar-wrapper {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: var(--c-cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--c-forest);
+    border: 3px solid white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+/* Edit Profile & Password Forms */
+.account-form .form-control {
+    border-radius: 0;
+    border-color: #dee2e6;
+    padding: 0.75rem 1rem;
+}
+
+.account-form .form-control:focus {
+    border-color: var(--c-sage);
+    box-shadow: 0 0 0 0.25rem rgba(170, 183, 159, 0.25);
+}
+
+.account-form .form-label {
+    font-weight: 500;
+    color: var(--c-dark);
+    font-size: 0.9rem;
+}

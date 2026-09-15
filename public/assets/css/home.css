@@ -1,0 +1,71 @@
+/* ==================================================
+   HOME PAGE SPECIFIC STYLES
+   ================================================== */
+
+/* Hero Section */
+.home-hero {
+    min-height: 100vh;
+    padding-top: 80px; /* offset navbar */
+}
+
+.home-hero .overlay {
+    z-index: 0;
+    /* Có thể tuỳ chỉnh gradient dark nhẹ để text nổi bật */
+    background: linear-gradient(to right, rgba(24, 35, 29, 0.8) 0%, rgba(24, 35, 29, 0.3) 100%);
+}
+
+.home-hero .hero-bg img {
+    object-position: center;
+}
+
+/* Product Card (Home & Products list) */
+.product-card {
+    transition: var(--transition-fast);
+}
+
+.product-img-wrapper {
+    background-color: var(--c-ivory);
+}
+
+.product-img-wrapper img {
+    transition: var(--transition-slow);
+}
+
+.product-card:hover .product-img-wrapper img {
+    transform: scale(1.05);
+}
+
+.favorite-btn {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.product-card:hover .favorite-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.favorite-btn:hover i {
+    font-weight: 900;
+    color: #dc3545 !important;
+}
+
+/* Add to cart overlay animation */
+.product-action-overlay {
+    opacity: 0;
+    transform: translateY(100%);
+}
+
+.product-card:hover .product-action-overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.backdrop-blur {
+    backdrop-filter: blur(5px);
+}
+
+/* Utilities */
+.tracking-wide {
+    letter-spacing: 2px;
+}
