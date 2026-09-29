@@ -16,6 +16,44 @@ class InventoryController {
         require_once __DIR__ . '/../../views/layouts/admin.php';
     }
 
+    public function show() {
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header('Location: admin.php?route=inventory');
+            exit;
+        }
+        
+        $pageTitle = 'Chi tiết Nguyên liệu';
+        $inventoryModel = new Inventory();
+        $item = $inventoryModel->findById($id);
+        
+        if (!$item) {
+            header('Location: admin.php?route=inventory');
+            exit;
+        }
+
+        require_once __DIR__ . '/../../models/InventoryTransaction.php';
+        $transactionModel = new InventoryTransaction();
+        
+        // Fetch recent history for this ingredient (e.g. 10 latest)
+        $sql = "SELECT t.*, u.full_name as user_name 
+                FROM inventory_transactions t 
+                LEFT JOIN users u ON t.user_id = u.id 
+                WHERE t.inventory_id = ? 
+                ORDER BY t.created_at DESC LIMIT 10";
+        global $conn;
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $history = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        ob_start();
+        require_once __DIR__ . '/../../views/admin/inventory/show.php';
+        $content = ob_get_clean();
+
+        require_once __DIR__ . '/../../views/layouts/admin.php';
+    }
+
     public function create() {
         if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
             header('Location: admin.php?route=inventory');
@@ -132,6 +170,46 @@ class InventoryController {
         ob_start();
         require_once __DIR__ . '/../../views/admin/inventory/import.php';
         $content = ob_get_clean();
+        require_once __DIR__ . '/../../views/layouts/admin.php';
+    }
+
+    public function report() {
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+            header('Location: admin.php?route=inventory');
+            exit;
+        }
+
+        $pageTitle = 'Báo cáo Tồn kho';
+        $inventoryModel = new Inventory();
+        $ingredients = $inventoryModel->getAll();
+        
+        require_once __DIR__ . '/../../models/InventoryTransaction.php';
+        $transactionModel = new InventoryTransaction();
+        
+        $stats = [
+            'total_items' => count($ingredients),
+            'low_stock' => 0,
+            'out_of_stock' => 0,
+            'total_value' => 0
+        ];
+        
+        foreach ($ingredients as $ing) {
+            $qty = floatval($ing['quantity']);
+            $min = floatval($ing['min_quantity']);
+            $price = floatval($ing['price']);
+            
+            if ($qty <= 0) $stats['out_of_stock']++;
+            elseif ($qty <= $min) $stats['low_stock']++;
+            
+            if ($qty > 0) {
+                $stats['total_value'] += ($qty * $price);
+            }
+        }
+
+        ob_start();
+        require_once __DIR__ . '/../../views/admin/inventory/report.php';
+        $content = ob_get_clean();
+
         require_once __DIR__ . '/../../views/layouts/admin.php';
     }
 

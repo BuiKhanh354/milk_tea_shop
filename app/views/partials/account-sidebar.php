@@ -18,22 +18,22 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <div class="collapse d-md-block" id="accountMenuCollapse">
         <ul class="nav flex-column account-nav gap-2">
             <li class="nav-item">
-                <a class="nav-link px-3 py-2 text-dark rounded-0 transition-fast <?= $current_page === 'profile.php' ? 'active bg-sage bg-opacity-25 text-forest fw-bold border-start border-3 border-caramel' : 'hover-sage border-start border-3 border-transparent' ?>" href="profile.php">
+                <a class="nav-link px-3 py-2 text-dark rounded-0 transition-fast <?= $current_page === 'index.php?route=profile' ? 'active bg-sage bg-opacity-25 text-forest fw-bold border-start border-3 border-caramel' : 'hover-sage border-start border-3 border-transparent' ?>" href="index.php?route=profile">
                     <i class="fa-regular fa-id-card me-2 text-caramel"></i> Thông tin cá nhân
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link px-3 py-2 text-dark rounded-0 transition-fast <?= $current_page === 'orders.php' ? 'active bg-sage bg-opacity-25 text-forest fw-bold border-start border-3 border-caramel' : 'hover-sage border-start border-3 border-transparent' ?>" href="orders.php">
+                <a class="nav-link px-3 py-2 text-dark rounded-0 transition-fast <?= $current_page === 'index.php?route=orders' ? 'active bg-sage bg-opacity-25 text-forest fw-bold border-start border-3 border-caramel' : 'hover-sage border-start border-3 border-transparent' ?>" href="index.php?route=orders">
                     <i class="fa-solid fa-clock-rotate-left me-2 text-caramel"></i> Đơn đã đặt
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link px-3 py-2 text-dark rounded-0 transition-fast <?= $current_page === 'favorites.php' ? 'active bg-sage bg-opacity-25 text-forest fw-bold border-start border-3 border-caramel' : 'hover-sage border-start border-3 border-transparent' ?>" href="favorites.php">
+                <a class="nav-link px-3 py-2 text-dark rounded-0 transition-fast <?= $current_page === 'index.php?route=favorites' ? 'active bg-sage bg-opacity-25 text-forest fw-bold border-start border-3 border-caramel' : 'hover-sage border-start border-3 border-transparent' ?>" href="index.php?route=favorites">
                     <i class="fa-regular fa-heart me-2 text-caramel"></i> Sản phẩm yêu thích
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link px-3 py-2 text-dark rounded-0 transition-fast <?= $current_page === 'password.php' ? 'active bg-sage bg-opacity-25 text-forest fw-bold border-start border-3 border-caramel' : 'hover-sage border-start border-3 border-transparent' ?>" href="password.php">
+                <a class="nav-link px-3 py-2 text-dark rounded-0 transition-fast <?= $current_page === 'index.php?route=password' ? 'active bg-sage bg-opacity-25 text-forest fw-bold border-start border-3 border-caramel' : 'hover-sage border-start border-3 border-transparent' ?>" href="index.php?route=password">
                     <i class="fa-solid fa-lock me-2 text-caramel"></i> Đổi mật khẩu
                 </a>
             </li>
@@ -66,7 +66,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </div>
             <div class="modal-footer border-top-0 justify-content-center pb-4 pt-0 gap-2">
                 <button type="button" class="btn btn-outline-forest px-4" data-bs-dismiss="modal">HỦY</button>
-                <a href="logout.php" class="btn btn-caramel px-4 border-0">ĐĂNG XUẤT</a>
+                <a href="index.php?route=logout" class="btn btn-caramel px-4 border-0">ĐĂNG XUẤT</a>
             </div>
         </div>
     </div>

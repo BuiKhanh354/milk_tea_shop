@@ -3,7 +3,7 @@
     <div class="container-fluid px-4 px-lg-5">
 
         <!-- LEFT: BRAND LOGO -->
-        <a class="navbar-brand vaa-logo d-flex align-items-center gap-2" href="index.html">
+        <a class="navbar-brand vaa-logo d-flex align-items-center gap-2" href="index.php?route=home">
             <i class="fa-solid fa-paper-plane text-caramel"></i>
             <span>VAA THÉ</span>
         </a>
@@ -19,16 +19,16 @@
             <!-- Center Menu -->
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center text-lg-start mt-4 mt-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">Trang chủ</a>
+                    <a class="nav-link" href="index.php?route=home">Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="products.html">Sản phẩm</a>
+                    <a class="nav-link" href="index.php?route=products">Sản phẩm</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#promotions">Cửa hàng</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html">Giới thiệu</a>
+                    <a class="nav-link" href="index.php?route=about">Giới thiệu</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">Liên hệ</a>
@@ -42,10 +42,10 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </a>
                 <!-- Account -->
-                <a href="login.php" class="text-forest text-decoration-none fs-5 transition-fast hover-caramel">
+                <a href="index.php?route=login" class="text-forest text-decoration-none fs-5 transition-fast hover-caramel">
                     <i class="fa-regular fa-user"></i>
                 </a>
-                <a class="nav-link" href="logout.php">
+                <a class="nav-link" href="index.php?route=logout">
                         Đăng xuất
                 </a>
                 <!-- Cart -->

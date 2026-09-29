@@ -1,8 +1,8 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="font-serif fw-bold text-dark mb-0">Quản lý đơn hàng</h4>
-    <button class="btn btn-forest fw-medium px-4">
+    <a href="admin.php?route=orders&action=create" class="btn btn-forest fw-medium px-4">
         <i class="fa-solid fa-plus me-2"></i> Tạo đơn hàng
-    </button>
+    </a>
 </div>
 
 <!-- Filters -->

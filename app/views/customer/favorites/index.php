@@ -1,74 +1,57 @@
-<?php
-$favorites = [
-    [
-        'id' => 1,
-        'name' => 'Oolong Sữa Hạnh Nhân',
-        'desc' => 'Vị trà Oolong đậm đà quyện cùng sữa hạnh nhân béo ngậy.',
-        'price' => '55.000đ',
-        'image' => 'https://images.unsplash.com/photo-1576092762791-dd9e2220abd4?auto=format&fit=crop&q=80&w=800'
-    ],
-    [
-        'id' => 2,
-        'name' => 'Trà Lài Trái Cây Nhiệt Đới',
-        'desc' => 'Thanh mát với trà lài ủ lạnh và trái cây tươi theo mùa.',
-        'price' => '60.000đ',
-        'image' => 'https://images.unsplash.com/photo-1625937712144-0c6ef5044f51?auto=format&fit=crop&q=80&w=800'
-    ]
-];
-?>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sản phẩm yêu thích - VAA THÉ</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-ivory">
 
-<div class="account-page bg-cream py-5" style="min-height: calc(100vh - 300px); padding-top: 120px !important;">
-    <div class="container">
-        <div class="row gy-4">
-            <!-- Sidebar -->
+    <!-- Header tối giản -->
+    <?php include '../app/views/partials/account-header.php'; ?>
+    
+    <main class="container py-5" style="min-height: calc(100vh - 70px);">
+        <div class="row g-4">
+            <!-- Sidebar (Cột Trái) -->
             <div class="col-lg-3">
-                <?php require_once __DIR__ . '/../../partials/account-sidebar.php'; ?>
+                <?php include '../app/views/partials/account-sidebar.php'; ?>
             </div>
-
-            <!-- Main Content -->
+            
+            <!-- Content (Cột Phải) -->
             <div class="col-lg-9">
-                <div class="card border-0 rounded-0 shadow-sm h-100">
-                    <div class="card-header bg-white border-bottom border-sage border-opacity-25 p-4">
-                        <h4 class="font-serif fw-bold text-forest mb-0">MY FAVORITES</h4>
+                <div class="bg-white p-4 p-md-5 border border-sage border-opacity-25 shadow-sm h-100 fade-up visible">
+                    
+                    <div class="mb-5 pb-3 border-bottom border-light">
+                        <span class="small-label d-block mb-1">FAVORITES</span>
+                        <h3 class="font-serif fw-bold text-forest mb-0">Sản phẩm yêu thích</h3>
                     </div>
-                    <div class="card-body p-4">
-                        
-                        <?php if(empty($favorites)): ?>
-                            <?php 
-                                $empty_icon = 'fa-regular fa-heart';
-                                $empty_title = 'NO FAVORITES YET';
-                                $empty_message = 'You haven\'t saved any favorites yet.';
-                                $empty_btn_text = 'EXPLORE MENU';
-                                $empty_btn_link = '/products';
-                                require __DIR__ . '/../../partials/empty-state.php'; 
-                            ?>
-                        <?php else: ?>
-                            <div class="row g-4">
-                                <?php foreach($favorites as $drink): ?>
-                                    <div class="col-md-4 col-sm-6">
-                                        <div class="card product-card border-0 rounded-0 bg-transparent h-100">
-                                            <div class="position-relative product-img-wrapper overflow-hidden">
-                                                <img src="<?= $drink['image'] ?>" class="card-img-top rounded-0 object-fit-cover" height="250" alt="<?= $drink['name'] ?>">
-                                                <button class="btn btn-light rounded-circle position-absolute top-0 end-0 m-2 p-2 shadow-sm border-0 favorite-btn transition-fast">
-                                                    <i class="fa-solid fa-heart text-danger"></i>
-                                                </button>
-                                                <div class="product-action-overlay position-absolute bottom-0 start-0 w-100 p-3 bg-white bg-opacity-75 backdrop-blur transition-fast">
-                                                    <button class="btn btn-forest w-100 btn-sm">ADD TO CART</button>
-                                                </div>
-                                            </div>
-                                            <div class="card-body px-0 pt-3 pb-0 text-center">
-                                                <h6 class="card-title font-serif fw-bold text-dark mb-1"><?= $drink['name'] ?></h6>
-                                                <p class="card-text fw-semibold text-caramel"><?= $drink['price'] ?></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php endif; ?>
 
-                    </div>
+                    <?php if(empty($favorites)): ?>
+                        <div class="text-center py-5">
+                            <i class="fa-regular fa-heart fs-1 text-muted opacity-25 mb-3"></i>
+                            <h4 class="font-serif text-forest">Bạn chưa có sản phẩm yêu thích</h4>
+                            <p class="text-muted">Hãy thêm những món trà yêu thích vào đây để dễ dàng đặt lại.</p>
+                            <a href="index.php?route=products" class="btn btn-caramel mt-3">KHÁM PHÁ MENU</a>
+                        </div>
+                    <?php else: ?>
+                        <!-- Product grid will go here -->
+                    <?php endif; ?>
+                    
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

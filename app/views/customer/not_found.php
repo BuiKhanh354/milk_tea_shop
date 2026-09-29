@@ -22,15 +22,15 @@
     <!-- Error Content -->
     <main class="container text-center py-5 my-auto fade-up visible">
         <div class="py-5">
-            <h1 class="font-serif fw-bold text-forest mb-4" style="font-size: 3rem;">PRODUCT NOT FOUND</h1>
-            <p class="fs-4 text-muted font-serif fst-italic mb-5">"Sorry, we couldn't find this tea."</p>
-            <a href="products.php" class="btn btn-caramel px-5 py-3 fw-bold tracking-wide">BACK TO MENU</a>
+            <h1 class="font-serif fw-bold text-forest mb-4" style="font-size: 3rem;">PAGE NOT FOUND</h1>
+            <p class="fs-4 text-muted font-serif fst-italic mb-5">"Sorry, we couldn't find what you're looking for."</p>
+            <a href="index.php" class="btn btn-caramel px-5 py-3 fw-bold tracking-wide">BACK TO HOME</a>
         </div>
     </main>
 
     <!-- Footer -->
     <div class="mt-auto">
-        <?php include __DIR__ . '/../../layouts/footer.html'; ?>
+        <?php include __DIR__ . '/../../layouts/footer.php'; ?>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

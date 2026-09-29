@@ -1,168 +1,137 @@
-<?php
-// Lấy thông tin từ session (Giả định sau này sẽ query full từ DB)
-$customer_name = $_SESSION['customer_name'] ?? 'Khách hàng';
-$customer_email = $_SESSION['customer_email'] ?? '';
-$customer = [
-    'name' => $customer_name,
-    'email' => $customer_email,
-    'phone' => 'Chưa cập nhật',
-    'address' => 'Chưa cập nhật',
-    'avatar' => strtoupper(substr($customer_name, 0, 1))
-];
+<!DOCTYPE html>
+<html lang="vi">
 
-$summary = [
-    'orders' => 12,
-    'favorites' => 4,
-    'completed' => 10
-];
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin cá nhân - VAA THÉ</title>
 
-$recent_orders = [
-    [
-        'id' => 'VT001',
-        'date' => '15/09/2026',
-        'items' => 3,
-        'total' => '165.000đ',
-        'status' => 'Preparing'
-    ],
-    [
-        'id' => 'VT002',
-        'date' => '10/09/2026',
-        'items' => 1,
-        'total' => '55.000đ',
-        'status' => 'Completed'
-    ]
-];
-?>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<div class="account-page bg-cream py-5" style="min-height: calc(100vh - 300px); padding-top: 120px !important;">
-    <div class="container">
-        <div class="row gy-4">
-            <!-- Sidebar -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .form-control {
+            border: none;
+            border-bottom: 1px solid var(--vaa-sage);
+            border-radius: 0;
+            padding: 0.75rem 0;
+            font-family: var(--font-sans);
+            color: var(--vaa-forest);
+            background-color: transparent;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: var(--vaa-caramel);
+            background-color: transparent;
+        }
+
+        .form-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--vaa-caramel);
+            font-weight: 600;
+        }
+
+        .avatar-circle {
+            width: 80px;
+            height: 80px;
+            background-color: var(--vaa-cream);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--vaa-forest);
+        }
+    </style>
+</head>
+
+<body class="bg-ivory">
+
+    <!-- Header tối giản cho vùng Account -->
+    <?php include '../app/views/partials/account-header.php'; ?>
+
+    <main class="container py-5" style="min-height: calc(100vh - 70px);">
+        <div class="row g-4">
+            <!-- Sidebar (Cột Trái) -->
             <div class="col-lg-3">
-                <?php require_once __DIR__ . '/../../partials/account-sidebar.php'; ?>
+                <?php include '../app/views/partials/account-sidebar.php'; ?>
             </div>
 
-            <!-- Main Content -->
+            <!-- Content (Cột Phải) -->
             <div class="col-lg-9">
-                <!-- Welcome Section -->
-                <div class="account-header-bg text-ivory p-4 p-lg-5 mb-4 position-relative overflow-hidden">
-                    <div class="position-relative z-1">
-                        <h2 class="font-serif fw-bold mb-2">Welcome back, <?= $customer['name'] ?></h2>
-                        <p class="mb-0 text-cream opacity-75">Manage your account and keep track of your tea moments.</p>
-                    </div>
-                    <!-- Decorative Icon -->
-                    <i class="fa-solid fa-leaf position-absolute text-sage opacity-25" style="font-size: 8rem; right: -20px; bottom: -20px; transform: rotate(-15deg);"></i>
-                </div>
+                <div class="bg-white p-4 p-md-5 border border-sage border-opacity-25 shadow-sm h-100 fade-up visible">
 
-                <!-- Profile Card & Summary -->
-                <div class="row gy-4 mb-5">
-                    <!-- Profile Card -->
-                    <div class="col-md-5">
-                        <div class="card border-0 rounded-0 shadow-sm h-100">
-                            <div class="card-body p-4 text-center">
-                                <div class="avatar-wrapper mx-auto mb-3">
-                                    <?= $customer['avatar'] ?>
-                                </div>
-                                <h5 class="font-serif fw-bold mb-1"><?= $customer['name'] ?></h5>
-                                <p class="text-muted small mb-3"><?= $customer['email'] ?></p>
-                                
-                                <div class="text-start mt-4">
-                                    <p class="mb-2 fs-6"><i class="fa-solid fa-phone text-sage me-2 w-20px text-center"></i> <?= $customer['phone'] ?></p>
-                                    <p class="mb-3 fs-6"><i class="fa-solid fa-location-dot text-sage me-2 w-20px text-center"></i> <?= $customer['address'] ?></p>
-                                </div>
-                                
-                                <a href="<?= BASE_URL ?>/profile/edit" class="btn btn-outline-forest w-100 mt-2">EDIT PROFILE</a>
-                            </div>
+                    <div class="d-flex align-items-center gap-4 mb-5 pb-4 border-bottom border-light">
+                        <div class="avatar-circle">
+                            <?= mb_strtoupper(mb_substr($customer['full_name'] ?? 'K', 0, 1)) ?>
+                        </div>
+                        <div>
+                            <span class="small-label d-block mb-1">THÔNG TIN CÁ NHÂN</span>
+                            <h3 class="font-serif fw-bold text-forest mb-1">Xin chào, <?= htmlspecialchars($customer['full_name'] ?? '') ?></h3>
+                            <p class="text-muted mb-0">Quản lý thông tin tài khoản của bạn</p>
                         </div>
                     </div>
-                    
-                    <!-- Summary Cards -->
-                    <div class="col-md-7">
-                        <div class="row g-3 h-100">
-                            <div class="col-sm-6">
-                                <div class="card stat-card rounded-0 h-100">
-                                    <div class="card-body p-4 text-center d-flex flex-column justify-content-center align-items-center">
-                                        <div class="stat-icon-wrapper mb-3 text-forest fs-4">
-                                            <i class="fa-solid fa-bag-shopping"></i>
-                                        </div>
-                                        <h3 class="font-serif fw-bold text-forest mb-1"><?= $summary['orders'] ?></h3>
-                                        <p class="text-muted small text-uppercase tracking-wide mb-0">Total Orders</p>
-                                    </div>
-                                </div>
+
+                    <?php if (!empty($success_msg)): ?>
+                        <div class="alert alert-success border-0 rounded-0 bg-sage bg-opacity-25 text-forest">
+                            <i class="fa-solid fa-check-circle me-2"></i> <?= htmlspecialchars($success_msg) ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($error_msg)): ?>
+                        <div class="alert alert-danger border-0 rounded-0">
+                            <i class="fa-solid fa-triangle-exclamation me-2"></i> <?= htmlspecialchars($error_msg) ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <form method="POST" action="index.php?route=profile">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Họ và Tên</label>
+                                <input type="text" class="form-control" name="name" value="<?= htmlspecialchars($customer['full_name'] ?? '') ?>" required>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="card stat-card rounded-0 h-100">
-                                    <div class="card-body p-4 text-center d-flex flex-column justify-content-center align-items-center">
-                                        <div class="stat-icon-wrapper mb-3 text-forest fs-4">
-                                            <i class="fa-regular fa-heart"></i>
-                                        </div>
-                                        <h3 class="font-serif fw-bold text-forest mb-1"><?= $summary['favorites'] ?></h3>
-                                        <p class="text-muted small text-uppercase tracking-wide mb-0">Favorites</p>
-                                    </div>
-                                </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Số điện thoại</label>
+                                <input type="tel" class="form-control" name="phone" placeholder="Chưa cập nhật" value="<?= htmlspecialchars($customer['phone'] ?? '') ?>">
                             </div>
-                            <div class="col-12 mt-3">
-                                <div class="card stat-card rounded-0 bg-forest text-ivory border-0 h-100">
-                                    <div class="card-body p-4 d-flex align-items-center justify-content-between">
-                                        <div>
-                                            <p class="small text-cream text-uppercase tracking-wide mb-1">Completed Orders</p>
-                                            <h3 class="font-serif fw-bold mb-0"><?= $summary['completed'] ?></h3>
-                                        </div>
-                                        <i class="fa-solid fa-check-circle text-sage fs-1 opacity-50"></i>
-                                    </div>
-                                </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control text-muted" value="<?= htmlspecialchars($customer['email'] ?? '') ?>" readonly disabled>
+                                <small class="text-muted d-block mt-1">Email không thể thay đổi.</small>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Địa chỉ giao hàng mặc định</label>
+                                <input type="text" class="form-control" name="address" placeholder="Ví dụ: 123 Đường ABC, Quận 1, TP.HCM" value="<?= htmlspecialchars($customer['address'] ?? '') ?>">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Ngày tham gia</label>
+                                <?php
+                                $join_date = !empty($customer['created_at']) ? date('d/m/Y', strtotime($customer['created_at'])) : 'Không xác định';
+                                ?>
+                                <input type="text" class="form-control text-muted" value="<?= $join_date ?>" readonly disabled>
+                            </div>
+
+                            <div class="col-12 mt-5">
+                                <button type="submit" class="btn btn-caramel px-5 py-2 fw-bold tracking-wide">LƯU THAY ĐỔI</button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
-
-                <!-- Recent Orders -->
-                <div class="card border-0 rounded-0 shadow-sm mb-4">
-                    <div class="card-header bg-white border-bottom border-sage border-opacity-25 p-4 d-flex justify-content-between align-items-center">
-                        <h5 class="font-serif fw-bold text-forest mb-0">RECENT ORDERS</h5>
-                        <a href="<?= BASE_URL ?>/orders" class="text-sage text-decoration-none hover-forest transition-fast small fw-medium">VIEW ALL <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="table-light text-muted small text-uppercase">
-                                    <tr>
-                                        <th class="ps-4 fw-medium py-3">Order ID</th>
-                                        <th class="fw-medium py-3">Date</th>
-                                        <th class="fw-medium py-3">Items</th>
-                                        <th class="fw-medium py-3">Total</th>
-                                        <th class="fw-medium py-3">Status</th>
-                                        <th class="pe-4 text-end fw-medium py-3">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($recent_orders as $order): ?>
-                                    <tr>
-                                        <td class="ps-4 fw-medium text-dark">#<?= $order['id'] ?></td>
-                                        <td class="text-muted"><?= $order['date'] ?></td>
-                                        <td class="text-muted"><?= $order['items'] ?> items</td>
-                                        <td class="fw-semibold text-caramel"><?= $order['total'] ?></td>
-                                        <td>
-                                            <?php
-                                                $badgeClass = 'bg-secondary';
-                                                if ($order['status'] === 'Completed') $badgeClass = 'bg-success';
-                                                else if ($order['status'] === 'Preparing') $badgeClass = 'bg-warning text-dark';
-                                                else if ($order['status'] === 'Pending') $badgeClass = 'bg-info text-dark';
-                                            ?>
-                                            <span class="badge <?= $badgeClass ?> rounded-pill fw-normal px-2 py-1"><?= $order['status'] ?></span>
-                                        </td>
-                                        <td class="pe-4 text-end">
-                                            <a href="<?= BASE_URL ?>/orders/<?= $order['id'] ?>" class="btn btn-sm btn-outline-forest">VIEW</a>
-                                        </td>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
-    </div>
-</div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

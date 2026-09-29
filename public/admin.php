@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once __DIR__ . '/../app/config/database.php';
+
 
 // Lấy route từ URL, mặc định là dashboard
 $route = $_GET['route'] ?? 'dashboard';
@@ -9,13 +11,13 @@ $publicRoutes = ['login', 'logout'];
 
 if (!in_array($route, $publicRoutes)) {
     if (!isset($_SESSION['user_id'])) {
-        header('Location: login.php');
+        header("Location: index.php?route=login");
         exit;
     }
     
     // Authorization: Nếu là Staff, không cho phép truy cập các trang của Admin
     if ($_SESSION['role'] === 'staff') {
-        $staffAllowedRoutes = ['staff_dashboard', 'orders', 'logout'];
+        $staffAllowedRoutes = ['staff_dashboard', 'orders', 'logout', 'tables', 'inventory', 'inventory_import', 'inventory_export', 'profile', 'shifts'];
         if (!in_array($route, $staffAllowedRoutes)) {
             header('Location: admin.php?route=staff_dashboard');
             exit;
@@ -34,6 +36,32 @@ switch ($route) {
         } else {
             $controller->logout();
         }
+        break;
+
+    case 'shifts':
+        require_once '../app/controllers/Admin/ShiftController.php';
+        $controller = new ShiftController();
+        if (isset($_GET['action'])) {
+            $action = $_GET['action'];
+            if (method_exists($controller, $action)) {
+                $controller->$action();
+                break;
+            }
+        }
+        $controller->index();
+        break;
+
+    case 'profile':
+        require_once '../app/controllers/Admin/ProfileController.php';
+        $controller = new ProfileController();
+        if (isset($_GET['action'])) {
+            $action = $_GET['action'];
+            if (method_exists($controller, $action)) {
+                $controller->$action();
+                break;
+            }
+        }
+        $controller->index();
         break;
 
     case 'dashboard':
@@ -84,6 +112,12 @@ switch ($route) {
         require_once '../app/controllers/Admin/InventoryController.php';
         $controller = new InventoryController();
         $controller->history();
+        break;
+
+    case 'inventory_report':
+        require_once '../app/controllers/Admin/InventoryController.php';
+        $controller = new InventoryController();
+        $controller->report();
         break;
 
     case 'inventory_alerts':
@@ -147,6 +181,13 @@ switch ($route) {
     case 'tables':
         require_once '../app/controllers/Admin/TableController.php';
         $controller = new TableController();
+        if (isset($_GET['action'])) {
+            $action = $_GET['action'];
+            if (method_exists($controller, $action)) {
+                $controller->$action();
+                break;
+            }
+        }
         $controller->index();
         break;
 

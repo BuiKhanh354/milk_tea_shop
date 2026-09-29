@@ -47,10 +47,16 @@
                                 <?php endif; ?>
                             </td>
                             <td class="pe-4 text-end">
+                                <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                                 <a href="admin.php?route=product_ingredients&action=edit&id=<?= $p['id'] ?>" class="btn btn-sm <?= $p['ingredients_count'] > 0 ? 'btn-outline-primary' : 'btn-primary' ?> px-3 shadow-none rounded-pill">
                                     <i class="fa-solid <?= $p['ingredients_count'] > 0 ? 'fa-pen' : 'fa-plus' ?> me-1"></i> 
                                     <?= $p['ingredients_count'] > 0 ? 'Sửa công thức' : 'Tạo công thức' ?>
                                 </a>
+                                <?php else: ?>
+                                <button type="button" class="btn btn-sm btn-light border px-3 shadow-none rounded-pill" disabled title="Chỉ Admin có quyền chỉnh sửa">
+                                    <i class="fa-solid fa-lock me-1"></i> Xem
+                                </button>
+                                <?php endif; ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>

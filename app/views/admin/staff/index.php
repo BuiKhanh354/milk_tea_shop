@@ -46,6 +46,9 @@
                             <td class="text-muted small"><?= date('d/m/Y', strtotime($staff['created_at'])) ?></td>
                             <td class="text-end pe-4">
                                 <div class="d-flex justify-content-end align-items-center gap-2">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" title="Chỉnh sửa" data-bs-toggle="modal" data-bs-target="#editStaffModal<?= $staff['id'] ?>">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
                                     <?php if($staff['status'] == 1): ?>
                                         <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill mb-0 me-2"><i class="fa-solid fa-check me-1"></i> Đang làm</span>
                                         <form action="admin.php?route=staff&action=toggle_status" method="POST" class="m-0" onsubmit="return confirm('Khóa tài khoản nhân viên này?');">
@@ -62,6 +65,49 @@
                                 </div>
                             </td>
                         </tr>
+
+                        <!-- Modal Chỉnh Sửa Nhân Viên -->
+                        <div class="modal fade" id="editStaffModal<?= $staff['id'] ?>" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content border-0 rounded-4 shadow">
+                                    <form action="admin.php?route=staff&action=update" method="POST">
+                                        <input type="hidden" name="id" value="<?= $staff['id'] ?>">
+                                        <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                                            <h5 class="modal-title font-serif fw-bold text-forest">Sửa Nhân Viên</h5>
+                                            <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body px-4 py-4">
+                                            <div class="mb-3">
+                                                <label class="form-label text-muted small fw-medium mb-1">Tên đăng nhập <span class="text-danger">*</span></label>
+                                                <input type="text" name="username" class="form-control shadow-none border-secondary border-opacity-25" value="<?= htmlspecialchars($staff['username']) ?>" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label text-muted small fw-medium mb-1">Mật khẩu mới (bỏ trống nếu không đổi)</label>
+                                                <input type="password" name="password" class="form-control shadow-none border-secondary border-opacity-25">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label text-muted small fw-medium mb-1">Họ và tên <span class="text-danger">*</span></label>
+                                                <input type="text" name="full_name" class="form-control shadow-none border-secondary border-opacity-25" value="<?= htmlspecialchars($staff['full_name']) ?>" required>
+                                            </div>
+                                            <div class="row g-3">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label text-muted small fw-medium mb-1">Số điện thoại</label>
+                                                    <input type="text" name="phone" class="form-control shadow-none border-secondary border-opacity-25" value="<?= htmlspecialchars($staff['phone'] ?? '') ?>">
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label text-muted small fw-medium mb-1">Email</label>
+                                                    <input type="email" name="email" class="form-control shadow-none border-secondary border-opacity-25" value="<?= htmlspecialchars($staff['email'] ?? '') ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer border-top-0 pt-0 px-4 pb-4">
+                                            <button type="button" class="btn btn-light shadow-none" data-bs-dismiss="modal">Hủy</button>
+                                            <button type="submit" class="btn btn-caramel shadow-none px-4">Lưu thay đổi</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>

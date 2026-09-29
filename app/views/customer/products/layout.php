@@ -1,9 +1,3 @@
-<?php
-session_start();
-require_once __DIR__ . '/../app/models/Product.php';
-$productModel = new Product();
-$productsList = $productModel->getAll();
-?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -28,7 +22,7 @@ $productsList = $productModel->getAll();
     
     <?php include '../app/views/customer/products/index.php'; ?>
     
-    <?php include '../app/views/layouts/footer.html'; ?>
+    <?php include '../app/views/layouts/footer.php'; ?>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

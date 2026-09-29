@@ -172,6 +172,7 @@ body {
 .btn-outline-store {
     border: 1px solid var(--vt-forest);
     color: var(--vt-forest);
+    text-align:center;
     background: transparent;
     transition: all 0.3s;
 }

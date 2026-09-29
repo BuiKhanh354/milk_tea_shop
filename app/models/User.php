@@ -47,6 +47,26 @@ class User {
         return false;
     }
 
+    public function updateStaff($id, $username, $password, $fullName, $email, $phone) {
+        if (!empty($password)) {
+            $hashed = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "UPDATE users SET username = ?, password = ?, full_name = ?, email = ?, phone = ? WHERE id = ? AND role = 'staff'";
+            $stmt = $this->conn->prepare($sql);
+            if ($stmt) {
+                $stmt->bind_param("sssssi", $username, $hashed, $fullName, $email, $phone, $id);
+                return $stmt->execute();
+            }
+        } else {
+            $sql = "UPDATE users SET username = ?, full_name = ?, email = ?, phone = ? WHERE id = ? AND role = 'staff'";
+            $stmt = $this->conn->prepare($sql);
+            if ($stmt) {
+                $stmt->bind_param("ssssi", $username, $fullName, $email, $phone, $id);
+                return $stmt->execute();
+            }
+        }
+        return false;
+    }
+
     public function authenticate($username, $password) {
         $sql = "SELECT * FROM users WHERE username = ? AND status = 1 LIMIT 1";
         $stmt = $this->conn->prepare($sql);
@@ -57,6 +77,35 @@ class User {
         if ($user = $result->fetch_assoc()) {
             if (password_verify($password, $user['password'])) {
                 return $user;
+            }
+        }
+        return false;
+    }
+
+    public function getById($id) {
+        $sql = "SELECT * FROM users WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    public function updateProfile($id, $username, $password, $fullName, $phone, $email) {
+        if (!empty($password)) {
+            $hashed = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "UPDATE users SET username = ?, password = ?, full_name = ?, phone = ?, email = ? WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            if ($stmt) {
+                $stmt->bind_param("sssssi", $username, $hashed, $fullName, $phone, $email, $id);
+                return $stmt->execute();
+            }
+        } else {
+            $sql = "UPDATE users SET username = ?, full_name = ?, phone = ?, email = ? WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            if ($stmt) {
+                $stmt->bind_param("ssssi", $username, $fullName, $phone, $email, $id);
+                return $stmt->execute();
             }
         }
         return false;

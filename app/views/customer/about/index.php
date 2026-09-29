@@ -1,6 +1,3 @@
-<?php
-session_start();
-?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -23,9 +20,9 @@ session_start();
     <!-- Nạp components trực tiếp bằng PHP -->
     <?php include '../app/views/partials/navbar_old.php'; ?>
     
-    <?php include '../app/views/customer/about/index.html'; ?>
+    <?php include '../app/views/customer/about/about_content.php'; ?>
     
-    <?php include '../app/views/layouts/footer.html'; ?>
+    <?php include '../app/views/layouts/footer.php'; ?>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

@@ -52,7 +52,7 @@
                 <?php foreach ($productsList as $product): ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="product-card h-100 d-flex flex-column border-0 shadow-sm">
-                        <a href="product_detail.php?id=<?= $product['id'] ?>" class="text-decoration-none text-dark d-flex flex-column h-100">
+                        <a href="index.php?route=product_detail&id=<?= $product['id'] ?>" class="text-decoration-none text-dark d-flex flex-column h-100">
                             <div class="product-image-box position-relative" style="<?= empty($product['image']) ? 'background-color: var(--vaa-sage);' : '' ?>">
                                 <div class="fav-icon">
                                     <i class="fa-regular fa-heart"></i>

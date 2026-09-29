@@ -7,6 +7,7 @@
 
 .category-nav-wrapper {
     overflow-x: auto;
+    text-align: center !important;
     white-space: nowrap;
     -ms-overflow-style: none;
     scrollbar-width: none;

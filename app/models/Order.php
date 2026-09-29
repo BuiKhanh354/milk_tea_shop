@@ -92,7 +92,25 @@ class Order {
         $stmtD = $this->conn->prepare($sqlDetails);
         $stmtD->bind_param("i", $id);
         $stmtD->execute();
-        $order['items'] = $stmtD->get_result()->fetch_all(MYSQLI_ASSOC);
+        $items = $stmtD->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        // Fetch toppings for each item
+        $sqlToppings = "SELECT t.name 
+                        FROM order_detail_toppings odt 
+                        JOIN toppings t ON odt.topping_id = t.id 
+                        WHERE odt.order_detail_id = ?";
+        $stmtT = $this->conn->prepare($sqlToppings);
+        
+        foreach ($items as &$item) {
+            $stmtT->bind_param("i", $item['id']);
+            $stmtT->execute();
+            $toppingRows = $stmtT->get_result()->fetch_all(MYSQLI_ASSOC);
+            // the previous code in show.php expects 'toppings' as string if it was using string. Let's check show.php.
+            // Oh, previously 'toppings' was a comma separated string.
+            $item['toppings'] = implode(', ', array_column($toppingRows, 'name'));
+        }
+        
+        $order['items'] = $items;
 
         return $order;
     }
@@ -105,5 +123,60 @@ class Order {
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("si", $status, $id);
         return $stmt->execute();
+    }
+
+    public function createOrder($userId, $customerName, $totalAmount, $orderType, $tableId, $paymentMethod, $items) {
+        $this->conn->begin_transaction();
+        try {
+            // Insert order
+            $sql = "INSERT INTO orders (user_id, status, total_amount, final_amount, order_type) VALUES (?, 'Pending', ?, ?, ?)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("idds", $userId, $totalAmount, $totalAmount, $orderType);
+            $stmt->execute();
+            $orderId = $stmt->insert_id;
+
+            // If Dine-in, we might want to update table status, but the current schema for orders doesn't link to tables directly
+            // Actually, we can just save it. Wait, does orders table have a table_id? 
+            // We'll leave table_id aside or save it in a notes/shipping address if needed.
+            // Let's check if there is a payment table
+            $sqlPay = "INSERT INTO payments (order_id, method, amount, status) VALUES (?, ?, ?, 'pending')";
+            $stmtPay = $this->conn->prepare($sqlPay);
+            $stmtPay->bind_param("isd", $orderId, $paymentMethod, $totalAmount);
+            $stmtPay->execute();
+
+            // Insert order details
+            $sqlDetail = "INSERT INTO order_details (order_id, product_id, size_id, quantity, unit_price, subtotal) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmtDetail = $this->conn->prepare($sqlDetail);
+            
+            $sqlTopping = "INSERT INTO order_detail_toppings (order_detail_id, topping_id, quantity, price) VALUES (?, ?, 1, ?)";
+            $stmtTopping = $this->conn->prepare($sqlTopping);
+
+            foreach ($items as $item) {
+                $sizeId = !empty($item['size_id']) ? (int)$item['size_id'] : null;
+                $quantity = (int)$item['quantity'];
+                $price = (float)$item['price'];
+                $subtotal = $price * $quantity;
+                
+                $stmtDetail->bind_param("iiiidd", $orderId, $item['product_id'], $sizeId, $quantity, $price, $subtotal);
+                $stmtDetail->execute();
+                
+                $orderDetailId = $stmtDetail->insert_id;
+                
+                if (!empty($item['toppings']) && is_array($item['toppings'])) {
+                    foreach ($item['toppings'] as $topping) {
+                        $tId = (int)$topping['id'];
+                        $tPrice = (float)$topping['price'];
+                        $stmtTopping->bind_param("iid", $orderDetailId, $tId, $tPrice);
+                        $stmtTopping->execute();
+                    }
+                }
+            }
+
+            $this->conn->commit();
+            return $orderId;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            return false;
+        }
     }
 }

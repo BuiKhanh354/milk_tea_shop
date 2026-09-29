@@ -1,8 +1,3 @@
-<?php
-session_start();
-$is_logged_in = isset($_SESSION['customer_id']);
-$customer_name = $is_logged_in ? $_SESSION['customer_name'] : '';
-?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -70,7 +65,7 @@ $customer_name = $is_logged_in ? $_SESSION['customer_name'] : '';
 <body style="background-color: #F7F4ED; color: #18231D; font-family: 'Inter', sans-serif;">
 
     <!-- Navbar -->
-    <?php include __DIR__ . '/../app/views/partials/navbar_old.php'; ?>
+    <?php include __DIR__ . '/../../partials/navbar_old.php'; ?>
 
     <!-- Hero Section -->
     <section class="contact-hero mt-5">
@@ -126,7 +121,7 @@ $customer_name = $is_logged_in ? $_SESSION['customer_name'] : '';
                             </div>
                         <?php endif; ?>
 
-                        <form action="contact.php" method="POST">
+                        <form action="index.php?route=contact" method="POST">
                             <div class="row g-4">
                                 <div class="col-md-6">
                                     <label class="form-label fw-medium">Họ và tên <span class="text-danger">*</span></label>
@@ -166,7 +161,7 @@ $customer_name = $is_logged_in ? $_SESSION['customer_name'] : '';
     </section>
 
     <!-- Footer -->
-    <?php include __DIR__ . '/../app/views/layouts/footer.html'; ?>
+    <?php include __DIR__ . '/../../layouts/footer.php'; ?>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

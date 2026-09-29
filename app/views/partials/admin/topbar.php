@@ -36,10 +36,10 @@
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="userDropdown">
-                <li><a class="dropdown-item" href="#"><i class="fa-regular fa-user me-2"></i> Hồ sơ</a></li>
+                <li><a class="dropdown-item" href="admin.php?route=profile"><i class="fa-regular fa-user me-2"></i> Hồ sơ</a></li>
                 <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear me-2"></i> Cài đặt</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-danger" href="logout.php"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Đăng xuất</a></li>
+                <li><a class="dropdown-item text-danger" href="index.php?route=logout"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Đăng xuất</a></li>
             </ul>
         </div>
     </div>

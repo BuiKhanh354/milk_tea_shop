@@ -44,11 +44,12 @@ class Product {
         return $product;
     }
 
-    public function getAll() {
+    public function getAll($includeHidden = false) {
+        $statusCondition = $includeHidden ? "" : "WHERE p.status = 1";
         $sql = "SELECT p.*, c.name as category_name 
                 FROM products p 
                 LEFT JOIN categories c ON p.category_id = c.id 
-                WHERE p.status = 1
+                $statusCondition
                 ORDER BY p.id DESC";
         $result = $this->conn->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);

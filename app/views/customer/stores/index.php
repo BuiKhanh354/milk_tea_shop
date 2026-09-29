@@ -80,7 +80,7 @@
                             </div>
                         <?php else: ?>
                             <?php foreach($stores as $store): ?>
-                            <div class="store-card" onclick="window.location.href='stores.php?id=<?= $store['id'] ?>'">
+                            <div class="store-card" onclick="window.location.href='index.php?route=stores?id=<?= $store['id'] ?>'">
                                 <div class="d-flex justify-content-between align-items-start mb-2">
                                     <h5 class="store-card-title font-serif fw-bold mb-0"><?= $store['name'] ?></h5>
                                     <?php if($store['status'] === 'open'): ?>
@@ -104,7 +104,7 @@
                                 </div>
                                 
                                 <div class="d-flex gap-2">
-                                    <a href="stores.php?id=<?= $store['id'] ?>" class="btn btn-outline-store flex-grow-1" onclick="event.stopPropagation();">
+                                    <a href="index.php?route=stores?id=<?= $store['id'] ?>" class="btn btn-outline-store flex-grow-1" onclick="event.stopPropagation();">
                                         Xem chi tiết
                                     </a>
                                     <button class="btn btn-store-search px-4" onclick="event.stopPropagation();" title="Chỉ đường">
@@ -136,7 +136,7 @@
     </section>
 
     <!-- Footer -->
-    <?php include __DIR__ . '/../../layouts/footer.html'; ?>
+    <?php include __DIR__ . '/../../layouts/footer.php'; ?>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

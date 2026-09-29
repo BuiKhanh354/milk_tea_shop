@@ -40,7 +40,7 @@
         <div class="container py-4">
             
             <div class="mb-4">
-                <a href="stores.php" class="text-decoration-none text-brown fw-medium">
+                <a href="index.php?route=stores" class="text-decoration-none text-brown fw-medium">
                     <i class="fa-solid fa-arrow-left me-2"></i> Quay lại danh sách
                 </a>
             </div>
@@ -131,7 +131,7 @@
     </section>
 
     <!-- Footer -->
-    <?php include __DIR__ . '/../../layouts/footer.html'; ?>
+    <?php include __DIR__ . '/../../layouts/footer.php'; ?>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -12,3 +12,4 @@ if ($stmt->execute()) {
 } else {
     echo "Failed to update: " . $conn->error . "\n";
 }
+?>

@@ -126,6 +126,9 @@
                                 <td>
                                     <div class="small text-muted">
                                         Size: <?= $item['size_name'] ?? 'M' ?><br>
+                                        <?php if (!empty($item['toppings'])): ?>
+                                        Topping: <?= htmlspecialchars($item['toppings']) ?><br>
+                                        <?php endif; ?>
                                         Đường: <?= $item['sugar_level'] ?>% | Đá: <?= $item['ice_level'] ?>%
                                     </div>
                                 </td>

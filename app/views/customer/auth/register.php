@@ -23,7 +23,7 @@
         <div class="auth-visual">
             <div class="btn-back">
                 <i class="fa-solid fa-arrow-left"></i>
-                <a href="index.html">Trang chủ</a>
+                <a href="index.php?route=home">Trang chủ</a>
             </div>
 
             <!-- <div class="auth-brand-top">
@@ -96,7 +96,7 @@
         <div class="auth-form-side">
             <div class="auth-form-container">
 
-                <a href="index.html" class="auth-logo">
+                <a href="index.php?route=home" class="auth-logo">
                     <i class="fa-solid fa-leaf text-sage"></i> VAA THÉ
                 </a>
 
@@ -115,7 +115,7 @@
                         <?= htmlspecialchars($success) ?>
                         <script>
                             setTimeout(function() {
-                                window.location.href = 'login.html';
+                                window.location.href = 'index.php?route=login';
                             }, 2000);
                         </script>
                     </div>
@@ -123,7 +123,7 @@
                     <div id="general-error" class="alert alert-danger error-msg mb-4" role="alert" style="display: none;"></div>
                 <?php endif; ?>
 
-                <form id="register-form" method="POST" action="register.php" novalidate>
+                <form id="register-form" method="POST" action="index.php?route=register" novalidate>
 
                     <!-- Full Name -->
                     <div class="mb-4">
@@ -175,7 +175,7 @@
                     <!-- Login Link -->
                     <div class="text-center mb-4">
                         <span class="text-muted small">Đã có tài khoản?</span>
-                        <a href="login.html" class="auth-link small ms-1">Đăng nhập ngay</a>
+                        <a href="index.php?route=login" class="auth-link small ms-1">Đăng nhập ngay</a>
                     </div>
 
                     <!-- Social Login Divider -->

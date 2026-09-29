@@ -1,30 +1,3 @@
-<?php
-session_start();
-
-$cart_items = [
-    [
-        'id' => 1,
-        'name' => 'Oolong Sữa Hạnh Nhân',
-        'price' => 55000,
-        'quantity' => 2,
-        'image' => 'https://images.unsplash.com/photo-1576092762791-dd9e2220abd4?auto=format&fit=crop&q=80&w=150'
-    ],
-    [
-        'id' => 2,
-        'name' => 'Hồng Trà Kem Phô Mai',
-        'price' => 55000,
-        'quantity' => 1,
-        'image' => 'https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&q=80&w=150'
-    ]
-];
-
-$subtotal = 0;
-foreach($cart_items as $item) {
-    $subtotal += $item['price'] * $item['quantity'];
-}
-$shipping = 15000;
-$total = $subtotal + $shipping;
-?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -98,7 +71,7 @@ $total = $subtotal + $shipping;
                         <?php if(empty($cart_items)): ?>
                             <div class="text-center py-5">
                                 <p class="text-muted">Giỏ hàng của bạn đang trống.</p>
-                                <a href="products.php" class="btn btn-caramel mt-3">TIẾP TỤC MUA SẮM</a>
+                                <a href="index.php?route=products" class="btn btn-caramel mt-3">TIẾP TỤC MUA SẮM</a>
                             </div>
                         <?php else: ?>
                             <?php foreach($cart_items as $item): ?>
@@ -147,7 +120,7 @@ $total = $subtotal + $shipping;
                         
                         <button class="btn btn-caramel w-100 py-3 fw-bold tracking-wide">TIẾN HÀNH THANH TOÁN</button>
                         <div class="text-center mt-3">
-                            <a href="products.php" class="text-muted small text-decoration-none hover-caramel transition-fast"><i class="fa-solid fa-arrow-left me-1"></i> Tiếp tục mua sắm</a>
+                            <a href="index.php?route=products" class="text-muted small text-decoration-none hover-caramel transition-fast"><i class="fa-solid fa-arrow-left me-1"></i> Tiếp tục mua sắm</a>
                         </div>
                     </div>
                 </div>
@@ -155,7 +128,7 @@ $total = $subtotal + $shipping;
         </div>
     </main>
     
-    <?php include '../app/views/layouts/footer.html'; ?>
+    <?php include '../app/views/layouts/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/main.js"></script>

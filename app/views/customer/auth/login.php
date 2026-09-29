@@ -1,59 +1,3 @@
-<?php
-session_start();
-require_once __DIR__ . '/../app/config/database.php';
-
-$base_url = 'http://' . $_SERVER['HTTP_HOST'] . str_replace('/login.php', '', $_SERVER['SCRIPT_NAME']);
-$error = '';
-$email_val = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $emailOrUsername = trim($_POST['email']); // Can be email or username
-    $password = $_POST['password'];
-    $email_val = htmlspecialchars($emailOrUsername);
-
-    require_once __DIR__ . '/../app/models/User.php';
-    $userModel = new User();
-    $adminUser = $userModel->authenticate($emailOrUsername, $password);
-
-    if ($adminUser) {
-        // Đăng nhập thành công với quyền Admin/Staff
-        $_SESSION['user_id'] = $adminUser['id'];
-        $_SESSION['role'] = $adminUser['role'];
-        $_SESSION['full_name'] = $adminUser['full_name'];
-
-        if ($adminUser['role'] === 'admin') {
-            header('Location: admin.php?route=dashboard');
-        } else {
-            header('Location: admin.php?route=staff_dashboard');
-        }
-        exit;
-    } else {
-        // Không phải Admin/Staff, thử đăng nhập với quyền Customer
-        $sql = "SELECT * FROM customers WHERE email = ? LIMIT 1";
-        $stmt = $conn->prepare($sql);
-        if ($stmt) {
-            $stmt->bind_param("s", $emailOrUsername);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $customer = $result->fetch_assoc();
-
-            if ($customer && password_verify($password, $customer['password'])) {
-                // Đăng nhập thành công với quyền Khách hàng
-                $_SESSION['customer_id'] = $customer['id'];
-                $_SESSION['customer_name'] = $customer['full_name'];
-                $_SESSION['customer_email'] = $customer['email'];
-
-                header("Location: index.php");
-                exit;
-            } else {
-                $error = "Tài khoản hoặc mật khẩu không đúng!";
-            }
-        } else {
-            $error = "Lỗi hệ thống, vui lòng thử lại sau.";
-        }
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -79,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="auth-visual">
             <div class="btn-back">
                 <i class="fa-solid fa-arrow-left"></i>
-                <a href="index.html">Trang chủ</a>
+                <a href="index.php?route=home">Trang chủ</a>
             </div>
 
             <!-- <div class="auth-brand-top">
@@ -96,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="auth-form-side">
             <div class="auth-form-container">
 
-                <a href="index.html" class="auth-logo">
+                <a href="index.php?route=home" class="auth-logo">
                     <i class="fa-solid fa-leaf text-sage"></i> VAA THÉ
                 </a>
 
@@ -115,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 <?php endif; ?>
 
-                <form id="login-form" method="POST" action="login.php" novalidate>
+                <form id="login-form" method="POST" action="index.php?route=login" novalidate>
 
                     <!-- Email / Username -->
                     <div class="mb-4">
@@ -158,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <!-- Register Link -->
                     <div class="text-center mb-4">
                         <span class="text-muted small">Chưa có tài khoản?</span>
-                        <a href="register.php" class="auth-link small ms-1">Đăng ký ngay</a>
+                        <a href="index.php?route=register" class="auth-link small ms-1">Đăng ký ngay</a>
                     </div>
 
                     <!-- Social Login Divider -->

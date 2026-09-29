@@ -171,6 +171,9 @@
                             </td>
                             <td class="text-end pe-4">
                                 <div class="d-flex justify-content-end gap-2">
+                                    <a href="admin.php?route=inventory&action=show&id=<?= $item['id'] ?>" class="btn btn-sm btn-light border shadow-none text-info" title="Xem chi tiết">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
                                     <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                                     <a href="admin.php?route=inventory&action=edit&id=<?= $item['id'] ?>" class="btn btn-sm btn-light border shadow-none text-primary" title="Sửa">
                                         <i class="fa-solid fa-pen"></i>

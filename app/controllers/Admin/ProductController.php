@@ -7,7 +7,7 @@ class ProductController {
         $pageTitle = 'Quản lý sản phẩm';
         
         $productModel = new Product();
-        $productsRaw = $productModel->getAll();
+        $productsRaw = $productModel->getAll(TRUE);
         
         $products = [];
         foreach($productsRaw as $p) {

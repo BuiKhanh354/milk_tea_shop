@@ -33,6 +33,24 @@ class StaffController {
         exit;
     }
 
+    public function update() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? 0;
+            $username = $_POST['username'] ?? '';
+            $password = $_POST['password'] ?? '';
+            $full_name = $_POST['full_name'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $phone = $_POST['phone'] ?? '';
+
+            if ($id && !empty($username) && !empty($full_name)) {
+                $userModel = new User();
+                $userModel->updateStaff($id, $username, $password, $full_name, $email, $phone);
+            }
+        }
+        header('Location: admin.php?route=staff');
+        exit;
+    }
+
     public function toggle_status() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
             $userModel = new User();

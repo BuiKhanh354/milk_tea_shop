@@ -38,7 +38,7 @@
                 <p class="text-muted mb-5">
                     Mỗi ly trà tại VAA THÉ không chỉ là một thức uống giải khát, mà là một tác phẩm nghệ thuật nhỏ bé mang trong mình sự tận tâm của người pha chế, gửi gắm niềm vui và năng lượng tích cực đến bạn mỗi ngày.
                 </p>
-                <a href="products.html" class="link-caramel fw-bold" style="font-size: 1.1rem;">Khám phá menu <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                <a href="index.php?route=products" class="link-caramel fw-bold" style="font-size: 1.1rem;">Khám phá menu <i class="fa-solid fa-arrow-right ms-2"></i></a>
             </div>
         </div>
     </div>
@@ -190,7 +190,7 @@
                 <p class="fs-5 mb-5" style="color: rgba(255,255,255,0.8); line-height: 1.8;">
                     Chúng tôi tin rằng một ly trà ngon có quyền năng kỳ diệu có thể làm một ngày của bạn trở nên tốt đẹp hơn, xua tan đi những mệt mỏi và mang lại nguồn năng lượng mới.
                 </p>
-                <a href="products.html" class="btn-vaa btn-outline-forest" style="border-color: var(--vaa-ivory); color: var(--vaa-ivory);">Khám phá sản phẩm <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                <a href="index.php?route=products" class="btn-vaa btn-outline-forest" style="border-color: var(--vaa-ivory); color: var(--vaa-ivory);">Khám phá sản phẩm <i class="fa-solid fa-arrow-right ms-2"></i></a>
             </div>
         </div>
     </div>
@@ -239,6 +239,6 @@
             <i class="fa-solid fa-mug-hot text-caramel fs-1"></i>
         </div>
         <h2 class="mb-5 font-serif">Đã đến lúc tìm thấy<br>hương vị của riêng bạn.</h2>
-        <a href="products.html" class="btn-vaa btn-caramel px-5 py-3 fs-6">KHÁM PHÁ MENU <i class="fa-solid fa-arrow-right ms-2"></i></a>
+        <a href="index.php?route=products" class="btn-vaa btn-caramel px-5 py-3 fs-6">KHÁM PHÁ MENU <i class="fa-solid fa-arrow-right ms-2"></i></a>
     </div>
 </section>

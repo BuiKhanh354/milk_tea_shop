@@ -1,70 +1,84 @@
 <?php
 session_start();
-?>
-<!DOCTYPE html>
-<html lang="vi">
+require_once __DIR__ . '/../app/config/database.php';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VAA THÉ - Premium Milk Tea</title>
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+$route = $_GET['route'] ?? 'home';
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/intro.css">
-</head>
-
-<body>
-
-    <!-- INTRO SCREEN -->
-    <div id="intro-video-wrapper" class="intro-video-wrapper">
-        <!-- Overlay UI -->
-        <div class="intro-overlay">
-            <div class="intro-brand">
-                <span>G</span><span>o</span><span>o</span><span>d</span><span>&nbsp;</span>
-                <span>T</span><span>e</span><span>a</span><span>,</span><span>&nbsp;</span>
-                <span>G</span><span>o</span><span>o</span><span>d</span><span>&nbsp;</span>
-                <span>M</span><span>o</span><span>o</span><span>d</span>
-            </div>
-            <button id="btn-skip-intro" class="btn-skip-intro" aria-label="Skip intro">
-                SKIP <i class="fa-solid fa-arrow-right arrow-icon"></i>
-            </button>
-        </div>
-
-        <video id="intro-video" class="intro-video" autoplay muted playsinline preload="auto">
-            <source src="assets/videos/upscaled-video.mp4" type="video/mp4">
-            Trình duyệt của bạn không hỗ trợ thẻ video.
-        </video>
-    </div>
-
-    <!-- Nạp components trực tiếp bằng PHP -->
-    <?php include '../app/views/partials/navbar_old.php'; ?>
+switch($route) {
+    case 'home':
+        require_once '../app/controllers/Customer/HomeController.php';
+        (new HomeController())->index();
+        break;
     
-    <?php include '../app/views/customer/home/index.html'; ?>
-    
-    <?php include '../app/views/layouts/footer.html'; ?>
+    case 'about':
+        require_once '../app/controllers/Customer/HomeController.php';
+        (new HomeController())->about();
+        break;
+        
+    case 'contact':
+        require_once '../app/controllers/Customer/HomeController.php';
+        (new HomeController())->contact();
+        break;
+        
+    case 'stores':
+        require_once '../app/controllers/Customer/HomeController.php';
+        (new HomeController())->stores();
+        break;
 
-    <!-- Active Menu JS -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const navLinks = document.querySelectorAll('.nav-link');
-            navLinks.forEach(link => {
-                if (link.textContent.trim() === 'Trang chủ') {
-                    link.classList.add('active');
-                }
-            });
-        });
-    </script>
+    case 'login':
+        require_once '../app/controllers/Customer/AuthController.php';
+        (new AuthController())->login();
+        break;
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/intro.js"></script>
-    <script src="assets/js/main.js"></script>
-</body>
+    case 'register':
+        require_once '../app/controllers/Customer/AuthController.php';
+        (new AuthController())->register();
+        break;
 
-</html>
+    case 'logout':
+        require_once '../app/controllers/Customer/AuthController.php';
+        (new AuthController())->logout();
+        break;
+
+    case 'products':
+        require_once '../app/controllers/Customer/ProductController.php';
+        (new ProductController())->index();
+        break;
+
+    case 'product_detail':
+        require_once '../app/controllers/Customer/ProductController.php';
+        (new ProductController())->detail();
+        break;
+
+    case 'cart':
+        require_once '../app/controllers/Customer/CartController.php';
+        (new CartController())->index();
+        break;
+
+    case 'orders':
+        require_once '../app/controllers/Customer/OrderController.php';
+        (new OrderController())->index();
+        break;
+
+    case 'profile':
+        require_once '../app/controllers/Customer/ProfileController.php';
+        (new ProfileController())->index();
+        break;
+
+    case 'password':
+        require_once '../app/controllers/Customer/ProfileController.php';
+        (new ProfileController())->password();
+        break;
+
+    case 'favorites':
+        require_once '../app/controllers/Customer/ProfileController.php';
+        (new ProfileController())->favorites();
+        break;
+
+    default:
+        // Handle 404
+        header("HTTP/1.0 404 Not Found");
+        require_once '../app/views/customer/not_found.php';
+        break;
+}

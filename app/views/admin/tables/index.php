@@ -33,7 +33,7 @@
                 }
             ?>
             <div class="col-6 col-md-3 col-xl-2">
-                <div class="card <?= $bgClass ?> <?= $borderClass ?> shadow-sm rounded-4 text-center h-100" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.classList.add('shadow')" onmouseout="this.classList.remove('shadow')">
+                <div class="card <?= $bgClass ?> <?= $borderClass ?> shadow-sm rounded-4 text-center h-100" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.classList.add('shadow')" onmouseout="this.classList.remove('shadow')" onclick="window.location.href='admin.php?route=tables&action=show&id=<?= $table['id'] ?>'">
                     <div class="card-body p-4">
                         <i class="fa-solid <?= $icon ?> fs-1 <?= $textClass ?> mb-3"></i>
                         <h5 class="fw-bold text-dark mb-1">Bàn <?= $table['table_number'] ?></h5>

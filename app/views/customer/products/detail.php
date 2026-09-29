@@ -25,7 +25,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb vaa-breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="index.php">HOME</a></li>
-                <li class="breadcrumb-item"><a href="products.php">MENU</a></li>
+                <li class="breadcrumb-item"><a href="index.php?route=products">MENU</a></li>
                 <li class="breadcrumb-item active" aria-current="page"><?= mb_strtoupper($product['name']) ?></li>
             </ol>
         </nav>
@@ -288,7 +288,7 @@
                         </form>
                     <?php else: ?>
                         <p class="text-muted mb-4">Please login to write a review.</p>
-                        <a href="login.php" class="btn btn-caramel px-5 py-2">LOGIN</a>
+                        <a href="index.php?route=login" class="btn btn-caramel px-5 py-2">LOGIN</a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -305,7 +305,7 @@
             <?php foreach($relatedProducts as $item): ?>
             <div class="col-6 col-md-3">
                 <div class="card product-card h-100 text-center p-2 p-md-3">
-                    <a href="product_detail.php?id=<?= $item['id'] ?>" class="text-decoration-none">
+                    <a href="index.php?route=product_detail?id=<?= $item['id'] ?>" class="text-decoration-none">
                         <img src="<?= htmlspecialchars($item['image']) ?>" class="card-img-top mb-3" alt="<?= htmlspecialchars($item['name']) ?>">
                         <h5 class="product-card-title"><?= htmlspecialchars($item['name']) ?></h5>
                         <p class="text-caramel fw-bold mb-0"><?= number_format($item['price'], 0, ',', '.') ?>đ</p>
@@ -317,7 +317,7 @@
     </section>
 
     <!-- Footer -->
-    <?php include __DIR__ . '/../../layouts/footer.html'; ?>
+    <?php include __DIR__ . '/../../layouts/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Observer for fade-up animation -->
