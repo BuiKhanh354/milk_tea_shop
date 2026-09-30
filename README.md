@@ -27,7 +27,7 @@ Chào mừng bạn đến với **VAA THÉ**! Đây là một dự án website t
 
 ---
 
-## 🚀 Hướng Dẫn Cài Đặt (Dành cho người mới Pull Code)
+## 🚀 Hướng Dẫn Cài Đặt
 
 Để chạy dự án này trên máy của bạn (Localhost), hãy làm theo các bước sau:
 
@@ -106,5 +106,3 @@ milk_tea_shop/
 ├── vaa_the.sql           # File Database gốc (Import file này)
 └── README.md             # File hướng dẫn này
 ```
-
-Chúc bạn có những trải nghiệm tuyệt vời với VAA THÉ! Nếu gặp lỗi trong quá trình cài đặt, hãy kiểm tra lại file `app/config/database.php` nhé.
