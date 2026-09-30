@@ -28,6 +28,12 @@ class ProductController {
 
         $sizes = $productModel->getSizes();
         $toppings = $productModel->getToppings();
+        
+        require_once __DIR__ . '/../../models/ItemOption.php';
+        $optionModel = new ItemOption();
+        $sugarOptions = $optionModel->getSugarOptions();
+        $iceOptions = $optionModel->getIceOptions();
+
         $relatedProducts = $productModel->getRelatedProducts($product['category_id'] ?? 1, $id);
         $reviews = $productModel->getReviews($id);
 

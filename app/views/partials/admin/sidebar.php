@@ -18,19 +18,37 @@ $isStaff = isset($_SESSION['role']) && $_SESSION['role'] === 'staff';
                 <?php if ($isAdmin): ?>
                 <li class="nav-item">
                     <a href="admin.php?route=dashboard" class="nav-link <?= $currentRoute === 'dashboard' ? 'active' : '' ?>">
-                        <i class="fa-solid fa-chart-line nav-icon"></i> Tổng quan (Admin)
+                        <i class="fa-solid fa-chart-line nav-icon"></i> Tổng quan
                     </a>
                 </li>
                 <?php endif; ?>
                 <?php if ($isStaff): ?>
                 <li class="nav-item">
                     <a href="admin.php?route=staff_dashboard" class="nav-link <?= $currentRoute === 'staff_dashboard' ? 'active' : '' ?>">
-                        <i class="fa-solid fa-house nav-icon"></i> Tổng quan (Staff)
+                        <i class="fa-solid fa-house nav-icon"></i> Tổng quan
                     </a>
                 </li>
                 <?php endif; ?>
             </ul>
         </div>
+
+        <?php if ($isStaff): ?>
+        <div class="nav-section mb-4">
+            <span class="nav-section-title px-3">CÁ NHÂN</span>
+            <ul class="nav flex-column mt-2">
+                <li class="nav-item">
+                    <a href="admin.php?route=my-shifts" class="nav-link <?= $currentRoute === 'my-shifts' ? 'active' : '' ?>">
+                        <i class="fa-solid fa-calendar-check nav-icon"></i> Lịch làm việc
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="admin.php?route=account" class="nav-link <?= $currentRoute === 'account' ? 'active' : '' ?>">
+                        <i class="fa-solid fa-user-shield nav-icon"></i> Tài khoản
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <?php endif; ?>
 
         <div class="nav-section mb-4">
             <span class="nav-section-title px-3">BÁN HÀNG</span>
@@ -70,12 +88,12 @@ $isStaff = isset($_SESSION['role']) && $_SESSION['role'] === 'staff';
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link <?= $currentRoute === 'options' ? 'active' : '' ?>">
+                    <a href="admin.php?route=options" class="nav-link <?= $currentRoute === 'options' ? 'active' : '' ?>">
                         <i class="fa-solid fa-sliders nav-icon"></i> Item Options
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link <?= $currentRoute === 'toppings' ? 'active' : '' ?>">
+                    <a href="admin.php?route=toppings" class="nav-link <?= $currentRoute === 'toppings' || $currentRoute === 'sizes' ? 'active' : '' ?>">
                         <i class="fa-solid fa-cube nav-icon"></i> Topping/Size
                     </a>
                 </li>
@@ -152,7 +170,7 @@ $isStaff = isset($_SESSION['role']) && $_SESSION['role'] === 'staff';
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link <?= $currentRoute === 'reports' ? 'active' : '' ?>">
+                    <a href="admin.php?route=reports" class="nav-link <?= $currentRoute === 'reports' ? 'active' : '' ?>">
                         <i class="fa-solid fa-chart-pie nav-icon"></i> Báo cáo
                     </a>
                 </li>
@@ -168,12 +186,12 @@ $isStaff = isset($_SESSION['role']) && $_SESSION['role'] === 'staff';
             <span class="nav-section-title px-3">HỆ THỐNG</span>
             <ul class="nav flex-column mt-2">
                 <li class="nav-item">
-                    <a href="#" class="nav-link <?= $currentRoute === 'settings' ? 'active' : '' ?>">
+                    <a href="admin.php?route=settings" class="nav-link <?= $currentRoute === 'settings' ? 'active' : '' ?>">
                         <i class="fa-solid fa-gear nav-icon"></i> Cài đặt
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link <?= $currentRoute === 'account' ? 'active' : '' ?>">
+                    <a href="admin.php?route=account" class="nav-link <?= $currentRoute === 'account' ? 'active' : '' ?>">
                         <i class="fa-solid fa-user-shield nav-icon"></i> Tài khoản
                     </a>
                 </li>
@@ -205,14 +223,24 @@ $isStaff = isset($_SESSION['role']) && $_SESSION['role'] === 'staff';
                 <span class="nav-section-title px-3">TỔNG QUAN</span>
                 <ul class="nav flex-column mt-2">
                     <?php if ($isAdmin): ?>
-                    <li class="nav-item"><a href="admin.php?route=dashboard" class="nav-link"><i class="fa-solid fa-chart-line nav-icon"></i> Tổng quan (Admin)</a></li>
+                    <li class="nav-item"><a href="admin.php?route=dashboard" class="nav-link"><i class="fa-solid fa-chart-line nav-icon"></i> Tổng quan</a></li>
                     <?php endif; ?>
                     <?php if ($isStaff): ?>
-                    <li class="nav-item"><a href="admin.php?route=staff_dashboard" class="nav-link"><i class="fa-solid fa-house nav-icon"></i> Tổng quan (Staff)</a></li>
+                    <li class="nav-item"><a href="admin.php?route=staff_dashboard" class="nav-link"><i class="fa-solid fa-house nav-icon"></i> Tổng quan</a></li>
                     <?php endif; ?>
                 </ul>
             </div>
             
+            <?php if ($isStaff): ?>
+            <div class="nav-section mb-4">
+                <span class="nav-section-title px-3">CÁ NHÂN</span>
+                <ul class="nav flex-column mt-2">
+                    <li class="nav-item"><a href="admin.php?route=my-shifts" class="nav-link"><i class="fa-solid fa-calendar-check nav-icon"></i> Lịch làm việc</a></li>
+                    <li class="nav-item"><a href="admin.php?route=account" class="nav-link"><i class="fa-solid fa-user-shield nav-icon"></i> Tài khoản</a></li>
+                </ul>
+            </div>
+            <?php endif; ?>
+
             <div class="nav-section mb-4">
                 <span class="nav-section-title px-3">BÁN HÀNG</span>
                 <ul class="nav flex-column mt-2">
@@ -230,8 +258,8 @@ $isStaff = isset($_SESSION['role']) && $_SESSION['role'] === 'staff';
                 <ul class="nav flex-column mt-2">
                     <li class="nav-item"><a href="admin.php?route=products" class="nav-link"><i class="fa-solid fa-cup-togo nav-icon"></i> Sản phẩm</a></li>
                     <li class="nav-item"><a href="admin.php?route=categories" class="nav-link"><i class="fa-regular fa-folder nav-icon"></i> Danh mục</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-sliders nav-icon"></i> Item Options</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-cube nav-icon"></i> Topping/Size</a></li>
+                    <li class="nav-item"><a href="admin.php?route=options" class="nav-link"><i class="fa-solid fa-sliders nav-icon"></i> Item Options</a></li>
+                    <li class="nav-item"><a href="admin.php?route=toppings" class="nav-link"><i class="fa-solid fa-cube nav-icon"></i> Topping/Size</a></li>
                 </ul>
             </div>
             <?php endif; ?>
@@ -264,7 +292,7 @@ $isStaff = isset($_SESSION['role']) && $_SESSION['role'] === 'staff';
                 <ul class="nav flex-column mt-2">
                     <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-tags nav-icon"></i> Khuyến mãi</a></li>
                     <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-credit-card nav-icon"></i> Thanh toán</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-chart-pie nav-icon"></i> Báo cáo</a></li>
+                    <li class="nav-item"><a href="admin.php?route=reports" class="nav-link"><i class="fa-solid fa-chart-pie nav-icon"></i> Báo cáo</a></li>
                     <li class="nav-item"><a href="admin.php?route=inventory_report" class="nav-link"><i class="fa-solid fa-boxes-stacked nav-icon"></i> Báo cáo tồn kho</a></li>
                 </ul>
             </div>
@@ -272,8 +300,8 @@ $isStaff = isset($_SESSION['role']) && $_SESSION['role'] === 'staff';
             <div class="nav-section mb-4">
                 <span class="nav-section-title px-3">HỆ THỐNG</span>
                 <ul class="nav flex-column mt-2">
-                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-gear nav-icon"></i> Cài đặt</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-user-shield nav-icon"></i> Tài khoản</a></li>
+                    <li class="nav-item"><a href="admin.php?route=settings" class="nav-link"><i class="fa-solid fa-gear nav-icon"></i> Cài đặt</a></li>
+                    <li class="nav-item"><a href="admin.php?route=account" class="nav-link"><i class="fa-solid fa-user-shield nav-icon"></i> Tài khoản</a></li>
                 </ul>
             </div>
             <?php endif; ?>

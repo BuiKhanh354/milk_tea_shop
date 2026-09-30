@@ -49,13 +49,24 @@
                         Đăng xuất
                 </a>
                 <!-- Cart -->
-                <a href="#"
+                <?php
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $cart_count = 0;
+                if(isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
+                    foreach($_SESSION['cart'] as $item) {
+                        $cart_count += $item['quantity'];
+                    }
+                }
+                ?>
+                <a href="index.php?route=cart"
                     class="text-forest text-decoration-none fs-5 position-relative transition-fast hover-caramel">
                     <i class="fa-solid fa-bag-shopping"></i>
-                    <span
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-caramel border border-light"
+                    <span id="cart-badge"
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-caramel text-dark border border-light"
                         style="font-size: 0.6rem; transform: translate(-30%, -30%) !important;">
-                        2
+                        <?= $cart_count ?>
                         <span class="visually-hidden">sản phẩm trong giỏ</span>
                     </span>
                 </a>

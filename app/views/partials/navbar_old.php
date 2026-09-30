@@ -84,12 +84,20 @@ $admin_name = $is_admin ? $_SESSION['full_name'] : '';
                 <?php endif; ?>
 
                 <!-- Cart -->
+                <?php
+                $cart_count = 0;
+                if(isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
+                    foreach($_SESSION['cart'] as $item) {
+                        $cart_count += $item['quantity'];
+                    }
+                }
+                ?>
                 <a href="index.php?route=cart" class="text-forest text-decoration-none fs-5 position-relative transition-fast hover-caramel">
                     <i class="fa-solid fa-bag-shopping"></i>
-                    <!-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-caramel border border-light" style="font-size: 0.6rem; transform: translate(-30%, -30%) !important;">
-                        2
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-caramel text-dark" id="cart-badge" style="font-size: 0.6rem; transform: translate(-30%, -30%) !important;">
+                        <?= $cart_count ?>
                         <span class="visually-hidden">sản phẩm trong giỏ</span>
-                    </span> -->
+                    </span>
                 </a>
             </div>
         </div>

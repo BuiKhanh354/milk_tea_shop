@@ -53,7 +53,13 @@ switch($route) {
 
     case 'cart':
         require_once '../app/controllers/Customer/CartController.php';
-        (new CartController())->index();
+        $controller = new CartController();
+        if (isset($_GET['action']) && method_exists($controller, $_GET['action'])) {
+            $action = $_GET['action'];
+            $controller->$action();
+        } else {
+            $controller->index();
+        }
         break;
 
     case 'orders':

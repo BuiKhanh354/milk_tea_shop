@@ -67,31 +67,49 @@
             <div class="row g-5 fade-up visible">
                 <!-- Cart Items -->
                 <div class="col-lg-8">
-                    <div class="bg-white p-4 p-md-5 border" style="border-color: rgba(0,0,0,0.05)!important;">
+                    <div class="bg-white p-4 p-md-5 border" style="border-color: rgba(0,0,0,0.05)!important;" id="cart-container">
                         <?php if(empty($cart_items)): ?>
                             <div class="text-center py-5">
                                 <p class="text-muted">Giỏ hàng của bạn đang trống.</p>
                                 <a href="index.php?route=products" class="btn btn-caramel mt-3">TIẾP TỤC MUA SẮM</a>
                             </div>
                         <?php else: ?>
-                            <?php foreach($cart_items as $item): ?>
-                            <div class="cart-item d-flex align-items-center flex-wrap gap-4">
-                                <img src="<?= $item['image'] ?>" alt="<?= $item['name'] ?>" width="100" height="100" class="object-fit-cover rounded">
+                            <?php foreach($cart_items as $cart_id => $item): ?>
+                            <div class="cart-item d-flex align-items-start flex-wrap gap-4" id="cart-item-<?= $cart_id ?>">
+                                <img src="<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>" width="100" height="100" class="object-fit-cover rounded">
                                 <div class="flex-grow-1">
-                                    <h5 class="font-serif fw-bold mb-1"><?= $item['name'] ?></h5>
-                                    <p class="text-caramel fw-medium mb-3"><?= number_format($item['price'], 0, ',', '.') ?>đ</p>
+                                    <h5 class="font-serif fw-bold mb-1"><?= htmlspecialchars($item['name']) ?></h5>
+                                    
+                                    <div class="mb-2 small text-muted">
+                                        <?php if (!empty($item['size'])): ?>
+                                            <span class="badge bg-light text-dark border me-1">Size <?= htmlspecialchars($item['size']) ?></span>
+                                        <?php endif; ?>
+                                        <?php if ($item['sugar'] !== ''): ?>
+                                            <span class="badge bg-light text-dark border me-1">Đường <?= htmlspecialchars($item['sugar']) ?>%</span>
+                                        <?php endif; ?>
+                                        <?php if ($item['ice'] !== ''): ?>
+                                            <span class="badge bg-light text-dark border me-1">Đá <?= htmlspecialchars($item['ice']) ?>%</span>
+                                        <?php endif; ?>
+                                        <?php if (!empty($item['toppings'])): ?>
+                                            <?php foreach ($item['toppings'] as $t): ?>
+                                                <span class="badge bg-light text-dark border me-1">+ <?= htmlspecialchars($t['name']) ?></span>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <p class="text-caramel fw-medium mb-3"><?= number_format($item['total_price'], 0, ',', '.') ?>đ</p>
                                     
                                     <div class="d-flex align-items-center">
                                         <div class="d-flex align-items-center border border-sage rounded overflow-hidden">
-                                            <button class="btn qty-btn border-0"><i class="fa-solid fa-minus fs-6"></i></button>
-                                            <input type="text" class="qty-input" value="<?= $item['quantity'] ?>" readonly>
-                                            <button class="btn qty-btn border-0"><i class="fa-solid fa-plus fs-6"></i></button>
+                                            <button class="btn qty-btn border-0" onclick="updateCartItem('<?= $cart_id ?>', -1)"><i class="fa-solid fa-minus fs-6"></i></button>
+                                            <input type="text" class="qty-input" value="<?= $item['quantity'] ?>" readonly id="qty-<?= $cart_id ?>">
+                                            <button class="btn qty-btn border-0" onclick="updateCartItem('<?= $cart_id ?>', 1)"><i class="fa-solid fa-plus fs-6"></i></button>
                                         </div>
-                                        <button class="btn btn-link text-danger text-decoration-none ms-4 small"><i class="fa-regular fa-trash-can me-1"></i> Xóa</button>
+                                        <button class="btn btn-link text-danger text-decoration-none ms-4 small" onclick="removeCartItem('<?= $cart_id ?>')"><i class="fa-regular fa-trash-can me-1"></i> Xóa</button>
                                     </div>
                                 </div>
                                 <div class="text-end fw-bold text-dark fs-5">
-                                    <?= number_format($item['price'] * $item['quantity'], 0, ',', '.') ?>đ
+                                    <?= number_format($item['total_price'] * $item['quantity'], 0, ',', '.') ?>đ
                                 </div>
                             </div>
                             <?php endforeach; ?>
@@ -132,5 +150,45 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/main.js"></script>
+    <script>
+    function updateCartItem(cartId, change) {
+        let input = document.getElementById('qty-' + cartId);
+        let qty = parseInt(input.value) + change;
+        if (qty < 1) qty = 1;
+
+        let formData = new FormData();
+        formData.append('cart_id', cartId);
+        formData.append('quantity', qty);
+
+        fetch('index.php?route=cart&action=update', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                location.reload();
+            }
+        });
+    }
+
+    function removeCartItem(cartId) {
+        if(!confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) return;
+        
+        let formData = new FormData();
+        formData.append('cart_id', cartId);
+
+        fetch('index.php?route=cart&action=remove', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                location.reload();
+            }
+        });
+    }
+    </script>
 </body>
 </html>

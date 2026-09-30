@@ -37,7 +37,7 @@
             <!-- Left: Product Image -->
             <div class="col-lg-6">
                 <div class="product-image-container sticky-top" style="top: 100px;">
-                    <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="img-fluid">
+                    <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="img-fluid" id="product-img-main">
                 </div>
             </div>
             
@@ -93,11 +93,15 @@
                     <div class="mb-4">
                         <span class="option-label">SUGAR LEVEL</span>
                         <div class="vaa-radio-group">
-                            <div class="vaa-radio-btn"><input type="radio" name="sugar" id="sugar-0" value="0"><label for="sugar-0">0%</label></div>
-                            <div class="vaa-radio-btn"><input type="radio" name="sugar" id="sugar-25" value="25"><label for="sugar-25">25%</label></div>
-                            <div class="vaa-radio-btn"><input type="radio" name="sugar" id="sugar-50" value="50" checked><label for="sugar-50">50%</label></div>
-                            <div class="vaa-radio-btn"><input type="radio" name="sugar" id="sugar-75" value="75"><label for="sugar-75">75%</label></div>
-                            <div class="vaa-radio-btn"><input type="radio" name="sugar" id="sugar-100" value="100"><label for="sugar-100">100%</label></div>
+                            <?php foreach ($sugarOptions as $s): ?>
+                            <div class="vaa-radio-btn">
+                                <input type="radio" name="sugar" id="sugar-<?= $s['value'] ?>" value="<?= $s['value'] ?>" <?= $s['is_default'] ? 'checked' : '' ?>>
+                                <label for="sugar-<?= $s['value'] ?>"><?= $s['value'] ?>%</label>
+                            </div>
+                            <?php endforeach; ?>
+                            <?php if (empty($sugarOptions)): ?>
+                                <p class="text-muted small mb-0">Không có tùy chọn</p>
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -105,11 +109,15 @@
                     <div class="mb-4">
                         <span class="option-label">ICE LEVEL</span>
                         <div class="vaa-radio-group">
-                            <div class="vaa-radio-btn"><input type="radio" name="ice" id="ice-0" value="0"><label for="ice-0">0%</label></div>
-                            <div class="vaa-radio-btn"><input type="radio" name="ice" id="ice-25" value="25"><label for="ice-25">25%</label></div>
-                            <div class="vaa-radio-btn"><input type="radio" name="ice" id="ice-50" value="50" checked><label for="ice-50">50%</label></div>
-                            <div class="vaa-radio-btn"><input type="radio" name="ice" id="ice-75" value="75"><label for="ice-75">75%</label></div>
-                            <div class="vaa-radio-btn"><input type="radio" name="ice" id="ice-100" value="100"><label for="ice-100">100%</label></div>
+                            <?php foreach ($iceOptions as $i): ?>
+                            <div class="vaa-radio-btn">
+                                <input type="radio" name="ice" id="ice-<?= $i['value'] ?>" value="<?= $i['value'] ?>" <?= $i['is_default'] ? 'checked' : '' ?>>
+                                <label for="ice-<?= $i['value'] ?>"><?= $i['value'] ?>%</label>
+                            </div>
+                            <?php endforeach; ?>
+                            <?php if (empty($iceOptions)): ?>
+                                <p class="text-muted small mb-0">Không có tùy chọn</p>
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -201,26 +209,26 @@
     <!-- Product Story Section -->
     <section class="story-section fade-up visible">
         <div class="container text-center">
-            <span class="small-label d-block mb-3">PRODUCT INFORMATION</span>
+            <span class="small-label d-block mb-3">THÔNG TIN SẢN PHẨM</span>
             <h2 class="story-heading">The Story Behind The Tea</h2>
             <div class="row justify-content-center mt-5">
                 <div class="col-md-8 text-start">
                     <p class="fs-5 text-dark mb-4 text-center" style="font-style: italic; font-family: var(--font-serif);">"<?= htmlspecialchars($product['story']) ?>"</p>
                     
                     <div class="bg-white p-4 p-md-5 border border-sage border-opacity-25 mt-5">
-                        <h4 class="font-serif fw-bold text-forest mb-4 border-bottom pb-2">Information</h4>
+                        <h4 class="font-serif fw-bold text-forest mb-4 border-bottom pb-2">Thông tin</h4>
                         <div class="row g-3">
-                            <div class="col-sm-4 fw-bold text-dark">Category</div>
+                            <div class="col-sm-4 fw-bold text-dark">Danh mục</div>
                             <div class="col-sm-8 text-muted"><?= htmlspecialchars($product['category_name']) ?></div>
                             
-                            <div class="col-sm-4 fw-bold text-dark">Ingredients</div>
+                            <div class="col-sm-4 fw-bold text-dark">Thành phần</div>
                             <div class="col-sm-8 text-muted"><?= htmlspecialchars($product['ingredients']) ?></div>
                             
-                            <div class="col-sm-4 fw-bold text-dark">Available sizes</div>
-                            <div class="col-sm-8 text-muted">M, L, XL</div>
+                            <div class="col-sm-4 fw-bold text-dark">Các sizes khả dụng</div>
+                            <div class="col-sm-8 text-muted"><?= htmlspecialchars(implode(', ', array_column($sizes, 'name'))) ?></div>
                             
-                            <div class="col-sm-4 fw-bold text-dark">Allergens</div>
-                            <div class="col-sm-8 text-muted">Contains Milk, Traces of Nuts</div>
+                            <div class="col-sm-4 fw-bold text-dark">Chất gây dị ứng</div>
+                             <div class="col-sm-8 text-muted">Contains Milk, Traces of Nuts</div>
                         </div>
                     </div>
                 </div>

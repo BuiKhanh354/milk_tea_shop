@@ -55,16 +55,60 @@ class Product {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getSizes() {
-        $sql = "SELECT * FROM sizes WHERE status = 1 ORDER BY extra_price ASC";
+    public function getSizes($includeHidden = false) {
+        $statusCondition = $includeHidden ? "" : "WHERE status = 1";
+        $sql = "SELECT * FROM sizes $statusCondition ORDER BY extra_price ASC";
         $result = $this->conn->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getToppings() {
-        $sql = "SELECT * FROM toppings WHERE status = 1";
+    public function createSize($data) {
+        $sql = "INSERT INTO sizes (name, extra_price, status) VALUES (?, ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("sii", $data['name'], $data['extra_price'], $data['status']);
+        return $stmt->execute();
+    }
+
+    public function updateSize($id, $data) {
+        $sql = "UPDATE sizes SET name=?, extra_price=?, status=? WHERE id=?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("siii", $data['name'], $data['extra_price'], $data['status'], $id);
+        return $stmt->execute();
+    }
+
+    public function deleteSize($id) {
+        $sql = "DELETE FROM sizes WHERE id=?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
+    }
+
+    public function getToppings($includeHidden = false) {
+        $statusCondition = $includeHidden ? "" : "WHERE status = 1";
+        $sql = "SELECT * FROM toppings $statusCondition";
         $result = $this->conn->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function createTopping($data) {
+        $sql = "INSERT INTO toppings (name, price, status) VALUES (?, ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("sii", $data['name'], $data['price'], $data['status']);
+        return $stmt->execute();
+    }
+
+    public function updateTopping($id, $data) {
+        $sql = "UPDATE toppings SET name=?, price=?, status=? WHERE id=?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("siii", $data['name'], $data['price'], $data['status'], $id);
+        return $stmt->execute();
+    }
+
+    public function deleteTopping($id) {
+        $sql = "DELETE FROM toppings WHERE id=?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
     }
 
     public function getRelatedProducts($categoryId, $excludeId) {
