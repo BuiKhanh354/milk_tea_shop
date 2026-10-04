@@ -46,8 +46,12 @@
                                 <option value="reserved" <?= $table['status'] == 'reserved' ? 'selected' : '' ?>>Đã đặt trước (Reserved)</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 py-2 rounded-3 shadow-none">Lưu thay đổi</button>
+                        <button type="submit" class="btn btn-primary w-100 py-2 rounded-3 shadow-none mb-3">Lưu thay đổi</button>
                     </form>
+                    
+                    <a href="admin.php?route=orders&action=create&table_id=<?= $table['id'] ?>" class="btn btn-success w-100 py-2 rounded-3 shadow-none">
+                        <i class="fa-solid fa-plus me-1"></i> Tạo đơn cho bàn này
+                    </a>
                 </div>
             </div>
         </div>

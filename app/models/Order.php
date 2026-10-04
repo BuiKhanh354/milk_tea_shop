@@ -9,6 +9,70 @@ class Order {
         $this->conn = $conn;
     }
 
+            public function getPaginated($page = 1, $limit = 10, $filters = []) {
+        $offset = ($page - 1) * $limit;
+        
+        $conditions = [];
+        $params = [];
+        $types = "";
+        
+        if (!empty($filters['search'])) {
+            $conditions[] = "(o.id LIKE ? OR c.full_name LIKE ? OR u.full_name LIKE ?)";
+            $searchTerm = "%" . ltrim($filters['search'], '#ORD0') . "%"; 
+            $params[] = $searchTerm;
+            $params[] = "%" . $filters['search'] . "%";
+            $params[] = "%" . $filters['search'] . "%";
+            $types .= "sss";
+        }
+        
+        if (!empty($filters['status'])) {
+            $conditions[] = "o.status = ?";
+            $params[] = $filters['status'];
+            $types .= "s";
+        }
+        
+        $whereClause = !empty($conditions) ? "WHERE " . implode(" AND ", $conditions) : "";
+        
+        $countSql = "SELECT COUNT(*) as total FROM orders o 
+                     LEFT JOIN customers c ON o.customer_id = c.id
+                     LEFT JOIN users u ON o.user_id = u.id 
+                     $whereClause";
+                     
+        if (!empty($params)) {
+            $cStmt = $this->conn->prepare($countSql);
+            $cStmt->bind_param($types, ...$params);
+            $cStmt->execute();
+            $total = $cStmt->get_result()->fetch_assoc()['total'] ?? 0;
+        } else {
+            $total = $this->conn->query($countSql)->fetch_assoc()['total'] ?? 0;
+        }
+        
+        $sql = "SELECT o.*, 
+                       COALESCE(c.full_name, u.full_name, 'Khách vãng lai') as customer_name,
+                       COALESCE(p.method, 'Tiền mặt') as payment_method
+                FROM orders o 
+                LEFT JOIN customers c ON o.customer_id = c.id
+                LEFT JOIN users u ON o.user_id = u.id
+                LEFT JOIN payments p ON o.id = p.order_id
+                $whereClause
+                ORDER BY o.created_at DESC
+                LIMIT ? OFFSET ?";
+                
+        $stmt = $this->conn->prepare($sql);
+        $allParams = array_merge($params, [$limit, $offset]);
+        $allTypes = $types . "ii";
+        $stmt->bind_param($allTypes, ...$allParams);
+        $stmt->execute();
+        $orders = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        
+        return [
+            'data' => $orders,
+            'total' => $total,
+            'total_pages' => ceil($total / $limit),
+            'current_page' => $page
+        ];
+    }
+
     public function getAll() {
         $sql = "SELECT o.*, 
                        COALESCE(c.full_name, u.full_name, 'Khách vãng lai') as customer_name,
@@ -64,6 +128,62 @@ class Order {
         }
 
         return $stats;
+    }
+
+    public function getCustomerOrders($customerId) {
+        $sql = "SELECT o.id, o.created_at as date, o.final_amount as total, o.status 
+                FROM orders o 
+                WHERE o.customer_id = ? 
+                ORDER BY o.created_at DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $customerId);
+        $stmt->execute();
+        $orders = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        // Fetch items for each order to build the summary string
+        $sqlDetails = "SELECT od.order_id, p.name, od.quantity 
+                       FROM order_details od
+                       JOIN products p ON od.product_id = p.id
+                       WHERE od.order_id = ?";
+        $stmtDetails = $this->conn->prepare($sqlDetails);
+        
+        // bind_param requires variable by reference
+        $currentOrderId = 0;
+        $stmtDetails->bind_param("i", $currentOrderId);
+
+        foreach ($orders as &$order) {
+            $currentOrderId = $order['id'];
+            $stmtDetails->execute();
+            $items = $stmtDetails->get_result()->fetch_all(MYSQLI_ASSOC);
+            
+            $itemStrings = [];
+            foreach ($items as $item) {
+                $itemStrings[] = $item['name'] . ' (x' . $item['quantity'] . ')';
+            }
+            $order['items'] = implode(', ', $itemStrings);
+            // Format ID
+            $order['raw_id'] = $order['id'];
+            $order['id'] = 'VT' . str_pad($order['id'], 3, '0', STR_PAD_LEFT);
+            // Format Date
+            $order['date'] = date('d/m/Y', strtotime($order['date']));
+            // Format Total
+            $order['total'] = number_format($order['total'], 0, ',', '.') . 'đ';
+            
+            // Map statuses if necessary
+            $statusMap = [
+                'pending' => 'Chờ xác nhận',
+                'Pending' => 'Chờ xác nhận',
+                'processing' => 'Đang chuẩn bị',
+                'Processing' => 'Đang chuẩn bị',
+                'completed' => 'Hoàn thành',
+                'Completed' => 'Hoàn thành',
+                'cancelled' => 'Đã huỷ',
+                'Cancelled' => 'Đã huỷ'
+            ];
+            $order['status'] = $statusMap[$order['status']] ?? $order['status'];
+        }
+
+        return $orders;
     }
 
     public function findByIdWithDetails($id) {
@@ -129,15 +249,13 @@ class Order {
         $this->conn->begin_transaction();
         try {
             // Insert order
-            $sql = "INSERT INTO orders (user_id, status, total_amount, final_amount, order_type) VALUES (?, 'Pending', ?, ?, ?)";
+            $sql = "INSERT INTO orders (user_id, status, total_amount, final_amount, order_type, table_id) VALUES (?, 'Pending', ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($sql);
-            $stmt->bind_param("idds", $userId, $totalAmount, $totalAmount, $orderType);
+            $tId = ($tableId > 0) ? (int)$tableId : null;
+            $stmt->bind_param("iddsi", $userId, $totalAmount, $totalAmount, $orderType, $tId);
             $stmt->execute();
             $orderId = $stmt->insert_id;
 
-            // If Dine-in, we might want to update table status, but the current schema for orders doesn't link to tables directly
-            // Actually, we can just save it. Wait, does orders table have a table_id? 
-            // We'll leave table_id aside or save it in a notes/shipping address if needed.
             // Let's check if there is a payment table
             $sqlPay = "INSERT INTO payments (order_id, method, amount, status) VALUES (?, ?, ?, 'pending')";
             $stmtPay = $this->conn->prepare($sqlPay);
@@ -155,6 +273,62 @@ class Order {
                 $sizeId = !empty($item['size_id']) ? (int)$item['size_id'] : null;
                 $quantity = (int)$item['quantity'];
                 $price = (float)$item['price'];
+                $subtotal = $price * $quantity;
+                
+                $stmtDetail->bind_param("iiiidd", $orderId, $item['product_id'], $sizeId, $quantity, $price, $subtotal);
+                $stmtDetail->execute();
+                
+                $orderDetailId = $stmtDetail->insert_id;
+                
+                if (!empty($item['toppings']) && is_array($item['toppings'])) {
+                    foreach ($item['toppings'] as $topping) {
+                        $tId = (int)$topping['id'];
+                        $tPrice = (float)$topping['price'];
+                        $stmtTopping->bind_param("iid", $orderDetailId, $tId, $tPrice);
+                        $stmtTopping->execute();
+                    }
+                }
+            }
+
+            $this->conn->commit();
+            return $orderId;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            return false;
+        }
+    }
+
+    public function createCustomerOrder($customerId, $totalAmount, $paymentMethod, $items, $note = '') {
+        $this->conn->begin_transaction();
+        try {
+            $orderType = 'delivery'; // Customer orders from web are usually delivery
+            $sql = "INSERT INTO orders (customer_id, status, total_amount, final_amount, order_type, note) VALUES (?, 'Pending', ?, ?, ?, ?)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("iddss", $customerId, $totalAmount, $totalAmount, $orderType, $note);
+            $stmt->execute();
+            $orderId = $stmt->insert_id;
+
+            $sqlPay = "INSERT INTO payments (order_id, method, amount, status) VALUES (?, ?, ?, 'pending')";
+            $stmtPay = $this->conn->prepare($sqlPay);
+            $stmtPay->bind_param("isd", $orderId, $paymentMethod, $totalAmount);
+            $stmtPay->execute();
+
+            $sqlDetail = "INSERT INTO order_details (order_id, product_id, size_id, quantity, unit_price, subtotal) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmtDetail = $this->conn->prepare($sqlDetail);
+            
+            $sqlTopping = "INSERT INTO order_detail_toppings (order_detail_id, topping_id, quantity, price) VALUES (?, ?, 1, ?)";
+            $stmtTopping = $this->conn->prepare($sqlTopping);
+
+            foreach ($items as $item) {
+                // Determine size_id from item['size']. If it's a number, use it. If not, we might need to find it or leave null.
+                // Assuming item['size'] might be ID or name. For web cart, it might just be the name or ID. Let's just cast to int if it's numeric, or null.
+                $sizeId = (is_numeric($item['size']) && $item['size'] > 0) ? (int)$item['size'] : null;
+                $quantity = (int)$item['quantity'];
+                
+                // calculate base unit price (without toppings)
+                // wait, $item['total_price'] is the total price for 1 item including toppings.
+                // So unit_price should be $item['total_price'] - toppings_price, or we can just use $item['total_price'] as unit price.
+                $price = (float)$item['total_price']; 
                 $subtotal = $price * $quantity;
                 
                 $stmtDetail->bind_param("iiiidd", $orderId, $item['product_id'], $sizeId, $quantity, $price, $subtotal);

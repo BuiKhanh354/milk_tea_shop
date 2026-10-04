@@ -62,9 +62,25 @@ switch($route) {
         }
         break;
 
+    case 'checkout':
+        require_once '../app/controllers/Customer/CheckoutController.php';
+        $controller = new CheckoutController();
+        if (isset($_GET['action']) && method_exists($controller, $_GET['action'])) {
+            $action = $_GET['action'];
+            $controller->$action();
+        } else {
+            $controller->index();
+        }
+        break;
+
     case 'orders':
         require_once '../app/controllers/Customer/OrderController.php';
-        (new OrderController())->index();
+        $controller = new OrderController();
+        if (isset($_GET['action']) && $_GET['action'] === 'detail') {
+            $controller->detail();
+        } else {
+            $controller->index();
+        }
         break;
 
     case 'profile':
@@ -78,8 +94,13 @@ switch($route) {
         break;
 
     case 'favorites':
-        require_once '../app/controllers/Customer/ProfileController.php';
-        (new ProfileController())->favorites();
+        require_once '../app/controllers/Customer/FavoriteController.php';
+        $controller = new FavoriteController();
+        if (isset($_GET['action']) && $_GET['action'] === 'toggle') {
+            $controller->toggle();
+        } else {
+            $controller->index();
+        }
         break;
 
     default:

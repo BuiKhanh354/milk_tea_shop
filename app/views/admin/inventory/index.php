@@ -67,37 +67,41 @@
 
 <!-- Search & Filter -->
 <div class="filter-section">
-    <div class="row g-3">
-        <div class="col-12 col-md-4">
-            <div class="input-group">
-                <span class="input-group-text bg-white border-end-0 text-muted"><i class="fa-solid fa-search"></i></span>
-                <input type="text" class="form-control border-start-0 shadow-none ps-0" placeholder="Tìm tên nguyên liệu...">
+    <form action="admin.php" method="GET">
+        <input type="hidden" name="route" value="inventory">
+        <div class="row g-3">
+            <div class="col-12 col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0 text-muted"><i class="fa-solid fa-search"></i></span>
+                    <input type="text" name="search" class="form-control border-start-0 shadow-none ps-0" placeholder="Tìm tên nguyên liệu..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <select name="unit" class="form-select shadow-none text-muted">
+                    <option value="">Tất cả đơn vị</option>
+                    <option value="kg" <?= (isset($_GET['unit']) && $_GET['unit'] === 'kg') ? 'selected' : '' ?>>kg</option>
+                    <option value="g" <?= (isset($_GET['unit']) && $_GET['unit'] === 'g') ? 'selected' : '' ?>>g</option>
+                    <option value="L" <?= (isset($_GET['unit']) && $_GET['unit'] === 'L') ? 'selected' : '' ?>>L</option>
+                    <option value="ml" <?= (isset($_GET['unit']) && $_GET['unit'] === 'ml') ? 'selected' : '' ?>>ml</option>
+                    <option value="cái" <?= (isset($_GET['unit']) && $_GET['unit'] === 'cái') ? 'selected' : '' ?>>cái</option>
+                </select>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <select name="status" class="form-select shadow-none text-muted">
+                    <option value="">Tất cả trạng thái</option>
+                    <option value="instock" <?= (isset($_GET['status']) && $_GET['status'] === 'instock') ? 'selected' : '' ?>>Còn hàng</option>
+                    <option value="low" <?= (isset($_GET['status']) && $_GET['status'] === 'low') ? 'selected' : '' ?>>Sắp hết</option>
+                    <option value="out" <?= (isset($_GET['status']) && $_GET['status'] === 'out') ? 'selected' : '' ?>>Hết hàng</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-2 d-flex gap-2">
+                <button type="submit" class="btn btn-forest w-100"><i class="fa-solid fa-filter me-1"></i> Lọc</button>
+                <a href="admin.php?route=inventory" class="btn btn-light border w-100"><i class="fa-solid fa-rotate-right"></i></a>
             </div>
         </div>
-        <div class="col-12 col-sm-6 col-md-3">
-            <select class="form-select shadow-none text-muted">
-                <option value="">Tất cả đơn vị</option>
-                <option value="kg">kg</option>
-                <option value="g">g</option>
-                <option value="L">L</option>
-                <option value="ml">ml</option>
-                <option value="cái">cái</option>
-            </select>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3">
-            <select class="form-select shadow-none text-muted">
-                <option value="">Tất cả trạng thái</option>
-                <option value="instock">Còn hàng</option>
-                <option value="low">Sắp hết</option>
-                <option value="out">Hết hàng</option>
-            </select>
-        </div>
-        <div class="col-12 col-md-2 d-flex gap-2">
-            <button class="btn btn-forest w-100"><i class="fa-solid fa-filter me-1"></i> Lọc</button>
-            <button class="btn btn-light border w-100"><i class="fa-solid fa-rotate-right"></i></button>
-        </div>
-    </div>
+    </form>
 </div>
+
 
 <!-- Action Buttons -->
 <div class="d-flex gap-2 mb-4">

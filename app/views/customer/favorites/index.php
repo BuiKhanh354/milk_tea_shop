@@ -43,7 +43,53 @@
                             <a href="index.php?route=products" class="btn btn-caramel mt-3">KHÁM PHÁ MENU</a>
                         </div>
                     <?php else: ?>
-                        <!-- Product grid will go here -->
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                            <?php foreach($favorites as $product): ?>
+                            <div class="col" id="favorite-<?= $product['id'] ?>">
+                                <div class="card h-100 border-0 rounded-4 shadow-sm product-card">
+                                    <div class="position-relative overflow-hidden rounded-top-4">
+                                        <img src="<?= htmlspecialchars($product['image']) ?>" class="card-img-top object-fit-cover" alt="<?= htmlspecialchars($product['name']) ?>" style="height: 200px;">
+                                        <button class="btn btn-favorite active position-absolute top-0 end-0 m-3" onclick="toggleFavorite(<?= $product['id'] ?>)" aria-label="Bỏ yêu thích">
+                                            <i class="fa-solid fa-heart fs-4 text-danger"></i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body p-4 text-center">
+                                        <span class="small-label mb-2 d-block text-caramel"><?= htmlspecialchars($product['category_name']) ?></span>
+                                        <h5 class="card-title font-serif fw-bold text-forest mb-3 text-truncate" title="<?= htmlspecialchars($product['name']) ?>"><?= htmlspecialchars($product['name']) ?></h5>
+                                        <div class="fw-bold fs-5 text-dark mb-4">
+                                            <?= number_format($product['price'], 0, ',', '.') ?>đ
+                                        </div>
+                                        <a href="index.php?route=products&action=detail&id=<?= $product['id'] ?>" class="btn btn-outline-forest w-100 rounded-pill py-2 fw-medium">CHI TIẾT</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <script>
+                            function toggleFavorite(productId) {
+                                fetch('index.php?route=favorites&action=toggle', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded',
+                                    },
+                                    body: 'product_id=' + productId
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success && !data.is_favorited) {
+                                        // Xóa khỏi UI
+                                        document.getElementById('favorite-' + productId).remove();
+                                        // Nếu danh sách trống thì reload trang
+                                        if (document.querySelectorAll('.col[id^="favorite-"]').length === 0) {
+                                            location.reload();
+                                        }
+                                    } else if (data.require_login) {
+                                        alert(data.message);
+                                        window.location.href = 'index.php?route=login';
+                                    }
+                                });
+                            }
+                        </script>
                     <?php endif; ?>
                     
                 </div>

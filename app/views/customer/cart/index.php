@@ -136,7 +136,7 @@
                             <span class="fw-bold text-caramel fs-3"><?= number_format($total, 0, ',', '.') ?>đ</span>
                         </div>
                         
-                        <button class="btn btn-caramel w-100 py-3 fw-bold tracking-wide">TIẾN HÀNH THANH TOÁN</button>
+                        <a href="index.php?route=checkout" class="btn btn-caramel w-100 py-3 fw-bold tracking-wide">TIẾN HÀNH THANH TOÁN</a>
                         <div class="text-center mt-3">
                             <a href="index.php?route=products" class="text-muted small text-decoration-none hover-caramel transition-fast"><i class="fa-solid fa-arrow-left me-1"></i> Tiếp tục mua sắm</a>
                         </div>

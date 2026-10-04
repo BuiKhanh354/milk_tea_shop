@@ -68,8 +68,8 @@
                     <div id="base-price" data-price="<?= $product['price'] ?>" class="product-price">
                         <?= number_format($product['price'], 0, ',', '.') ?>đ
                     </div>
-                    <button class="btn btn-favorite" id="btn-favorite" aria-label="Thêm vào yêu thích">
-                        <i class="fa-regular fa-heart fs-4"></i>
+                    <button type="button" class="btn btn-favorite <?= isset($isFavorited) && $isFavorited ? 'active' : '' ?>" id="btn-favorite" aria-label="Thêm vào yêu thích" onclick="toggleFavoriteDetail(<?= $product['id'] ?>)">
+                        <i class="<?= isset($isFavorited) && $isFavorited ? 'fa-solid text-danger' : 'fa-regular' ?> fa-heart fs-4"></i>
                     </button>
                 </div>
 
@@ -169,7 +169,7 @@
                                 <button type="button" class="btn btn-outline-forest w-100 py-3 fw-bold tracking-wide" id="btn-add-cart">THÊM VÀO GIỎ</button>
                             </div>
                             <div class="col-6">
-                                <button type="button" class="btn btn-buy-now w-100 py-3 fw-bold tracking-wide">MUA NGAY</button>
+                                <button type="button" class="btn btn-buy-now w-100 py-3 fw-bold tracking-wide" id="btn-buy-now">MUA NGAY</button>
                             </div>
                         </div>
                     </div>
@@ -189,7 +189,7 @@
                 <button type="button" class="btn btn-outline-forest w-100 py-2 fw-bold" onclick="document.getElementById('btn-add-cart').click()">THÊM VÀO GIỎ</button>
             </div>
             <div class="col-6">
-                <button type="button" class="btn btn-buy-now w-100 py-2 fw-bold">MUA NGAY</button>
+                <button type="button" class="btn btn-buy-now w-100 py-2 fw-bold" onclick="document.getElementById('btn-buy-now').click()">MUA NGAY</button>
             </div>
         </div>
     </div>
@@ -346,3 +346,36 @@
     </script>
 </body>
 </html>
+
+<script>
+    function toggleFavoriteDetail(productId) {
+        fetch('index.php?route=favorites&action=toggle', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'product_id=' + productId
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.require_login) {
+                alert(data.message);
+                window.location.href = 'index.php?route=login';
+                return;
+            }
+            if (data.success) {
+                const btn = document.getElementById('btn-favorite');
+                const icon = btn.querySelector('i');
+                if (data.is_favorited) {
+                    btn.classList.add('active');
+                    icon.classList.remove('fa-regular');
+                    icon.classList.add('fa-solid', 'text-danger');
+                } else {
+                    btn.classList.remove('active');
+                    icon.classList.remove('fa-solid', 'text-danger');
+                    icon.classList.add('fa-regular');
+                }
+            }
+        });
+    }
+</script>

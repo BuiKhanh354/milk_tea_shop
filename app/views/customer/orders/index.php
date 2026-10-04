@@ -93,7 +93,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-4 text-end">
-                                    <a href="#" class="btn btn-outline-forest btn-sm px-4 py-2">XEM CHI TIẾT</a>
+                                    <a href="index.php?route=orders&action=detail&id=<?= $order['raw_id'] ?>" class="btn btn-outline-forest btn-sm px-4 py-2">XEM CHI TIẾT</a>
                                 </div>
                             </div>
                             <?php endforeach; ?>

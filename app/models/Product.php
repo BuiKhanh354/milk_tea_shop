@@ -9,6 +9,16 @@ class Product {
         $this->conn = $conn;
     }
 
+    private function formatImageUrl($image) {
+        if (empty($image)) {
+            return 'https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&q=80&w=150';
+        }
+        if (strpos($image, 'http') === 0) {
+            return $image;
+        }
+        return 'assets/images/products/' . $image;
+    }
+
     public function findById($id) {
         // Fetch product and category
         $sql = "SELECT p.*, c.name as category_name 
@@ -41,7 +51,92 @@ class Product {
             $product['ingredients'] = 'Nguyên liệu tự nhiên, an toàn cho sức khỏe.';
         }
 
+        $product['image'] = $this->formatImageUrl($product['image'] ?? '');
         return $product;
+    }
+
+            public function getPaginated($page = 1, $limit = 8, $includeHidden = false, $filters = []) {
+        $offset = ($page - 1) * $limit;
+        
+        $conditions = [];
+        $params = [];
+        $types = "";
+        
+        if (!$includeHidden) {
+            $conditions[] = "p.status = 1";
+        } else if (isset($filters['status']) && $filters['status'] !== '') {
+            $conditions[] = "p.status = ?";
+            $params[] = (int)$filters['status'];
+            $types .= "i";
+        }
+        
+        if (!empty($filters['search'])) {
+            $conditions[] = "(p.name LIKE ? OR p.description LIKE ?)";
+            $searchTerm = "%" . $filters['search'] . "%";
+            $params[] = $searchTerm;
+            $params[] = $searchTerm;
+            $types .= "ss";
+        }
+        
+        if (!empty($filters['category_id']) && $filters['category_id'] !== 'all') {
+            $conditions[] = "p.category_id = ?";
+            $params[] = (int)$filters['category_id'];
+            $types .= "i";
+        }
+        
+        $whereClause = !empty($conditions) ? "WHERE " . implode(" AND ", $conditions) : "";
+        
+        $orderClause = "ORDER BY p.id DESC";
+        if (!empty($filters['sort'])) {
+            switch ($filters['sort']) {
+                case 'price_asc':
+                    $orderClause = "ORDER BY p.price ASC";
+                    break;
+                case 'price_desc':
+                    $orderClause = "ORDER BY p.price DESC";
+                    break;
+                case 'name_asc':
+                    $orderClause = "ORDER BY p.name ASC";
+                    break;
+            }
+        }
+        
+        // Get total count
+        $countSql = "SELECT COUNT(*) as total FROM products p $whereClause";
+        if (!empty($params)) {
+            $cStmt = $this->conn->prepare($countSql);
+            $cStmt->bind_param($types, ...$params);
+            $cStmt->execute();
+            $total = $cStmt->get_result()->fetch_assoc()['total'];
+        } else {
+            $total = $this->conn->query($countSql)->fetch_assoc()['total'];
+        }
+        
+        // Get paginated data
+        $sql = "SELECT p.*, c.name as category_name 
+                FROM products p 
+                LEFT JOIN categories c ON p.category_id = c.id 
+                $whereClause
+                $orderClause
+                LIMIT ? OFFSET ?";
+                
+        $stmt = $this->conn->prepare($sql);
+        $allParams = array_merge($params, [$limit, $offset]);
+        $allTypes = $types . "ii";
+        $stmt->bind_param($allTypes, ...$allParams);
+        $stmt->execute();
+        $products = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        
+        foreach ($products as &$p) {
+            $p['image'] = $this->formatImageUrl($p['image']);
+        }
+        
+        return [
+            'data' => $products,
+            'total' => $total,
+            'total_pages' => ceil($total / $limit),
+            'current_page' => $page
+        ];
     }
 
     public function getAll($includeHidden = false) {
@@ -52,7 +147,11 @@ class Product {
                 $statusCondition
                 ORDER BY p.id DESC";
         $result = $this->conn->query($sql);
-        return $result->fetch_all(MYSQLI_ASSOC);
+        $products = $result->fetch_all(MYSQLI_ASSOC);
+        foreach ($products as &$p) {
+            $p['image'] = $this->formatImageUrl($p['image']);
+        }
+        return $products;
     }
 
     public function getSizes($includeHidden = false) {
@@ -117,7 +216,11 @@ class Product {
         $stmt->bind_param("ii", $categoryId, $excludeId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        $products = $result->fetch_all(MYSQLI_ASSOC);
+        foreach ($products as &$p) {
+            $p['image'] = $this->formatImageUrl($p['image']);
+        }
+        return $products;
     }
 
     public function getReviews($id) {
@@ -130,7 +233,11 @@ class Product {
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        $products = $result->fetch_all(MYSQLI_ASSOC);
+        foreach ($products as &$p) {
+            $p['image'] = $this->formatImageUrl($p['image']);
+        }
+        return $products;
     }
 
     public function create($data) {

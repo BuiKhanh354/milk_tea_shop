@@ -76,7 +76,11 @@
                                     <td class="ps-4 fw-bold fs-5 text-dark"><?= htmlspecialchars($s['name']) ?></td>
                                     <td class="text-forest fw-bold">+<?= number_format($s['extra_price'], 0, ',', '.') ?> đ</td>
                                     <td>
-                                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">Hoạt động</span>
+                                        <?php if ($s['status'] == 1): ?>
+                                            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">Hoạt động</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3">Ẩn</span>
+                                        <?php endif; ?>
                                     </td>
                                     <td class="text-end pe-4">
                                         <button class="btn btn-sm btn-light border shadow-none" title="Sửa" data-bs-toggle="modal" data-bs-target="#sizeModal" onclick="openSizeModal('<?= $s['id'] ?>', '<?= htmlspecialchars($s['name'], ENT_QUOTES) ?>', '<?= $s['extra_price'] ?>', <?= $s['status'] ? 'true' : 'false' ?>)"><i class="fa-solid fa-pen text-muted"></i></button>

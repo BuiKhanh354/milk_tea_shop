@@ -9,11 +9,46 @@ class Inventory {
         $this->conn = $conn;
     }
 
-    public function getAll() {
-        $sql = "SELECT * FROM inventory ORDER BY ingredient_name ASC";
-        $result = $this->conn->query($sql);
-        if (!$result) return [];
-        return $result->fetch_all(MYSQLI_ASSOC);
+        public function getAll($filters = []) {
+        $conditions = [];
+        $params = [];
+        $types = "";
+        
+        if (!empty($filters['search'])) {
+            $conditions[] = "ingredient_name LIKE ?";
+            $params[] = "%" . $filters['search'] . "%";
+            $types .= "s";
+        }
+        
+        if (!empty($filters['unit'])) {
+            $conditions[] = "unit = ?";
+            $params[] = $filters['unit'];
+            $types .= "s";
+        }
+        
+        if (!empty($filters['status'])) {
+            if ($filters['status'] === 'instock') {
+                $conditions[] = "quantity > min_quantity";
+            } elseif ($filters['status'] === 'low') {
+                $conditions[] = "quantity <= min_quantity AND quantity > 0";
+            } elseif ($filters['status'] === 'out') {
+                $conditions[] = "quantity <= 0";
+            }
+        }
+        
+        $whereClause = !empty($conditions) ? "WHERE " . implode(" AND ", $conditions) : "";
+        $sql = "SELECT * FROM inventory $whereClause ORDER BY ingredient_name ASC";
+        
+        if (!empty($params)) {
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param($types, ...$params);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $result = $this->conn->query($sql);
+            if (!$result) return [];
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
     }
 
     public function getStats() {

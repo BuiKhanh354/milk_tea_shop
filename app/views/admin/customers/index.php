@@ -2,6 +2,29 @@
     <h4 class="font-serif fw-bold text-dark mb-0">Danh sách Khách hàng</h4>
 </div>
 
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+        <form action="admin.php" method="GET">
+            <input type="hidden" name="route" value="customers">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" name="search" class="form-control bg-light border-0" placeholder="Tìm tên, email, số điện thoại..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+                </div>
+                <div class="col-md-3">
+                    <select name="status" class="form-select bg-light border-0">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="1" <?= (isset($_GET['status']) && $_GET['status'] === '1') ? 'selected' : '' ?>>Hoạt động</option>
+                        <option value="0" <?= (isset($_GET['status']) && $_GET['status'] === '0') ? 'selected' : '' ?>>Đã khóa</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-outline-forest w-100"><i class="fa-solid fa-filter me-2"></i> Lọc</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="card border-0 shadow-sm rounded-4">
     <div class="card-body p-0">
         <div class="table-responsive">
@@ -59,5 +82,34 @@
                 </tbody>
             </table>
         </div>
+        
+                <!-- Pagination -->
+        <?php if (isset($totalPages) && $totalPages > 1): ?>
+        <?php 
+            $queryString = '';
+            if (isset($_GET['search'])) $queryString .= '&search=' . urlencode($_GET['search']);
+            if (isset($_GET['status'])) $queryString .= '&status=' . urlencode($_GET['status']);
+        ?>
+        <div class="card-footer bg-white border-top py-3 px-4 d-flex align-items-center justify-content-between">
+            <span class="text-muted small">Hiển thị trang <?= $currentPage ?> của <?= $totalPages ?></span>
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm mb-0">
+                    <li class="page-item <?= $currentPage <= 1 ? 'disabled' : '' ?>">
+                        <a class="page-link <?= $currentPage <= 1 ? '' : 'text-forest' ?>" href="<?= $currentPage > 1 ? 'admin.php?route=customers' . $queryString . '&page=' . ($currentPage - 1) : '#' ?>">Trước</a>
+                    </li>
+                    
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <li class="page-item <?= $i === $currentPage ? 'active' : '' ?>">
+                            <a class="page-link <?= $i === $currentPage ? 'bg-forest border-forest' : 'text-forest' ?>" href="admin.php?route=customers<?= $queryString ?>&page=<?= $i ?>"><?= $i ?></a>
+                        </li>
+                    <?php endfor; ?>
+                    
+                    <li class="page-item <?= $currentPage >= $totalPages ? 'disabled' : '' ?>">
+                        <a class="page-link <?= $currentPage >= $totalPages ? '' : 'text-forest' ?>" href="<?= $currentPage < $totalPages ? 'admin.php?route=customers' . $queryString . '&page=' . ($currentPage + 1) : '#' ?>">Sau</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <?php endif; ?>
     </div>
 </div>

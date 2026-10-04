@@ -7,7 +7,17 @@ class CustomerController {
         $pageTitle = 'Quản lý khách hàng';
         
         $customerModel = new Customer();
-        $customers = $customerModel->getAll();
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $limit = 10;
+        
+        $filters = [];
+        if (isset($_GET['search']) && $_GET['search'] !== '') $filters['search'] = $_GET['search'];
+        if (isset($_GET['status']) && $_GET['status'] !== '') $filters['status'] = $_GET['status'];
+        
+        $paginatedData = $customerModel->getPaginated($page, $limit, $filters);
+        $customers = $paginatedData['data'];
+        $totalPages = $paginatedData['total_pages'];
+        $currentPage = $paginatedData['current_page'];
 
         ob_start();
         require_once __DIR__ . '/../../views/admin/customers/index.php';

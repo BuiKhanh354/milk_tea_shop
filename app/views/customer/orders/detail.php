@@ -1,45 +1,32 @@
 <?php
-// Mock Data cho Order Detail
-$order_id = $order_id ?? 'VT001';
-$order = [
-    'id' => $order_id,
-    'date' => '15/09/2026 14:30',
-    'status' => 'Preparing', // Pending, Confirmed, Preparing, Ready, Completed
-    'payment_status' => 'Paid (VNPay)',
-    'subtotal' => '165.000đ',
-    'discount' => '-15.000đ',
-    'shipping' => '15.000đ',
-    'total' => '165.000đ',
-    'items' => [
-        [
-            'name' => 'Oolong Sữa Hạnh Nhân',
-            'size' => 'L',
-            'sugar' => '50%',
-            'ice' => '50%',
-            'toppings' => 'Trân châu trắng',
-            'quantity' => 2,
-            'price' => '110.000đ',
-            'image' => 'https://images.unsplash.com/photo-1576092762791-dd9e2220abd4?auto=format&fit=crop&q=80&w=150'
-        ],
-        [
-            'name' => 'Hồng Trà Kem Phô Mai',
-            'size' => 'M',
-            'sugar' => '100%',
-            'ice' => '100%',
-            'toppings' => 'Không',
-            'quantity' => 1,
-            'price' => '55.000đ',
-            'image' => 'https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&q=80&w=150'
-        ]
-    ]
-];
 
 // Trạng thái timeline
-$timeline_steps = ['Pending', 'Confirmed', 'Preparing', 'Ready', 'Completed'];
-$current_step_index = array_search($order['status'], $timeline_steps);
+$timeline_keys = ['pending', 'confirmed', 'preparing', 'ready', 'completed'];
+$timeline_labels = ['Chờ xác nhận', 'Đã xác nhận', 'Đang chuẩn bị', 'Sẵn sàng', 'Hoàn thành'];
+$current_step_index = array_search(strtolower($order['status']), $timeline_keys);
 if ($current_step_index === false) $current_step_index = -1;
 ?>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết đơn hàng #<?= $order['id'] ?> - VAA THÉ</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-ivory">
 
+    <!-- Header tối giản -->
+    <?php include '../app/views/partials/account-header.php'; ?>
+    
 <div class="account-page bg-cream py-5" style="min-height: calc(100vh - 300px); padding-top: 120px !important;">
     <div class="container">
         <div class="row gy-4">
@@ -51,7 +38,7 @@ if ($current_step_index === false) $current_step_index = -1;
             <!-- Main Content -->
             <div class="col-lg-9">
                 <div class="d-flex align-items-center mb-4">
-                    <a href="<?= BASE_URL ?>/orders" class="btn btn-outline-forest btn-sm me-3"><i class="fa-solid fa-arrow-left"></i></a>
+                    <a href="index.php?route=orders" class="btn btn-outline-forest btn-sm me-3"><i class="fa-solid fa-arrow-left"></i></a>
                     <h4 class="font-serif fw-bold text-forest mb-0">ORDER #<?= $order['id'] ?></h4>
                 </div>
 
@@ -63,14 +50,14 @@ if ($current_step_index === false) $current_step_index = -1;
                                 <?php 
                                     $progress_width = 0;
                                     if ($current_step_index > 0) {
-                                        $progress_width = ($current_step_index / (count($timeline_steps) - 1)) * 100;
+                                        $progress_width = ($current_step_index / (count($timeline_keys) - 1)) * 100;
                                     }
                                 ?>
                                 <div class="progress-bar bg-sage" role="progressbar" style="width: <?= $progress_width ?>%" aria-valuenow="<?= $progress_width ?>" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                             
                             <div class="d-flex justify-content-between position-relative z-2">
-                                <?php foreach ($timeline_steps as $index => $step): ?>
+                                <?php foreach ($timeline_keys as $index => $step_key): ?>
                                     <?php 
                                         $step_class = 'text-muted';
                                         $icon_bg = 'bg-white border-light';
@@ -88,14 +75,14 @@ if ($current_step_index === false) $current_step_index = -1;
                                     ?>
                                     <div class="text-center" style="width: 20%;">
                                         <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2 border border-2 <?= $icon_bg ?> <?= $icon_color ?>" style="width: 50px; height: 50px;">
-                                            <?php if($step === 'Pending'): ?> <i class="fa-regular fa-clipboard"></i>
-                                            <?php elseif($step === 'Confirmed'): ?> <i class="fa-solid fa-check"></i>
-                                            <?php elseif($step === 'Preparing'): ?> <i class="fa-solid fa-blender"></i>
-                                            <?php elseif($step === 'Ready'): ?> <i class="fa-solid fa-motorcycle"></i>
+                                            <?php if($step_key === 'pending'): ?> <i class="fa-regular fa-clipboard"></i>
+                                            <?php elseif($step_key === 'confirmed'): ?> <i class="fa-solid fa-check"></i>
+                                            <?php elseif($step_key === 'preparing'): ?> <i class="fa-solid fa-blender"></i>
+                                            <?php elseif($step_key === 'ready'): ?> <i class="fa-solid fa-motorcycle"></i>
                                             <?php else: ?> <i class="fa-solid fa-house-chimney"></i>
                                             <?php endif; ?>
                                         </div>
-                                        <div class="small <?= $step_class ?>"><?= $step ?></div>
+                                        <div class="small <?= $step_class ?>"><?= $timeline_labels[$index] ?></div>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
@@ -176,4 +163,10 @@ if ($current_step_index === false) $current_step_index = -1;
             </div>
         </div>
     </div>
+    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

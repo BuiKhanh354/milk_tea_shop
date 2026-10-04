@@ -8,7 +8,7 @@
                 <p class="mb-5 text-muted" style="max-width: 400px; margin: 0 auto; margin-left: lg-0;">
                     Mỗi ly trà sữa là sự kết hợp hoàn hảo giữa hương vị truyền thống và sự sáng tạo hiện đại, mang đến trải nghiệm tinh tế cho mọi giác quan.
                 </p>
-                <a href="#menu" class="btn-vaa btn-caramel">Khám phá menu <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                <a href="index.php?route=products" class="btn-vaa btn-caramel">Khám phá menu <i class="fa-solid fa-arrow-right ms-2"></i></a>
             </div>
             
             <div class="col-lg-7 position-relative mt-5 mt-lg-0">
@@ -85,7 +85,7 @@
                 <p class="mb-5" style="color: rgba(253, 251, 247, 0.8);">
                     Mỗi ly trà sữa là sự kết hợp hoàn hảo giữa kỹ thuật pha chế và đam mê, tạo nên hương vị độc đáo, khó quên. Lắng nghe tiếng "lắc" điệu nghệ - âm thanh của sự tươi mới và chất lượng.
                 </p>
-                <a href="#" class="btn-vaa btn-outline-forest" style="border-color: var(--vaa-ivory); color: var(--vaa-ivory);">Khám phá quy trình <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                <a href="index.php?route=about" class="btn-vaa btn-outline-forest" style="border-color: var(--vaa-ivory); color: var(--vaa-ivory);">Khám phá về chúng tôi <i class="fa-solid fa-arrow-right ms-2"></i></a>
             </div>
         </div>
     </div>

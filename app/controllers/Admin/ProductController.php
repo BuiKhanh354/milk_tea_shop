@@ -7,7 +7,19 @@ class ProductController {
         $pageTitle = 'Quản lý sản phẩm';
         
         $productModel = new Product();
-        $productsRaw = $productModel->getAll(TRUE);
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $limit = 8;
+        
+        $filters = [];
+        if (isset($_GET['search']) && $_GET['search'] !== '') $filters['search'] = $_GET['search'];
+        if (isset($_GET['category_id']) && $_GET['category_id'] !== '') $filters['category_id'] = $_GET['category_id'];
+        if (isset($_GET['status']) && $_GET['status'] !== '') $filters['status'] = $_GET['status'];
+        
+        $paginatedData = $productModel->getPaginated($page, $limit, true, $filters);
+        
+        $productsRaw = $paginatedData['data'];
+        $totalPages = $paginatedData['total_pages'];
+        $currentPage = $paginatedData['current_page'];
         
         $products = [];
         foreach($productsRaw as $p) {
@@ -18,7 +30,7 @@ class ProductController {
                 'price' => number_format($p['price'], 0, ',', '.') . ' ₫',
                 'status' => $p['status'],
                 'date' => date('d/m/Y', strtotime($p['created_at'])),
-                'image' => $p['image'] ? 'assets/images/products/' . $p['image'] : 'https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&q=80&w=150'
+                'image' => $p['image']
             ];
         }
 

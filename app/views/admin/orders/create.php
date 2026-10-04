@@ -43,7 +43,8 @@
             <div class="card-body p-4 d-flex flex-column">
                 <h5 class="fw-bold mb-3 border-bottom pb-2">Giỏ hàng</h5>
                 
-                <div id="cartItems" class="flex-grow-1 overflow-y-auto mb-3" style="max-height: 300px;">
+                <div class="flex-grow-1 overflow-y-auto mb-3" style="max-height: 300px;">
+                    <div id="cartItemsList"></div>
                     <div class="text-center text-muted mt-5" id="emptyCartMsg">Chưa có sản phẩm nào</div>
                 </div>
 
@@ -61,11 +62,14 @@
                         <input type="text" name="customer_name" class="form-control bg-light border-0" placeholder="Tên khách hàng (Mặc định: Khách lẻ)">
                     </div>
                     
+                    <?php 
+                        $selectedTable = isset($_GET['table_id']) ? (int)$_GET['table_id'] : 0; 
+                    ?>
                     <div class="row g-2 mb-3">
                         <div class="col-6">
-                            <select name="order_type" class="form-select bg-light border-0" onchange="toggleTableSelect(this.value)">
-                                <option value="takeaway">Mang đi (Takeaway)</option>
-                                <option value="dine_in">Tại quán (Dine-in)</option>
+                            <select name="order_type" id="orderTypeSelect" class="form-select bg-light border-0" onchange="toggleTableSelect(this.value)">
+                                <option value="takeaway" <?= $selectedTable == 0 ? 'selected' : '' ?>>Mang đi (Takeaway)</option>
+                                <option value="dine_in" <?= $selectedTable > 0 ? 'selected' : '' ?>>Tại quán (Dine-in)</option>
                                 <option value="delivery">Giao hàng (Delivery)</option>
                             </select>
                         </div>
@@ -78,12 +82,12 @@
                         </div>
                     </div>
 
-                    <div class="mb-3 d-none" id="tableSelectWrapper">
+                    <div class="mb-3 <?= $selectedTable > 0 ? '' : 'd-none' ?>" id="tableSelectWrapper">
                         <select name="table_id" class="form-select bg-light border-0">
                             <option value="0">-- Chọn bàn --</option>
                             <?php foreach($tables as $t): ?>
-                                <?php if($t['status'] === 'available'): ?>
-                                    <option value="<?= $t['id'] ?>">Bàn <?= $t['table_number'] ?> (Sức chứa: <?= $t['capacity'] ?>)</option>
+                                <?php if($t['status'] === 'available' || $t['id'] == $selectedTable): ?>
+                                    <option value="<?= $t['id'] ?>" <?= $t['id'] == $selectedTable ? 'selected' : '' ?>>Bàn <?= $t['table_number'] ?> (Sức chứa: <?= $t['capacity'] ?>)</option>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </select>
@@ -162,7 +166,7 @@
         document.getElementById('modalProductPrice').innerText = new Intl.NumberFormat('vi-VN').format(basePrice) + 'đ';
         
         // Reset form
-        document.getElementById('sizeSelect').value = 'M';
+        document.getElementById('sizeSelect').selectedIndex = 0;
         document.querySelectorAll('.topping-checkbox').forEach(cb => cb.checked = false);
         
         const modal = new bootstrap.Modal(document.getElementById('productOptionsModal'));
@@ -218,7 +222,7 @@
     }
 
     function renderCart() {
-        const cartEl = document.getElementById('cartItems');
+        const cartEl = document.getElementById('cartItemsList');
         const emptyMsg = document.getElementById('emptyCartMsg');
         let html = '';
         let total = 0;
@@ -256,7 +260,6 @@
         } else {
             cartEl.innerHTML = '';
             emptyMsg.style.display = 'block';
-            cartEl.appendChild(emptyMsg);
         }
 
         document.getElementById('totalAmount').innerText = new Intl.NumberFormat('vi-VN').format(total) + 'đ';

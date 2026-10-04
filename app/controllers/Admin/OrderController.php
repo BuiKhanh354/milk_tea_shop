@@ -7,7 +7,17 @@ class OrderController {
         $pageTitle = 'Quản lý đơn hàng';
         
         $orderModel = new Order();
-        $ordersRaw = $orderModel->getAll();
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $limit = 10;
+        
+        $filters = [];
+        if (isset($_GET['search']) && $_GET['search'] !== '') $filters['search'] = $_GET['search'];
+        if (isset($_GET['status']) && $_GET['status'] !== '') $filters['status'] = $_GET['status'];
+        
+        $paginatedData = $orderModel->getPaginated($page, $limit, $filters);
+        $ordersRaw = $paginatedData['data'];
+        $totalPages = $paginatedData['total_pages'];
+        $currentPage = $paginatedData['current_page'];
         
         $orders = [];
         foreach($ordersRaw as $o) {

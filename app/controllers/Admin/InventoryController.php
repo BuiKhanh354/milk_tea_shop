@@ -4,7 +4,13 @@ require_once __DIR__ . '/../../models/Inventory.php';
 class InventoryController {
     public function index() {
         $inventoryModel = new Inventory();
-        $ingredients = $inventoryModel->getAll();
+        
+        $filters = [];
+        if (isset($_GET['search']) && $_GET['search'] !== '') $filters['search'] = $_GET['search'];
+        if (isset($_GET['unit']) && $_GET['unit'] !== '') $filters['unit'] = $_GET['unit'];
+        if (isset($_GET['status']) && $_GET['status'] !== '') $filters['status'] = $_GET['status'];
+        
+        $ingredients = $inventoryModel->getAll($filters);
         $stats = $inventoryModel->getStats();
 
         $pageTitle = 'Quản lý Nguyên liệu';

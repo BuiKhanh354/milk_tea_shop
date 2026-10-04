@@ -25,7 +25,7 @@ class Category {
         $stmt = $this->conn->prepare($sql);
         if ($stmt) {
             $stmt->bind_param("ss", $name, $description);
-            return $stmt->execute();
+            try { return $stmt->execute(); } catch (mysqli_sql_exception $e) { return false; }
         }
         return false;
     }
@@ -35,7 +35,7 @@ class Category {
         $stmt = $this->conn->prepare($sql);
         if ($stmt) {
             $stmt->bind_param("ssi", $name, $description, $id);
-            return $stmt->execute();
+            try { return $stmt->execute(); } catch (mysqli_sql_exception $e) { return false; }
         }
         return false;
     }
@@ -57,7 +57,7 @@ class Category {
         $stmt = $this->conn->prepare($sql);
         if ($stmt) {
             $stmt->bind_param("i", $id);
-            return $stmt->execute();
+            try { return $stmt->execute(); } catch (mysqli_sql_exception $e) { return false; }
         }
         return false;
     }

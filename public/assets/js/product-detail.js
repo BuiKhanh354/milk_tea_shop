@@ -90,78 +90,94 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial Calculation
     calculatePrice();
     
-    // Add to Cart
-    if (btnAddToCart && toastElement) {
-        const cartToast = new bootstrap.Toast(toastElement);
-        btnAddToCart.addEventListener('click', () => {
-            const productId = new URLSearchParams(window.location.search).get('id') || document.querySelector('input[name="product_id"]')?.value || 1;
-            const productName = document.querySelector('.product-title')?.textContent || document.querySelector('h1')?.textContent || '';
-            const productImage = document.getElementById('product-img-main')?.src || '';
-            const basePrice = parseInt(basePriceEl.dataset.price);
-            
-            let size = '';
-            let sizePrice = 0;
-            sizeRadios.forEach(radio => {
-                if(radio.checked) {
-                    size = radio.value;
-                    sizePrice = parseInt(radio.dataset.price);
-                }
-            });
+    const btnBuyNow = document.getElementById('btn-buy-now');
+    
+    // Process Cart Action (Add or Buy Now)
+    const processCartAction = (redirect = false) => {
+        const productId = new URLSearchParams(window.location.search).get('id') || document.querySelector('input[name="product_id"]')?.value || 1;
+        const productName = document.querySelector('.product-title')?.textContent || document.querySelector('h1')?.textContent || '';
+        const productImage = document.getElementById('product-img-main')?.src || '';
+        const basePriceVal = parseInt(basePriceEl.dataset.price);
+        
+        let size = '';
+        let sizePrice = 0;
+        sizeRadios.forEach(radio => {
+            if(radio.checked) {
+                size = radio.value;
+                sizePrice = parseInt(radio.dataset.price);
+            }
+        });
 
-            let sugar = '';
-            document.querySelectorAll('input[name="sugar"]').forEach(r => {
-                if(r.checked) sugar = r.value;
-            });
+        let sugar = '';
+        document.querySelectorAll('input[name="sugar"]').forEach(r => {
+            if(r.checked) sugar = r.value;
+        });
 
-            let ice = '';
-            document.querySelectorAll('input[name="ice"]').forEach(r => {
-                if(r.checked) ice = r.value;
-            });
+        let ice = '';
+        document.querySelectorAll('input[name="ice"]').forEach(r => {
+            if(r.checked) ice = r.value;
+        });
 
-            let toppings = [];
-            toppingCheckboxes.forEach(cb => {
-                if(cb.checked) {
-                    toppings.push({
-                        id: cb.value,
-                        name: cb.nextElementSibling.textContent.trim(),
-                        price: parseInt(cb.dataset.price)
-                    });
-                }
-            });
+        let toppings = [];
+        toppingCheckboxes.forEach(cb => {
+            if(cb.checked) {
+                toppings.push({
+                    id: cb.value,
+                    name: cb.nextElementSibling.textContent.trim(),
+                    price: parseInt(cb.dataset.price)
+                });
+            }
+        });
 
-            let formData = new FormData();
-            formData.append('product_id', productId);
-            formData.append('product_name', productName);
-            formData.append('product_image', productImage);
-            formData.append('base_price', basePrice);
-            formData.append('size', size);
-            formData.append('size_price', sizePrice);
-            formData.append('sugar', sugar);
-            formData.append('ice', ice);
-            formData.append('quantity', inputQty.value);
-            
-            toppings.forEach((t, i) => {
-                formData.append(`toppings[${i}][id]`, t.id);
-                formData.append(`toppings[${i}][name]`, t.name);
-                formData.append(`toppings[${i}][price]`, t.price);
-            });
+        let formData = new FormData();
+        formData.append('product_id', productId);
+        formData.append('product_name', productName);
+        formData.append('product_image', productImage);
+        formData.append('base_price', basePriceVal);
+        formData.append('size', size);
+        formData.append('size_price', sizePrice);
+        formData.append('sugar', sugar);
+        formData.append('ice', ice);
+        formData.append('quantity', inputQty.value);
+        
+        toppings.forEach((t, i) => {
+            formData.append(`toppings[${i}][id]`, t.id);
+            formData.append(`toppings[${i}][name]`, t.name);
+            formData.append(`toppings[${i}][price]`, t.price);
+        });
 
-            fetch('index.php?route=cart&action=add', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.success) {
-                    cartToast.show();
+        fetch('index.php?route=cart&action=add', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                if(redirect) {
+                    window.location.href = 'index.php?route=checkout';
+                } else {
+                    if (toastElement) {
+                        const cartToast = new bootstrap.Toast(toastElement);
+                        cartToast.show();
+                    }
                     const cartBadge = document.getElementById('cart-badge');
                     if(cartBadge) {
                         cartBadge.textContent = data.cart_count;
                         cartBadge.classList.remove('d-none');
                     }
                 }
-            });
+            }
         });
+    };
+
+    // Add to Cart
+    if (btnAddToCart) {
+        btnAddToCart.addEventListener('click', () => processCartAction(false));
+    }
+
+    // Buy Now
+    if (btnBuyNow) {
+        btnBuyNow.addEventListener('click', () => processCartAction(true));
     }
     
     // Favorite Toggle

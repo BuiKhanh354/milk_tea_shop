@@ -7,7 +7,6 @@ class CategoryController {
         $categories = $categoryModel->getAll();
 
         $pageTitle = 'Quản lý Danh mục';
-        
         ob_start();
         require_once __DIR__ . '/../../views/admin/categories/index.php';
         $content = ob_get_clean();
@@ -22,8 +21,11 @@ class CategoryController {
 
             if (!empty($name)) {
                 $categoryModel = new Category();
-                $categoryModel->create($name, $description);
-                $_SESSION['flash_success'] = "Đã thêm danh mục mới thành công!";
+                if ($categoryModel->create($name, $description)) {
+                    $_SESSION['flash_success'] = "Đã thêm danh mục mới thành công!";
+                } else {
+                    $_SESSION['flash_error'] = "Tên danh mục đã tồn tại hoặc có lỗi xảy ra!";
+                }
             }
         }
         header('Location: admin.php?route=categories');
@@ -38,8 +40,11 @@ class CategoryController {
 
             if ($id && !empty($name)) {
                 $categoryModel = new Category();
-                $categoryModel->update($id, $name, $description);
-                $_SESSION['flash_success'] = "Cập nhật danh mục thành công!";
+                if ($categoryModel->update($id, $name, $description)) {
+                    $_SESSION['flash_success'] = "Cập nhật danh mục thành công!";
+                } else {
+                    $_SESSION['flash_error'] = "Tên danh mục đã tồn tại hoặc có lỗi xảy ra!";
+                }
             }
         }
         header('Location: admin.php?route=categories');

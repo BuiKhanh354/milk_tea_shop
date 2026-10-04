@@ -8,33 +8,26 @@
 <!-- Filters -->
 <div class="card border-0 shadow-sm rounded-3 mb-4">
     <div class="card-body">
-        <div class="row g-3">
-            <div class="col-md-3">
-                <input type="text" class="form-control bg-light border-0" placeholder="Tìm mã đơn, khách hàng...">
+        <form action="admin.php" method="GET">
+            <input type="hidden" name="route" value="orders">
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <input type="text" name="search" class="form-control bg-light border-0" placeholder="Tìm mã đơn, khách hàng..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+                </div>
+                <div class="col-md-4">
+                    <select name="status" class="form-select bg-light border-0">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="pending" <?= (isset($_GET['status']) && $_GET['status'] === 'pending') ? 'selected' : '' ?>>Chờ xác nhận</option>
+                        <option value="preparing" <?= (isset($_GET['status']) && $_GET['status'] === 'preparing') ? 'selected' : '' ?>>Đang chuẩn bị</option>
+                        <option value="completed" <?= (isset($_GET['status']) && $_GET['status'] === 'completed') ? 'selected' : '' ?>>Hoàn thành</option>
+                        <option value="cancelled" <?= (isset($_GET['status']) && $_GET['status'] === 'cancelled') ? 'selected' : '' ?>>Đã hủy</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-outline-forest w-100"><i class="fa-solid fa-filter me-2"></i> Lọc</button>
+                </div>
             </div>
-            <div class="col-md-2">
-                <select class="form-select bg-light border-0">
-                    <option value="">Trạng thái</option>
-                    <option value="Pending">Chờ xác nhận</option>
-                    <option value="Preparing">Đang chuẩn bị</option>
-                    <option value="Completed">Hoàn thành</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <select class="form-select bg-light border-0">
-                    <option value="">Loại đơn</option>
-                    <option value="Delivery">Delivery</option>
-                    <option value="Takeaway">Takeaway</option>
-                    <option value="Dine-in">Dine-in</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <input type="date" class="form-control bg-light border-0">
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-outline-forest w-100"><i class="fa-solid fa-filter me-2"></i> Lọc</button>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -99,17 +92,32 @@
             </tbody>
         </table>
     </div>
-    <!-- Pagination -->
+        <!-- Pagination -->
+    <?php if (isset($totalPages) && $totalPages > 1): ?>
+    <?php 
+        $queryString = '';
+        if (isset($_GET['search'])) $queryString .= '&search=' . urlencode($_GET['search']);
+        if (isset($_GET['status'])) $queryString .= '&status=' . urlencode($_GET['status']);
+    ?>
     <div class="card-footer bg-white border-top py-3 px-4 d-flex align-items-center justify-content-between">
-        <span class="text-muted small">Hiển thị 1-6 của 128 đơn hàng</span>
+        <span class="text-muted small">Hiển thị trang <?= $currentPage ?> của <?= $totalPages ?></span>
         <nav aria-label="Page navigation">
             <ul class="pagination pagination-sm mb-0">
-                <li class="page-item disabled"><a class="page-link" href="#">Trước</a></li>
-                <li class="page-item active"><a class="page-link bg-forest border-forest" href="#">1</a></li>
-                <li class="page-item"><a class="page-link text-forest" href="#">2</a></li>
-                <li class="page-item"><a class="page-link text-forest" href="#">3</a></li>
-                <li class="page-item"><a class="page-link text-forest" href="#">Sau</a></li>
+                <li class="page-item <?= $currentPage <= 1 ? 'disabled' : '' ?>">
+                    <a class="page-link <?= $currentPage <= 1 ? '' : 'text-forest' ?>" href="<?= $currentPage > 1 ? 'admin.php?route=orders' . $queryString . '&page=' . ($currentPage - 1) : '#' ?>">Trước</a>
+                </li>
+                
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <li class="page-item <?= $i === $currentPage ? 'active' : '' ?>">
+                        <a class="page-link <?= $i === $currentPage ? 'bg-forest border-forest' : 'text-forest' ?>" href="admin.php?route=orders<?= $queryString ?>&page=<?= $i ?>"><?= $i ?></a>
+                    </li>
+                <?php endfor; ?>
+                
+                <li class="page-item <?= $currentPage >= $totalPages ? 'disabled' : '' ?>">
+                    <a class="page-link <?= $currentPage >= $totalPages ? '' : 'text-forest' ?>" href="<?= $currentPage < $totalPages ? 'admin.php?route=orders' . $queryString . '&page=' . ($currentPage + 1) : '#' ?>">Sau</a>
+                </li>
             </ul>
         </nav>
     </div>
+    <?php endif; ?>
 </div>

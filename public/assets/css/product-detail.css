@@ -29,7 +29,10 @@
   border-radius: 4px;
   overflow: hidden;
   position: relative;
+  border: solid 1.5px var(--vaa-sage);
+  border-radius: 150px 10px 150px 10px;
 }
+
 .product-image-container img {
   width: 100%;
   height: auto;
@@ -37,7 +40,10 @@
   transition: transform 0.5s ease;
 }
 .product-image-container:hover img {
-  transform: scale(1.05);
+  border: outset 1.5px var(--vaa-forest);
+  border-radius: 150px 20px 150px 20px;
+  transition-duration: 1.8s;
+  transform: scale(.9);
 }
 
 /* Product Info */
