@@ -73,7 +73,7 @@
                             <td class="text-muted small">
                                 <?= htmlspecialchars($trans['user_name'] ?? 'Hệ thống') ?>
                             </td>
-                            <td class="pe-4 text-muted small" style="max-width: 250px;">
+                            <td class="pe-4 text-muted small admin-style-d54b0a" >
                                 <?= htmlspecialchars($trans['note']) ?>
                             </td>
                         </tr>

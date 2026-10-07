@@ -1,9 +1,9 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="font-serif fw-bold text-dark mb-0">Sơ đồ Bàn</h4>
     <div class="d-flex gap-3 text-muted small">
-        <div><span class="d-inline-block rounded-circle bg-white border border-secondary me-1" style="width:12px;height:12px;"></span> Bàn trống</div>
-        <div><span class="d-inline-block rounded-circle bg-primary bg-opacity-25 border border-primary me-1" style="width:12px;height:12px;"></span> Đang có khách</div>
-        <div><span class="d-inline-block rounded-circle bg-warning bg-opacity-25 border border-warning me-1" style="width:12px;height:12px;"></span> Đã đặt trước</div>
+        <div><span class="d-inline-block rounded-circle bg-white border border-secondary me-1 admin-style-ebc508" ></span> Bàn trống</div>
+        <div><span class="d-inline-block rounded-circle bg-primary bg-opacity-25 border border-primary me-1 admin-style-ebc508" ></span> Đang có khách</div>
+        <div><span class="d-inline-block rounded-circle bg-warning bg-opacity-25 border border-warning me-1 admin-style-ebc508" ></span> Đã đặt trước</div>
     </div>
 </div>
 

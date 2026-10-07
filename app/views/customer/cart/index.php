@@ -57,7 +57,7 @@
 
     <?php include '../app/views/partials/navbar_old.php'; ?>
     
-    <main class="section-padding bg-ivory" style="min-height: calc(100vh - 300px);">
+    <main class="section-padding bg-ivory global-style-d0edae" >
         <div class="container">
             <div class="cart-header fade-up visible">
                 <span class="small-label mb-2 d-inline-block">YOUR CART</span>
@@ -67,7 +67,7 @@
             <div class="row g-5 fade-up visible">
                 <!-- Cart Items -->
                 <div class="col-lg-8">
-                    <div class="bg-white p-4 p-md-5 border" style="border-color: rgba(0,0,0,0.05)!important;" id="cart-container">
+                    <div class="bg-white p-4 p-md-5 border global-style-38cfee"  id="cart-container">
                         <?php if(empty($cart_items)): ?>
                             <div class="text-center py-5">
                                 <p class="text-muted">Giỏ hàng của bạn đang trống.</p>
@@ -119,7 +119,7 @@
 
                 <!-- Order Summary -->
                 <div class="col-lg-4">
-                    <div class="summary-card position-sticky" style="top: 100px;">
+                    <div class="summary-card position-sticky global-style-c9a35f" >
                         <h4 class="font-serif fw-bold mb-4 pb-3 border-bottom">Tóm tắt đơn hàng</h4>
                         
                         <div class="d-flex justify-content-between mb-3">

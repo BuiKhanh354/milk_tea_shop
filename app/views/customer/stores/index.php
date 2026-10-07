@@ -39,16 +39,16 @@
     <!-- Hero Section -->
     <section class="store-hero">
         <div class="container position-relative">
-            <p class="text-uppercase fw-bold mb-2 text-brown" style="letter-spacing: 3px; font-size: 0.85rem;">Our Stores</p>
+            <p class="text-uppercase fw-bold mb-2 text-brown store-style-36dbff" >Our Stores</p>
             <h1 class="font-serif fw-bold">Tìm VAA THÉ gần bạn</h1>
             <p class="mt-3">Ghé thăm không gian VAA THÉ và thưởng thức<br>ly trà yêu thích của bạn.</p>
             
             <!-- Search Bar Overlapping -->
-            <div class="row justify-content-center mt-5 mb-n5 position-absolute w-100" style="bottom: -110px; left: 0;">
+            <div class="row justify-content-center mt-5 mb-n5 position-absolute w-100 store-style-fcb6d9" >
                 <div class="col-11 col-md-8 col-lg-6">
                     <div class="store-search-container d-flex">
                         <input type="text" class="form-control store-search-input" placeholder="Tìm theo tên đường, quận...">
-                        <select class="form-select store-search-select" style="max-width: 150px;">
+                        <select class="form-select store-search-select store-style-7ecc66" >
                             <option value="all">Tất cả</option>
                             <option value="open">Đang mở cửa</option>
                             <option value="near">Gần bạn</option>
@@ -61,7 +61,7 @@
     </section>
 
     <!-- Main Content -->
-    <section class="py-5" style="margin-top: 60px;">
+    <section class="py-5 store-style-408788" >
         <div class="container py-4">
             <div class="row g-5">
                 
@@ -80,7 +80,7 @@
                             </div>
                         <?php else: ?>
                             <?php foreach($stores as $store): ?>
-                            <div class="store-card" onclick="window.location.href='index.php?route=stores?id=<?= $store['id'] ?>'">
+                            <div class="store-card" onclick="window.location.href='index.php?route=stores&id=<?= $store['id'] ?>'">
                                 <div class="d-flex justify-content-between align-items-start mb-2">
                                     <h5 class="store-card-title font-serif fw-bold mb-0"><?= $store['name'] ?></h5>
                                     <?php if($store['status'] === 'open'): ?>
@@ -104,7 +104,7 @@
                                 </div>
                                 
                                 <div class="d-flex gap-2">
-                                    <a href="index.php?route=stores?id=<?= $store['id'] ?>" class="btn btn-outline-store flex-grow-1" onclick="event.stopPropagation();">
+                                    <a href="index.php?route=stores&id=<?= $store['id'] ?>" class="btn btn-outline-store flex-grow-1" onclick="event.stopPropagation();">
                                         Xem chi tiết
                                     </a>
                                     <button class="btn btn-store-search px-4" onclick="event.stopPropagation();" title="Chỉ đường">
@@ -122,7 +122,7 @@
                     <div class="store-map-container shadow-sm">
                         <!-- Giả lập map bằng pattern CSS -->
                         <div class="map-placeholder-overlay">
-                            <div class="bg-white p-4 rounded-circle shadow mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <div class="bg-white p-4 rounded-circle shadow mb-3 store-style-a56dde" >
                                 <i class="fa-solid fa-map-location-dot fs-1 text-forest"></i>
                             </div>
                             <h4 class="font-serif fw-bold mb-2">Bản đồ Cửa hàng</h4>

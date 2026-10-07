@@ -35,7 +35,7 @@
                         <input type="number" name="quantity" id="quantity" class="form-control shadow-none border-danger border-opacity-25" required min="0.01" step="0.01" placeholder="Nhập số lượng...">
                         <span class="input-group-text bg-light text-danger fw-bold" id="unit_display">--</span>
                     </div>
-                    <div class="form-text small text-danger" id="qty_error" style="display: none;">Số lượng xuất không được vượt quá số lượng tồn!</div>
+                    <div class="form-text small text-danger admin-style-224b51" id="qty_error" >Số lượng xuất không được vượt quá số lượng tồn!</div>
                 </div>
                 
                 <div class="col-md-6">
@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <hr class="my-4" style="border-color: rgba(0,0,0,0.05);">
+            <hr class="my-4 admin-style-f88d7f" >
 
             <div class="d-flex justify-content-end gap-2">
                 <a href="admin.php?route=inventory" class="btn btn-light px-4">Hủy</a>

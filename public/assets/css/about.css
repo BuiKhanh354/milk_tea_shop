@@ -96,3 +96,45 @@
     padding: 6rem 0;
     text-align: center;
 }
+
+/* Refactored Inline Styles for about.css */
+.about-style-2383b5 {
+    max-width: 450px;
+}
+.about-style-4acc6a {
+    font-size: 1rem;
+    top: 10px;
+    right: 40%;
+    color: var(--vaa-sage);
+    opacity: 0.5;
+}
+.about-style-429bd4 {
+    transition-delay: 0.2s;
+}
+.about-style-c6408b {
+    height: 500px;
+}
+.about-style-3dc462 {
+    object-fit: cover;
+}
+.about-style-e7ec96 {
+    font-size: 1.1rem;
+}
+.about-style-faa395 {
+    height: 450px;
+}
+.about-style-ff89c5 {
+    height: 600px;
+}
+.about-style-89d244 {
+    object-fit: cover;
+    opacity: 0.9;
+}
+.about-style-46f964 {
+    color: rgba(255,255,255,0.8);
+    line-height: 1.8;
+}
+.about-style-624f19 {
+    border-color: var(--vaa-ivory);
+    color: var(--vaa-ivory);
+}

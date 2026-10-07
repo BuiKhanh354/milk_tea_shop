@@ -185,3 +185,93 @@ body.admin-body {
 .badge-preparing { background-color: #cce5ff; color: #004085; }
 .badge-completed { background-color: #d4edda; color: #155724; }
 .badge-cancelled { background-color: #f8d7da; color: #721c24; }
+
+/* Refactored Inline Styles for admin.css */
+.admin-style-f76d1c {
+    min-height: 100vh;
+}
+.admin-style-1b8c4b {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 16px;
+}
+.admin-style-2662cb {
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.admin-style-8d5232 {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+.admin-style-5a77a5 {
+    font-size: 0.8rem;
+    border-bottom: 1px solid #eee;
+}
+.admin-style-5afc73 {
+    font-size: 3rem;
+}
+.admin-style-f88d7f {
+    border-color: rgba(0,0,0,0.05);
+}
+.admin-style-287e87 {
+    cursor: not-allowed;
+}
+.admin-style-224b51 {
+    display: none;
+}
+.admin-style-d54b0a {
+    max-width: 250px;
+}
+.admin-style-902c6d {
+    width: 60px;
+}
+.admin-style-d31d38 {
+    max-height: 600px;
+    overflow-y: auto;
+}
+.admin-style-58aba5 {
+    cursor:pointer;
+}
+.admin-style-a0b01d {
+    max-height: 300px;
+}
+.admin-style-7ecc66 {
+    max-width: 150px;
+}
+.admin-style-198265 {
+    font-size:0.7rem;
+}
+.admin-style-193ae6 {
+    width: 20px;
+    text-align: center;
+}
+.admin-style-143e03 {
+    width: 48px;
+    height: 48px;
+}
+.admin-style-9a6a53 {
+    width: 40px;
+    height: 40px;
+}
+.admin-style-588c2d {
+    width: 80px;
+}
+.admin-style-54b8b4 {
+    height: 300px;
+}
+.admin-style-ebc508 {
+    width:12px;
+    height:12px;
+}
+.admin-style-8354e9 {
+    text-decoration: none;
+}
+.admin-style-874267 {
+    outline: none;
+}
+.admin-style-af89d6 {
+    font-size: 0.75rem;
+}

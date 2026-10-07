@@ -47,7 +47,7 @@
                                 <div class="fw-bold text-dark"><?= htmlspecialchars($cat['name']) ?></div>
                             </td>
                             <td>
-                                <div class="small text-muted" style="max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                <div class="small text-muted admin-style-2662cb" >
                                     <?= htmlspecialchars($cat['description'] ?? 'Không có mô tả') ?>
                                 </div>
                             </td>

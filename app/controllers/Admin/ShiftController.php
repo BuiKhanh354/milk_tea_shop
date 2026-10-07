@@ -15,8 +15,8 @@ class ShiftController {
         
         if ($isAdmin) {
             // Lọc theo tuần (mặc định lấy 7 ngày gần đây)
-            $startDate = $_GET['start_date'] ?? date('Y-m-d', strtotime('-7 days'));
-            $endDate = $_GET['end_date'] ?? date('Y-m-d', strtotime('+7 days'));
+            $startDate = $_GET['start_date'] ?? date('Y-m-d', strtotime('-30 days'));
+            $endDate = $_GET['end_date'] ?? date('Y-m-d', strtotime('+30 days'));
 
             $shifts = $shiftModel->getAllShifts();
             $assignments = $shiftModel->getEmployeeShifts($startDate, $endDate);
@@ -133,3 +133,4 @@ class ShiftController {
         }
     }
 }
+

@@ -5,15 +5,15 @@
             <div class="col-lg-5 mb-5 mb-lg-0 z-1 fade-up">
                 <span class="small-label mb-3 d-inline-block">OUR STORY</span>
                 <h1 class="mb-4">Câu chuyện của<br>VAA THÉ</h1>
-                <p class="text-muted mb-5" style="max-width: 450px;">
+                <p class="text-muted mb-5 about-style-2383b5" >
                     Một ly trà ngon không chỉ bắt đầu từ những lá trà thượng hạng, mà còn từ sự tận tâm trong từng khoảnh khắc.
                 </p>
                 <div class="handwritten-deco position-relative mt-5">
                     Good Tea,<br>Good Mood
-                    <i class="fa-solid fa-leaf position-absolute" style="font-size: 1rem; top: 10px; right: 40%; color: var(--vaa-sage); opacity: 0.5;"></i>
+                    <i class="fa-solid fa-leaf position-absolute about-style-4acc6a" ></i>
                 </div>
             </div>
-            <div class="col-lg-6 offset-lg-1 position-relative fade-up" style="transition-delay: 0.2s;">
+            <div class="col-lg-6 offset-lg-1 position-relative fade-up about-style-429bd4" >
                 <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80&w=1000" alt="Vaa The Hero" class="img-fluid about-hero-image">
             </div>
         </div>
@@ -25,8 +25,8 @@
     <div class="container px-4 px-lg-5">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0">
-                <div class="rounded-4 overflow-hidden shadow-sm" style="height: 500px;">
-                    <img src="https://images.unsplash.com/photo-1594631252845-29fc4cc8cbf9?auto=format&fit=crop&q=80&w=1000" alt="Making Tea" class="w-100 h-100" style="object-fit: cover;">
+                <div class="rounded-4 overflow-hidden shadow-sm about-style-c6408b" >
+                    <img src="https://images.unsplash.com/photo-1594631252845-29fc4cc8cbf9?auto=format&fit=crop&q=80&w=1000" alt="Making Tea" class="w-100 h-100 about-style-3dc462" >
                 </div>
             </div>
             <div class="col-lg-5 offset-lg-1">
@@ -38,7 +38,7 @@
                 <p class="text-muted mb-5">
                     Mỗi ly trà tại VAA THÉ không chỉ là một thức uống giải khát, mà là một tác phẩm nghệ thuật nhỏ bé mang trong mình sự tận tâm của người pha chế, gửi gắm niềm vui và năng lượng tích cực đến bạn mỗi ngày.
                 </p>
-                <a href="index.php?route=products" class="link-caramel fw-bold" style="font-size: 1.1rem;">Khám phá menu <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                <a href="index.php?route=products" class="link-caramel fw-bold about-style-e7ec96" >Khám phá menu <i class="fa-solid fa-arrow-right ms-2"></i></a>
             </div>
         </div>
     </div>
@@ -152,8 +152,8 @@
             <h2>Nghệ thuật tạo nên<br>một ly trà hoàn hảo</h2>
         </div>
         
-        <div class="rounded-4 overflow-hidden shadow-lg mb-5" style="height: 450px;">
-            <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&q=80&w=1200" alt="The Craft" class="w-100 h-100" style="object-fit: cover;">
+        <div class="rounded-4 overflow-hidden shadow-lg mb-5 about-style-faa395" >
+            <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&q=80&w=1200" alt="The Craft" class="w-100 h-100 about-style-3dc462" >
         </div>
         
         <div class="row g-4 justify-content-center">
@@ -181,16 +181,16 @@
     <div class="container px-4 px-lg-5">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0">
-                <div class="rounded-4 overflow-hidden" style="height: 600px;">
-                    <img src="https://images.unsplash.com/photo-1527661591475-527312dd65f5?auto=format&fit=crop&q=80&w=1000" alt="Signature Tea" class="w-100 h-100" style="object-fit: cover; opacity: 0.9;">
+                <div class="rounded-4 overflow-hidden about-style-ff89c5" >
+                    <img src="https://images.unsplash.com/photo-1527661591475-527312dd65f5?auto=format&fit=crop&q=80&w=1000" alt="Signature Tea" class="w-100 h-100 about-style-89d244" >
                 </div>
             </div>
             <div class="col-lg-5 offset-lg-1">
                 <h2 class="font-serif text-caramel fs-1 fst-italic mb-4">GOOD TEA<br>GOOD MOOD</h2>
-                <p class="fs-5 mb-5" style="color: rgba(255,255,255,0.8); line-height: 1.8;">
+                <p class="fs-5 mb-5 about-style-46f964" >
                     Chúng tôi tin rằng một ly trà ngon có quyền năng kỳ diệu có thể làm một ngày của bạn trở nên tốt đẹp hơn, xua tan đi những mệt mỏi và mang lại nguồn năng lượng mới.
                 </p>
-                <a href="index.php?route=products" class="btn-vaa btn-outline-forest" style="border-color: var(--vaa-ivory); color: var(--vaa-ivory);">Khám phá sản phẩm <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                <a href="index.php?route=products" class="btn-vaa btn-outline-forest about-style-624f19" >Khám phá sản phẩm <i class="fa-solid fa-arrow-right ms-2"></i></a>
             </div>
         </div>
     </div>

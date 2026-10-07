@@ -12,7 +12,7 @@
     <?php endif; ?>
 </div>
 
-<hr class="my-4" style="border-color: rgba(0,0,0,0.05);">
+<hr class="my-4 admin-style-f88d7f" >
 
 <!-- Statistics Cards -->
 <div class="row g-4 mb-4">
@@ -120,7 +120,7 @@
             <table class="table table-inventory table-hover align-middle mb-0">
                 <thead>
                     <tr>
-                        <th class="ps-4 py-3 rounded-top-left" style="width: 60px;">STT</th>
+                        <th class="ps-4 py-3 rounded-top-left admin-style-902c6d" >STT</th>
                         <th class="py-3">Nguyên liệu</th>
                         <th class="py-3">Đơn vị</th>
                         <th class="py-3 text-end">Số lượng tồn</th>

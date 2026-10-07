@@ -1,11 +1,11 @@
 <!-- HERO SECTION -->
-<section class="hero-section bg-cream fade-up">
+<section class="hero-section home-hero bg-cream fade-up">
     <div class="container px-4 px-lg-5">
-        <div class="row align-items-center">
+        <div class="row align-items-center hero-row">
             <div class="col-lg-5 text-center text-lg-start z-1">
                 <span class="small-label mb-3 d-inline-block">Premium Milk Tea</span>
                 <h1 class="mb-4">Hương vị tinh tế<br>từ những lá trà<br>thượng hạng</h1>
-                <p class="mb-5 text-muted" style="max-width: 400px; margin: 0 auto; margin-left: lg-0;">
+                <p class="mb-5 text-muted hero-desc" >
                     Mỗi ly trà sữa là sự kết hợp hoàn hảo giữa hương vị truyền thống và sự sáng tạo hiện đại, mang đến trải nghiệm tinh tế cho mọi giác quan.
                 </p>
                 <a href="index.php?route=products" class="btn-vaa btn-caramel">Khám phá menu <i class="fa-solid fa-arrow-right ms-2"></i></a>
@@ -13,9 +13,9 @@
             
             <div class="col-lg-7 position-relative mt-5 mt-lg-0">
                 <div class="hero-image-wrapper shadow-lg">
-                    <img src="https://scontent.fsgn5-7.fna.fbcdn.net/v/t39.99422-6/738616409_4469207313326598_1186941378494567910_n.png?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=107&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=127cfc&_nc_ohc=_zQY7GpR2j8Q7kNvwHJRiP4&_nc_oc=AdoZ3ZuD6NP9glMy4maVOdGGIDmd4WRjUGQpd6tLl3z27n174p9MOdeoFRroPAK4Jf5h-iveEEi2Of5JAMpAiSdB&_nc_zt=14&_nc_ht=scontent.fsgn5-7.fna&_nc_gid=T92cfrI_Cmg020pRt_-iXg&_nc_ss=7b2a8&oh=00_AQKL2ucE5BjoMgzDhocFsptVzR7CEpfPc_cw4oBpuDvEOA&oe=6AABE1A4" alt="Premium Milk Tea" class="img-fluid">
+                    <img src="https://scontent.fsgn5-21.fna.fbcdn.net/v/t39.99422-6/719161390_1559162298984184_1470607750049226317_n.png?stp=dst-jpg_tt6&cstp=mx1152x1440&ctp=s1152x1440&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_ohc=-_bZ1ELOTBUQ7kNvwH0rlOe&_nc_oc=Adrvu6WqYmE5wibjFMOXTdNBnpLBMmpuiDD5cTyyjG_wsNF9PoUGrt36XUmP8_zgeoSZ1SOvliqsv3j2_zjUTyu0&_nc_zt=14&_nc_ht=scontent.fsgn5-21.fna&_nc_gid=kErvD5ijcMJIIxSzaNzE6A&_nc_ss=7b2a8&oh=00_AQO4WxCOOcggxu6nDdte6RIenErcITSufzzTLbTuEZIupA&oe=6ACC22EC" alt="Premium Milk Tea" class="img-fluid">
                 </div>
-                <div class="position-absolute d-none d-lg-block" style="bottom: 10%; left: -5%; transform: rotate(-10deg);">
+                <div class="position-absolute d-none d-lg-block hero-floating-text" >
                     <span class="font-serif fs-3 text-caramel fw-bold fst-italic">Good Tea<br>Good Mood</span>
                 </div>
             </div>
@@ -33,8 +33,8 @@
                 <p class="text-muted">Chúng tôi tin rằng, một ly trà ngon không chỉ đến từ nguyên liệu, mà còn từ sự tận tâm và tỉ mỉ trong từng công đoạn pha chế. VAA THÉ ra đời với sứ mệnh mang đến những trải nghiệm thưởng trà thanh tao và khác biệt.</p>
             </div>
             <div class="col-lg-6 offset-lg-1">
-                <div class="rounded-4 overflow-hidden shadow-sm" style="height: 400px;">
-                    <img src="https://taiwan-scene.com/app/uploads/2019/07/yilan-taiwanese-tea-tour-tea-1.jpg" alt="Tea Leaves" class="w-100 h-100" style="object-fit: cover;">
+                <div class="rounded-4 overflow-hidden shadow-sm home-style-eb9eb8" >
+                    <img src="https://taiwan-scene.com/app/uploads/2019/07/yilan-taiwanese-tea-tour-tea-1.jpg" alt="Tea Leaves" class="w-100 h-100 home-style-3dc462" >
                 </div>
             </div>
         </div>
@@ -65,27 +65,27 @@
 </section>
 
 <!-- BRAND VALUES -->
-<section class="section-padding bg-forest text-ivory position-relative fade-up" style="color: var(--vaa-ivory) !important;">
+<section class="section-padding bg-forest text-ivory position-relative fade-up home-style-732cc6" >
     <div class="container px-4 px-lg-5">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0">
-                <div class="position-relative rounded-4 overflow-hidden shadow-lg" style="height: 500px; cursor: pointer;">
-                    <img src="https://images.unsplash.com/photo-1602492652136-233edc10be14?auto=format&fit=crop&q=80&w=1000" class="w-100 h-100" style="object-fit: cover;" alt="Video Placeholder">
+                <div class="position-relative rounded-4 overflow-hidden shadow-lg home-style-43fd36" >
+                    <img src="https://images.unsplash.com/photo-1602492652136-233edc10be14?auto=format&fit=crop&q=80&w=1000" class="w-100 h-100 home-style-3dc462"  alt="Video Placeholder">
                     <!-- Play button overlay -->
                     <div class="position-absolute top-50 start-50 translate-middle">
-                        <div class="bg-ivory rounded-circle d-flex align-items-center justify-content-center text-forest" style="width: 80px; height: 80px; opacity: 0.9;">
+                        <div class="bg-ivory rounded-circle d-flex align-items-center justify-content-center text-forest home-style-c0ddf2" >
                             <i class="fa-solid fa-play fs-3 ms-1"></i>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-5 offset-lg-1">
-                <span class="small-label mb-2 d-inline-block text-sage" style="color: var(--vaa-sage) !important;">Our Values</span>
+                <span class="small-label mb-2 d-inline-block text-sage home-style-4d2e6c" >Our Values</span>
                 <h2 class="mb-4 text-white">The Sound<br>of Shaking</h2>
-                <p class="mb-5" style="color: rgba(253, 251, 247, 0.8);">
+                <p class="mb-5 home-style-3b05c9" >
                     Mỗi ly trà sữa là sự kết hợp hoàn hảo giữa kỹ thuật pha chế và đam mê, tạo nên hương vị độc đáo, khó quên. Lắng nghe tiếng "lắc" điệu nghệ - âm thanh của sự tươi mới và chất lượng.
                 </p>
-                <a href="index.php?route=about" class="btn-vaa btn-outline-forest" style="border-color: var(--vaa-ivory); color: var(--vaa-ivory);">Khám phá về chúng tôi <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                <a href="index.php?route=about" class="btn-vaa btn-outline-forest home-style-624f19" >Khám phá về chúng tôi <i class="fa-solid fa-arrow-right ms-2"></i></a>
             </div>
         </div>
     </div>
@@ -109,14 +109,14 @@
                 <div class="product-card h-100 d-flex flex-column">
                     <div class="product-image-box">
                         <div class="position-absolute top-0 end-0 p-3">
-                            <i class="fa-regular fa-heart text-muted fs-5 transition-fast hover-caramel" style="cursor: pointer;"></i>
+                            <i class="fa-regular fa-heart text-muted fs-5 transition-fast hover-caramel home-style-24b531" ></i>
                         </div>
                         <img src="https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&q=80&w=600" alt="Trà sữa truyền thống" class="img-fluid drop-shadow">
                     </div>
                     <div class="p-4 bg-white d-flex flex-column flex-grow-1">
                         <h6 class="font-serif fw-bold fs-5 mb-1">Trà sữa truyền thống</h6>
                         <p class="text-caramel fw-bold mb-3 mt-auto fs-5">35.000đ</p>
-                        <button class="btn btn-outline-forest w-100 rounded-pill py-2 fw-semibold" style="font-size: 0.85rem;">
+                        <button class="btn btn-outline-forest w-100 rounded-pill py-2 fw-semibold home-style-e7992d" >
                             <i class="fa-solid fa-plus me-2"></i> Thêm vào giỏ
                         </button>
                     </div>
@@ -127,14 +127,14 @@
                 <div class="product-card h-100 d-flex flex-column">
                     <div class="product-image-box">
                         <div class="position-absolute top-0 end-0 p-3">
-                            <i class="fa-regular fa-heart text-muted fs-5 transition-fast hover-caramel" style="cursor: pointer;"></i>
+                            <i class="fa-regular fa-heart text-muted fs-5 transition-fast hover-caramel home-style-24b531" ></i>
                         </div>
                         <img src="https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?auto=format&fit=crop&q=80&w=600" alt="Matcha Latte" class="img-fluid drop-shadow">
                     </div>
                     <div class="p-4 bg-white d-flex flex-column flex-grow-1">
                         <h6 class="font-serif fw-bold fs-5 mb-1">Matcha Latte</h6>
                         <p class="text-caramel fw-bold mb-3 mt-auto fs-5">40.000đ</p>
-                        <button class="btn btn-outline-forest w-100 rounded-pill py-2 fw-semibold" style="font-size: 0.85rem;">
+                        <button class="btn btn-outline-forest w-100 rounded-pill py-2 fw-semibold home-style-e7992d" >
                             <i class="fa-solid fa-plus me-2"></i> Thêm vào giỏ
                         </button>
                     </div>
@@ -145,14 +145,14 @@
                 <div class="product-card h-100 d-flex flex-column">
                     <div class="product-image-box">
                         <div class="position-absolute top-0 end-0 p-3">
-                            <i class="fa-regular fa-heart text-muted fs-5 transition-fast hover-caramel" style="cursor: pointer;"></i>
+                            <i class="fa-regular fa-heart text-muted fs-5 transition-fast hover-caramel home-style-24b531" ></i>
                         </div>
                         <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&q=80&w=600" alt="Trà đào" class="img-fluid drop-shadow">
                     </div>
                     <div class="p-4 bg-white d-flex flex-column flex-grow-1">
                         <h6 class="font-serif fw-bold fs-5 mb-1">Trà đào</h6>
                         <p class="text-caramel fw-bold mb-3 mt-auto fs-5">32.000đ</p>
-                        <button class="btn btn-outline-forest w-100 rounded-pill py-2 fw-semibold" style="font-size: 0.85rem;">
+                        <button class="btn btn-outline-forest w-100 rounded-pill py-2 fw-semibold home-style-e7992d" >
                             <i class="fa-solid fa-plus me-2"></i> Thêm vào giỏ
                         </button>
                     </div>
@@ -163,14 +163,14 @@
                 <div class="product-card h-100 d-flex flex-column">
                     <div class="product-image-box">
                         <div class="position-absolute top-0 end-0 p-3">
-                            <i class="fa-regular fa-heart text-muted fs-5 transition-fast hover-caramel" style="cursor: pointer;"></i>
+                            <i class="fa-regular fa-heart text-muted fs-5 transition-fast hover-caramel home-style-24b531" ></i>
                         </div>
                         <img src="https://images.unsplash.com/photo-1589396575653-c09c794f6d74?auto=format&fit=crop&q=80&w=600" alt="Socola kem cheese" class="img-fluid drop-shadow">
                     </div>
                     <div class="p-4 bg-white d-flex flex-column flex-grow-1">
                         <h6 class="font-serif fw-bold fs-5 mb-1">Socola kem cheese</h6>
                         <p class="text-caramel fw-bold mb-3 mt-auto fs-5">50.000đ</p>
-                        <button class="btn btn-outline-forest w-100 rounded-pill py-2 fw-semibold" style="font-size: 0.85rem;">
+                        <button class="btn btn-outline-forest w-100 rounded-pill py-2 fw-semibold home-style-e7992d" >
                             <i class="fa-solid fa-plus me-2"></i> Thêm vào giỏ
                         </button>
                     </div>
@@ -192,7 +192,7 @@
         <div class="row g-4 justify-content-center">
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="text-center">
-                    <div class="bg-ivory rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 120px; height: 120px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="bg-ivory rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center shadow-sm home-style-d8710e"  onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <i class="fa-solid fa-glass-water text-caramel fs-1"></i>
                     </div>
                     <h6 class="font-serif fw-bold mb-1">Trà sữa</h6>
@@ -201,7 +201,7 @@
             </div>
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="text-center">
-                    <div class="bg-ivory rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 120px; height: 120px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="bg-ivory rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center shadow-sm home-style-d8710e"  onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <i class="fa-solid fa-lemon text-caramel fs-1"></i>
                     </div>
                     <h6 class="font-serif fw-bold mb-1">Trà trái cây</h6>
@@ -210,7 +210,7 @@
             </div>
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="text-center">
-                    <div class="bg-ivory rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 120px; height: 120px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="bg-ivory rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center shadow-sm home-style-d8710e"  onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <i class="fa-solid fa-blender text-caramel fs-1"></i>
                     </div>
                     <h6 class="font-serif fw-bold mb-1">Đá xay</h6>
@@ -219,7 +219,7 @@
             </div>
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="text-center">
-                    <div class="bg-ivory rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 120px; height: 120px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="bg-ivory rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center shadow-sm home-style-d8710e"  onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <i class="fa-solid fa-cubes text-caramel fs-1"></i>
                     </div>
                     <h6 class="font-serif fw-bold mb-1">Topping</h6>
@@ -228,7 +228,7 @@
             </div>
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="text-center">
-                    <div class="bg-ivory rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 120px; height: 120px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="bg-ivory rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center shadow-sm home-style-d8710e"  onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <i class="fa-solid fa-mug-hot text-caramel fs-1"></i>
                     </div>
                     <h6 class="font-serif fw-bold mb-1">Cà phê</h6>
@@ -242,7 +242,7 @@
 <!-- PROMOTION BANNER -->
 <section class="py-5 bg-ivory fade-up" id="promotions">
     <div class="container px-4 px-lg-5">
-        <div class="rounded-4 overflow-hidden position-relative" style="background-color: var(--vaa-sage); min-height: 400px;">
+        <div class="rounded-4 overflow-hidden position-relative home-style-19352c" >
             <div class="row h-100 align-items-center g-0">
                 <div class="col-md-6 p-5 p-lg-5 z-1">
                     <span class="small-label mb-3 d-inline-block text-forest">Ưu đãi đặc biệt</span>
@@ -250,13 +250,13 @@
                     
                     <div class="d-inline-flex align-items-center bg-white px-4 py-3 rounded-3 mb-4 shadow-sm border border-light">
                         <span class="text-muted me-3">Mã giảm giá:</span>
-                        <span class="fw-bold fs-5 text-forest" style="letter-spacing: 2px;">WELCOME20</span>
-                        <i class="fa-regular fa-copy ms-3 text-caramel" style="cursor: pointer;" title="Copy"></i>
+                        <span class="fw-bold fs-5 text-forest home-style-40c332" >WELCOME20</span>
+                        <i class="fa-regular fa-copy ms-3 text-caramel home-style-24b531"  title="Copy"></i>
                     </div>
                     <br>
                     <a href="#" class="btn-vaa btn-caramel">Nhận ngay <i class="fa-solid fa-arrow-right ms-2"></i></a>
                 </div>
-                <div class="col-md-6 position-absolute top-0 end-0 h-100 d-none d-md-block" style="background-image: url('https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&q=80&w=800'); background-size: cover; background-position: center; clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);">
+                <div class="col-md-6 position-absolute top-0 end-0 h-100 d-none d-md-block home-style-6a51db" >
                 </div>
             </div>
         </div>
@@ -274,7 +274,7 @@
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="card border-0 bg-transparent h-100">
-                    <img src="https://images.unsplash.com/photo-1600565261908-16e530663459?auto=format&fit=crop&q=80&w=600" class="card-img-top rounded-4 mb-3" alt="News 1" style="height: 240px; object-fit: cover;">
+                    <img src="https://images.unsplash.com/photo-1600565261908-16e530663459?auto=format&fit=crop&q=80&w=600" class="card-img-top rounded-4 mb-3 home-style-26aa2f" alt="News 1" >
                     <div class="card-body px-0">
                         <span class="text-caramel small fw-bold mb-2 d-block">12 Tháng 9, 2026</span>
                         <h5 class="font-serif fw-bold mb-3">Ra mắt hương vị mới: Trà Ô Long Mộc Quế</h5>
@@ -285,7 +285,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card border-0 bg-transparent h-100">
-                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=600" class="card-img-top rounded-4 mb-3" alt="News 2" style="height: 240px; object-fit: cover;">
+                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=600" class="card-img-top rounded-4 mb-3 home-style-26aa2f" alt="News 2" >
                     <div class="card-body px-0">
                         <span class="text-caramel small fw-bold mb-2 d-block">05 Tháng 9, 2026</span>
                         <h5 class="font-serif fw-bold mb-3">Tưng bừng khai trương chi nhánh Quận 1</h5>
@@ -296,7 +296,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card border-0 bg-transparent h-100">
-                    <img src="https://images.unsplash.com/photo-1577805947697-89e18249d767?auto=format&fit=crop&q=80&w=600" class="card-img-top rounded-4 mb-3" alt="News 3" style="height: 240px; object-fit: cover;">
+                    <img src="https://images.unsplash.com/photo-1577805947697-89e18249d767?auto=format&fit=crop&q=80&w=600" class="card-img-top rounded-4 mb-3 home-style-26aa2f" alt="News 3" >
                     <div class="card-body px-0">
                         <span class="text-caramel small fw-bold mb-2 d-block">28 Tháng 8, 2026</span>
                         <h5 class="font-serif fw-bold mb-3">Workshop: The Art of Tea Tasting</h5>
@@ -308,3 +308,8 @@
         </div>
     </div>
 </section>
+
+
+
+
+

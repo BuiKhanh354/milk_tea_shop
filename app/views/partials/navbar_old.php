@@ -56,7 +56,7 @@ $admin_name = $is_admin ? $_SESSION['full_name'] : '';
                     <div class="dropdown hover-dropdown">
                         <a href="index.php?route=profile" class="text-forest text-decoration-none fs-6 fw-bold transition-fast hover-caramel dropdown-toggle d-flex align-items-center gap-2" id="accountDropdown" aria-expanded="false">
                             <i class="fa-regular fa-user"></i>
-                            <span class="d-none d-lg-inline" style="font-size: 0.9rem;">Xin chào, <?= htmlspecialchars($customer_name) ?></span>
+                            <span class="d-none d-lg-inline global-style-33dd45" >Xin chào, <?= htmlspecialchars($customer_name) ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-0 custom-dropdown" aria-labelledby="accountDropdown">
                             <li><a class="dropdown-item py-2" href="index.php?route=profile"><i class="fa-regular fa-id-card me-2"></i> Thông tin cá nhân</a></li>
@@ -69,7 +69,7 @@ $admin_name = $is_admin ? $_SESSION['full_name'] : '';
                     <div class="dropdown hover-dropdown">
                         <a href="admin.php?route=dashboard" class="text-forest text-decoration-none fs-6 fw-bold transition-fast hover-caramel dropdown-toggle d-flex align-items-center gap-2" id="adminDropdown" aria-expanded="false">
                             <i class="fa-solid fa-user-tie"></i>
-                            <span class="d-none d-lg-inline" style="font-size: 0.9rem;"><?= htmlspecialchars($admin_name) ?></span>
+                            <span class="d-none d-lg-inline global-style-33dd45" ><?= htmlspecialchars($admin_name) ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-0 custom-dropdown" aria-labelledby="adminDropdown">
                             <li><a class="dropdown-item py-2" href="admin.php?route=dashboard"><i class="fa-solid fa-chart-pie me-2"></i> Trang quản trị</a></li>
@@ -94,7 +94,7 @@ $admin_name = $is_admin ? $_SESSION['full_name'] : '';
                 ?>
                 <a href="index.php?route=cart" class="text-forest text-decoration-none fs-5 position-relative transition-fast hover-caramel">
                     <i class="fa-solid fa-bag-shopping"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-caramel text-dark" id="cart-badge" style="font-size: 0.6rem; transform: translate(-30%, -30%) !important;">
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-caramel text-dark global-style-559096" id="cart-badge" >
                         <?= $cart_count ?>
                         <span class="visually-hidden">sản phẩm trong giỏ</span>
                     </span>
@@ -106,4 +106,4 @@ $admin_name = $is_admin ? $_SESSION['full_name'] : '';
 </nav>
 
 <!-- Spacer to prevent content overlapping with fixed navbar -->
-<div style="height: 80px;"></div>
+<div class="global-style-849459"></div>

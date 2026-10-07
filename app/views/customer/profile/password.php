@@ -57,7 +57,7 @@
     <!-- Header tối giản -->
     <?php include '../app/views/partials/account-header.php'; ?>
 
-    <main class="container py-5" style="min-height: calc(100vh - 70px);">
+    <main class="container py-5 account-style-a6ee44" >
         <div class="row g-4">
             <!-- Sidebar (Cột Trái) -->
             <div class="col-lg-3">
@@ -73,7 +73,7 @@
                         <h3 class="font-serif fw-bold text-forest mb-0">Đổi mật khẩu</h3>
                     </div>
 
-                    <form class="mx-auto" style="max-width: 500px;" method="POST" action="index.php?route=password">
+                    <form class="mx-auto account-style-d99434"  method="POST" action="index.php?route=password">
                         <div class="row g-4">
                             <div class="col-12 position-relative">
                                 <label class="form-label">Mật khẩu hiện tại</label>

@@ -7,7 +7,7 @@ $isStaff = isset($_SESSION['role']) && $_SESSION['role'] === 'staff';
 <!-- Desktop Sidebar -->
 <aside class="admin-sidebar d-none d-lg-flex flex-column">
     <div class="sidebar-brand px-4 py-4 text-center">
-        <a href="index.php" style="text-decoration: none;"><h2 class="font-serif fw-bold text-forest mb-1">VAA THÉ</h2></a>
+        <a href="index.php" class="admin-style-8354e9"><h2 class="font-serif fw-bold text-forest mb-1">VAA THÉ</h2></a>
         <p class="small text-muted mb-0 fst-italic">GOOD TEA, GOOD MOOD</p>
     </div>
     

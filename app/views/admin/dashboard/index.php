@@ -70,7 +70,7 @@
                     <option value="12">12 tháng qua</option>
                 </select>
             </div>
-            <div class="revenue-chart-container" style="position: relative; height: 300px; width: 100%;">
+            <div class="revenue-chart-container admin-style-8d5232" >
                 <canvas id="revenueChart"></canvas>
             </div>
         </div>
@@ -82,7 +82,7 @@
             <h5 class="fw-bold text-dark mb-4">Cảnh báo kho</h5>
             <div class="flex-grow-1 overflow-auto">
                 <table class="table table-borderless table-sm mb-0">
-                    <thead class="text-muted" style="font-size: 0.8rem; border-bottom: 1px solid #eee;">
+                    <thead class="text-muted admin-style-5a77a5" >
                         <tr>
                             <th>Nguyên liệu</th>
                             <th>Tồn kho</th>

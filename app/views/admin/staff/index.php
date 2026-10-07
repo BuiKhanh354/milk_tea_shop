@@ -29,7 +29,7 @@
                         <tr>
                             <td class="ps-4">
                                 <div class="d-flex align-items-center">
-                                    <div class="bg-forest bg-opacity-10 text-forest rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                    <div class="bg-forest bg-opacity-10 text-forest rounded-circle d-flex align-items-center justify-content-center me-3 admin-style-9a6a53" >
                                         <i class="fa-solid fa-user-tie"></i>
                                     </div>
                                     <div class="fw-bold text-dark"><?= $staff['full_name'] ?></div>

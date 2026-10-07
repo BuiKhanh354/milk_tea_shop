@@ -1,5 +1,5 @@
 <!-- ACCOUNT HEADER (Minimalist) -->
-<nav class="navbar navbar-expand-lg vaa-header bg-ivory border-bottom border-sage border-opacity-25" style="height: 70px;">
+<nav class="navbar navbar-expand-lg vaa-header bg-ivory border-bottom border-sage border-opacity-25 global-style-c74514" >
     <div class="container-fluid px-4 px-lg-5 d-flex justify-content-between align-items-center">
         <!-- LEFT: BRAND LOGO -->
         <a class="navbar-brand vaa-logo d-flex align-items-center gap-2 m-0" href="index.php">
@@ -16,4 +16,4 @@
 </nav>
 
 <!-- Spacer to prevent content overlapping with fixed navbar -->
-<div style="height: 70px;"></div>
+<div class="global-style-c74514"></div>

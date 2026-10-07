@@ -56,7 +56,7 @@
                             <span class="badge bg-secondary bg-opacity-50 text-white px-3 py-2 rounded-pill me-3">Đã đóng cửa</span>
                         <?php endif; ?>
                     </div>
-                    <h1 class="font-serif fw-bold text-white mb-2" style="font-size: 3.5rem;"><?= $store['name'] ?></h1>
+                    <h1 class="font-serif fw-bold text-white mb-2 store-style-394c9a" ><?= $store['name'] ?></h1>
                     <p class="fs-5 mb-0 opacity-75"><i class="fa-solid fa-location-dot me-2"></i> <?= $store['address'] ?></p>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                         <h4 class="font-serif fw-bold text-forest mb-4">Thông tin liên hệ</h4>
                         
                         <div class="d-flex align-items-start mb-4">
-                            <div class="bg-beige text-brown rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 45px; height: 45px;">
+                            <div class="bg-beige text-brown rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0 store-style-d2fc39" >
                                 <i class="fa-solid fa-phone fs-5"></i>
                             </div>
                             <div>
@@ -78,7 +78,7 @@
                         </div>
                         
                         <div class="d-flex align-items-start mb-4">
-                            <div class="bg-beige text-brown rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 45px; height: 45px;">
+                            <div class="bg-beige text-brown rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0 store-style-d2fc39" >
                                 <i class="fa-regular fa-clock fs-5"></i>
                             </div>
                             <div>
@@ -115,9 +115,9 @@
                 <!-- Bản đồ -->
                 <div class="col-12 col-lg-7">
                     <div class="store-map-container shadow-sm h-100 min-vh-50">
-                        <div class="map-placeholder-overlay" style="background-color: #f0ede6;">
+                        <div class="map-placeholder-overlay store-style-458a0b" >
                             <div class="text-center p-4">
-                                <i class="fa-solid fa-map-location-dot text-forest mb-3" style="font-size: 4rem;"></i>
+                                <i class="fa-solid fa-map-location-dot text-forest mb-3 store-style-b0c640" ></i>
                                 <h3 class="font-serif fw-bold text-dark">Google Maps</h3>
                                 <p class="text-muted text-center max-w-sm mb-4">Bản đồ chi tiết của <?= $store['name'] ?> sẽ được nhúng tại đây.</p>
                                 <button class="btn btn-outline-store px-4 bg-white">Mở trong Google Maps <i class="fa-solid fa-arrow-up-right-from-square ms-2 small"></i></button>

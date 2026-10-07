@@ -275,3 +275,21 @@
   color: var(--vaa-forest);
   font-weight: 700;
 }
+
+/* Refactored Inline Styles for product-detail.css */
+.product-detail-style-c9a35f {
+    top: 100px;
+}
+.product-detail-style-e7ec96 {
+    font-size: 1.1rem;
+}
+.product-detail-style-806ff7 {
+    font-style: italic;
+    font-family: var(--font-serif);
+}
+.product-detail-style-394c9a {
+    font-size: 3.5rem;
+}
+.product-detail-style-24b531 {
+    cursor: pointer;
+}

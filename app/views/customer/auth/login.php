@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <div class="auth-wrapper" style="animation: fadeInWrapper 0.8s ease forwards; opacity: 0;">
+    <div class="auth-wrapper auth-style-cc17ca" >
         <!-- Left Side: Brand Visual -->
         <div class="auth-visual">
             <div class="btn-back">
@@ -51,11 +51,11 @@
                 </div>
 
                 <?php if ($error): ?>
-                    <div id="general-error" class="alert alert-danger error-msg mb-4" role="alert" style="display: block;">
+                    <div id="general-error" class="alert alert-danger error-msg mb-4 auth-style-19fae4" role="alert" >
                         <?= $error ?>
                     </div>
                 <?php else: ?>
-                    <div id="general-error" class="alert alert-danger error-msg mb-4" role="alert" style="display: none;">
+                    <div id="general-error" class="alert alert-danger error-msg mb-4 auth-style-224b51" role="alert" >
                     </div>
                 <?php endif; ?>
 
@@ -87,7 +87,7 @@
                     <div class="d-flex align-items-center justify-content-between mb-5 flex-wrap gap-2">
                         <div class="form-check mb-0">
                             <input class="form-check-input" type="checkbox" id="rememberMe">
-                            <label class="form-check-label text-muted small" for="rememberMe" style="cursor: pointer;">
+                            <label class="form-check-label text-muted small auth-style-24b531" for="rememberMe" >
                                 Ghi nhớ đăng nhập
                             </label>
                         </div>

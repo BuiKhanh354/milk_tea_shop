@@ -19,7 +19,7 @@
     <!-- Header tối giản -->
     <?php include '../app/views/partials/account-header.php'; ?>
     
-    <main class="container py-5" style="min-height: calc(100vh - 70px);">
+    <main class="container py-5 account-style-a6ee44" >
         <div class="row g-4">
             <!-- Sidebar (Cột Trái) -->
             <div class="col-lg-3">

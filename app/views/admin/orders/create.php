@@ -22,10 +22,10 @@
                     </div>
                 </div>
                 
-                <div class="row g-3" id="productGrid" style="max-height: 600px; overflow-y: auto;">
+                <div class="row g-3 admin-style-d31d38" id="productGrid" >
                     <?php foreach ($products as $p): ?>
                     <div class="col-md-4 col-sm-6 product-card" data-name="<?= strtolower($p['name']) ?>">
-                        <div class="card h-100 border rounded-3 shadow-none text-center p-3" style="cursor:pointer;" onclick="openOptionsModal(<?= $p['id'] ?>, '<?= htmlspecialchars($p['name'], ENT_QUOTES) ?>', <?= $p['price'] ?>)">
+                        <div class="card h-100 border rounded-3 shadow-none text-center p-3 admin-style-58aba5"  onclick="openOptionsModal(<?= $p['id'] ?>, '<?= htmlspecialchars($p['name'], ENT_QUOTES) ?>', <?= $p['price'] ?>)">
                             <img src="<?= $p['image'] ?>" class="img-fluid rounded-3 mb-2 mx-auto" style="height: 100px; object-fit: cover;" alt="<?= $p['name'] ?>">
                             <h6 class="fw-bold mb-1 text-truncate" title="<?= $p['name'] ?>"><?= $p['name'] ?></h6>
                             <div class="text-forest fw-medium"><?= number_format($p['price'], 0, ',', '.') ?>đ</div>
@@ -43,7 +43,7 @@
             <div class="card-body p-4 d-flex flex-column">
                 <h5 class="fw-bold mb-3 border-bottom pb-2">Giỏ hàng</h5>
                 
-                <div class="flex-grow-1 overflow-y-auto mb-3" style="max-height: 300px;">
+                <div class="flex-grow-1 overflow-y-auto mb-3 admin-style-a0b01d" >
                     <div id="cartItemsList"></div>
                     <div class="text-center text-muted mt-5" id="emptyCartMsg">Chưa có sản phẩm nào</div>
                 </div>
@@ -129,7 +129,7 @@
                     <div class="col-6">
                         <div class="form-check p-2 border rounded bg-light m-0">
                             <input class="form-check-input ms-1 topping-checkbox" type="checkbox" value="<?= $t['id'] ?>" data-name="<?= $t['name'] ?>" data-price="<?= $t['price'] ?>" id="top_<?= $t['id'] ?>">
-                            <label class="form-check-label w-100 ms-2" style="cursor:pointer;" for="top_<?= $t['id'] ?>">
+                            <label class="form-check-label w-100 ms-2 admin-style-58aba5"  for="top_<?= $t['id'] ?>">
                                 <span class="d-block small fw-medium"><?= $t['name'] ?></span>
                                 <span class="d-block small text-forest">+<?= number_format($t['price'], 0, ',', '.') ?>đ</span>
                             </label>
@@ -240,14 +240,14 @@
 
             html += `
                 <div class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded-2 bg-light">
-                    <div class="text-truncate me-2" style="max-width: 150px;">
+                    <div class="text-truncate me-2 admin-style-7ecc66" >
                         <div class="fw-medium small">${item.name}</div>
-                        <div class="text-muted small" style="font-size:0.7rem;">${optionsText}</div>
+                        <div class="text-muted small admin-style-198265" >${optionsText}</div>
                         <div class="text-forest small">${new Intl.NumberFormat('vi-VN').format(item.price)}đ</div>
                     </div>
                     <div class="d-flex align-items-center gap-2">
                         <button type="button" class="btn btn-sm btn-outline-secondary px-2 py-0" onclick="updateQty('${cartKey}', -1)">-</button>
-                        <span class="fw-bold" style="width: 20px; text-align: center;">${item.quantity}</span>
+                        <span class="fw-bold admin-style-193ae6" >${item.quantity}</span>
                         <button type="button" class="btn btn-sm btn-outline-secondary px-2 py-0" onclick="updateQty('${cartKey}', 1)">+</button>
                     </div>
                 </div>

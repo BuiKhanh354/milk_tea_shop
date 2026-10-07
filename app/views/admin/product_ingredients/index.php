@@ -11,7 +11,7 @@
             <table class="table table-hover align-middle mb-0">
                 <thead class="bg-light">
                     <tr>
-                        <th class="ps-4 py-3 fw-medium border-0 rounded-top-left" style="width: 80px;">Hình</th>
+                        <th class="ps-4 py-3 fw-medium border-0 rounded-top-left admin-style-588c2d" >Hình</th>
                         <th class="py-3 fw-medium border-0">Tên Sản Phẩm</th>
                         <th class="py-3 fw-medium border-0">Danh Mục</th>
                         <th class="py-3 fw-medium border-0 text-center">Số lượng nguyên liệu</th>

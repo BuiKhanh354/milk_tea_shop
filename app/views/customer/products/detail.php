@@ -21,7 +21,7 @@
     <?php include __DIR__ . '/../../partials/navbar_old.php'; ?>
     
     <!-- Breadcrumb -->
-    <div class="container mt-4 mb-3 fade-up visible">
+    <div class="container page-offset mb-3 fade-up visible">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb vaa-breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="index.php">HOME</a></li>
@@ -36,7 +36,7 @@
         <div class="row g-5">
             <!-- Left: Product Image -->
             <div class="col-lg-6">
-                <div class="product-image-container sticky-top" style="top: 100px;">
+                <div class="product-image-container sticky-top product-detail-style-c9a35f" >
                     <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="img-fluid" id="product-img-main">
                 </div>
             </div>
@@ -78,7 +78,7 @@
                     
                     <!-- Size -->
                     <div class="mb-4">
-                        <span class="option-label">CHOOSE YOUR SIZE</span>
+                        <span class="option-label">CHỌN KÍCH CỠ</span>
                         <div class="vaa-radio-group">
                             <?php foreach ($sizes as $index => $size): ?>
                             <div class="vaa-radio-btn">
@@ -91,7 +91,7 @@
 
                     <!-- Sugar -->
                     <div class="mb-4">
-                        <span class="option-label">SUGAR LEVEL</span>
+                        <span class="option-label">MỨC ĐƯỜNG</span>
                         <div class="vaa-radio-group">
                             <?php foreach ($sugarOptions as $s): ?>
                             <div class="vaa-radio-btn">
@@ -107,7 +107,7 @@
 
                     <!-- Ice -->
                     <div class="mb-4">
-                        <span class="option-label">ICE LEVEL</span>
+                        <span class="option-label">MỨC ĐÁ</span>
                         <div class="vaa-radio-group">
                             <?php foreach ($iceOptions as $i): ?>
                             <div class="vaa-radio-btn">
@@ -123,7 +123,7 @@
 
                     <!-- Toppings -->
                     <div class="mb-4">
-                        <span class="option-label">ADD TOPPINGS</span>
+                        <span class="option-label">THÊM TOPPINGS</span>
                         <div class="row g-2">
                             <?php foreach ($toppings as $topping): ?>
                             <div class="col-md-6">
@@ -141,7 +141,7 @@
                     
                     <!-- Note -->
                     <div class="mb-4 pb-4 border-bottom border-sage border-opacity-25">
-                        <span class="option-label">NOTE FOR YOUR DRINK</span>
+                        <span class="option-label">CHÚ THÍCH ĐỒ UỐNG CỦA BẠN</span>
                         <textarea class="form-control bg-transparent border-sage rounded-0" rows="2" placeholder="Ví dụ: Ít ngọt hơn, nhiều trân châu..."></textarea>
                     </div>
 
@@ -149,7 +149,7 @@
                     <div class="d-none d-lg-block">
                         <div class="row align-items-end g-4">
                             <div class="col-auto">
-                                <span class="option-label mb-2">QUANTITY</span>
+                                <span class="option-label mb-2">SỐ LƯỢNG</span>
                                 <div class="qty-selector">
                                     <button type="button" class="qty-btn" id="btn-minus"><i class="fa-solid fa-minus"></i></button>
                                     <input type="text" class="qty-input" id="input-qty" value="1" readonly>
@@ -182,7 +182,7 @@
     <!-- Mobile Sticky Action Panel -->
     <div class="d-lg-none sticky-bottom-panel">
         <div class="d-flex justify-content-between align-items-center mb-2">
-            <span class="font-sans fw-bold text-dark" style="font-size: 1.1rem;">Tổng: <span id="mobile-total-price" class="text-caramel">35.000đ</span></span>
+            <span class="font-sans fw-bold text-dark product-detail-style-e7ec96" >Tổng: <span id="mobile-total-price" class="text-caramel">35.000đ</span></span>
         </div>
         <div class="row g-2">
             <div class="col-6">
@@ -213,7 +213,7 @@
             <h2 class="story-heading">The Story Behind The Tea</h2>
             <div class="row justify-content-center mt-5">
                 <div class="col-md-8 text-start">
-                    <p class="fs-5 text-dark mb-4 text-center" style="font-style: italic; font-family: var(--font-serif);">"<?= htmlspecialchars($product['story']) ?>"</p>
+                    <p class="fs-5 text-dark mb-4 text-center product-detail-style-806ff7" >"<?= htmlspecialchars($product['story']) ?>"</p>
                     
                     <div class="bg-white p-4 p-md-5 border border-sage border-opacity-25 mt-5">
                         <h4 class="font-serif fw-bold text-forest mb-4 border-bottom pb-2">Thông tin</h4>
@@ -243,7 +243,7 @@
             <h2 class="font-serif fw-bold text-forest">Customer Reviews</h2>
             
             <div class="mt-4">
-                <h1 class="font-serif text-caramel mb-0" style="font-size: 3.5rem;"><?= number_format($product['rating'], 1) ?></h1>
+                <h1 class="font-serif text-caramel mb-0 product-detail-style-394c9a" ><?= number_format($product['rating'], 1) ?></h1>
                 <div class="fs-4 stars my-2">
                     <?php 
                         for($i=1; $i<=5; $i++) {
@@ -284,7 +284,7 @@
                         <form>
                             <div class="mb-3 text-start">
                                 <label class="form-label text-dark fw-bold">Your Rating</label>
-                                <div class="fs-4 text-sage" style="cursor: pointer;">
+                                <div class="fs-4 text-sage product-detail-style-24b531" >
                                     <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
                                 </div>
                             </div>
@@ -379,3 +379,4 @@
         });
     }
 </script>
+

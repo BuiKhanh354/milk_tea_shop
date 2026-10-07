@@ -7,3 +7,9 @@
 /ingredients.md
 /UI_customer.md
 /UI.md
+
+# Báo cáo và tài liệu cá nhân, không đưa lên Git
+*.md
+*.docx
+*.xlsx
+*.txt

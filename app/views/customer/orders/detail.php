@@ -27,7 +27,7 @@ if ($current_step_index === false) $current_step_index = -1;
     <!-- Header tối giản -->
     <?php include '../app/views/partials/account-header.php'; ?>
     
-<div class="account-page bg-cream py-5" style="min-height: calc(100vh - 300px); padding-top: 120px !important;">
+<div class="account-page bg-cream py-5 account-style-94abf0" >
     <div class="container">
         <div class="row gy-4">
             <!-- Sidebar -->
@@ -46,7 +46,7 @@ if ($current_step_index === false) $current_step_index = -1;
                 <div class="card border-0 rounded-0 shadow-sm mb-4">
                     <div class="card-body p-4 p-lg-5">
                         <div class="order-timeline position-relative">
-                            <div class="progress position-absolute" style="height: 4px; top: 24px; left: 10%; right: 10%; z-index: 1;">
+                            <div class="progress position-absolute account-style-fb7ddd" >
                                 <?php 
                                     $progress_width = 0;
                                     if ($current_step_index > 0) {
@@ -73,7 +73,7 @@ if ($current_step_index === false) $current_step_index = -1;
                                             $icon_color = 'text-white';
                                         }
                                     ?>
-                                    <div class="text-center" style="width: 20%;">
+                                    <div class="text-center account-style-f6f6b1" >
                                         <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2 border border-2 <?= $icon_bg ?> <?= $icon_color ?>" style="width: 50px; height: 50px;">
                                             <?php if($step_key === 'pending'): ?> <i class="fa-regular fa-clipboard"></i>
                                             <?php elseif($step_key === 'confirmed'): ?> <i class="fa-solid fa-check"></i>

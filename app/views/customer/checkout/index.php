@@ -28,7 +28,7 @@
 
 <?php include __DIR__ . '/../../partials/navbar_old.php'; ?>
 
-<div class="container-fluid bg-light py-5">
+<div class="container-fluid bg-light page-offset pb-5">
     <div class="container">
         <h2 class="font-serif fw-bold text-black mb-4">Thanh toán</h2>
 
@@ -62,7 +62,7 @@
                             
                             <div class="form-check p-3 border rounded-3 mb-2 bg-white payment-method-option" onclick="this.querySelector('input').checked = true;">
                                 <input class="form-check-input ms-1" type="radio" name="payment_method" id="pay_cash" value="cash" checked>
-                                <label class="form-check-label ms-2 d-flex align-items-center w-100" for="pay_cash" style="cursor: pointer;">
+                                <label class="form-check-label ms-2 d-flex align-items-center w-100 global-style-24b531" for="pay_cash" >
                                     <i class="fa-solid fa-money-bill-wave text-success fs-4 me-3"></i>
                                     <div>
                                         <span class="d-block fw-bold text-dark">Thanh toán khi nhận hàng (COD)</span>
@@ -73,7 +73,7 @@
 
                             <div class="form-check p-3 border rounded-3 mb-2 bg-white payment-method-option" onclick="this.querySelector('input').checked = true;">
                                 <input class="form-check-input ms-1" type="radio" name="payment_method" id="pay_transfer" value="bank_transfer">
-                                <label class="form-check-label ms-2 d-flex align-items-center w-100" for="pay_transfer" style="cursor: pointer;">
+                                <label class="form-check-label ms-2 d-flex align-items-center w-100 global-style-24b531" for="pay_transfer" >
                                     <i class="fa-solid fa-building-columns text-primary fs-4 me-3"></i>
                                     <div>
                                         <span class="d-block fw-bold text-dark">Chuyển khoản ngân hàng</span>
@@ -84,7 +84,7 @@
 
                             <div class="form-check p-3 border rounded-3 mb-4 bg-white payment-method-option" onclick="this.querySelector('input').checked = true;">
                                 <input class="form-check-input ms-1" type="radio" name="payment_method" id="pay_momo" value="momo">
-                                <label class="form-check-label ms-2 d-flex align-items-center w-100" for="pay_momo" style="cursor: pointer;">
+                                <label class="form-check-label ms-2 d-flex align-items-center w-100 global-style-24b531" for="pay_momo" >
                                     <i class="fa-solid fa-wallet text-danger fs-4 me-3"></i>
                                     <div>
                                         <span class="d-block fw-bold text-dark">Ví MoMo</span>
@@ -93,7 +93,7 @@
                                 </label>
                             </div>
 
-                            <button type="submit" class="btn btn-caramel w-100 py-3 fw-bold rounded-pill text-white mt-3 shadow" style="font-size: 1.1rem;">
+                            <button type="submit" class="btn btn-caramel w-100 py-3 fw-bold rounded-pill text-white mt-3 shadow global-style-e7ec96" >
                                 ĐẶT HÀNG NGAY
                             </button>
                     </div>
@@ -101,7 +101,7 @@
             </div>
 
             <div class="col-lg-5">
-                <div class="card border-0 shadow-sm rounded-4 position-sticky" style="top: 100px;">
+                <div class="card border-0 shadow-sm rounded-4 position-sticky global-style-c9a35f" >
                     <div class="card-body p-4 p-md-5">
                         <h5 class="fw-bold mb-4">Tóm tắt đơn hàng</h5>
                         
@@ -157,3 +157,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

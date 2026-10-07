@@ -63,14 +63,14 @@
                 
                 <div class="col-12">
                     <label class="form-label text-muted small fw-medium">Tồn kho hiện tại</label>
-                    <div class="form-control bg-light text-muted" style="cursor: not-allowed;">
+                    <div class="form-control bg-light text-muted admin-style-287e87" >
                         <?= floatval($item['quantity']) ?> <?= htmlspecialchars($item['unit']) ?> 
                         <span class="small ms-2 text-danger fst-italic">(Chỉ đọc)</span>
                     </div>
                 </div>
             </div>
 
-            <hr class="my-4" style="border-color: rgba(0,0,0,0.05);">
+            <hr class="my-4 admin-style-f88d7f" >
 
             <div class="d-flex justify-content-end gap-2">
                 <a href="admin.php?route=inventory" class="btn btn-light px-4">Hủy</a>

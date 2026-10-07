@@ -165,3 +165,80 @@ p {
 .main-content {
     min-height: 80vh;
 }
+
+/* Refactored Inline Styles for global.css */
+.global-style-5afc73 {
+    font-size: 3rem;
+}
+.global-style-d0edae {
+    min-height: calc(100vh - 300px);
+}
+.global-style-38cfee {
+    border-color: rgba(0,0,0,0.05)!important;
+}
+.global-style-c9a35f {
+    top: 100px;
+}
+.global-style-24b531 {
+    cursor: pointer;
+}
+.global-style-e7ec96 {
+    font-size: 1.1rem;
+}
+.global-style-4d1e5c {
+    max-width: 600px;
+}
+.global-style-7eebeb {
+    font-size: 80px;
+}
+.global-style-ed52ed {
+    background-color: #F7F4ED;
+    color: #18231D;
+    font-family: 'Inter', sans-serif;
+}
+.global-style-197464 {
+    color: #9A7654;
+    letter-spacing: 3px;
+    font-size: 0.85rem;
+}
+.global-style-b90505 {
+    font-family: 'Playfair Display', serif;
+    color: #263A30;
+    font-size: 3.5rem;
+}
+.global-style-da284e {
+    color: #555;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.global-style-911ae1 {
+    color: #263A30;
+    font-family: 'Playfair Display', serif;
+}
+.global-style-9f44af {
+    background-color: #263A30;
+}
+.global-style-4271b4 {
+    width: 40px;
+    height: 40px;
+    border-color: rgba(255,255,255,0.2);
+}
+.global-style-35bb81 {
+    line-height: 2;
+}
+.global-style-c74514 {
+    height: 70px;
+}
+.global-style-fbe98b {
+    max-width: 400px;
+}
+.global-style-559096 {
+    font-size: 0.6rem;
+    transform: translate(-30%, -30%) !important;
+}
+.global-style-849459 {
+    height: 80px;
+}
+.global-style-33dd45 {
+    font-size: 0.9rem;
+}

@@ -17,7 +17,7 @@
     <div class="d-flex align-items-center gap-3">
         <div class="search-box d-none d-md-flex align-items-center bg-light rounded-pill px-3 py-2">
             <i class="fa-solid fa-magnifying-glass text-muted"></i>
-            <input type="text" class="border-0 bg-transparent ms-2" placeholder="Tìm kiếm..." style="outline: none;">
+            <input type="text" class="border-0 bg-transparent ms-2 admin-style-874267" placeholder="Tìm kiếm..." >
         </div>
         
         <button class="btn btn-light rounded-circle position-relative btn-notification">
@@ -32,7 +32,7 @@
                 <img src="https://ui-avatars.com/api/?name=Admin&background=263A30&color=fff" alt="User" width="36" height="36" class="rounded-circle me-2">
                 <div class="d-none d-md-block text-start lh-1">
                     <span class="d-block fw-bold fs-6"><?= $_SESSION['full_name'] ?? 'Admin' ?></span>
-                    <span class="text-muted" style="font-size: 0.75rem;"><?= ucfirst($_SESSION['role'] ?? 'Administrator') ?></span>
+                    <span class="text-muted admin-style-af89d6" ><?= ucfirst($_SESSION['role'] ?? 'Administrator') ?></span>
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="userDropdown">

@@ -8,7 +8,7 @@
 <div class="row g-4">
     <?php if(empty($alerts)): ?>
         <div class="col-12 text-center py-5">
-            <div class="text-success mb-3" style="font-size: 3rem;"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="text-success mb-3 admin-style-5afc73" ><i class="fa-solid fa-circle-check"></i></div>
             <h5 class="fw-bold text-dark">Kho hàng ổn định</h5>
             <p class="text-muted">Không có nguyên liệu nào đang trong tình trạng cảnh báo.</p>
         </div>

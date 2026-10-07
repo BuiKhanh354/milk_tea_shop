@@ -91,7 +91,7 @@
                         <?php endif; ?>
                     </div>
 
-                    <hr class="my-4" style="border-color: rgba(0,0,0,0.05);">
+                    <hr class="my-4 admin-style-f88d7f" >
 
                     <div class="d-flex justify-content-end gap-2">
                         <button type="submit" class="btn btn-forest px-4">Lưu công thức</button>

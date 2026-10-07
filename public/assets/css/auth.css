@@ -291,3 +291,18 @@ body, html {
         max-width: 400px;
     }
 }
+
+/* Refactored Inline Styles for auth.css */
+.auth-style-cc17ca {
+    animation: fadeInWrapper 0.8s ease forwards;
+    opacity: 0;
+}
+.auth-style-19fae4 {
+    display: block;
+}
+.auth-style-224b51 {
+    display: none;
+}
+.auth-style-24b531 {
+    cursor: pointer;
+}

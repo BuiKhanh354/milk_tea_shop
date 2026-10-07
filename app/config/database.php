@@ -1,4 +1,5 @@
 <?php
+define('BASE_URL', '/milk_tea_shop/public');
 $servername = "127.0.0.1";
 $username = "root";
 $pass = "";

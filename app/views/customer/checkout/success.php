@@ -14,10 +14,10 @@
 
 <div class="container-fluid bg-light py-5 min-vh-100 d-flex align-items-center">
     <div class="container text-center">
-        <div class="card border-0 shadow-sm rounded-4 mx-auto" style="max-width: 600px;">
+        <div class="card border-0 shadow-sm rounded-4 mx-auto global-style-4d1e5c" >
             <div class="card-body p-5">
                 <div class="mb-4">
-                    <i class="fa-solid fa-circle-check text-success" style="font-size: 80px;"></i>
+                    <i class="fa-solid fa-circle-check text-success global-style-7eebeb" ></i>
                 </div>
                 <h2 class="font-serif fw-bold text-dark mb-3">Đặt hàng thành công!</h2>
                 <p class="text-muted mb-4 fs-5">

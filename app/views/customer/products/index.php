@@ -3,17 +3,17 @@
     <div class="container px-4 px-lg-5 text-center">
         <span class="small-label mb-3 d-inline-block">OUR MENU</span>
         <h1 class="mb-4">Khám phá<br>hương vị của bạn</h1>
-        <p class="text-muted mx-auto" style="max-width: 500px;">
+        <p class="text-muted mx-auto products-style-d99434" >
             Từ những ly trà sữa truyền thống đến những thức uống mang hương vị hiện đại, hãy tìm cho mình một vị yêu thích.
         </p>
         <div class="mt-4">
-            <i class="fa-solid fa-leaf text-sage fs-3" style="opacity: 0.6;"></i>
+            <i class="fa-solid fa-leaf text-sage fs-3 products-style-b799bd" ></i>
         </div>
     </div>
 </section>
 
 <!-- PRODUCT CONTENT SECTION -->
-<section class="pb-5 fade-up" style="background-color: var(--vaa-ivory);">
+<section class="pb-5 fade-up products-style-5c9b3d" >
     <div class="container px-4 px-lg-5">
         
                 <form id="filter-form" action="index.php" method="GET">
@@ -33,7 +33,7 @@
             <!-- SEARCH & FILTER -->
             <div class="row align-items-center mb-5">
                 <div class="col-md-6 mb-3 mb-md-0">
-                    <div class="search-wrapper" style="max-width: 350px;">
+                    <div class="search-wrapper products-style-7b2ab1" >
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <input type="text" name="search" class="search-input" placeholder="Tìm kiếm sản phẩm..." value="<?= htmlspecialchars($currentSearch) ?>" onkeydown="if(event.key === 'Enter'){this.form.submit();}">
                     </div>
@@ -69,7 +69,7 @@
                                 <h6 class="font-serif fw-bold fs-5 mb-1 text-center"><?= htmlspecialchars($product['name']) ?></h6>
                                 <p class="text-muted small text-center mb-3 line-clamp-2"><?= htmlspecialchars($product['description'] ?? '') ?></p>
                                 <p class="text-caramel fw-bold mb-3 mt-auto fs-5 text-center"><?= number_format($product['price'], 0, ',', '.') ?>đ</p>
-                                <button type="button" class="btn btn-outline-forest w-100 rounded-pill py-2 fw-semibold" style="font-size: 0.85rem;">
+                                <button type="button" class="btn btn-outline-forest w-100 rounded-pill py-2 fw-semibold products-style-e7992d" >
                                     <i class="fa-solid fa-plus me-2"></i> Chi tiết
                                 </button>
                             </div>

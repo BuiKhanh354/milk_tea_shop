@@ -13,9 +13,9 @@
                     Thương hiệu trà sữa cao cấp, kiên định mang đến trải nghiệm trà thanh tao, tối giản và chất lượng nguyên bản.
                 </p>
                 <div class="d-flex gap-3">
-                    <a href="#" class="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border-color: rgba(255,255,255,0.2);"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border-color: rgba(255,255,255,0.2);"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border-color: rgba(255,255,255,0.2);"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" class="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center global-style-4271b4" ><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center global-style-4271b4" ><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center global-style-4271b4" ><i class="fa-brands fa-tiktok"></i></a>
                 </div>
             </div>
 
@@ -46,7 +46,7 @@
             <!-- Contact -->
             <div class="col-lg-3">
                 <h5>Liên hệ</h5>
-                <ul class="text-white-50 small" style="line-height: 2;">
+                <ul class="text-white-50 small global-style-35bb81" >
                     <li><i class="fa-solid fa-location-dot me-2 text-caramel"></i> 123 Nguyễn Văn Cừ, Q5, TP.HCM</li>
                     <li><i class="fa-solid fa-phone me-2 text-caramel"></i> 1900 633 988</li>
                     <li><i class="fa-solid fa-envelope me-2 text-caramel"></i> hello@vaathe.com</li>

@@ -18,7 +18,7 @@
             <div class="card border-0 shadow-sm rounded-4 h-100 p-3">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted fw-medium small">DOANH THU</span>
-                    <div class="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <div class="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center admin-style-9a6a53" >
                         <i class="fa-solid fa-money-bill-wave"></i>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
             <div class="card border-0 shadow-sm rounded-4 h-100 p-3">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted fw-medium small">ĐƠN HÀNG</span>
-                    <div class="bg-caramel bg-opacity-10 text-caramel rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <div class="bg-caramel bg-opacity-10 text-caramel rounded-circle d-flex align-items-center justify-content-center admin-style-9a6a53" >
                         <i class="fa-solid fa-receipt"></i>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
             <div class="card border-0 shadow-sm rounded-4 h-100 p-3">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted fw-medium small">SẢN PHẨM BÁN RA</span>
-                    <div class="bg-info bg-opacity-10 text-info rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <div class="bg-info bg-opacity-10 text-info rounded-circle d-flex align-items-center justify-content-center admin-style-9a6a53" >
                         <i class="fa-solid fa-cup-togo"></i>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
             <div class="card border-0 shadow-sm rounded-4 h-100 p-3">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted fw-medium small">KHÁCH HÀNG MỚI</span>
-                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center admin-style-9a6a53" >
                         <i class="fa-solid fa-users"></i>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                 <div class="card-header bg-white border-0 py-3">
                     <h6 class="mb-0 fw-bold">Biểu đồ doanh thu</h6>
                 </div>
-                <div class="card-body d-flex align-items-center justify-content-center" style="height: 300px;">
+                <div class="card-body d-flex align-items-center justify-content-center admin-style-54b8b4" >
                     <p class="text-muted"><i class="fa-solid fa-chart-line fs-1 mb-2 d-block text-center"></i> Biểu đồ đang được cập nhật dữ liệu</p>
                 </div>
             </div>

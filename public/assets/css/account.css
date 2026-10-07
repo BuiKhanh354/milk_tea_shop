@@ -78,3 +78,25 @@
     color: var(--c-dark);
     font-size: 0.9rem;
 }
+
+/* Refactored Inline Styles for account.css */
+.account-style-a6ee44 {
+    min-height: calc(100vh - 70px);
+}
+.account-style-94abf0 {
+    min-height: calc(100vh - 300px);
+    padding-top: 120px !important;
+}
+.account-style-fb7ddd {
+    height: 4px;
+    top: 24px;
+    left: 10%;
+    right: 10%;
+    z-index: 1;
+}
+.account-style-f6f6b1 {
+    width: 20%;
+}
+.account-style-d99434 {
+    max-width: 500px;
+}

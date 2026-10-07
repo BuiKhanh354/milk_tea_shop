@@ -8,9 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/admin.css">
 </head>
-<body class="bg-ivory d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+<body class="bg-ivory d-flex align-items-center justify-content-center admin-style-f76d1c" >
     
-    <div class="card shadow-sm border-0" style="width: 100%; max-width: 400px; border-radius: 16px;">
+    <div class="card shadow-sm border-0 admin-style-1b8c4b" >
         <div class="card-body p-5">
             <div class="text-center mb-4">
                 <h2 class="font-serif fw-bold text-forest mb-1">VAA THÉ</h2>

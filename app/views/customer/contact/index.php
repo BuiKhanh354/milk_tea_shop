@@ -62,7 +62,7 @@
         }
     </style>
 </head>
-<body style="background-color: #F7F4ED; color: #18231D; font-family: 'Inter', sans-serif;">
+<body class="global-style-ed52ed">
 
     <!-- Navbar -->
     <?php include __DIR__ . '/../../partials/navbar_old.php'; ?>
@@ -70,9 +70,9 @@
     <!-- Hero Section -->
     <section class="contact-hero mt-5">
         <div class="container">
-            <p class="text-uppercase fw-bold mb-2" style="color: #9A7654; letter-spacing: 3px; font-size: 0.85rem;">Get in touch</p>
-            <h1 class="fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: #263A30; font-size: 3.5rem;">Liên hệ với chúng tôi</h1>
-            <p style="color: #555; max-width: 600px; margin: 0 auto;">VAA THÉ luôn trân trọng mọi ý kiến đóng góp từ bạn. Hãy để lại tin nhắn, chúng tôi sẽ phản hồi trong thời gian sớm nhất.</p>
+            <p class="text-uppercase fw-bold mb-2 global-style-197464" >Get in touch</p>
+            <h1 class="fw-bold mb-3 global-style-b90505" >Liên hệ với chúng tôi</h1>
+            <p class="global-style-da284e">VAA THÉ luôn trân trọng mọi ý kiến đóng góp từ bạn. Hãy để lại tin nhắn, chúng tôi sẽ phản hồi trong thời gian sớm nhất.</p>
         </div>
     </section>
 
@@ -87,14 +87,14 @@
                         <div class="col-12 col-md-6 col-lg-12">
                             <div class="contact-info-card">
                                 <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
-                                <h5 class="fw-bold" style="color: #263A30; font-family: 'Playfair Display', serif;">Trụ sở chính</h5>
+                                <h5 class="fw-bold global-style-911ae1" >Trụ sở chính</h5>
                                 <p class="text-muted mb-0">123 Đường Sách, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</p>
                             </div>
                         </div>
                         <div class="col-12 col-md-6 col-lg-12">
                             <div class="contact-info-card">
                                 <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
-                                <h5 class="fw-bold" style="color: #263A30; font-family: 'Playfair Display', serif;">Hotline Hỗ trợ</h5>
+                                <h5 class="fw-bold global-style-911ae1" >Hotline Hỗ trợ</h5>
                                 <p class="text-muted mb-1">CSKH: 1900 1234</p>
                                 <p class="text-muted mb-0">Hợp tác: (028) 38 123 456</p>
                             </div>
@@ -102,7 +102,7 @@
                         <div class="col-12 col-md-6 col-lg-12">
                             <div class="contact-info-card">
                                 <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
-                                <h5 class="fw-bold" style="color: #263A30; font-family: 'Playfair Display', serif;">Email</h5>
+                                <h5 class="fw-bold global-style-911ae1" >Email</h5>
                                 <p class="text-muted mb-1">Hỗ trợ: cskh@vaathe.vn</p>
                                 <p class="text-muted mb-0">Công việc: work@vaathe.vn</p>
                             </div>
@@ -113,7 +113,7 @@
                 <!-- Contact Form -->
                 <div class="col-12 col-lg-8">
                     <div class="contact-form">
-                        <h4 class="fw-bold mb-4" style="color: #263A30; font-family: 'Playfair Display', serif;">Gửi tin nhắn cho VAA THÉ</h4>
+                        <h4 class="fw-bold mb-4 global-style-911ae1" >Gửi tin nhắn cho VAA THÉ</h4>
                         
                         <?php if($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
                             <div class="alert alert-success rounded-3 mb-4">
@@ -149,7 +149,7 @@
                                     <textarea class="form-control" rows="5" name="message" required placeholder="Viết nội dung tin nhắn của bạn ở đây..."></textarea>
                                 </div>
                                 <div class="col-12 mt-4 text-end">
-                                    <button type="submit" class="btn text-white px-5 py-2 fw-medium rounded-pill" style="background-color: #263A30;">Gửi tin nhắn</button>
+                                    <button type="submit" class="btn text-white px-5 py-2 fw-medium rounded-pill global-style-9f44af" >Gửi tin nhắn</button>
                                 </div>
                             </div>
                         </form>

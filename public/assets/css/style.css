@@ -171,18 +171,14 @@ h3 { font-size: 2rem; }
 .hero-image-wrapper {
   position: relative;
   width: 100%;
-  padding-bottom: 120%; /* Aspect ratio */
   border-radius: 8px 8px 120px 8px;
   overflow: hidden;
 }
 
 .hero-image-wrapper img {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  display: block;
 }
 
 /* Product Cards */
@@ -286,3 +282,8 @@ h3 { font-size: 2rem; }
   .hero-section { min-height: auto; text-align: center; }
   .hero-image-wrapper { padding-bottom: 100%; max-width: 400px; margin: 3rem auto 0; }
 }
+
+
+/* Utility to offset fixed navbar on child pages */
+.page-offset { padding-top: 120px !important; }
+

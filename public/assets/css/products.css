@@ -148,3 +148,20 @@
 .vaa-pagination li a:hover, .vaa-pagination li a.active {
     background-color: var(--vaa-sage);
 }
+
+/* Refactored Inline Styles for products.css */
+.products-style-d99434 {
+    max-width: 500px;
+}
+.products-style-b799bd {
+    opacity: 0.6;
+}
+.products-style-5c9b3d {
+    background-color: var(--vaa-ivory);
+}
+.products-style-7b2ab1 {
+    max-width: 350px;
+}
+.products-style-e7992d {
+    font-size: 0.85rem;
+}

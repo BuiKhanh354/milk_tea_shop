@@ -33,7 +33,7 @@ class Store {
             'open_time' => '07:00',
             'close_time' => '23:00',
             'status' => 'closed',
-            'image' => 'https://images.unsplash.com/photo-1559925393-8be0aaff477c?auto=format&fit=crop&q=80&w=800',
+            'image' => 'https://media-cdn-v2.laodong.vn/storage/newsportal/2025/3/8/1474031/Ho-Hoan-Kiem-3.jpeg',
             'amenities' => ['Wi-Fi', 'Điều hòa', 'Chỗ ngồi view hồ', 'Thanh toán QR']
         ]
     ];

@@ -48,7 +48,7 @@
         <table class="table mb-0 text-nowrap align-middle">
             <thead>
                 <tr>
-                    <th class="ps-4" style="width: 80px;">Hình ảnh</th>
+                    <th class="ps-4 admin-style-588c2d" >Hình ảnh</th>
                     <th>Tên sản phẩm</th>
                     <th>Danh mục</th>
                     <th>Giá bán</th>

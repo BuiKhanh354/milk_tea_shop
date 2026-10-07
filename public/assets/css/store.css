@@ -87,9 +87,10 @@ body {
     background-color: var(--vt-forest);
     color: #fff;
     border-radius: 40px;
-    padding: 12px 30px;
     font-weight: 500;
     transition: all 0.3s ease;
+    --bs-btn-padding-y: 0.75rem;
+    --bs-btn-padding-x: 0.75rem;
 }
 
 .btn-store-search:hover {
@@ -175,11 +176,13 @@ body {
     text-align:center;
     background: transparent;
     transition: all 0.3s;
+    --bs-btn-padding-y: 0.75rem;
+    --bs-btn-padding-x: 0.75rem;
 }
 
 .btn-outline-store:hover {
-    background: var(--vt-forest);
-    color: #fff;
+    background: var(--vt-forest) !important;
+    color: #fff !important;
 }
 
 /* Map Placeholder */
@@ -243,4 +246,40 @@ body {
 .amenity-badge i {
     margin-right: 8px;
     color: var(--vt-brown);
+}
+
+/* Refactored Inline Styles for store.css */
+.store-style-394c9a {
+    font-size: 3.5rem;
+}
+.store-style-d2fc39 {
+    width: 45px;
+    height: 45px;
+}
+.store-style-458a0b {
+    background-color: #f0ede6;
+}
+.store-style-b0c640 {
+    font-size: 4rem;
+}
+.store-style-36dbff {
+    letter-spacing: 3px;
+    font-size: 0.85rem;
+}
+.store-style-fcb6d9 {
+    bottom: -110px;
+    left: 0;
+}
+.store-style-7ecc66 {
+    max-width: 150px;
+}
+.store-style-408788 {
+    margin-top: 60px;
+}
+.store-style-a56dde {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

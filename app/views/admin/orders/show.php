@@ -66,7 +66,7 @@
                 <h6 class="text-muted fw-bold mb-4 text-uppercase">Thông tin khách hàng</h6>
                 
                 <div class="d-flex align-items-center mb-4">
-                    <div class="bg-forest bg-opacity-10 text-forest rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                    <div class="bg-forest bg-opacity-10 text-forest rounded-circle d-flex align-items-center justify-content-center me-3 admin-style-143e03" >
                         <i class="fa-solid fa-user fs-5"></i>
                     </div>
                     <div>
@@ -116,7 +116,7 @@
                                         <?php if($item['product_image']): ?>
                                             <img src="assets/images/products/<?= $item['product_image'] ?>" alt="" class="rounded me-3" width="40" height="40" style="object-fit: cover;">
                                         <?php else: ?>
-                                            <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center text-muted" style="width: 40px; height: 40px;">
+                                            <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center text-muted admin-style-9a6a53" >
                                                 <i class="fa-solid fa-cup-togo"></i>
                                             </div>
                                         <?php endif; ?>
