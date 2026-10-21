@@ -115,7 +115,7 @@
                                         <div class="d-flex align-items-start mb-3 pb-3 border-bottom">
                                             <div class="position-relative me-3">
                                                 <img src="<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>" class="rounded-3 object-fit-cover" width="60" height="60">
-                                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-caramel text-d">
+                                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-caramel text-dark">
                                                     <?= $item['quantity'] ?>
                                                 </span>
                                             </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2026 at 04:45 PM
+-- Generation Time: Oct 21, 2026 at 01:21 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -46,7 +46,8 @@ INSERT INTO `categories` (`id`, `name`, `description`, `image`, `status`, `creat
 (2, 'Trà sữa', 'Các loại trà sữa', 'milktea.jpg', 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
 (3, 'Trà', 'Các loại trà trái cây và trà nguyên chất', 'tea.jpg', 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
 (4, 'Đá xay', 'Các loại thức uống đá xay', 'smoothie.jpg', 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
-(5, 'Nước ép', 'Các loại nước ép trái cây', 'juice.jpg', 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11');
+(5, 'Nước ép', 'Các loại nước ép trái cây', 'juice.jpg', 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
+(8, 'Trà trái cây', '', NULL, 1, '2026-10-04 08:42:33', '2026-10-04 08:42:33');
 
 -- --------------------------------------------------------
 
@@ -71,7 +72,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `full_name`, `email`, `password`, `phone`, `address`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Nguyễn Văn An', 'an@gmail.com', '123456', '0900000011', 'TP. Hồ Chí Minh', 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
+(1, 'Nguyễn Văn An', 'an@gmail.com', '123456', '0900000011', 'TP. Hồ Chí Minh', 1, '2026-09-12 07:12:11', '2026-10-04 09:21:31'),
 (2, 'Trần Thị Bình', 'binh@gmail.com', '123456', '0900000012', 'TP. Hồ Chí Minh', 1, '2026-09-12 07:12:11', '2026-09-15 13:35:54'),
 (3, 'Lê Văn Cường', 'cuong@gmail.com', '123456', '0900000013', 'TP. Hồ Chí Minh', 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
 (4, 'Bùi Viết Khánh', 'khanhbuiviet3@gmail.com', '$2y$10$ir2gFxUgzsOjvV0pKGu1feUuk5WjZC0LuyQK6hAp.Aas7PmN24Mfa', '0938793972', '18A/1 Cộng Hoà, Phường Tân Bình', 1, '2026-09-15 03:47:46', '2026-09-15 11:33:29');
@@ -117,7 +118,11 @@ CREATE TABLE `favorites` (
 INSERT INTO `favorites` (`customer_id`, `product_id`, `created_at`) VALUES
 (1, 4, '2026-09-12 07:12:12'),
 (1, 5, '2026-09-12 07:12:12'),
-(2, 2, '2026-09-12 07:12:12');
+(2, 2, '2026-09-12 07:12:12'),
+(4, 10, '2026-10-09 12:47:49'),
+(4, 11, '2026-10-09 12:47:49'),
+(4, 12, '2026-10-09 12:47:48'),
+(4, 13, '2026-10-09 12:47:48');
 
 -- --------------------------------------------------------
 
@@ -144,9 +149,9 @@ CREATE TABLE `inventory` (
 INSERT INTO `inventory` (`id`, `ingredient_name`, `unit`, `quantity`, `min_quantity`, `price`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'Cà phê hạt', 'kg', 20.00, 5.00, 180000.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
 (2, 'Sữa đặc', 'lon', 50.00, 10.00, 25000.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
-(3, 'Sữa tươi', 'lít', 30.00, 8.00, 32000.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
-(4, 'Bột matcha', 'kg', 5.00, 1.00, 450000.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
-(5, 'Trà đen', 'kg', 10.00, 2.00, 180000.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
+(3, 'Sữa tươi', 'lít', 29.00, 8.00, 32000.00, 1, '2026-09-12 07:12:11', '2026-10-04 06:38:42'),
+(4, 'Bột matcha', 'kg', 4.98, 1.00, 450000.00, 1, '2026-09-12 07:12:11', '2026-10-04 06:38:42'),
+(5, 'Trà đen', 'kg', 9.00, 2.00, 180000.00, 1, '2026-09-12 07:12:11', '2026-10-04 06:38:42'),
 (6, 'Trà đào', 'kg', 8.00, 2.00, 220000.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
 (7, 'Trân châu đen', 'kg', 10.00, 2.00, 80000.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
 (8, 'Đường', 'kg', 30.00, 5.00, 20000.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
@@ -169,6 +174,49 @@ CREATE TABLE `inventory_transactions` (
   `note` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `inventory_transactions`
+--
+
+INSERT INTO `inventory_transactions` (`id`, `inventory_id`, `user_id`, `type`, `quantity`, `price`, `note`, `created_at`) VALUES
+(1, 3, NULL, 'USAGE', 0.50, 0.00, 'Bán hàng - Đơn #5', '2026-10-04 06:38:15'),
+(2, 4, NULL, 'USAGE', 0.01, 0.00, 'Bán hàng - Đơn #5', '2026-10-04 06:38:15'),
+(3, 5, NULL, 'USAGE', 0.50, 0.00, 'Bán hàng - Đơn #5', '2026-10-04 06:38:15'),
+(4, 3, NULL, 'USAGE', 0.50, 0.00, 'Bán hàng - Đơn #6', '2026-10-04 06:38:42'),
+(5, 4, NULL, 'USAGE', 0.01, 0.00, 'Bán hàng - Đơn #6', '2026-10-04 06:38:42'),
+(6, 5, NULL, 'USAGE', 0.50, 0.00, 'Bán hàng - Đơn #6', '2026-10-04 06:38:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_options`
+--
+
+CREATE TABLE `item_options` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `type` enum('sugar','ice') NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `value` int(11) NOT NULL,
+  `is_default` tinyint(1) DEFAULT 0,
+  `status` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `item_options`
+--
+
+INSERT INTO `item_options` (`id`, `type`, `name`, `value`, `is_default`, `status`) VALUES
+(1, 'sugar', 'Không đường', 0, 0, 1),
+(2, 'sugar', 'Ít đường', 25, 0, 1),
+(3, 'sugar', 'Vừa phải', 50, 1, 1),
+(4, 'sugar', 'Ngọt', 75, 0, 1),
+(5, 'sugar', 'Rất ngọt', 100, 0, 1),
+(6, 'ice', 'Không đá', 0, 0, 1),
+(7, 'ice', 'Ít đá', 25, 0, 1),
+(8, 'ice', 'Đá vừa', 50, 1, 1),
+(9, 'ice', 'Nhiều đá', 75, 0, 1),
+(10, 'ice', 'Rất nhiều đá', 100, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -199,7 +247,16 @@ INSERT INTO `orders` (`id`, `customer_id`, `user_id`, `table_id`, `total_amount`
 (1, 1, 2, 1, 70000.00, 0.00, 70000.00, 'dine_in', 'completed', 'Ít đá', '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
 (2, NULL, 1, NULL, 65000.00, 0.00, 65000.00, 'takeaway', 'completed', NULL, '2026-09-29 14:20:41', '2026-09-29 14:26:51'),
 (3, NULL, 1, NULL, 80000.00, 0.00, 80000.00, 'takeaway', 'completed', NULL, '2026-09-29 14:23:24', '2026-09-29 14:26:50'),
-(4, NULL, 1, NULL, 50000.00, 0.00, 50000.00, 'takeaway', 'cancelled', NULL, '2026-09-29 14:29:18', '2026-09-29 14:29:24');
+(4, NULL, 1, NULL, 50000.00, 0.00, 50000.00, 'takeaway', 'cancelled', NULL, '2026-09-29 14:29:18', '2026-09-29 14:29:24'),
+(5, 4, NULL, NULL, 91000.00, 0.00, 91000.00, 'delivery', 'completed', '', '2026-10-04 06:28:34', '2026-10-04 06:38:14'),
+(6, 4, NULL, NULL, 91000.00, 0.00, 91000.00, 'delivery', 'completed', '', '2026-10-04 06:37:46', '2026-10-04 06:38:42'),
+(7, NULL, 1, NULL, 55000.00, 0.00, 55000.00, 'delivery', 'completed', NULL, '2026-10-04 07:41:02', '2026-10-04 07:41:22'),
+(8, 4, NULL, NULL, 255000.00, 0.00, 255000.00, 'delivery', 'completed', '', '2026-10-04 07:42:19', '2026-10-04 07:42:42'),
+(9, 4, NULL, NULL, 45000.00, 0.00, 45000.00, 'delivery', 'cancelled', '', '2026-10-04 08:38:33', '2026-10-04 08:39:04'),
+(10, 4, NULL, NULL, 45000.00, 0.00, 45000.00, 'delivery', 'completed', 'Bỏ đá riêng', '2026-10-04 08:40:09', '2026-10-04 08:40:36'),
+(11, 4, NULL, NULL, 101000.00, 0.00, 101000.00, 'delivery', 'pending', '', '2026-10-16 12:22:04', '2026-10-16 12:22:04'),
+(12, 4, NULL, NULL, 362000.00, 0.00, 362000.00, 'delivery', 'pending', '', '2026-10-20 02:08:39', '2026-10-20 02:08:39'),
+(13, 4, NULL, NULL, 202000.00, 0.00, 202000.00, 'delivery', 'pending', '', '2026-10-21 10:56:21', '2026-10-21 10:56:21');
 
 -- --------------------------------------------------------
 
@@ -232,7 +289,18 @@ INSERT INTO `order_details` (`id`, `order_id`, `product_id`, `size_id`, `quantit
 (4, 2, 2, 2, 1, 25000.00, 25000.00, 100, 100, NULL, '2026-09-29 14:20:41'),
 (5, 3, 1, 1, 1, 20000.00, 20000.00, 100, 100, NULL, '2026-09-29 14:23:24'),
 (6, 3, 2, 2, 2, 30000.00, 60000.00, 100, 100, NULL, '2026-09-29 14:23:24'),
-(7, 4, 9, 1, 1, 50000.00, 50000.00, 100, 100, NULL, '2026-09-29 14:29:18');
+(7, 4, 9, 1, 1, 50000.00, 50000.00, 100, 100, NULL, '2026-09-29 14:29:18'),
+(8, 5, 11, NULL, 1, 76000.00, 76000.00, 100, 100, NULL, '2026-10-04 06:28:34'),
+(9, 6, 11, NULL, 1, 76000.00, 76000.00, 100, 100, NULL, '2026-10-04 06:37:46'),
+(10, 7, 9, 2, 1, 55000.00, 55000.00, 100, 100, NULL, '2026-10-04 07:41:02'),
+(11, 8, 8, NULL, 3, 80000.00, 240000.00, 100, 100, NULL, '2026-10-04 07:42:19'),
+(12, 9, 10, NULL, 1, 30000.00, 30000.00, 100, 100, NULL, '2026-10-04 08:38:33'),
+(13, 10, 10, NULL, 1, 30000.00, 30000.00, 100, 100, NULL, '2026-10-04 08:40:09'),
+(14, 11, 11, NULL, 1, 86000.00, 86000.00, 100, 100, NULL, '2026-10-16 12:22:04'),
+(15, 12, 11, NULL, 2, 121000.00, 242000.00, 100, 100, NULL, '2026-10-20 02:08:39'),
+(16, 12, 8, NULL, 3, 35000.00, 105000.00, 100, 100, NULL, '2026-10-20 02:08:39'),
+(17, 13, 11, NULL, 1, 76000.00, 76000.00, 100, 100, NULL, '2026-10-21 10:56:21'),
+(18, 13, 11, NULL, 1, 111000.00, 111000.00, 100, 100, NULL, '2026-10-21 10:56:21');
 
 -- --------------------------------------------------------
 
@@ -255,7 +323,22 @@ INSERT INTO `order_detail_toppings` (`order_detail_id`, `topping_id`, `quantity`
 (1, 1, 1, 5000.00),
 (4, 1, 1, 5000.00),
 (6, 1, 1, 5000.00),
-(7, 1, 1, 5000.00);
+(7, 1, 1, 5000.00),
+(11, 1, 1, 5000.00),
+(11, 2, 1, 5000.00),
+(11, 3, 1, 7000.00),
+(11, 4, 1, 8000.00),
+(11, 5, 1, 10000.00),
+(15, 1, 1, 5000.00),
+(15, 2, 1, 5000.00),
+(15, 3, 1, 7000.00),
+(15, 4, 1, 8000.00),
+(15, 5, 1, 10000.00),
+(18, 1, 1, 5000.00),
+(18, 2, 1, 5000.00),
+(18, 3, 1, 7000.00),
+(18, 4, 1, 8000.00),
+(18, 5, 1, 10000.00);
 
 -- --------------------------------------------------------
 
@@ -282,7 +365,16 @@ INSERT INTO `payments` (`id`, `order_id`, `method`, `amount`, `status`, `transac
 (1, 1, 'cod', 70000.00, 'paid', NULL, '2026-09-12 14:12:12', '2026-09-12 07:12:12'),
 (2, 2, '', 65000.00, 'pending', NULL, NULL, '2026-09-29 14:20:41'),
 (3, 3, '', 80000.00, 'pending', NULL, NULL, '2026-09-29 14:23:24'),
-(4, 4, '', 50000.00, 'pending', NULL, NULL, '2026-09-29 14:29:18');
+(4, 4, '', 50000.00, 'pending', NULL, NULL, '2026-09-29 14:29:18'),
+(5, 5, '', 91000.00, 'pending', NULL, NULL, '2026-10-04 06:28:34'),
+(6, 6, '', 91000.00, 'pending', NULL, NULL, '2026-10-04 06:37:46'),
+(7, 7, '', 55000.00, 'pending', NULL, NULL, '2026-10-04 07:41:02'),
+(8, 8, '', 255000.00, 'pending', NULL, NULL, '2026-10-04 07:42:19'),
+(9, 9, '', 45000.00, 'pending', NULL, NULL, '2026-10-04 08:38:33'),
+(10, 10, '', 45000.00, 'pending', NULL, NULL, '2026-10-04 08:40:09'),
+(11, 11, '', 101000.00, 'pending', NULL, NULL, '2026-10-16 12:22:04'),
+(12, 12, 'momo', 362000.00, 'pending', NULL, NULL, '2026-10-20 02:08:39'),
+(13, 13, '', 202000.00, 'pending', NULL, NULL, '2026-10-21 10:56:21');
 
 -- --------------------------------------------------------
 
@@ -307,7 +399,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `image`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Cà phê đen', 'Cà phê đen truyền thống', 25000.00, 'ca-phe-den.jpg', 1, '2026-09-12 07:12:11', '2026-09-29 14:09:29'),
+(1, 1, 'Cà phê đen', 'Cà phê đen truyền thống', 25000.00, NULL, 1, '2026-09-12 07:12:11', '2026-10-09 13:32:52'),
 (2, 1, 'Cà phê sữa', 'Cà phê sữa truyền thống', 30000.00, 'ca-phe-sua.jpg', 1, '2026-09-12 07:12:11', '2026-09-29 14:09:27'),
 (3, 1, 'Bạc xỉu', 'Bạc xỉu thơm béo', 35000.00, 'bac-xiu.jpg', 1, '2026-09-12 07:12:11', '2026-09-29 14:09:25'),
 (4, 2, 'Trà sữa truyền thống', 'Trà sữa vị truyền thống', 35000.00, 'tra-sua-truyen-thong.jpg', 1, '2026-09-12 07:12:11', '2026-09-29 14:09:23'),
@@ -316,8 +408,10 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `im
 (7, 3, 'Trà đào', 'Trà đào cam sả', 35000.00, 'tra-dao.jpg', 1, '2026-09-12 07:12:11', '2026-09-29 14:09:21'),
 (8, 3, 'Trà vải', 'Trà vải thanh mát', 35000.00, 'tra-vai.jpg', 1, '2026-09-12 07:12:11', '2026-09-29 14:09:21'),
 (9, 4, 'Matcha đá xay', 'Matcha đá xay', 45000.00, 'matcha-da-xay.jpg', 1, '2026-09-12 07:12:11', '2026-09-29 14:09:20'),
-(10, 5, 'Nước cam', 'Nước cam nguyên chất', 30000.00, 'nuoc-cam.jpg', 1, '2026-09-12 07:12:11', '2026-09-29 14:09:17'),
-(11, 2, 'Trà Sữa Koi', '', 76000.00, '', 1, '2026-09-29 14:06:12', '2026-09-29 14:10:32');
+(10, 1, 'A-Mê Yuzu', 'Nước cam nguyên chất', 30000.00, '1791103057_A-Me_Yuzu.png', 1, '2026-09-12 07:12:11', '2026-10-04 08:37:37'),
+(11, 1, 'A-mê Đào', '', 76000.00, '1791100779_A-MeDao.png', 1, '2026-09-29 14:06:12', '2026-10-04 07:59:44'),
+(12, 1, 'A-Mê Đào', '', 55000.00, '1791104022_A-MeDao.png', 1, '2026-10-04 08:53:42', '2026-10-04 08:53:42'),
+(13, 1, 'Cold Brew Truyền Thống', '', 47000.00, '1791104072_Traditional_Cold_Brew.png', 1, '2026-10-04 08:54:32', '2026-10-04 08:54:32');
 
 -- --------------------------------------------------------
 
@@ -426,7 +520,8 @@ CREATE TABLE `shifts` (
 --
 
 INSERT INTO `shifts` (`id`, `name`, `start_time`, `end_time`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Ca Sáng', '07:00:00', '11:30:00', 1, '2026-09-29 14:02:19', '2026-09-29 14:02:19');
+(1, 'Ca Sáng', '07:00:00', '11:30:00', 1, '2026-09-29 14:02:19', '2026-09-29 14:02:19'),
+(2, 'Ca Tối', '16:30:00', '21:00:00', 1, '2026-10-07 13:46:42', '2026-10-07 13:46:42');
 
 -- --------------------------------------------------------
 
@@ -448,9 +543,9 @@ CREATE TABLE `sizes` (
 --
 
 INSERT INTO `sizes` (`id`, `name`, `extra_price`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'M', 0.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
-(2, 'L', 5000.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
-(3, 'XL', 10000.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11');
+(1, 'M', 5000.00, 1, '2026-09-12 07:12:11', '2026-09-30 13:58:13'),
+(2, 'L', 10000.00, 1, '2026-09-12 07:12:11', '2026-09-30 13:58:18'),
+(3, 'S', 0.00, 1, '2026-09-12 07:12:11', '2026-10-04 06:04:24');
 
 -- --------------------------------------------------------
 
@@ -472,12 +567,12 @@ CREATE TABLE `tables` (
 --
 
 INSERT INTO `tables` (`id`, `table_number`, `capacity`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'B01', 2, 'occupied', '2026-09-12 07:12:11', '2026-09-29 13:25:48'),
-(2, 'B02', 2, 'reserved', '2026-09-12 07:12:11', '2026-09-29 13:25:55'),
-(3, 'B03', 4, 'occupied', '2026-09-12 07:12:11', '2026-09-29 13:27:20'),
-(4, 'B04', 4, 'occupied', '2026-09-12 07:12:11', '2026-09-29 13:27:24'),
-(5, 'B05', 6, 'reserved', '2026-09-12 07:12:11', '2026-09-29 13:27:30'),
-(6, 'B06', 6, 'occupied', '2026-09-12 07:12:11', '2026-09-29 13:27:35');
+(1, 'B01', 2, 'available', '2026-09-12 07:12:11', '2026-10-04 05:32:56'),
+(2, 'B02', 2, 'available', '2026-09-12 07:12:11', '2026-10-04 05:34:08'),
+(3, 'B03', 4, 'available', '2026-09-12 07:12:11', '2026-10-04 05:33:02'),
+(4, 'B04', 4, 'available', '2026-09-12 07:12:11', '2026-10-04 07:45:20'),
+(5, 'B05', 6, 'available', '2026-09-12 07:12:11', '2026-10-04 07:45:24'),
+(6, 'B06', 6, 'available', '2026-09-12 07:12:11', '2026-10-04 07:45:32');
 
 -- --------------------------------------------------------
 
@@ -499,8 +594,8 @@ CREATE TABLE `toppings` (
 --
 
 INSERT INTO `toppings` (`id`, `name`, `price`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Trân châu đen', 5000.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
-(2, 'Trân châu trắng', 5000.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
+(1, 'Trân châu đen', 5000.00, 1, '2026-09-12 07:12:11', '2026-09-30 13:59:09'),
+(2, 'Trân châu trắng', 5000.00, 1, '2026-09-12 07:12:11', '2026-09-30 13:53:13'),
 (3, 'Thạch trái cây', 7000.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
 (4, 'Pudding trứng', 8000.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11'),
 (5, 'Kem cheese', 10000.00, 1, '2026-09-12 07:12:11', '2026-09-12 07:12:11');
@@ -529,7 +624,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `full_name`, `email`, `phone`, `role`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '$2y$10$qnfS3W/zvcjWQsNIFgP1ZeMMCedqPnn2hNRCPJLwcXMak4y6aBuYW', 'Quản trị viên', 'admin@coffeeshop.local', '0900000001', 'admin', 1, '2026-09-12 07:12:11', '2026-09-15 12:39:28'),
+(1, 'admin', '$2y$10$qnfS3W/zvcjWQsNIFgP1ZeMMCedqPnn2hNRCPJLwcXMak4y6aBuYW', 'Quản trị viên', 'admin@coffeeshop.local', '0900001234', 'admin', 1, '2026-09-12 07:12:11', '2026-09-30 14:10:55'),
 (2, 'staff01', '$2y$10$cbC11NEE36hTX1BY/zgRt.tTc7MXPQCnGVcGsyTire1rg2mOiKL6O', 'Bùi Viết Khánh ', 'staff01@coffeeshop.local', '0900000002', 'staff', 1, '2026-09-12 07:12:11', '2026-09-29 14:01:00');
 
 --
@@ -576,6 +671,12 @@ ALTER TABLE `inventory`
 -- Indexes for table `inventory_transactions`
 --
 ALTER TABLE `inventory_transactions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `item_options`
+--
+ALTER TABLE `item_options`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -686,7 +787,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `customers`
@@ -710,31 +811,37 @@ ALTER TABLE `inventory`
 -- AUTO_INCREMENT for table `inventory_transactions`
 --
 ALTER TABLE `inventory_transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `item_options`
+--
+ALTER TABLE `item_options`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -746,7 +853,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `shifts`
 --
 ALTER TABLE `shifts`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sizes`
