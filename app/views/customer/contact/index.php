@@ -26,10 +26,11 @@
         }
         .contact-info-card {
             background-color: #fff;
-            padding: 40px;
+            padding: 34px;
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(24, 35, 29, 0.05);
             height: 100%;
+            border: solid 1px;
         }
         .contact-icon {
             width: 50px;
@@ -42,18 +43,21 @@
             justify-content: center;
             font-size: 1.25rem;
             margin-bottom: 20px;
+            border: solid 2px;
         }
         .contact-form {
             background-color: #fff;
             padding: 50px;
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(24, 35, 29, 0.05);
+            border: solid 1px;
         }
         .form-control {
             background-color: #F7F4ED;
             border: none;
             padding: 12px 20px;
             border-radius: 8px;
+            border: solid 1px;
         }
         .form-control:focus {
             background-color: #fff;

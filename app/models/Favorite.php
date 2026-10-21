@@ -56,6 +56,16 @@ class Favorite {
         $stmt->execute();
         $result = $stmt->get_result();
         if (!$result) return [];
-        return $result->fetch_all(MYSQLI_ASSOC);
+        $rows = $result->fetch_all(MYSQLI_ASSOC);
+        foreach ($rows as &$row) {
+            $image = $row['image'] ?? '';
+            if (empty($image)) {
+                $row['image'] = 'https://static.vecteezy.com/system/resources/previews/011/946/312/original/illustration-of-browser-error-icon-file-not-found-vector.jpg';
+            } elseif (strpos($image, 'http') !== 0) {
+                $row['image'] = 'assets/images/products/' . $image;
+            }
+        }
+        return $rows;
     }
 }
+

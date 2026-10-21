@@ -13,3 +13,6 @@
 *.docx
 *.xlsx
 *.txt
+/.codex/pptx-build/
+/pptx-build/
+/outputs

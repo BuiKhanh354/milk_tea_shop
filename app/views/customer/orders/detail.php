@@ -96,7 +96,7 @@ if ($current_step_index === false) $current_step_index = -1;
                     <div class="col-lg-7">
                         <div class="card border-0 rounded-0 shadow-sm h-100">
                             <div class="card-header bg-white border-bottom border-sage border-opacity-25 p-4">
-                                <h6 class="font-serif fw-bold text-forest mb-0">ORDER ITEMS</h6>
+                                <h6 class="font-serif fw-bold text-forest mb-0">ĐẶT HÀNG</h6>
                             </div>
                             <div class="card-body p-0">
                                 <ul class="list-group list-group-flush">
@@ -107,7 +107,7 @@ if ($current_step_index === false) $current_step_index = -1;
                                             <div class="flex-grow-1">
                                                 <h6 class="fw-bold text-dark mb-1"><?= $item['name'] ?></h6>
                                                 <div class="small text-muted mb-2">
-                                                    Size: <?= $item['size'] ?> | Sugar: <?= $item['sugar'] ?> | Ice: <?= $item['ice'] ?> <br>
+                                                    Size: <?= $item['size'] ?> | Đường: <?= $item['sugar'] ?> | Đá: <?= $item['ice'] ?> <br>
                                                     Topping: <?= $item['toppings'] ?>
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center">
@@ -127,32 +127,32 @@ if ($current_step_index === false) $current_step_index = -1;
                     <div class="col-lg-5">
                         <div class="card border-0 rounded-0 shadow-sm h-100 bg-ivory">
                             <div class="card-header bg-transparent border-bottom border-sage border-opacity-25 p-4">
-                                <h6 class="font-serif fw-bold text-forest mb-0">ORDER SUMMARY</h6>
+                                <h6 class="font-serif fw-bold text-forest mb-0">TỔNG KẾT ĐƠN HÀNG</h6>
                             </div>
                             <div class="card-body p-4">
                                 <div class="d-flex justify-content-between mb-3 pb-3 border-bottom border-sage border-opacity-25">
-                                    <span class="text-muted small">Order Date</span>
+                                    <span class="text-muted small">Ngày đặt hàng</span>
                                     <span class="fw-medium"><?= $order['date'] ?></span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-3 pb-3 border-bottom border-sage border-opacity-25">
-                                    <span class="text-muted small">Payment Status</span>
+                                    <span class="text-muted small">Trạng thái thanh toán</span>
                                     <span class="fw-medium text-success"><?= $order['payment_status'] ?></span>
                                 </div>
                                 
                                 <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-muted">Subtotal</span>
+                                    <span class="text-muted">Tạm tính</span>
                                     <span><?= $order['subtotal'] ?></span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-muted">Discount</span>
+                                    <span class="text-muted">Giảm giá</span>
                                     <span class="text-success"><?= $order['discount'] ?></span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-3 pb-3 border-bottom border-sage border-opacity-25">
-                                    <span class="text-muted">Shipping</span>
+                                    <span class="text-muted">Vận chuyển</span>
                                     <span><?= $order['shipping'] ?></span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <span class="fw-bold text-dark fs-5">TOTAL</span>
+                                    <span class="fw-bold text-dark fs-5">TỔNG CỘNG</span>
                                     <span class="fw-bold text-forest fs-4"><?= $order['total'] ?></span>
                                 </div>
                             </div>

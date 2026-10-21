@@ -13,6 +13,7 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/products.css">
 </head>
 <body class="bg-ivory">
 
@@ -47,19 +48,14 @@
                             <?php foreach($favorites as $product): ?>
                             <div class="col" id="favorite-<?= $product['id'] ?>">
                                 <div class="card h-100 border-0 rounded-4 shadow-sm product-card">
-                                    <div class="position-relative overflow-hidden rounded-top-4">
-                                        <img src="<?= htmlspecialchars($product['image']) ?>" class="card-img-top object-fit-cover" alt="<?= htmlspecialchars($product['name']) ?>" style="height: 200px;">
-                                        <button class="btn btn-favorite active position-absolute top-0 end-0 m-3" onclick="toggleFavorite(<?= $product['id'] ?>)" aria-label="Bỏ yêu thích">
-                                            <i class="fa-solid fa-heart fs-4 text-danger"></i>
-                                        </button>
-                                    </div>
+                                    <div class="product-image-box position-relative rounded-top-4" style="background-color: var(--vaa-cream);"><div class="fav-icon" onclick="toggleFavorite(<?= $product['id'] ?>)" style="z-index: 10; cursor: pointer;"><i class="fa-solid text-danger fa-heart"></i></div><img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="img-fluid drop-shadow"></div>
                                     <div class="card-body p-4 text-center">
                                         <span class="small-label mb-2 d-block text-caramel"><?= htmlspecialchars($product['category_name']) ?></span>
                                         <h5 class="card-title font-serif fw-bold text-forest mb-3 text-truncate" title="<?= htmlspecialchars($product['name']) ?>"><?= htmlspecialchars($product['name']) ?></h5>
                                         <div class="fw-bold fs-5 text-dark mb-4">
                                             <?= number_format($product['price'], 0, ',', '.') ?>đ
                                         </div>
-                                        <a href="index.php?route=products&action=detail&id=<?= $product['id'] ?>" class="btn btn-outline-forest w-100 rounded-pill py-2 fw-medium">CHI TIẾT</a>
+                                        <a href="index.php?route=product_detail&id=<?= $product['id'] ?>" class="btn btn-outline-forest w-100 rounded-pill py-2 fw-medium">CHI TIẾT</a>
                                     </div>
                                 </div>
                             </div>
@@ -101,3 +97,5 @@
     <script src="assets/js/main.js"></script>
 </body>
 </html>
+
+
