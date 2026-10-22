@@ -2,6 +2,13 @@
 session_start();
 require_once __DIR__ . '/../app/config/database.php';
 
+// Tự động nạp giỏ hàng từ CSDL vào session nếu chưa có (khi mở lại trình duyệt)
+if (!isset($_SESSION['cart'])) {
+    require_once __DIR__ . '/../app/models/Cart.php';
+    $cartModel = new Cart();
+    $cartModel->loadCartToSession($_SESSION['customer_id'] ?? null, $_COOKIE['cart_token'] ?? null);
+}
+
 
 $route = $_GET['route'] ?? 'home';
 

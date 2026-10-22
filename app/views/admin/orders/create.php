@@ -114,7 +114,7 @@
                 <div class="text-forest fw-bold fs-5 mb-3" id="modalProductPrice">0đ</div>
                 
                 <h6 class="fw-bold mb-2">Chọn Size</h6>
-                <select id="sizeSelect" class="form-select bg-light border-0 mb-4">
+                <select id="sizeSelect" class="form-select bg-light border-0 mb-3">
                     <?php foreach ($sizes as $s): ?>
                         <option value="<?= $s['id'] ?>" data-name="<?= $s['name'] ?>" data-price="<?= $s['extra_price'] ?>">
                             <?= $s['name'] ?> 
@@ -123,19 +123,54 @@
                     <?php endforeach; ?>
                 </select>
 
-                <h6 class="fw-bold mb-2">Thêm Topping</h6>
                 <div class="row g-2 mb-3">
-                    <?php foreach ($toppings as $t): ?>
                     <div class="col-6">
-                        <div class="form-check p-2 border rounded bg-light m-0">
-                            <input class="form-check-input ms-1 topping-checkbox" type="checkbox" value="<?= $t['id'] ?>" data-name="<?= $t['name'] ?>" data-price="<?= $t['price'] ?>" id="top_<?= $t['id'] ?>">
-                            <label class="form-check-label w-100 ms-2 admin-style-58aba5"  for="top_<?= $t['id'] ?>">
-                                <span class="d-block small fw-medium"><?= $t['name'] ?></span>
-                                <span class="d-block small text-forest">+<?= number_format($t['price'], 0, ',', '.') ?>đ</span>
-                            </label>
-                        </div>
+                        <label class="form-label small fw-bold mb-1">Nhiệt độ</label>
+                        <select id="tempSelect" class="form-select bg-light border-0" onchange="togglePosIceOption(this.value)">
+                            <option value="cold" selected>Dùng Lạnh</option>
+                            <option value="hot">Dùng Nóng</option>
+                        </select>
                     </div>
-                    <?php endforeach; ?>
+                    <div class="col-6">
+                        <label class="form-label small fw-bold mb-1">Mức đường</label>
+                        <select id="sugarSelect" class="form-select bg-light border-0">
+                            <option value="100" selected>100% Đường</option>
+                            <option value="75">75% Đường</option>
+                            <option value="50">50% Đường</option>
+                            <option value="25">25% Đường</option>
+                            <option value="0">0% Đường (Không)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3" id="posIceWrapper">
+                    <label class="form-label small fw-bold mb-1">Mức đá</label>
+                    <select id="iceSelect" class="form-select bg-light border-0">
+                        <option value="100" selected>100% Đá</option>
+                        <option value="75">75% Đá</option>
+                        <option value="50">50% Đá</option>
+                        <option value="0">0% Đá (Không đá)</option>
+                    </select>
+                </div>
+
+                <div id="toppingSection">
+                    <h6 class="fw-bold mb-2">Thêm Topping</h6>
+                    <div class="row g-2 mb-3" id="toppingListContainer">
+                        <?php foreach ($toppings as $t): ?>
+                        <div class="col-6 topping-col" data-topping-id="<?= $t['id'] ?>">
+                            <div class="form-check p-2 border rounded bg-light m-0">
+                                <input class="form-check-input ms-1 topping-checkbox" type="checkbox" value="<?= $t['id'] ?>" data-name="<?= $t['name'] ?>" data-price="<?= $t['price'] ?>" id="top_<?= $t['id'] ?>">
+                                <label class="form-check-label w-100 ms-2 admin-style-58aba5" for="top_<?= $t['id'] ?>">
+                                    <span class="d-block small fw-medium"><?= $t['name'] ?></span>
+                                    <span class="d-block small text-forest">+<?= number_format($t['price'], 0, ',', '.') ?>đ</span>
+                                </label>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <div id="noToppingsMsg" class="text-muted small mb-3 fst-italic" style="display: none;">
+                        Món này không có topping kèm theo.
+                    </div>
                 </div>
             </div>
             <div class="modal-footer border-top-0 pt-0">
@@ -148,6 +183,7 @@
 
 <script>
     let cart = {};
+    const productToppingsMap = <?= json_encode($productToppingsMap ?? []) ?>;
 
     function filterProducts() {
         const query = document.getElementById('searchInput').value.toLowerCase();
@@ -159,6 +195,15 @@
 
     let currentProduct = null;
 
+    function togglePosIceOption(val) {
+        const iceWrapper = document.getElementById('posIceWrapper');
+        if (val === 'hot') {
+            iceWrapper.style.display = 'none';
+        } else {
+            iceWrapper.style.display = 'block';
+        }
+    }
+
     function openOptionsModal(id, name, basePrice) {
         currentProduct = { id, name, price: basePrice };
         
@@ -167,8 +212,30 @@
         
         // Reset form
         document.getElementById('sizeSelect').selectedIndex = 0;
+        document.getElementById('tempSelect').value = 'cold';
+        document.getElementById('sugarSelect').value = '100';
+        document.getElementById('iceSelect').value = '100';
+        togglePosIceOption('cold');
+
         document.querySelectorAll('.topping-checkbox').forEach(cb => cb.checked = false);
         
+        // Filter toppings allowed for this product
+        const allowedToppingIds = productToppingsMap[id] || [];
+        let visibleCount = 0;
+        document.querySelectorAll('.topping-col').forEach(col => {
+            const topId = parseInt(col.getAttribute('data-topping-id'));
+            if (allowedToppingIds.includes(topId)) {
+                col.style.display = '';
+                visibleCount++;
+            } else {
+                col.style.display = 'none';
+            }
+        });
+        const noToppingsMsg = document.getElementById('noToppingsMsg');
+        if (noToppingsMsg) {
+            noToppingsMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
         const modal = new bootstrap.Modal(document.getElementById('productOptionsModal'));
         modal.show();
     }
@@ -181,6 +248,10 @@
         const sizeName = sizeSelect.options[sizeSelect.selectedIndex].dataset.name;
         const sizePrice = parseFloat(sizeSelect.options[sizeSelect.selectedIndex].dataset.price) || 0;
         
+        const tempVal = document.getElementById('tempSelect').value;
+        const sugarVal = parseInt(document.getElementById('sugarSelect').value) || 100;
+        const iceVal = (tempVal === 'hot') ? 0 : (parseInt(document.getElementById('iceSelect').value) || 100);
+
         const toppings = [];
         let toppingPrice = 0;
         document.querySelectorAll('.topping-checkbox:checked').forEach(cb => {
@@ -190,18 +261,22 @@
         
         const finalPrice = currentProduct.price + sizePrice + toppingPrice;
         const toppingIdsStr = toppings.map(t => t.id).join('-');
-        const cartKey = `${currentProduct.id}_${sizeId}_${toppingIdsStr}`;
+        const cartKey = `${currentProduct.id}_${sizeId}_${tempVal}_${sugarVal}_${iceVal}_${toppingIdsStr}`;
         
         if (cart[cartKey]) {
             cart[cartKey].quantity++;
         } else {
             cart[cartKey] = { 
                 id: currentProduct.id, 
+                product_id: currentProduct.id,
                 name: currentProduct.name, 
                 price: finalPrice, 
                 quantity: 1, 
                 size_id: sizeId,
                 size_name: sizeName, 
+                temperature: tempVal,
+                sugar_level: sugarVal,
+                ice_level: iceVal,
                 toppings: toppings 
             };
         }
@@ -233,7 +308,9 @@
             total += item.price * item.quantity;
             count++;
             
-            let optionsText = `Size ${item.size_name}`;
+            let tempText = item.temperature === 'hot' ? 'Nóng' : 'Lạnh';
+            let iceText = item.temperature === 'hot' ? '0% đá' : `${item.ice_level}% đá`;
+            let optionsText = `Size ${item.size_name} | ${tempText} | ${item.sugar_level}% đường | ${iceText}`;
             if (item.toppings.length > 0) {
                 optionsText += ` + ${item.toppings.length} Topping`;
             }
@@ -278,10 +355,13 @@
         const items = [];
         for (const id in cart) {
             items.push({
-                product_id: cart[id].id,
+                product_id: cart[id].product_id || cart[id].id,
                 price: cart[id].price,
                 quantity: cart[id].quantity,
                 size_id: cart[id].size_id,
+                temperature: cart[id].temperature,
+                sugar_level: cart[id].sugar_level,
+                ice_level: cart[id].ice_level,
                 toppings: cart[id].toppings
             });
         }

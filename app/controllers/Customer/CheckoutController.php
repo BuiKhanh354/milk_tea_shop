@@ -65,8 +65,11 @@ class CheckoutController {
             $orderId = $orderModel->createCustomerOrder($customerId, $totalAmount, $paymentMethod, $cart_items, $note);
 
             if ($orderId) {
-                // Clear cart
-                $_SESSION['cart'] = [];
+                // Xóa giỏ hàng trong CSDL và Session
+                require_once __DIR__ . '/../../models/Cart.php';
+                $cartModel = new Cart();
+                $cartModel->clearCart($_SESSION['customer_id'] ?? null, $_COOKIE['cart_token'] ?? null);
+
                 // Redirect to success page or orders page
                 header('Location: index.php?route=checkout&action=success');
                 exit;

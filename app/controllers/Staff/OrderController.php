@@ -91,6 +91,7 @@ class OrderController {
         $products = $productModel->getAll(true);
         $sizes = $productModel->getSizes();
         $toppings = $productModel->getToppings();
+        $productToppingsMap = $productModel->getAllProductToppingRelations();
         
         $tableModel = new TableModel();
         $tables = $tableModel->getAll();

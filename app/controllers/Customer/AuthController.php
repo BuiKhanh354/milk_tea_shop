@@ -49,6 +49,11 @@ class AuthController {
                         $_SESSION['customer_name'] = $customer['full_name'];
                         $_SESSION['customer_email'] = $customer['email'];
 
+                        // Đồng bộ & tải giỏ hàng của tài khoản từ CSDL
+                        require_once __DIR__ . '/../../models/Cart.php';
+                        $cartModel = new Cart();
+                        $cartModel->mergeGuestCartToCustomer($customer['id'], $_COOKIE['cart_token'] ?? '');
+
                         header("Location: index.php");
                         exit;
                     } else {
@@ -118,7 +123,19 @@ class AuthController {
     }
 
     public function logout() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        // Giỏ hàng của tài khoản đã được lưu an toàn trong CSDL
+        $_SESSION = [];
         session_destroy();
+
+        // Xóa cookie cart_token cũ để nếu có khách khác dùng máy thì có giỏ mới
+        if (isset($_COOKIE['cart_token'])) {
+            setcookie('cart_token', '', time() - 3600, '/');
+            unset($_COOKIE['cart_token']);
+        }
+
         header('Location: index.php');
         exit;
     }

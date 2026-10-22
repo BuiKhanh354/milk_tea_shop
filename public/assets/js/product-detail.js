@@ -78,6 +78,21 @@ document.addEventListener('DOMContentLoaded', function() {
         calculatePrice();
     });
     
+    // Temperature Radio Toggle
+    const tempRadios = document.querySelectorAll('input[name="temperature"]');
+    const iceSection = document.getElementById('ice-section');
+    tempRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (iceSection) {
+                if (this.value === 'hot') {
+                    iceSection.style.display = 'none';
+                } else {
+                    iceSection.style.display = 'block';
+                }
+            }
+        });
+    });
+
     // Event Listeners for Options
     sizeRadios.forEach(radio => {
         radio.addEventListener('change', calculatePrice);
@@ -108,15 +123,22 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        let temperature = 'cold';
+        tempRadios.forEach(r => {
+            if(r.checked) temperature = r.value;
+        });
+
         let sugar = '';
         document.querySelectorAll('input[name="sugar"]').forEach(r => {
             if(r.checked) sugar = r.value;
         });
 
         let ice = '';
-        document.querySelectorAll('input[name="ice"]').forEach(r => {
-            if(r.checked) ice = r.value;
-        });
+        if (temperature === 'cold') {
+            document.querySelectorAll('input[name="ice"]').forEach(r => {
+                if(r.checked) ice = r.value;
+            });
+        }
 
         let toppings = [];
         toppingCheckboxes.forEach(cb => {
@@ -136,6 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('base_price', basePriceVal);
         formData.append('size', size);
         formData.append('size_price', sizePrice);
+        formData.append('temperature', temperature);
         formData.append('sugar', sugar);
         formData.append('ice', ice);
         formData.append('quantity', inputQty.value);

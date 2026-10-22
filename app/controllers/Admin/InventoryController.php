@@ -13,6 +13,10 @@ class InventoryController {
         $ingredients = $inventoryModel->getAll($filters);
         $stats = $inventoryModel->getStats();
 
+        require_once __DIR__ . '/../../models/InventoryAudit.php';
+        $auditModel = new InventoryAudit();
+        $latestAudit = $auditModel->getLatestSummary();
+
         $pageTitle = 'Quản lý Nguyên liệu';
         
         ob_start();
@@ -305,6 +309,133 @@ class InventoryController {
         
         ob_start();
         require_once __DIR__ . '/../../views/admin/inventory/alerts.php';
+        $content = ob_get_clean();
+        require_once __DIR__ . '/../../views/layouts/admin.php';
+    }
+
+    public function audit() {
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+            header('Location: admin.php?route=inventory');
+            exit;
+        }
+
+        $pageTitle = 'Kiểm kê Kho';
+        $inventoryModel = new Inventory();
+        $ingredients = $inventoryModel->getAll();
+
+        require_once __DIR__ . '/../../models/InventoryAudit.php';
+        $auditModel = new InventoryAudit();
+        $audits = $auditModel->getAll(20);
+
+        ob_start();
+        require_once __DIR__ . '/../../views/admin/inventory/audit.php';
+        $content = ob_get_clean();
+        require_once __DIR__ . '/../../views/layouts/admin.php';
+    }
+
+    public function storeAudit() {
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+            header('Location: admin.php?route=inventory');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_once __DIR__ . '/../../models/InventoryAudit.php';
+            $auditModel = new InventoryAudit();
+            $inventoryModel = new Inventory();
+
+            $note = trim($_POST['note'] ?? '');
+            $itemsData = $_POST['items'] ?? [];
+            $userId = isset($_SESSION['user_id']) ? (is_array($_SESSION['user_id']) ? (int)current($_SESSION['user_id']) : (int)$_SESSION['user_id']) : null;
+
+            $auditItems = [];
+            foreach ($itemsData as $invId => $row) {
+                // Chỉ xử lý nếu có nhập số lượng thực tế
+                if (isset($row['actual_qty']) && $row['actual_qty'] !== '') {
+                    $invItem = $inventoryModel->findById($invId);
+                    if ($invItem) {
+                        $sysQty = (float)$invItem['quantity'];
+                        $actQty = (float)$row['actual_qty'];
+                        if ($actQty < 0) $actQty = 0; // Không cho phép tồn âm vô lý khi kiểm kê
+                        $diffQty = $actQty - $sysQty;
+                        $reason = trim($row['reason'] ?? '');
+
+                        $auditItems[] = [
+                            'inventory_id' => $invId,
+                            'system_qty' => $sysQty,
+                            'actual_qty' => $actQty,
+                            'difference_qty' => $diffQty,
+                            'reason' => $reason
+                        ];
+                    }
+                }
+            }
+
+            if (!empty($auditItems)) {
+                $auditId = $auditModel->createAudit($userId, $note, $auditItems);
+                if ($auditId) {
+                    $_SESSION['flash_success'] = "Tạo phiếu kiểm kê và cân bằng kho thành công!";
+                    header('Location: admin.php?route=inventory_audit&action=showAudit&id=' . $auditId);
+                    exit;
+                } else {
+                    $_SESSION['flash_error'] = "Có lỗi xảy ra khi lưu phiếu kiểm kê.";
+                }
+            } else {
+                $_SESSION['flash_error'] = "Vui lòng nhập số lượng kiểm kê cho ít nhất một nguyên liệu.";
+            }
+        }
+        header('Location: admin.php?route=inventory_audit');
+        exit;
+    }
+
+    public function showAudit() {
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+            header('Location: admin.php?route=inventory');
+            exit;
+        }
+
+        $id = (int)($_GET['id'] ?? 0);
+        if (!$id) {
+            header('Location: admin.php?route=inventory_audit');
+            exit;
+        }
+
+        require_once __DIR__ . '/../../models/InventoryAudit.php';
+        $auditModel = new InventoryAudit();
+        $audit = $auditModel->getById($id);
+
+        if (!$audit) {
+            header('Location: admin.php?route=inventory_audit');
+            exit;
+        }
+
+        $details = $auditModel->getDetailsByAuditId($id);
+        $pageTitle = 'Chi tiết Phiếu kiểm kê #' . $audit['audit_code'];
+
+        ob_start();
+        require_once __DIR__ . '/../../views/admin/inventory/audit_show.php';
+        $content = ob_get_clean();
+        require_once __DIR__ . '/../../views/layouts/admin.php';
+    }
+
+    public function consumption() {
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+            header('Location: admin.php?route=inventory');
+            exit;
+        }
+
+        $pageTitle = 'Theo dõi Tiêu hao & Hao hụt';
+        require_once __DIR__ . '/../../services/InventoryService.php';
+        $invService = new InventoryService();
+
+        // Mặc định khoảng ngày: từ đầu tháng đến hôm nay hoặc 7 ngày gần nhất
+        $fromDate = $_GET['from_date'] ?? date('Y-m-01');
+        $toDate = $_GET['to_date'] ?? date('Y-m-d');
+
+        $report = $invService->getConsumptionReport($fromDate, $toDate);
+
+        ob_start();
+        require_once __DIR__ . '/../../views/admin/inventory/consumption.php';
         $content = ob_get_clean();
         require_once __DIR__ . '/../../views/layouts/admin.php';
     }

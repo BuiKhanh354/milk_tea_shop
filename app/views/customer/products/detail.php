@@ -89,6 +89,21 @@
                         </div>
                     </div>
 
+                    <!-- Temperature (Nóng / Lạnh) -->
+                    <div class="mb-4">
+                        <span class="option-label">NHIỆT ĐỘ</span>
+                        <div class="vaa-radio-group">
+                            <div class="vaa-radio-btn">
+                                <input type="radio" name="temperature" id="temp-cold" value="cold" checked>
+                                <label for="temp-cold"><i class="fa-solid me-1 text-primary"></i>Dùng lạnh</label>
+                            </div>
+                            <div class="vaa-radio-btn">
+                                <input type="radio" name="temperature" id="temp-hot" value="hot">
+                                <label for="temp-hot"><i class="fa-solid me-1 text-danger"></i>Dùng nóng</label>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Sugar -->
                     <div class="mb-4">
                         <span class="option-label">MỨC ĐƯỜNG</span>
@@ -106,7 +121,7 @@
                     </div>
 
                     <!-- Ice -->
-                    <div class="mb-4">
+                    <div class="mb-4" id="ice-section">
                         <span class="option-label">MỨC ĐÁ</span>
                         <div class="vaa-radio-group">
                             <?php foreach ($iceOptions as $i): ?>
@@ -122,6 +137,7 @@
                     </div>
 
                     <!-- Toppings -->
+                    <?php if (!empty($toppings)): ?>
                     <div class="mb-4">
                         <span class="option-label">THÊM TOPPINGS</span>
                         <div class="row g-2">
@@ -138,6 +154,7 @@
                             <?php endforeach; ?>
                         </div>
                     </div>
+                    <?php endif; ?>
                     
                     <!-- Note -->
                     <div class="mb-4 pb-4 border-bottom border-sage border-opacity-25">

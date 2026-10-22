@@ -5,14 +5,47 @@
         <h4 class="font-serif fw-bold text-dark mb-1">QUẢN LÝ NGUYÊN LIỆU</h4>
         <p class="text-muted fst-italic small mb-0">"The ingredients behind every good cup."</p>
     </div>
-    <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-    <a href="admin.php?route=inventory&action=create" class="btn btn-forest fw-medium px-4">
-        <i class="fa-solid fa-plus me-2"></i> Thêm nguyên liệu
-    </a>
-    <?php endif; ?>
+    <div class="d-flex gap-2">
+        <a href="admin.php?route=inventory_audit" class="btn btn-outline-forest rounded-pill px-3 fw-medium">
+            <i class="fa-solid fa-clipboard-check me-1"></i> Kiểm kê kho
+        </a>
+        <a href="admin.php?route=inventory_consumption" class="btn btn-outline-secondary rounded-pill px-3 fw-medium">
+            <i class="fa-solid fa-chart-line me-1"></i> Tiêu hao & Hao hụt
+        </a>
+        <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+        <a href="admin.php?route=inventory&action=create" class="btn btn-forest rounded-pill fw-medium px-3">
+            <i class="fa-solid fa-plus me-1"></i> Thêm nguyên liệu
+        </a>
+        <?php endif; ?>
+    </div>
 </div>
 
-<hr class="my-4 admin-style-f88d7f" >
+<?php if (!empty($latestAudit)): ?>
+<div class="alert alert-light border rounded-4 d-flex justify-content-between align-items-center p-3 mb-4 shadow-sm">
+    <div class="d-flex align-items-center">
+        <div class="bg-forest bg-opacity-10 text-forest p-3 rounded-circle me-3">
+            <i class="fa-solid fa-clipboard-check fs-5"></i>
+        </div>
+        <div>
+            <span class="fw-bold text-dark d-block">Đợt kiểm kê gần nhất: #<?= htmlspecialchars($latestAudit['audit_code']) ?></span>
+            <small class="text-muted">
+                Thực hiện ngày <?= date('d/m/Y H:i', strtotime($latestAudit['created_at'])) ?> bởi <b><?= htmlspecialchars($latestAudit['user_name']) ?></b>
+                — 
+                <?php if ($latestAudit['total_difference_items'] > 0): ?>
+                    <span class="text-danger fw-bold"><i class="fa-solid fa-triangle-exclamation me-1"></i>Có <?= $latestAudit['total_difference_items'] ?> nguyên liệu bị chênh lệch</span>
+                <?php else: ?>
+                    <span class="text-success fw-bold"><i class="fa-solid fa-circle-check me-1"></i>Tồn kho khớp 100%</span>
+                <?php endif; ?>
+            </small>
+        </div>
+    </div>
+    <a href="admin.php?route=inventory_audit&action=showAudit&id=<?= $latestAudit['id'] ?>" class="btn btn-sm btn-outline-forest rounded-pill px-3">
+        Xem chi tiết
+    </a>
+</div>
+<?php endif; ?>
+
+<hr class="my-3 admin-style-f88d7f">
 
 <!-- Statistics Cards -->
 <div class="row g-4 mb-4">

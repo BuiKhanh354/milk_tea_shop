@@ -19,12 +19,13 @@ class Product {
         return 'assets/images/products/' . $image;
     }
 
-    public function findById($id) {
+    public function findById($id, $includeHidden = false) {
         // Fetch product and category
+        $statusClause = $includeHidden ? "" : "AND p.status = 1";
         $sql = "SELECT p.*, c.name as category_name 
                 FROM products p 
                 LEFT JOIN categories c ON p.category_id = c.id 
-                WHERE p.id = ? AND p.status = 1";
+                WHERE p.id = ? $statusClause";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -210,6 +211,75 @@ class Product {
         return $stmt->execute();
     }
 
+    // --- QUẢN LÝ TOPPING THEO SẢN PHẨM ---
+
+    /**
+     * Lấy danh sách topping được gán cho 1 sản phẩm cụ thể
+     */
+    public function getToppingsForProduct($productId) {
+        $sql = "SELECT t.* FROM toppings t
+                JOIN product_toppings pt ON t.id = pt.topping_id
+                WHERE pt.product_id = ? AND t.status = 1";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $productId);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
+     * Lấy danh sách topping_id đã gán cho 1 sản phẩm (dùng cho checkbox trong Admin)
+     */
+    public function getAssignedToppingIds($productId) {
+        $sql = "SELECT topping_id FROM product_toppings WHERE product_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $productId);
+        $stmt->execute();
+        $rows = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return array_column($rows, 'topping_id');
+    }
+
+    /**
+     * Lưu danh sách topping cho sản phẩm (xóa cũ, thêm mới)
+     */
+    public function syncProductToppings($productId, $toppingIds = []) {
+        // Xóa tất cả topping cũ của sản phẩm
+        $sqlDel = "DELETE FROM product_toppings WHERE product_id = ?";
+        $stmtDel = $this->conn->prepare($sqlDel);
+        $stmtDel->bind_param("i", $productId);
+        $stmtDel->execute();
+
+        // Thêm topping mới
+        if (!empty($toppingIds)) {
+            $sqlIns = "INSERT INTO product_toppings (product_id, topping_id) VALUES (?, ?)";
+            $stmtIns = $this->conn->prepare($sqlIns);
+            foreach ($toppingIds as $toppingId) {
+                $tid = (int)$toppingId;
+                $stmtIns->bind_param("ii", $productId, $tid);
+                $stmtIns->execute();
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Lấy map toàn bộ sản phẩm và danh sách topping_id tương ứng
+     */
+    public function getAllProductToppingRelations() {
+        $sql = "SELECT product_id, topping_id FROM product_toppings";
+        $result = $this->conn->query($sql);
+        $map = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $pid = (int)$row['product_id'];
+                if (!isset($map[$pid])) {
+                    $map[$pid] = [];
+                }
+                $map[$pid][] = (int)$row['topping_id'];
+            }
+        }
+        return $map;
+    }
+
     public function getRelatedProducts($categoryId, $excludeId) {
         $sql = "SELECT * FROM products WHERE category_id = ? AND id != ? AND status = 1 LIMIT 4";
         $stmt = $this->conn->prepare($sql);
@@ -244,7 +314,10 @@ class Product {
         $sql = "INSERT INTO products (name, category_id, description, price, image, status) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("sisdsi", $data['name'], $data['category_id'], $data['description'], $data['price'], $data['image'], $data['status']);
-        return $stmt->execute();
+        if ($stmt->execute()) {
+            return $this->conn->insert_id;
+        }
+        return false;
     }
 
     public function update($id, $data) {

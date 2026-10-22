@@ -263,7 +263,7 @@ class Order {
             $stmtPay->execute();
 
             // Insert order details
-            $sqlDetail = "INSERT INTO order_details (order_id, product_id, size_id, quantity, unit_price, subtotal) VALUES (?, ?, ?, ?, ?, ?)";
+            $sqlDetail = "INSERT INTO order_details (order_id, product_id, size_id, quantity, unit_price, subtotal, sugar_level, ice_level, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmtDetail = $this->conn->prepare($sqlDetail);
             
             $sqlTopping = "INSERT INTO order_detail_toppings (order_detail_id, topping_id, quantity, price) VALUES (?, ?, 1, ?)";
@@ -275,7 +275,32 @@ class Order {
                 $price = (float)$item['price'];
                 $subtotal = $price * $quantity;
                 
-                $stmtDetail->bind_param("iiiidd", $orderId, $item['product_id'], $sizeId, $quantity, $price, $subtotal);
+                // Parse sugar & ice
+                $sugarLevel = 100;
+                if (isset($item['sugar_level'])) {
+                    $sugarLevel = (int)$item['sugar_level'];
+                } elseif (isset($item['sugar'])) {
+                    $cleanSugar = preg_replace('/[^0-9]/', '', (string)$item['sugar']);
+                    if ($cleanSugar !== '') $sugarLevel = (int)$cleanSugar;
+                }
+                
+                $temp = $item['temperature'] ?? 'cold';
+                $iceLevel = ($temp === 'hot') ? 0 : 100;
+                if ($temp !== 'hot') {
+                    if (isset($item['ice_level'])) {
+                        $iceLevel = (int)$item['ice_level'];
+                    } elseif (isset($item['ice'])) {
+                        $cleanIce = preg_replace('/[^0-9]/', '', (string)$item['ice']);
+                        if ($cleanIce !== '') $iceLevel = (int)$cleanIce;
+                    }
+                }
+                
+                $itemNote = ($temp === 'hot') ? 'Dùng nóng' : 'Dùng lạnh';
+                if (!empty($item['note'])) {
+                    $itemNote .= ' - ' . $item['note'];
+                }
+                
+                $stmtDetail->bind_param("iiiiddiis", $orderId, $item['product_id'], $sizeId, $quantity, $price, $subtotal, $sugarLevel, $iceLevel, $itemNote);
                 $stmtDetail->execute();
                 
                 $orderDetailId = $stmtDetail->insert_id;
@@ -313,25 +338,64 @@ class Order {
             $stmtPay->bind_param("isd", $orderId, $paymentMethod, $totalAmount);
             $stmtPay->execute();
 
-            $sqlDetail = "INSERT INTO order_details (order_id, product_id, size_id, quantity, unit_price, subtotal) VALUES (?, ?, ?, ?, ?, ?)";
+            $sqlDetail = "INSERT INTO order_details (order_id, product_id, size_id, quantity, unit_price, subtotal, sugar_level, ice_level, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmtDetail = $this->conn->prepare($sqlDetail);
             
             $sqlTopping = "INSERT INTO order_detail_toppings (order_detail_id, topping_id, quantity, price) VALUES (?, ?, 1, ?)";
             $stmtTopping = $this->conn->prepare($sqlTopping);
 
+            // Pre-fetch size mappings by name for fast lookup
+            $sizeMap = [];
+            $sizeRes = $this->conn->query("SELECT id, name FROM sizes");
+            if ($sizeRes) {
+                while ($sRow = $sizeRes->fetch_assoc()) {
+                    $sizeMap[strtoupper(trim($sRow['name']))] = (int)$sRow['id'];
+                }
+            }
+
             foreach ($items as $item) {
-                // Determine size_id from item['size']. If it's a number, use it. If not, we might need to find it or leave null.
-                // Assuming item['size'] might be ID or name. For web cart, it might just be the name or ID. Let's just cast to int if it's numeric, or null.
-                $sizeId = (is_numeric($item['size']) && $item['size'] > 0) ? (int)$item['size'] : null;
-                $quantity = (int)$item['quantity'];
+                $sizeId = null;
+                if (!empty($item['size_id']) && is_numeric($item['size_id'])) {
+                    $sizeId = (int)$item['size_id'];
+                } elseif (!empty($item['size'])) {
+                    if (is_numeric($item['size'])) {
+                        $sizeId = (int)$item['size'];
+                    } else {
+                        $sizeKey = strtoupper(trim($item['size']));
+                        $sizeId = $sizeMap[$sizeKey] ?? null;
+                    }
+                }
                 
-                // calculate base unit price (without toppings)
-                // wait, $item['total_price'] is the total price for 1 item including toppings.
-                // So unit_price should be $item['total_price'] - toppings_price, or we can just use $item['total_price'] as unit price.
+                $quantity = (int)$item['quantity'];
                 $price = (float)$item['total_price']; 
                 $subtotal = $price * $quantity;
                 
-                $stmtDetail->bind_param("iiiidd", $orderId, $item['product_id'], $sizeId, $quantity, $price, $subtotal);
+                // Parse sugar & ice
+                $sugarLevel = 100;
+                if (isset($item['sugar_level'])) {
+                    $sugarLevel = (int)$item['sugar_level'];
+                } elseif (isset($item['sugar'])) {
+                    $cleanSugar = preg_replace('/[^0-9]/', '', (string)$item['sugar']);
+                    if ($cleanSugar !== '') $sugarLevel = (int)$cleanSugar;
+                }
+                
+                $temp = $item['temperature'] ?? 'cold';
+                $iceLevel = ($temp === 'hot') ? 0 : 100;
+                if ($temp !== 'hot') {
+                    if (isset($item['ice_level'])) {
+                        $iceLevel = (int)$item['ice_level'];
+                    } elseif (isset($item['ice'])) {
+                        $cleanIce = preg_replace('/[^0-9]/', '', (string)$item['ice']);
+                        if ($cleanIce !== '') $iceLevel = (int)$cleanIce;
+                    }
+                }
+                
+                $itemNote = ($temp === 'hot') ? 'Dùng nóng' : 'Dùng lạnh';
+                if (!empty($item['note'])) {
+                    $itemNote .= ' - ' . $item['note'];
+                }
+                
+                $stmtDetail->bind_param("iiiiddiis", $orderId, $item['product_id'], $sizeId, $quantity, $price, $subtotal, $sugarLevel, $iceLevel, $itemNote);
                 $stmtDetail->execute();
                 
                 $orderDetailId = $stmtDetail->insert_id;

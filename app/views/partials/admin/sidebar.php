@@ -121,6 +121,16 @@ $isStaff = isset($_SESSION['role']) && $_SESSION['role'] === 'staff';
                 </li>
                 <?php if ($isAdmin): ?>
                 <li class="nav-item">
+                    <a href="admin.php?route=inventory_audit" class="nav-link <?= $currentRoute === 'inventory_audit' ? 'active' : '' ?>">
+                        <i class="fa-solid fa-clipboard-check nav-icon"></i> Kiểm kê kho
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="admin.php?route=inventory_consumption" class="nav-link <?= $currentRoute === 'inventory_consumption' ? 'active' : '' ?>">
+                        <i class="fa-solid fa-chart-line nav-icon"></i> Tiêu hao & Hao hụt
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="admin.php?route=product_ingredients" class="nav-link <?= $currentRoute === 'product_ingredients' ? 'active' : '' ?>">
                         <i class="fa-solid fa-blender nav-icon"></i> Công thức sản phẩm
                     </a>

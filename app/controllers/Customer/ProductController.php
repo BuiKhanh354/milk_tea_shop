@@ -54,7 +54,7 @@ class ProductController {
         }
 
         $sizes = $productModel->getSizes();
-        $toppings = $productModel->getToppings();
+        $toppings = $productModel->getToppingsForProduct($id);
         
         require_once __DIR__ . '/../../models/ItemOption.php';
         $optionModel = new ItemOption();

@@ -84,11 +84,16 @@
                                         <?php if (!empty($item['size'])): ?>
                                             <span class="badge bg-light text-dark border me-1">Size <?= htmlspecialchars($item['size']) ?></span>
                                         <?php endif; ?>
-                                        <?php if ($item['sugar'] !== ''): ?>
-                                            <span class="badge bg-light text-dark border me-1">Đường <?= htmlspecialchars($item['sugar']) ?>%</span>
+                                        <?php if (!empty($item['temperature']) && $item['temperature'] === 'hot'): ?>
+                                            <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 me-1"><i class="fa-solid me-1"></i>Nóng</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 me-1"><i class="fa-solid me-1"></i>Lạnh</span>
+                                            <?php if ($item['ice'] !== '' && $item['ice'] !== null): ?>
+                                                <span class="badge bg-light text-dark border me-1">Đá <?= htmlspecialchars($item['ice']) ?>%</span>
+                                            <?php endif; ?>
                                         <?php endif; ?>
-                                        <?php if ($item['ice'] !== ''): ?>
-                                            <span class="badge bg-light text-dark border me-1">Đá <?= htmlspecialchars($item['ice']) ?>%</span>
+                                        <?php if ($item['sugar'] !== '' && $item['sugar'] !== null): ?>
+                                            <span class="badge bg-light text-dark border me-1">Đường <?= htmlspecialchars($item['sugar']) ?>%</span>
                                         <?php endif; ?>
                                         <?php if (!empty($item['toppings'])): ?>
                                             <?php foreach ($item['toppings'] as $t): ?>

@@ -123,8 +123,9 @@
                                                 <h6 class="fw-bold text-dark mb-1"><?= htmlspecialchars($item['name']) ?></h6>
                                                 <div class="small text-muted mb-1 text-black">
                                                     <?= !empty($item['size']) ? "Size " . htmlspecialchars($item['size']) : "" ?>
+                                                    <?= (!empty($item['temperature']) && $item['temperature'] === 'hot') ? ' • Nóng' : ' • Lạnh' ?>
                                                     <?php if (!empty($item['toppings'])): ?>
-                                                        + <?= count($item['toppings']) ?> Topping
+                                                        • +<?= count($item['toppings']) ?> Topping
                                                     <?php endif; ?>
                                                 </div>
                                             </div>

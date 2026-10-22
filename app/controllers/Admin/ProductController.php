@@ -8,7 +8,7 @@ class ProductController {
         
         $productModel = new Product();
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $limit = 8;
+        $limit = 10;
         
         $filters = [];
         if (isset($_GET['search']) && $_GET['search'] !== '') $filters['search'] = $_GET['search'];
@@ -48,6 +48,10 @@ class ProductController {
         $categoryModel = new Category();
         $categories = $categoryModel->getAll();
 
+        require_once __DIR__ . '/../../models/Product.php';
+        $productModel = new Product();
+        $allToppings = $productModel->getToppings(true);
+
         ob_start();
         require_once __DIR__ . '/../../views/admin/products/create.php';
         $content = ob_get_clean();
@@ -78,7 +82,11 @@ class ProductController {
             }
 
             $productModel = new Product();
-            $productModel->create($data);
+            $productId = $productModel->create($data);
+            if ($productId) {
+                $toppings = $_POST['toppings'] ?? [];
+                $productModel->syncProductToppings($productId, $toppings);
+            }
             
             header('Location: admin.php?route=products');
             exit;
@@ -99,7 +107,9 @@ class ProductController {
         $categories = $categoryModel->getAll();
 
         $productModel = new Product();
-        $product = $productModel->findById($id);
+        $product = $productModel->findById($id, true);
+        $allToppings = $productModel->getToppings(true);
+        $assignedToppingIds = $productModel->getAssignedToppingIds($id);
 
         ob_start();
         require_once __DIR__ . '/../../views/admin/products/edit.php';
@@ -133,6 +143,9 @@ class ProductController {
 
             $productModel = new Product();
             $productModel->update($id, $data);
+            
+            $toppings = $_POST['toppings'] ?? [];
+            $productModel->syncProductToppings($id, $toppings);
             
             header('Location: admin.php?route=products');
             exit;

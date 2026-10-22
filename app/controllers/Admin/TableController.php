@@ -1,11 +1,13 @@
 <?php
 require_once __DIR__ . '/../../models/Table.php';
 
-class TableController {
-    
-    public function index() {
+class TableController
+{
+
+    public function index()
+    {
         $pageTitle = 'Quản lý Bàn';
-        
+
         $tableModel = new TableModel();
         $tables = $tableModel->getAll();
 
@@ -16,7 +18,32 @@ class TableController {
         require_once __DIR__ . '/../../views/layouts/admin.php';
     }
 
-    public function show() {
+    public function store()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $tableNumber = filter_input(INPUT_POST, 'table_number', FILTER_DEFAULT);
+            $capacity = filter_input(INPUT_POST, 'capacity', FILTER_VALIDATE_INT);
+
+            if ($tableNumber && $capacity) {
+                $tableModel = new TableModel();
+                if ($tableModel->existsByTableNumber($tableNumber)) {
+                    header('Location: admin.php?route=tables&error=duplicate&table=' . urlencode($tableNumber));
+                    exit;
+                }
+                $tableModel->create([
+                    'table_number' => $tableNumber,
+                    'capacity' => $capacity,
+                    'status' => 'available'
+                ]);
+            }
+
+            header('Location: admin.php?route=tables&msg=created');
+            exit;
+        }
+    }
+
+    public function show()
+    {
         $id = $_GET['id'] ?? 0;
         if (!$id) {
             header('Location: admin.php?route=tables');
@@ -24,7 +51,7 @@ class TableController {
         }
 
         $pageTitle = 'Chi tiết Bàn';
-        
+
         $tableModel = new TableModel();
         $table = $tableModel->findById($id);
 
@@ -40,16 +67,19 @@ class TableController {
         require_once __DIR__ . '/../../views/layouts/admin.php';
     }
 
-    public function update_status() {
+
+
+    public function update_status()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'] ?? 0;
             $status = $_POST['status'] ?? '';
-            
+
             if ($id && in_array($status, ['available', 'occupied', 'reserved'])) {
                 $tableModel = new TableModel();
                 $tableModel->updateStatus($id, $status);
             }
-            
+
             header('Location: admin.php?route=tables&action=show&id=' . $id);
             exit;
         }

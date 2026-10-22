@@ -135,6 +135,25 @@ switch ($route) {
         $controller->alerts();
         break;
 
+    case 'inventory_audit':
+        require_once '../app/controllers/Admin/InventoryController.php';
+        $controller = new InventoryController();
+        if (isset($_GET['action'])) {
+            $action = $_GET['action'];
+            if (method_exists($controller, $action)) {
+                $controller->$action();
+                break;
+            }
+        }
+        $controller->audit();
+        break;
+
+    case 'inventory_consumption':
+        require_once '../app/controllers/Admin/InventoryController.php';
+        $controller = new InventoryController();
+        $controller->consumption();
+        break;
+
     case 'product_ingredients':
         require_once '../app/controllers/Admin/ProductIngredientController.php';
         $controller = new ProductIngredientController();

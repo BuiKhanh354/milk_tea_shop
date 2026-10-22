@@ -1,17 +1,24 @@
 <?php
 
+require_once __DIR__ . '/../../models/Cart.php';
+
 class CartController {
+    private $cartModel;
+
     public function __construct() {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+        $this->cartModel = new Cart();
         if (!isset($_SESSION['cart'])) {
-            $_SESSION['cart'] = [];
+            $this->cartModel->loadCartToSession($_SESSION['customer_id'] ?? null, $_COOKIE['cart_token'] ?? null);
         }
     }
 
     public function index() {
-        $cart_items = $_SESSION['cart'];
+        // Đồng bộ lại từ CSDL để đảm bảo dữ liệu mới nhất
+        $cart_items = $this->cartModel->loadCartToSession($_SESSION['customer_id'] ?? null, $_COOKIE['cart_token'] ?? null);
+        
         $subtotal = 0;
         foreach($cart_items as $item) {
             $subtotal += $item['total_price'] * $item['quantity'];
@@ -34,8 +41,9 @@ class CartController {
             $size = $_POST['size'] ?? '';
             $size_price = (float)($_POST['size_price'] ?? 0);
             
+            $temperature = $_POST['temperature'] ?? 'cold';
             $sugar = $_POST['sugar'] ?? '';
-            $ice = $_POST['ice'] ?? '';
+            $ice = ($temperature === 'hot') ? '' : ($_POST['ice'] ?? '');
             
             $quantity = (int)($_POST['quantity'] ?? 1);
             if ($quantity < 1) $quantity = 1;
@@ -55,23 +63,32 @@ class CartController {
             // Generate a unique cart item ID based on options
             $topping_ids = array_map(function($t) { return $t['id']; }, $toppings);
             sort($topping_ids);
-            $cart_id = md5($product_id . $size . $sugar . $ice . implode(',', $topping_ids));
+            $cart_id = md5($product_id . $size . $sugar . $ice . $temperature . implode(',', $topping_ids));
 
+            $itemData = [
+                'cart_id' => $cart_id,
+                'product_id' => $product_id,
+                'name' => $product_name,
+                'image' => $product_image,
+                'size' => $size,
+                'sugar' => $sugar,
+                'ice' => $ice,
+                'temperature' => $temperature,
+                'toppings' => $toppings,
+                'total_price' => $total_price,
+                'quantity' => $quantity
+            ];
+
+            // 1. Lưu vào CSDL
+            $token = Cart::getOrCreateCartToken();
+            $customerId = $_SESSION['customer_id'] ?? null;
+            $this->cartModel->addItem($itemData, $customerId, $token);
+
+            // 2. Cập nhật Session
             if (isset($_SESSION['cart'][$cart_id])) {
                 $_SESSION['cart'][$cart_id]['quantity'] += $quantity;
             } else {
-                $_SESSION['cart'][$cart_id] = [
-                    'cart_id' => $cart_id,
-                    'product_id' => $product_id,
-                    'name' => $product_name,
-                    'image' => $product_image,
-                    'size' => $size,
-                    'sugar' => $sugar,
-                    'ice' => $ice,
-                    'toppings' => $toppings,
-                    'total_price' => $total_price,
-                    'quantity' => $quantity
-                ];
+                $_SESSION['cart'][$cart_id] = $itemData;
             }
 
             echo json_encode(['success' => true, 'message' => 'Đã thêm vào giỏ hàng', 'cart_count' => $this->getCartCount()]);
@@ -87,6 +104,13 @@ class CartController {
 
             if ($quantity < 1) $quantity = 1;
 
+            $token = $_COOKIE['cart_token'] ?? null;
+            $customerId = $_SESSION['customer_id'] ?? null;
+
+            // 1. Cập nhật CSDL
+            $this->cartModel->updateQuantity($cart_id, $quantity, $customerId, $token);
+
+            // 2. Cập nhật Session
             if (isset($_SESSION['cart'][$cart_id])) {
                 $_SESSION['cart'][$cart_id]['quantity'] = $quantity;
                 echo json_encode(['success' => true]);
@@ -102,6 +126,13 @@ class CartController {
             header('Content-Type: application/json');
             $cart_id = $_POST['cart_id'] ?? '';
 
+            $token = $_COOKIE['cart_token'] ?? null;
+            $customerId = $_SESSION['customer_id'] ?? null;
+
+            // 1. Xóa khỏi CSDL
+            $this->cartModel->removeItem($cart_id, $customerId, $token);
+
+            // 2. Xóa khỏi Session
             if (isset($_SESSION['cart'][$cart_id])) {
                 unset($_SESSION['cart'][$cart_id]);
                 echo json_encode(['success' => true, 'cart_count' => $this->getCartCount()]);
@@ -114,8 +145,10 @@ class CartController {
 
     private function getCartCount() {
         $count = 0;
-        foreach ($_SESSION['cart'] as $item) {
-            $count += $item['quantity'];
+        if (!empty($_SESSION['cart'])) {
+            foreach ($_SESSION['cart'] as $item) {
+                $count += $item['quantity'];
+            }
         }
         return $count;
     }

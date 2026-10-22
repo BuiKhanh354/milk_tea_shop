@@ -3,6 +3,8 @@ require_once __DIR__ . '/../../models/Product.php';
 require_once __DIR__ . '/../../models/Inventory.php';
 require_once __DIR__ . '/../../models/ProductIngredient.php';
 
+require_once __DIR__ . '/../../models/ItemOption.php';
+
 class ProductIngredientController {
     
     public function index() {
@@ -44,25 +46,23 @@ class ProductIngredientController {
             exit;
         }
 
-        $pageTitle = 'Sửa Công thức SP';
+        $pageTitle = 'Cấu hình Công thức theo Size';
         $productModel = new Product();
         $inventoryModel = new Inventory();
         $piModel = new ProductIngredient();
+        $optionModel = new ItemOption();
 
-        $product = $productModel->findById($id);
+        $product = $productModel->findById($id, true);
         if (!$product) {
             header('Location: admin.php?route=product_ingredients');
             exit;
         }
 
+        $sizes = $productModel->getSizes(true);
         $all_ingredients = $inventoryModel->getAll();
-        $recipe = $piModel->getByProductId($id);
-        
-        // Map recipe by inventory_id for easy view
-        $current_recipe = [];
-        foreach ($recipe as $r) {
-            $current_recipe[$r['inventory_id']] = floatval($r['quantity']);
-        }
+        $groupedRecipes = $piModel->getRecipeGroupedBySizes($id);
+        $sugarOptions = $optionModel->getSugarOptions();
+        $groupedSugarLevels = $piModel->getAllSugarLevelsGrouped($id);
 
         ob_start();
         require_once __DIR__ . '/../../views/admin/product_ingredients/edit.php';
@@ -79,28 +79,33 @@ class ProductIngredientController {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $product_id = $_POST['product_id'] ?? null;
-            $ingredient_ids = $_POST['ingredient_id'] ?? [];
-            $quantities = $_POST['quantity'] ?? [];
+            $recipesInput = $_POST['recipes'] ?? [];
+            $sugarInput = $_POST['sugar_levels'] ?? [];
             
             if ($product_id) {
-                $ingredients = [];
-                for ($i = 0; $i < count($ingredient_ids); $i++) {
-                    $inv_id = (int)$ingredient_ids[$i];
-                    $qty = (float)$quantities[$i];
-                    if ($inv_id > 0 && $qty > 0) {
-                        $ingredients[] = [
-                            'inventory_id' => $inv_id,
-                            'quantity' => $qty
-                        ];
+                $recipesBySize = [];
+                foreach ($recipesInput as $size_id => $data) {
+                    $sid = (int)$size_id;
+                    $ingIds = $data['ingredient_id'] ?? [];
+                    $qtys = $data['quantity'] ?? [];
+                    $recipesBySize[$sid] = [];
+                    for ($i = 0; $i < count($ingIds); $i++) {
+                        $inv_id = (int)($ingIds[$i] ?? 0);
+                        $qty = (float)($qtys[$i] ?? 0);
+                        if ($inv_id > 0 && $qty > 0) {
+                            $recipesBySize[$sid][] = [
+                                'inventory_id' => $inv_id,
+                                'quantity' => $qty
+                            ];
+                        }
                     }
                 }
                 
                 $piModel = new ProductIngredient();
-                if ($piModel->setIngredients($product_id, $ingredients)) {
-                    $_SESSION['flash_success'] = "Cập nhật công thức thành công!";
-                } else {
-                    $_SESSION['flash_error'] = "Có lỗi xảy ra khi lưu công thức.";
-                }
+                $piModel->setIngredientsBySizes($product_id, $recipesBySize);
+                $piModel->setSugarLevelsBySizes($product_id, $sugarInput);
+                
+                $_SESSION['flash_success'] = "Cập nhật công thức và quy chuẩn định lượng đường thành công!";
             }
         }
         
