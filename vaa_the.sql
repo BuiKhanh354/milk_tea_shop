@@ -137,7 +137,7 @@ CREATE TABLE `employee_shifts` (
   KEY `shift_id` (`shift_id`),
   CONSTRAINT `employee_shifts_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `employee_shifts_ibfk_2` FOREIGN KEY (`shift_id`) REFERENCES `shifts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +146,7 @@ CREATE TABLE `employee_shifts` (
 
 LOCK TABLES `employee_shifts` WRITE;
 /*!40000 ALTER TABLE `employee_shifts` DISABLE KEYS */;
-INSERT INTO `employee_shifts` VALUES (1,2,1,'2026-09-29','assigned','2026-09-29 14:02:33');
+INSERT INTO `employee_shifts` VALUES (1,2,1,'2026-09-29','completed','2026-09-29 14:02:33'),(3,2,1,'2026-10-23','assigned','2026-10-23 15:48:21');
 /*!40000 ALTER TABLE `employee_shifts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -206,7 +206,7 @@ CREATE TABLE `inventory` (
 
 LOCK TABLES `inventory` WRITE;
 /*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
-INSERT INTO `inventory` VALUES (1,'Cà phê hạt','kg',29.50,5.00,180000.00,1,'2026-09-12 07:12:11','2026-10-22 07:57:28'),(2,'Sữa đặc','lon',50.00,10.00,25000.00,1,'2026-09-12 07:12:11','2026-09-12 07:12:11'),(3,'Sữa tươi','lít',25.86,8.00,32000.00,1,'2026-09-12 07:12:11','2026-10-22 16:14:42'),(4,'Bột matcha','kg',4.82,1.00,450000.00,1,'2026-09-12 07:12:11','2026-10-22 16:14:42'),(5,'Trà đen','kg',5.98,2.00,180000.00,1,'2026-09-12 07:12:11','2026-10-22 16:14:42'),(6,'Trà đào','kg',8.00,2.00,220000.00,1,'2026-09-12 07:12:11','2026-09-12 07:12:11'),(7,'Trân châu đen','kg',9.97,2.00,80000.00,1,'2026-09-12 07:12:11','2026-10-22 07:56:47'),(8,'Đường','kg',30.00,5.00,20000.00,1,'2026-09-12 07:12:11','2026-09-12 07:12:11'),(9,'Đá viên','kg',99.98,20.00,3000.00,1,'2026-09-12 07:12:11','2026-10-22 07:57:28'),(10,'Cam','kg',25.00,5.00,35000.00,1,'2026-09-12 07:12:11','2026-09-12 07:12:11'),(11,'Nước đường','ml',1000.00,10.00,50000.00,1,'2026-10-22 16:16:31','2026-10-22 16:17:36');
+INSERT INTO `inventory` VALUES (1,'Cà phê hạt','kg',29.50,5.00,180000.00,1,'2026-09-12 07:12:11','2026-10-22 07:57:28'),(2,'Sữa đặc','lon',50.00,10.00,25000.00,1,'2026-09-12 07:12:11','2026-09-12 07:12:11'),(3,'Sữa tươi','lít',21.36,8.00,32000.00,1,'2026-09-12 07:12:11','2026-10-23 15:15:27'),(4,'Bột matcha','kg',4.73,1.00,450000.00,1,'2026-09-12 07:12:11','2026-10-23 15:15:27'),(5,'Trà đen','kg',1.48,2.00,180000.00,1,'2026-09-12 07:12:11','2026-10-23 15:15:27'),(6,'Trà đào','kg',8.00,2.00,220000.00,1,'2026-09-12 07:12:11','2026-09-12 07:12:11'),(7,'Trân châu đen','kg',9.97,2.00,80000.00,1,'2026-09-12 07:12:11','2026-10-22 07:56:47'),(8,'Đường','kg',30.00,5.00,20000.00,1,'2026-09-12 07:12:11','2026-09-12 07:12:11'),(9,'Đá viên','kg',99.98,20.00,3000.00,1,'2026-09-12 07:12:11','2026-10-22 07:57:28'),(10,'Cam','kg',25.00,5.00,35000.00,1,'2026-09-12 07:12:11','2026-09-12 07:12:11'),(11,'Nước đường','ml',1000.00,10.00,50000.00,1,'2026-10-22 16:16:31','2026-10-22 16:17:36');
 /*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -291,7 +291,7 @@ CREATE TABLE `inventory_transactions` (
   `note` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -300,7 +300,7 @@ CREATE TABLE `inventory_transactions` (
 
 LOCK TABLES `inventory_transactions` WRITE;
 /*!40000 ALTER TABLE `inventory_transactions` DISABLE KEYS */;
-INSERT INTO `inventory_transactions` VALUES (1,3,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #5','2026-10-04 06:38:15'),(2,4,NULL,'USAGE',0.01,0.00,'Bán hàng - Đơn #5','2026-10-04 06:38:15'),(3,5,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #5','2026-10-04 06:38:15'),(4,3,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #6','2026-10-04 06:38:42'),(5,4,NULL,'USAGE',0.01,0.00,'Bán hàng - Đơn #6','2026-10-04 06:38:42'),(6,5,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #6','2026-10-04 06:38:42'),(7,3,NULL,'USAGE',1.00,0.00,'Bán hàng - Đơn #13','2026-10-21 11:29:29'),(8,4,NULL,'USAGE',0.02,0.00,'Bán hàng - Đơn #13','2026-10-21 11:29:29'),(9,5,NULL,'USAGE',1.00,0.00,'Bán hàng - Đơn #13','2026-10-21 11:29:29'),(10,3,NULL,'USAGE',1.00,0.00,'Bán hàng - Đơn #12','2026-10-21 11:29:52'),(11,4,NULL,'USAGE',0.02,0.00,'Bán hàng - Đơn #12','2026-10-21 11:29:52'),(12,5,NULL,'USAGE',1.00,0.00,'Bán hàng - Đơn #12','2026-10-21 11:29:52'),(13,1,1,'IMPORT',10.00,180000.00,'','2026-10-21 11:30:37'),(14,1,1,'IMPORT',20.00,180000.00,'','2026-10-21 11:30:56'),(15,1,1,'EXPORT',20.00,180000.00,'Lý do: Hàng hỏng/Hết hạn','2026-10-21 11:31:16'),(16,1,NULL,'USAGE',0.25,0.00,'Bán hàng - Đơn #15','2026-10-22 07:30:05'),(17,9,NULL,'USAGE',0.01,0.00,'Bán hàng - Đơn #15','2026-10-22 07:30:05'),(18,3,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #20','2026-10-22 07:44:16'),(19,4,NULL,'USAGE',0.01,0.00,'Bán hàng - Đơn #20','2026-10-22 07:44:16'),(20,5,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #20','2026-10-22 07:44:16'),(21,3,NULL,'USAGE',0.14,0.00,'Bán hàng - Đơn #21','2026-10-22 07:56:47'),(22,4,NULL,'USAGE',0.10,0.00,'Bán hàng - Đơn #21','2026-10-22 07:56:47'),(23,5,NULL,'USAGE',0.02,0.00,'Bán hàng - Đơn #21','2026-10-22 07:56:47'),(24,7,NULL,'USAGE',0.03,0.00,'Bán hàng - Đơn #21','2026-10-22 07:56:47'),(25,1,NULL,'USAGE',0.25,0.00,'Bán hàng - Đơn #17','2026-10-22 07:57:28'),(26,9,NULL,'USAGE',0.01,0.00,'Bán hàng - Đơn #17','2026-10-22 07:57:28'),(27,4,NULL,'USAGE',0.01,0.00,'Bán hàng - Đơn #23','2026-10-22 16:14:42'),(28,3,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #23','2026-10-22 16:14:42'),(29,5,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #23','2026-10-22 16:14:42'),(30,11,1,'IMPORT',1000.00,50000.00,'','2026-10-22 16:17:36');
+INSERT INTO `inventory_transactions` VALUES (1,3,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #5','2026-10-04 06:38:15'),(2,4,NULL,'USAGE',0.01,0.00,'Bán hàng - Đơn #5','2026-10-04 06:38:15'),(3,5,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #5','2026-10-04 06:38:15'),(4,3,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #6','2026-10-04 06:38:42'),(5,4,NULL,'USAGE',0.01,0.00,'Bán hàng - Đơn #6','2026-10-04 06:38:42'),(6,5,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #6','2026-10-04 06:38:42'),(7,3,NULL,'USAGE',1.00,0.00,'Bán hàng - Đơn #13','2026-10-21 11:29:29'),(8,4,NULL,'USAGE',0.02,0.00,'Bán hàng - Đơn #13','2026-10-21 11:29:29'),(9,5,NULL,'USAGE',1.00,0.00,'Bán hàng - Đơn #13','2026-10-21 11:29:29'),(10,3,NULL,'USAGE',1.00,0.00,'Bán hàng - Đơn #12','2026-10-21 11:29:52'),(11,4,NULL,'USAGE',0.02,0.00,'Bán hàng - Đơn #12','2026-10-21 11:29:52'),(12,5,NULL,'USAGE',1.00,0.00,'Bán hàng - Đơn #12','2026-10-21 11:29:52'),(13,1,1,'IMPORT',10.00,180000.00,'','2026-10-21 11:30:37'),(14,1,1,'IMPORT',20.00,180000.00,'','2026-10-21 11:30:56'),(15,1,1,'EXPORT',20.00,180000.00,'Lý do: Hàng hỏng/Hết hạn','2026-10-21 11:31:16'),(16,1,NULL,'USAGE',0.25,0.00,'Bán hàng - Đơn #15','2026-10-22 07:30:05'),(17,9,NULL,'USAGE',0.01,0.00,'Bán hàng - Đơn #15','2026-10-22 07:30:05'),(18,3,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #20','2026-10-22 07:44:16'),(19,4,NULL,'USAGE',0.01,0.00,'Bán hàng - Đơn #20','2026-10-22 07:44:16'),(20,5,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #20','2026-10-22 07:44:16'),(21,3,NULL,'USAGE',0.14,0.00,'Bán hàng - Đơn #21','2026-10-22 07:56:47'),(22,4,NULL,'USAGE',0.10,0.00,'Bán hàng - Đơn #21','2026-10-22 07:56:47'),(23,5,NULL,'USAGE',0.02,0.00,'Bán hàng - Đơn #21','2026-10-22 07:56:47'),(24,7,NULL,'USAGE',0.03,0.00,'Bán hàng - Đơn #21','2026-10-22 07:56:47'),(25,1,NULL,'USAGE',0.25,0.00,'Bán hàng - Đơn #17','2026-10-22 07:57:28'),(26,9,NULL,'USAGE',0.01,0.00,'Bán hàng - Đơn #17','2026-10-22 07:57:28'),(27,4,NULL,'USAGE',0.01,0.00,'Bán hàng - Đơn #23','2026-10-22 16:14:42'),(28,3,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #23','2026-10-22 16:14:42'),(29,5,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #23','2026-10-22 16:14:42'),(30,11,1,'IMPORT',1000.00,50000.00,'','2026-10-22 16:17:36'),(31,4,NULL,'USAGE',0.06,0.00,'Bán hàng - Đơn #22','2026-10-23 15:15:25'),(32,3,NULL,'USAGE',3.00,0.00,'Bán hàng - Đơn #22','2026-10-23 15:15:25'),(33,5,NULL,'USAGE',3.00,0.00,'Bán hàng - Đơn #22','2026-10-23 15:15:25'),(34,4,NULL,'USAGE',0.01,0.00,'Bán hàng - Đơn #14','2026-10-23 15:15:26'),(35,3,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #14','2026-10-23 15:15:26'),(36,5,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #14','2026-10-23 15:15:26'),(37,4,NULL,'USAGE',0.01,0.00,'Bán hàng - Đơn #11','2026-10-23 15:15:27'),(38,3,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #11','2026-10-23 15:15:27'),(39,5,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #11','2026-10-23 15:15:27'),(40,4,NULL,'USAGE',0.01,0.00,'Bán hàng - Đơn #16','2026-10-23 15:15:27'),(41,3,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #16','2026-10-23 15:15:27'),(42,5,NULL,'USAGE',0.50,0.00,'Bán hàng - Đơn #16','2026-10-23 15:15:27');
 /*!40000 ALTER TABLE `inventory_transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -412,6 +412,7 @@ CREATE TABLE `orders` (
   `customer_id` int(10) unsigned DEFAULT NULL,
   `user_id` int(10) unsigned DEFAULT NULL,
   `table_id` int(10) unsigned DEFAULT NULL,
+  `shift_session_id` int(10) unsigned DEFAULT NULL,
   `total_amount` decimal(12,2) NOT NULL DEFAULT 0.00,
   `discount` decimal(12,2) NOT NULL DEFAULT 0.00,
   `final_amount` decimal(12,2) NOT NULL DEFAULT 0.00,
@@ -426,6 +427,7 @@ CREATE TABLE `orders` (
   KEY `idx_orders_customer` (`customer_id`),
   KEY `idx_orders_status` (`status`),
   KEY `idx_orders_created_at` (`created_at`),
+  KEY `idx_shift_session` (`shift_session_id`),
   CONSTRAINT `fk_orders_customer` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_orders_table` FOREIGN KEY (`table_id`) REFERENCES `tables` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_orders_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
@@ -438,7 +440,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,1,2,1,70000.00,0.00,70000.00,'dine_in','completed','Ít đá','2026-09-12 07:12:11','2026-09-12 07:12:11'),(2,NULL,1,NULL,65000.00,0.00,65000.00,'takeaway','completed',NULL,'2026-09-29 14:20:41','2026-09-29 14:26:51'),(3,NULL,1,NULL,80000.00,0.00,80000.00,'takeaway','completed',NULL,'2026-09-29 14:23:24','2026-09-29 14:26:50'),(4,NULL,1,NULL,50000.00,0.00,50000.00,'takeaway','cancelled',NULL,'2026-09-29 14:29:18','2026-09-29 14:29:24'),(5,4,NULL,NULL,91000.00,0.00,91000.00,'delivery','completed','','2026-10-04 06:28:34','2026-10-04 06:38:14'),(6,4,NULL,NULL,91000.00,0.00,91000.00,'delivery','completed','','2026-10-04 06:37:46','2026-10-04 06:38:42'),(7,NULL,1,NULL,55000.00,0.00,55000.00,'delivery','completed',NULL,'2026-10-04 07:41:02','2026-10-04 07:41:22'),(8,4,NULL,NULL,255000.00,0.00,255000.00,'delivery','completed','','2026-10-04 07:42:19','2026-10-04 07:42:42'),(9,4,NULL,NULL,45000.00,0.00,45000.00,'delivery','cancelled','','2026-10-04 08:38:33','2026-10-04 08:39:04'),(10,4,NULL,NULL,45000.00,0.00,45000.00,'delivery','completed','Bỏ đá riêng','2026-10-04 08:40:09','2026-10-04 08:40:36'),(11,4,NULL,NULL,101000.00,0.00,101000.00,'delivery','pending','','2026-10-16 12:22:04','2026-10-16 12:22:04'),(12,4,NULL,NULL,362000.00,0.00,362000.00,'delivery','completed','','2026-10-20 02:08:39','2026-10-21 11:29:52'),(13,4,NULL,NULL,202000.00,0.00,202000.00,'delivery','completed','','2026-10-21 10:56:21','2026-10-21 11:29:29'),(14,4,NULL,NULL,91000.00,0.00,91000.00,'delivery','pending','','2026-10-21 15:54:05','2026-10-21 15:54:05'),(15,4,NULL,NULL,107000.00,0.00,107000.00,'delivery','completed','','2026-10-21 15:54:48','2026-10-22 07:30:05'),(16,4,NULL,NULL,126000.00,0.00,126000.00,'delivery','pending','','2026-10-22 07:37:37','2026-10-22 07:37:37'),(17,4,NULL,NULL,74000.00,0.00,74000.00,'delivery','completed','','2026-10-22 07:38:48','2026-10-22 07:57:28'),(18,4,NULL,NULL,83000.00,0.00,83000.00,'delivery','completed','Ngọt','2026-10-22 07:39:30','2026-10-22 07:39:54'),(19,4,NULL,NULL,58000.00,0.00,58000.00,'delivery','cancelled','test','2026-10-22 07:40:51','2026-10-22 07:41:20'),(20,4,NULL,NULL,91000.00,0.00,91000.00,'delivery','completed','thêm ','2026-10-22 07:41:48','2026-10-22 07:44:16'),(21,4,NULL,NULL,50000.00,0.00,50000.00,'delivery','completed','','2026-10-22 07:44:44','2026-10-22 07:56:47'),(22,4,NULL,NULL,471000.00,0.00,471000.00,'delivery','pending','','2026-10-22 15:27:47','2026-10-22 15:27:47'),(23,4,NULL,NULL,161000.00,0.00,161000.00,'delivery','completed','','2026-10-22 15:39:55','2026-10-22 16:14:42');
+INSERT INTO `orders` VALUES (1,1,2,1,NULL,70000.00,0.00,70000.00,'dine_in','completed','Ít đá','2026-09-12 07:12:11','2026-09-12 07:12:11'),(2,NULL,1,NULL,NULL,65000.00,0.00,65000.00,'takeaway','completed',NULL,'2026-09-29 14:20:41','2026-09-29 14:26:51'),(3,NULL,1,NULL,NULL,80000.00,0.00,80000.00,'takeaway','completed',NULL,'2026-09-29 14:23:24','2026-09-29 14:26:50'),(4,NULL,1,NULL,NULL,50000.00,0.00,50000.00,'takeaway','cancelled',NULL,'2026-09-29 14:29:18','2026-09-29 14:29:24'),(5,4,NULL,NULL,NULL,91000.00,0.00,91000.00,'delivery','completed','','2026-10-04 06:28:34','2026-10-04 06:38:14'),(6,4,NULL,NULL,NULL,91000.00,0.00,91000.00,'delivery','completed','','2026-10-04 06:37:46','2026-10-04 06:38:42'),(7,NULL,1,NULL,NULL,55000.00,0.00,55000.00,'delivery','completed',NULL,'2026-10-04 07:41:02','2026-10-04 07:41:22'),(8,4,NULL,NULL,NULL,255000.00,0.00,255000.00,'delivery','completed','','2026-10-04 07:42:19','2026-10-04 07:42:42'),(9,4,NULL,NULL,NULL,45000.00,0.00,45000.00,'delivery','cancelled','','2026-10-04 08:38:33','2026-10-04 08:39:04'),(10,4,NULL,NULL,NULL,45000.00,0.00,45000.00,'delivery','completed','Bỏ đá riêng','2026-10-04 08:40:09','2026-10-04 08:40:36'),(11,4,NULL,NULL,NULL,101000.00,0.00,101000.00,'delivery','completed','','2026-10-16 12:22:04','2026-10-23 15:15:27'),(12,4,NULL,NULL,NULL,362000.00,0.00,362000.00,'delivery','completed','','2026-10-20 02:08:39','2026-10-21 11:29:52'),(13,4,NULL,NULL,NULL,202000.00,0.00,202000.00,'delivery','completed','','2026-10-21 10:56:21','2026-10-21 11:29:29'),(14,4,NULL,NULL,NULL,91000.00,0.00,91000.00,'delivery','completed','','2026-10-21 15:54:05','2026-10-23 15:15:26'),(15,4,NULL,NULL,NULL,107000.00,0.00,107000.00,'delivery','completed','','2026-10-21 15:54:48','2026-10-22 07:30:05'),(16,4,NULL,NULL,NULL,126000.00,0.00,126000.00,'delivery','completed','','2026-10-22 07:37:37','2026-10-23 15:15:27'),(17,4,NULL,NULL,NULL,74000.00,0.00,74000.00,'delivery','completed','','2026-10-22 07:38:48','2026-10-22 07:57:28'),(18,4,NULL,NULL,NULL,83000.00,0.00,83000.00,'delivery','completed','Ngọt','2026-10-22 07:39:30','2026-10-22 07:39:54'),(19,4,NULL,NULL,NULL,58000.00,0.00,58000.00,'delivery','cancelled','test','2026-10-22 07:40:51','2026-10-22 07:41:20'),(20,4,NULL,NULL,NULL,91000.00,0.00,91000.00,'delivery','completed','thêm ','2026-10-22 07:41:48','2026-10-22 07:44:16'),(21,4,NULL,NULL,NULL,50000.00,0.00,50000.00,'delivery','completed','','2026-10-22 07:44:44','2026-10-22 07:56:47'),(22,4,NULL,NULL,NULL,471000.00,0.00,471000.00,'delivery','completed','','2026-10-22 15:27:47','2026-10-23 15:15:25'),(23,4,NULL,NULL,NULL,161000.00,0.00,161000.00,'delivery','completed','','2026-10-22 15:39:55','2026-10-22 16:14:42');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -452,7 +454,7 @@ DROP TABLE IF EXISTS `payments`;
 CREATE TABLE `payments` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `order_id` int(10) unsigned NOT NULL,
-  `method` enum('cod','momo','vnpay') NOT NULL,
+  `method` varchar(50) NOT NULL DEFAULT 'cash',
   `amount` decimal(12,2) NOT NULL DEFAULT 0.00,
   `status` enum('pending','paid','failed') NOT NULL DEFAULT 'pending',
   `transaction_code` varchar(100) DEFAULT NULL,
@@ -593,7 +595,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,1,'Cà phê đen','Cà phê đen truyền thống',25000.00,NULL,1,'2026-09-12 07:12:11','2026-10-09 13:32:52'),(2,1,'Cà phê sữa','Cà phê sữa truyền thống',30000.00,'ca-phe-sua.jpg',1,'2026-09-12 07:12:11','2026-09-29 14:09:27'),(3,1,'Bạc xỉu','Bạc xỉu thơm béo',35000.00,'bac-xiu.jpg',1,'2026-09-12 07:12:11','2026-09-29 14:09:25'),(4,2,'Trà sữa truyền thống','Trà sữa vị truyền thống',35000.00,'tra-sua-truyen-thong.jpg',1,'2026-09-12 07:12:11','2026-09-29 14:09:23'),(5,2,'Trà sữa matcha','Trà sữa matcha thơm mát',40000.00,'tra-sua-matcha.jpg',1,'2026-09-12 07:12:11','2026-09-29 14:09:22'),(6,2,'Trà sữa socola','Trà sữa socola',40000.00,'tra-sua-socola.jpg',1,'2026-09-12 07:12:11','2026-09-29 14:09:24'),(7,3,'Trà đào','Trà đào cam sả',35000.00,'tra-dao.jpg',1,'2026-09-12 07:12:11','2026-09-29 14:09:21'),(8,3,'Trà vải','Trà vải thanh mát',35000.00,'tra-vai.jpg',1,'2026-09-12 07:12:11','2026-09-29 14:09:21'),(9,4,'Matcha đá xay','Matcha đá xay',45000.00,'matcha-da-xay.jpg',1,'2026-09-12 07:12:11','2026-10-22 16:25:43'),(10,1,'A-Mê Yuzu','Nước cam nguyên chất',30000.00,'1791103057_A-Me_Yuzu.png',1,'2026-09-12 07:12:11','2026-10-04 08:37:37'),(11,1,'A-mê Đào','',76000.00,'1791100779_A-MeDao.png',1,'2026-09-29 14:06:12','2026-10-04 07:59:44'),(12,1,'A-Mê Đào','',55000.00,'1791104022_A-MeDao.png',1,'2026-10-04 08:53:42','2026-10-22 16:26:17'),(13,1,'Cold Brew Truyền Thống','test',47000.00,'1791104072_Traditional_Cold_Brew.png',1,'2026-10-04 08:54:32','2026-10-22 15:26:40');
+INSERT INTO `products` VALUES (1,1,'Cà phê đen','Cà phê đen truyền thống',25000.00,'1792687877_Hot_Espresso.png',1,'2026-09-12 07:12:11','2026-10-22 16:51:17'),(2,1,'Cà phê sữa','Cà phê sữa truyền thống',30000.00,'1792687906_Floaty_Bac_Xiu.png',1,'2026-09-12 07:12:11','2026-10-22 16:51:46'),(3,1,'Bạc xỉu','Bạc xỉu thơm béo',35000.00,'1792687817_Bac_Xiu_Latte.png',1,'2026-09-12 07:12:11','2026-10-22 16:50:17'),(4,2,'Trà sữa truyền thống','Trà sữa vị truyền thống',35000.00,'tra-sua-truyen-thong.jpg',1,'2026-09-12 07:12:11','2026-09-29 14:09:23'),(5,2,'Trà sữa matcha','Trà sữa matcha thơm mát',40000.00,'1792688365_1751598780_matcha-latte-tay-bac-da_400x400.png',1,'2026-09-12 07:12:11','2026-10-22 16:59:25'),(6,2,'Trà sữa socola','Trà sữa socola',40000.00,'tra-sua-socola.jpg',1,'2026-09-12 07:12:11','2026-09-29 14:09:24'),(7,3,'Trà đào','Trà đào cam sả',35000.00,'tra-dao.jpg',1,'2026-09-12 07:12:11','2026-09-29 14:09:21'),(8,3,'Trà vải','Trà vải thanh mát',35000.00,'tra-vai.jpg',1,'2026-09-12 07:12:11','2026-09-29 14:09:21'),(9,4,'Matcha đá xay','Matcha đá xay',45000.00,'1792687925_Floaty_Matcha_Latte.png',1,'2026-09-12 07:12:11','2026-10-22 16:52:05'),(10,1,'A-Mê Yuzu','Nước cam nguyên chất',30000.00,'1791103057_A-Me_Yuzu.png',1,'2026-09-12 07:12:11','2026-10-04 08:37:37'),(11,1,'A-mê Đào','',76000.00,'1791100779_A-MeDao.png',1,'2026-09-29 14:06:12','2026-10-04 07:59:44'),(12,1,'A-Mê Đào','',55000.00,'1791104022_A-MeDao.png',1,'2026-10-04 08:53:42','2026-10-22 16:26:17'),(13,1,'Cold Brew Truyền Thống','test',47000.00,'1791104072_Traditional_Cold_Brew.png',1,'2026-10-04 08:54:32','2026-10-22 15:26:40');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -634,6 +636,87 @@ INSERT INTO `reviews` VALUES (1,1,4,1,5,'Trà sữa ngon, sẽ ủng hộ tiếp
 UNLOCK TABLES;
 
 --
+-- Table structure for table `shift_session_inventory`
+--
+
+DROP TABLE IF EXISTS `shift_session_inventory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `shift_session_inventory` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `session_id` int(10) unsigned NOT NULL,
+  `inventory_id` int(10) unsigned NOT NULL,
+  `start_quantity` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `expected_usage` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `expected_ending_qty` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `actual_ending_qty` decimal(12,2) DEFAULT NULL,
+  `difference_qty` decimal(12,2) DEFAULT NULL,
+  `reason` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `idx_session` (`session_id`),
+  KEY `idx_inventory` (`inventory_id`),
+  CONSTRAINT `fk_shift_session_inv` FOREIGN KEY (`session_id`) REFERENCES `shift_sessions` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `shift_session_inventory`
+--
+
+LOCK TABLES `shift_session_inventory` WRITE;
+/*!40000 ALTER TABLE `shift_session_inventory` DISABLE KEYS */;
+INSERT INTO `shift_session_inventory` VALUES (12,2,4,4.73,0.00,4.73,4.73,0.00,'','2026-10-23 15:17:50'),(13,2,1,29.50,0.00,29.50,29.50,0.00,'','2026-10-23 15:17:50'),(14,2,10,25.00,0.00,25.00,25.00,0.00,'','2026-10-23 15:17:50'),(15,2,9,99.98,0.00,99.98,99.98,0.00,'','2026-10-23 15:17:50'),(16,2,8,30.00,0.00,30.00,30.00,0.00,'','2026-10-23 15:17:50'),(17,2,11,1000.00,0.00,1000.00,1000.00,0.00,'','2026-10-23 15:17:50'),(18,2,2,50.00,0.00,50.00,50.00,0.00,'','2026-10-23 15:17:50'),(19,2,3,21.36,0.00,21.36,21.36,0.00,'','2026-10-23 15:17:50'),(20,2,6,8.00,0.00,8.00,8.00,0.00,'','2026-10-23 15:17:50'),(21,2,5,1.48,0.00,1.48,1.48,0.00,'','2026-10-23 15:17:50'),(22,2,7,9.97,0.00,9.97,9.97,0.00,'','2026-10-23 15:17:50'),(23,3,4,4.73,0.00,4.73,4.73,0.00,'','2026-10-23 15:27:23'),(24,3,1,29.50,0.00,29.50,29.50,0.00,'','2026-10-23 15:27:23'),(25,3,10,25.00,0.00,25.00,25.00,0.00,'','2026-10-23 15:27:23'),(26,3,9,99.98,0.00,99.98,99.98,0.00,'','2026-10-23 15:27:23'),(27,3,8,30.00,0.00,30.00,30.00,0.00,'','2026-10-23 15:27:23'),(28,3,11,1000.00,0.00,1000.00,1000.00,0.00,'','2026-10-23 15:27:23'),(29,3,2,50.00,0.00,50.00,50.00,0.00,'','2026-10-23 15:27:23'),(30,3,3,21.36,0.00,21.36,21.36,0.00,'','2026-10-23 15:27:23'),(31,3,6,8.00,0.00,8.00,8.00,0.00,'','2026-10-23 15:27:23'),(32,3,5,1.48,0.00,1.48,1.48,0.00,'','2026-10-23 15:27:23'),(33,3,7,9.97,0.00,9.97,9.97,0.00,'','2026-10-23 15:27:23'),(34,4,4,4.73,0.00,4.73,4.73,0.00,'','2026-10-23 15:33:30'),(35,4,1,29.50,0.00,29.50,29.50,0.00,'','2026-10-23 15:33:30'),(36,4,10,25.00,0.00,25.00,25.00,0.00,'','2026-10-23 15:33:30'),(37,4,9,99.98,0.00,99.98,99.98,0.00,'','2026-10-23 15:33:30'),(38,4,8,30.00,0.00,30.00,30.00,0.00,'','2026-10-23 15:33:30'),(39,4,11,1000.00,0.00,1000.00,1000.00,0.00,'','2026-10-23 15:33:30'),(40,4,2,50.00,0.00,50.00,50.00,0.00,'','2026-10-23 15:33:30'),(41,4,3,21.36,0.00,21.36,21.36,0.00,'','2026-10-23 15:33:30'),(42,4,6,8.00,0.00,8.00,8.00,0.00,'','2026-10-23 15:33:30'),(43,4,5,1.48,0.00,1.48,1.48,0.00,'','2026-10-23 15:33:30'),(44,4,7,9.97,0.00,9.97,9.97,0.00,'','2026-10-23 15:33:30');
+/*!40000 ALTER TABLE `shift_session_inventory` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `shift_sessions`
+--
+
+DROP TABLE IF EXISTS `shift_sessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `shift_sessions` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `session_code` varchar(50) NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `shift_id` int(10) unsigned DEFAULT NULL,
+  `employee_shift_id` int(10) unsigned DEFAULT NULL,
+  `opened_at` datetime NOT NULL,
+  `closed_at` datetime DEFAULT NULL,
+  `initial_cash` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `cash_sales` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `bank_sales` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `momo_sales` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `total_sales` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `expected_cash` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `actual_cash` decimal(12,2) DEFAULT NULL,
+  `cash_difference` decimal(12,2) DEFAULT NULL,
+  `cash_difference_reason` varchar(255) DEFAULT NULL,
+  `status` enum('open','closed') DEFAULT 'open',
+  `note` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `session_code` (`session_code`),
+  KEY `idx_user` (`user_id`),
+  KEY `idx_status` (`status`),
+  KEY `idx_opened_at` (`opened_at`),
+  KEY `idx_emp_shift` (`employee_shift_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `shift_sessions`
+--
+
+LOCK TABLES `shift_sessions` WRITE;
+/*!40000 ALTER TABLE `shift_sessions` DISABLE KEYS */;
+INSERT INTO `shift_sessions` VALUES (2,'CA-20261023-171750',1,NULL,NULL,'2026-10-23 22:17:50','2026-10-23 22:32:04',1000000.00,0.00,0.00,0.00,0.00,1000000.00,1000000.00,0.00,'','closed','','2026-10-23 15:17:50'),(3,'CA-20261023-172723',2,3,NULL,'2026-10-23 22:27:23','2026-10-23 22:27:43',1000000.00,0.00,0.00,0.00,0.00,1000000.00,1000000.00,0.00,'','closed','','2026-10-23 15:27:23'),(4,'CA-20261023-173330',2,1,NULL,'2026-10-23 22:33:30','2026-10-23 22:33:36',1000000.00,0.00,0.00,0.00,0.00,1000000.00,1000000.00,0.00,'','closed','','2026-10-23 15:33:30');
+/*!40000 ALTER TABLE `shift_sessions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `shifts`
 --
 
@@ -649,7 +732,7 @@ CREATE TABLE `shifts` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -658,7 +741,7 @@ CREATE TABLE `shifts` (
 
 LOCK TABLES `shifts` WRITE;
 /*!40000 ALTER TABLE `shifts` DISABLE KEYS */;
-INSERT INTO `shifts` VALUES (1,'Ca Sáng','07:00:00','11:30:00',1,'2026-09-29 14:02:19','2026-09-29 14:02:19'),(2,'Ca Tối','16:30:00','21:00:00',1,'2026-10-07 13:46:42','2026-10-07 13:46:42');
+INSERT INTO `shifts` VALUES (1,'Ca Sáng','07:00:00','11:30:00',1,'2026-09-29 14:02:19','2026-09-29 14:02:19'),(2,'Ca Tối','16:30:00','21:00:00',1,'2026-10-07 13:46:42','2026-10-07 13:46:42'),(3,'Ca Tối','16:40:00','21:00:00',1,'2026-10-23 15:21:17','2026-10-23 15:21:17');
 /*!40000 ALTER TABLE `shifts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -792,4 +875,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-10-22 23:41:06
+-- Dump completed on 2026-10-23 23:11:37

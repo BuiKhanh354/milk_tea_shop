@@ -1,8 +1,36 @@
-<div class="d-flex justify-content-between align-items-center mb-4">
+<?php
+    $posUserId = isset($_SESSION['user_id']) ? (is_array($_SESSION['user_id']) ? (int)current($_SESSION['user_id']) : (int)$_SESSION['user_id']) : 0;
+    require_once __DIR__ . '/../../../models/ShiftSession.php';
+    require_once __DIR__ . '/../../../models/Shift.php';
+    $posShiftModel = new ShiftSession();
+    $posOpenSession = $posShiftModel->getCurrentOpenSession($posUserId);
+    $posTodayShift = null;
+    if (!$posOpenSession) {
+        $posShiftObj = new Shift();
+        $posTodayShift = $posShiftObj->getActiveAssignedShiftForStaffNow($posUserId);
+    }
+?>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="font-serif fw-bold text-dark mb-0">
         <a href="admin.php?route=orders" class="text-muted me-2"><i class="fa-solid fa-arrow-left"></i></a> 
         Tạo đơn hàng mới (POS)
     </h4>
+    <div>
+        <?php if ($posOpenSession): ?>
+            <a href="admin.php?route=shift_sessions&action=close" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1">
+                <i class="fa-solid fa-cash-register me-1"></i> Ca: <b><?= htmlspecialchars($posOpenSession['shift_name'] ?? $posOpenSession['session_code']) ?></b> (Kết ca)
+            </a>
+        <?php elseif ($posTodayShift): ?>
+            <a href="admin.php?route=shift_sessions&action=open" class="btn btn-sm btn-outline-forest rounded-pill px-3 py-1 fw-medium">
+                <i class="fa-solid fa-business-time me-1"></i> Vào ca hôm nay: <b><?= htmlspecialchars($posTodayShift['shift_name']) ?></b> (Mở ca)
+            </a>
+        <?php else: ?>
+            <a href="admin.php?route=shift_sessions&action=open" class="btn btn-sm btn-outline-warning text-dark rounded-pill px-3 py-1">
+                <i class="fa-solid fa-lock-open me-1"></i> Chưa mở ca (Nhấn để Mở ca)
+            </a>
+        <?php endif; ?>
+    </div>
 </div>
 
 <?php if (isset($_GET['error'])): ?>

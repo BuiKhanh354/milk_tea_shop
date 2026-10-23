@@ -245,14 +245,15 @@ class Order {
         return $stmt->execute();
     }
 
-    public function createOrder($userId, $customerName, $totalAmount, $orderType, $tableId, $paymentMethod, $items) {
+    public function createOrder($userId, $customerName, $totalAmount, $orderType, $tableId, $paymentMethod, $items, $shiftSessionId = null) {
         $this->conn->begin_transaction();
         try {
             // Insert order
-            $sql = "INSERT INTO orders (user_id, status, total_amount, final_amount, order_type, table_id) VALUES (?, 'Pending', ?, ?, ?, ?)";
+            $sql = "INSERT INTO orders (user_id, status, total_amount, final_amount, order_type, table_id, shift_session_id) VALUES (?, 'Pending', ?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($sql);
             $tId = ($tableId > 0) ? (int)$tableId : null;
-            $stmt->bind_param("iddsi", $userId, $totalAmount, $totalAmount, $orderType, $tId);
+            $sId = ($shiftSessionId > 0) ? (int)$shiftSessionId : null;
+            $stmt->bind_param("iddsii", $userId, $totalAmount, $totalAmount, $orderType, $tId, $sId);
             $stmt->execute();
             $orderId = $stmt->insert_id;
 

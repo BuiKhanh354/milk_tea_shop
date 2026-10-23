@@ -94,7 +94,7 @@
             <table class="table align-middle table-hover">
                 <thead class="bg-light text-muted small">
                     <tr>
-                        <th class="py-3 px-3">#</th>
+                        <th class="py-3 px-3">STT</th>
                         <th class="py-3">Nguyên liệu</th>
                         <th class="py-3 text-center">ĐVT</th>
                         <th class="py-3 text-end">Tồn hiện tại</th>
@@ -157,15 +157,15 @@
                         </td>
                         <td class="text-center">
                             <?php if ($row['status'] === 'over'): ?>
-                                <span class="badge bg-danger bg-opacity-15 text-danger rounded-pill px-3 py-2">
-                                    <i class="fa-solid fa-arrow-trend-up me-1"></i> Vượt định mức
+                                <span class="badge bg-danger bg-opacity-15 text-light rounded-pill px-3 py-2">
+                                    <i class="fa-solid fa-arrow-trend-up me-1 text-light"></i> Vượt định mức
                                 </span>
                             <?php elseif ($row['expected_qty'] == 0 && $row['actual_qty'] == 0): ?>
                                 <span class="badge bg-light text-muted rounded-pill px-3 py-2">
                                     Không phát sinh
                                 </span>
                             <?php else: ?>
-                                <span class="badge bg-success bg-opacity-15 text-success rounded-pill px-3 py-2">
+                                <span class="badge bg-success bg-opacity-15 text-light rounded-pill px-3 py-2">
                                     <i class="fa-solid fa-check me-1"></i> Trong định mức
                                 </span>
                             <?php endif; ?>

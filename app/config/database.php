@@ -1,5 +1,6 @@
 <?php
 define('BASE_URL', '/milk_tea_shop/public');
+require_once __DIR__ . '/../helpers.php';
 $servername = "127.0.0.1";
 $username = "root";
 $pass = "";

@@ -1,6 +1,36 @@
-<div class="mb-4">
-    <h4 class="font-serif fw-bold text-forest mb-1">Xử lý Đơn hàng (Ca hiện tại)</h4>
-    <p class="text-muted">Tập trung xử lý các đơn hàng đang chờ hoặc đang pha chế.</p>
+<?php
+    $staffUserId = isset($_SESSION['user_id']) ? (is_array($_SESSION['user_id']) ? (int)current($_SESSION['user_id']) : (int)$_SESSION['user_id']) : 0;
+    require_once __DIR__ . '/../../../models/ShiftSession.php';
+    require_once __DIR__ . '/../../../models/Shift.php';
+    $shiftSessionModel = new ShiftSession();
+    $staffOpenSession = $shiftSessionModel->getCurrentOpenSession($staffUserId);
+    $staffTodayShift = null;
+    if (!$staffOpenSession) {
+        $staffShiftObj = new Shift();
+        $staffTodayShift = $staffShiftObj->getActiveAssignedShiftForStaffNow($staffUserId);
+    }
+?>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h4 class="font-serif fw-bold text-forest mb-1">Xử lý Đơn hàng (Ca làm việc)</h4>
+        <p class="text-muted small mb-0">Tập trung xử lý các đơn hàng đang chờ hoặc đang pha chế.</p>
+    </div>
+    <div>
+        <?php if ($staffOpenSession): ?>
+            <a href="admin.php?route=shift_sessions&action=close" class="btn btn-sm btn-outline-success rounded-pill px-3 py-2 shadow-sm">
+                <i class="fa-solid fa-cash-register me-1"></i> Đang mở: <b><?= htmlspecialchars($staffOpenSession['shift_name'] ?? $staffOpenSession['session_code']) ?></b> (Kết ca)
+            </a>
+        <?php elseif ($staffTodayShift): ?>
+            <a href="admin.php?route=shift_sessions&action=open" class="btn btn-sm btn-forest rounded-pill px-3 py-2 shadow-sm fw-medium">
+                <i class="fa-solid fa-business-time me-1"></i> Vào ca hôm nay: <b><?= htmlspecialchars($staffTodayShift['shift_name']) ?> (<?= substr($staffTodayShift['start_time'], 0, 5) ?> - <?= substr($staffTodayShift['end_time'], 0, 5) ?>)</b>
+            </a>
+        <?php else: ?>
+            <span class="badge bg-light text-muted border rounded-pill px-3 py-2 small">
+                <i class="fa-solid fa-calendar-xmark me-1 text-secondary"></i> Chưa có ca được phân công hôm nay
+            </span>
+        <?php endif; ?>
+    </div>
 </div>
 
 <!-- Stats -->

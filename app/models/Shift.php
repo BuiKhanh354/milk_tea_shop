@@ -103,4 +103,79 @@ class Shift {
         $stmt->bind_param("si", $status, $id);
         return $stmt->execute();
     }
+
+    /**
+     * Lấy danh sách ca được phân công cho nhân viên trong ngày hôm nay (không lấy ca đã qua ngày)
+     */
+    public function getAssignedShiftsForStaffToday($userId, $date = null) {
+        $workDate = $date ?: date('Y-m-d');
+        $sql = "SELECT es.*, s.name as shift_name, s.start_time, s.end_time 
+                FROM employee_shifts es
+                JOIN shifts s ON es.shift_id = s.id
+                WHERE es.employee_id = ? 
+                  AND es.work_date = ? 
+                  AND es.status != 'cancelled'
+                ORDER BY s.start_time ASC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("is", $userId, $workDate);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
+     * Tự động xác định ca làm việc của nhân viên khớp với thời điểm hiện tại
+     * Cho phép mở sớm trước giờ bắt đầu tối đa 45 phút
+     */
+    public function getActiveAssignedShiftForStaffNow($userId, $currentTime = null) {
+        $assigned = $this->getAssignedShiftsForStaffToday($userId);
+        if (empty($assigned)) {
+            return null;
+        }
+
+        if (count($assigned) === 1) {
+            return $assigned[0];
+        }
+
+        $now = $currentTime ?: date('H:i:s');
+        $nowSec = strtotime($now);
+
+        // Tìm ca đang trong khung giờ (cho phép mở sớm 45 phút)
+        foreach ($assigned as $sh) {
+            $startSec = strtotime($sh['start_time']) - (45 * 60);
+            $endSec = strtotime($sh['end_time']);
+            if ($nowSec >= $startSec && $nowSec <= $endSec) {
+                return $sh;
+            }
+        }
+
+        // Nếu ngoài khung giờ, ưu tiên ca đầu tiên chưa hoàn thành (status = 'assigned')
+        foreach ($assigned as $sh) {
+            if ($sh['status'] === 'assigned') {
+                return $sh;
+            }
+        }
+
+        return $assigned[0];
+    }
+
+    /**
+     * Kiểm tra xem nhân viên có được phân công ca làm này vào ngày hôm nay hay không
+     * Trả về bản ghi phân công nếu hợp lệ, false nếu ca không được giao hoặc đã qua ngày
+     */
+    public function getValidTodayAssignment($userId, $shiftId, $date = null) {
+        $workDate = $date ?: date('Y-m-d');
+        $sql = "SELECT es.*, s.name as shift_name, s.start_time, s.end_time 
+                FROM employee_shifts es
+                JOIN shifts s ON es.shift_id = s.id
+                WHERE es.employee_id = ? 
+                  AND es.shift_id = ? 
+                  AND es.work_date = ? 
+                  AND es.status != 'cancelled'
+                LIMIT 1";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("iis", $userId, $shiftId, $workDate);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        return ($res && $res->num_rows > 0) ? $res->fetch_assoc() : null;
+    }
 }

@@ -137,7 +137,13 @@ class OrderController {
             // Since it's staff creating, user_id is the staff's id
             $userId = isset($_SESSION['user_id']) ? (is_array($_SESSION['user_id']) ? (int)current($_SESSION['user_id']) : (int)$_SESSION['user_id']) : 0;
             
-            $orderId = $orderModel->createOrder($userId, $customerName, $totalAmount, $orderType, $tableId, $paymentMethod, $items);
+            // Check active shift session
+            require_once __DIR__ . '/../../models/ShiftSession.php';
+            $shiftSessionModel = new ShiftSession();
+            $openSession = $shiftSessionModel->getCurrentOpenSession($userId);
+            $shiftSessionId = $openSession ? (int)$openSession['id'] : null;
+
+            $orderId = $orderModel->createOrder($userId, $customerName, $totalAmount, $orderType, $tableId, $paymentMethod, $items, $shiftSessionId);
             
             if ($orderId) {
                 // If Dine-in, update table status to occupied

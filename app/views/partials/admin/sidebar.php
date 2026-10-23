@@ -63,6 +63,11 @@ $isStaff = isset($_SESSION['role']) && $_SESSION['role'] === 'staff';
                         <i class="fa-solid fa-chair nav-icon"></i> Bàn
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="admin.php?route=shift_sessions" class="nav-link <?= $currentRoute === 'shift_sessions' ? 'active' : '' ?>">
+                        <i class="fa-solid fa-cash-register nav-icon"></i> Ca làm & Bàn giao
+                    </a>
+                </li>
                 <?php if ($isAdmin): ?>
                 <li class="nav-item">
                     <a href="admin.php?route=customers" class="nav-link <?= $currentRoute === 'customers' ? 'active' : '' ?>">
