@@ -145,7 +145,7 @@
                     <div class="col-md-6 col-lg-5">
                         <div class="d-flex justify-content-between mb-2">
                             <span class="text-muted">Phương thức thanh toán:</span>
-                            <span class="fw-medium text-dark"><?= $order['payment_method'] ?></span>
+                            <span class="fw-medium text-dark"><?= format_payment_method($order['payment_method']) ?></span>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span class="text-muted">Tổng tiền hàng:</span>

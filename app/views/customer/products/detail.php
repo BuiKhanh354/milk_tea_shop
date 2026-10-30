@@ -64,9 +64,39 @@
                 
                 <p class="product-description"><?= nl2br(htmlspecialchars($product['description'])) ?></p>
                 
-                <div class="d-flex align-items-center gap-4 mb-4 pb-4 border-bottom border-sage border-opacity-25">
-                    <div id="base-price" data-price="<?= $product['price'] ?>" class="product-price">
-                        <?= number_format($product['price'], 0, ',', '.') ?>đ
+                <div class="d-flex align-items-center justify-content-between gap-3 mb-4 pb-4 border-bottom border-sage border-opacity-25 flex-wrap">
+                    <div class="d-flex align-items-center gap-3">
+                        <div id="base-price" data-price="<?= $product['price'] ?>" class="product-price">
+                            <?= number_format($product['price'], 0, ',', '.') ?>đ
+                        </div>
+                        <!-- Tình trạng còn hàng dựa vào công thức định lượng nguyên liệu -->
+                        <div id="stock-badge-container">
+                            <?php 
+                            $defaultStock = $stockInfo['available_quantity'] ?? null;
+                            $hasRecipe = $stockInfo['has_recipe'] ?? false;
+                            $firstSize = !empty($sizes) ? $sizes[0] : null;
+                            if ($firstSize && isset($stockInfo['by_size'][$firstSize['id']])) {
+                                $defaultStock = $stockInfo['by_size'][$firstSize['id']]['available_quantity'];
+                            }
+                            ?>
+                            <?php if (!$hasRecipe): ?>
+                                <span class="badge bg-light text-dark border px-3 py-2 rounded-pill small fw-medium">
+                                    <i class="fa-solid fa-circle-check text-success me-1"></i> Có sẵn
+                                </span>
+                            <?php elseif ($defaultStock <= 0): ?>
+                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3 py-2 rounded-pill small fw-bold">
+                                    <i class="fa-solid fa-ban me-1"></i> Tạm hết hàng
+                                </span>
+                            <?php elseif ($defaultStock <= 10): ?>
+                                <span class="badge bg-warning bg-opacity-15 text-dark border border-warning border-opacity-50 px-3 py-2 rounded-pill small fw-bold">
+                                    <i class="fa-solid fa-fire me-1 text-warning"></i> Sắp hết (Còn <?= $defaultStock ?> ly)
+                                </span>
+                            <?php else: ?>
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 rounded-pill small fw-bold">
+                                    <i class="fa-solid fa-circle-check me-1"></i> Còn <?= $defaultStock ?> ly
+                                </span>
+                            <?php endif; ?>
+                        </div>
                     </div>
                     <button type="button" class="btn btn-favorite <?= isset($isFavorited) && $isFavorited ? 'active' : '' ?>" id="btn-favorite" aria-label="Thêm vào yêu thích" onclick="toggleFavoriteDetail(<?= $product['id'] ?>)">
                         <i class="<?= isset($isFavorited) && $isFavorited ? 'fa-solid text-danger' : 'fa-regular' ?> fa-heart fs-4"></i>
@@ -80,10 +110,25 @@
                     <div class="mb-4">
                         <span class="option-label">CHỌN KÍCH CỠ</span>
                         <div class="vaa-radio-group">
-                            <?php foreach ($sizes as $index => $size): ?>
+                            <?php foreach ($sizes as $index => $size): 
+                                $sId = $size['id'];
+                                $sStock = $hasRecipe ? ($stockInfo['by_size'][$sId]['available_quantity'] ?? 0) : null;
+                            ?>
                             <div class="vaa-radio-btn">
-                                <input type="radio" name="size" id="size-<?= strtolower($size['name']) ?>" value="<?= htmlspecialchars($size['name']) ?>" data-price="<?= $size['extra_price'] ?>" <?= $index === 0 ? 'checked' : '' ?>>
-                                <label for="size-<?= strtolower($size['name']) ?>"><?= htmlspecialchars($size['name']) ?> (+<?= number_format($size['extra_price'], 0, ',', '.') ?>đ)</label>
+                                <input type="radio" name="size" id="size-<?= strtolower($size['name']) ?>" 
+                                       value="<?= htmlspecialchars($size['name']) ?>" 
+                                       data-price="<?= $size['extra_price'] ?>"
+                                       data-size-id="<?= $size['id'] ?>"
+                                       data-stock="<?= $sStock !== null ? $sStock : '' ?>"
+                                       <?= $index === 0 ? 'checked' : '' ?>>
+                                <label for="size-<?= strtolower($size['name']) ?>">
+                                    <?= htmlspecialchars($size['name']) ?> (+<?= number_format($size['extra_price'], 0, ',', '.') ?>đ)
+                                    <?php if ($hasRecipe && $sStock !== null): ?>
+                                        <span class="small ms-1 <?= $sStock <= 0 ? 'text-danger fw-bold' : ($sStock <= 10 ? 'text-warning' : 'text-success') ?>">
+                                            (<?= $sStock <= 0 ? 'Hết' : 'Còn ' . $sStock ?>)
+                                        </span>
+                                    <?php endif; ?>
+                                </label>
                             </div>
                             <?php endforeach; ?>
                         </div>

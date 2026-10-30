@@ -239,6 +239,17 @@ switch ($route) {
         $controller->index();
         break;
 
+    case 'payments':
+        require_once '../app/controllers/Admin/PaymentController.php';
+        $controller = new PaymentController();
+        if (isset($_GET['action']) && method_exists($controller, $_GET['action'])) {
+            $action = $_GET['action'];
+            $controller->$action();
+        } else {
+            $controller->index();
+        }
+        break;
+
     case 'reports':
         require_once '../app/controllers/Admin/ReportController.php';
         $controller = new ReportController();

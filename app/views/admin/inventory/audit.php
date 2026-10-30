@@ -277,7 +277,7 @@
         const diffFormatted = Math.abs(diff).toFixed(2);
 
         if (Math.abs(diff) < 0.001) {
-            diffCol.innerHTML = '<span class="badge bg-success bg-opacity-15 text-success rounded-pill px-3 fw-bold">Khớp (0)</span>';
+            diffCol.innerHTML = '<span class="badge bg-success bg-opacity-15 text-light rounded-pill px-3 fw-bold">Khớp (0)</span>';
             reasonInput.classList.remove('border-danger', 'border-warning');
         } else if (diff < 0) {
             diffCol.innerHTML = `<span class="badge bg-danger rounded-pill px-3 fw-bold">Thiếu -${diffFormatted}</span>`;

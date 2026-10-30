@@ -27,7 +27,7 @@ class OrderController {
                 'customer' => $o['customer_name'],
                 'type' => ucfirst(str_replace('_', '-', $o['order_type'])),
                 'total' => number_format($o['final_amount'], 0, ',', '.') . ' ₫',
-                'payment' => $o['payment_method'],
+                'payment' => format_payment_method($o['payment_method']),
                 'status' => ucfirst($o['status']),
                 'date' => date('d/m/Y H:i', strtotime($o['created_at']))
             ];
@@ -74,10 +74,22 @@ class OrderController {
                 $oldOrder = $orderModel->findByIdWithDetails($id);
                 
                 if ($orderModel->updateStatus($id, $status)) {
+                    // Tự động gán đơn hàng vào ca làm việc đang mở nếu đơn chưa thuộc ca nào
+                    require_once __DIR__ . '/../../models/ShiftSession.php';
+                    $shiftSessionModel = new ShiftSession();
+                    $userId = isset($_SESSION['user_id']) ? (is_array($_SESSION['user_id']) ? (int)current($_SESSION['user_id']) : (int)$_SESSION['user_id']) : 0;
+                    $activeSession = $shiftSessionModel->getCurrentOpenSession($userId) ?: $shiftSessionModel->getCurrentOpenSession();
+                    if ($activeSession && empty($oldOrder['shift_session_id'])) {
+                        $orderModel->assignShiftSession($id, $activeSession['id']);
+                    }
+
                     if ($status === 'completed' && $oldOrder && $oldOrder['status'] !== 'completed') {
                         require_once __DIR__ . '/../../services/InventoryService.php';
                         $invService = new InventoryService();
                         $invService->deductForOrder($id);
+
+                        // Cập nhật trạng thái thanh toán sang đã thanh toán (paid)
+                        $orderModel->markPaymentPaid($id);
                     }
                 }
             }
@@ -137,15 +149,25 @@ class OrderController {
             // Since it's staff creating, user_id is the staff's id
             $userId = isset($_SESSION['user_id']) ? (is_array($_SESSION['user_id']) ? (int)current($_SESSION['user_id']) : (int)$_SESSION['user_id']) : 0;
             
-            // Check active shift session
+            // Check active shift session (ưu tiên ca của user, fallback ca đang mở của quán)
             require_once __DIR__ . '/../../models/ShiftSession.php';
             $shiftSessionModel = new ShiftSession();
-            $openSession = $shiftSessionModel->getCurrentOpenSession($userId);
+            $openSession = $shiftSessionModel->getCurrentOpenSession($userId) ?: $shiftSessionModel->getCurrentOpenSession();
             $shiftSessionId = $openSession ? (int)$openSession['id'] : null;
 
-            $orderId = $orderModel->createOrder($userId, $customerName, $totalAmount, $orderType, $tableId, $paymentMethod, $items, $shiftSessionId);
+            // Đơn mang đi (takeaway) tại quầy thanh toán ngay -> Hoàn thành và trừ kho ngay
+            $initialStatus = ($orderType === 'takeaway') ? 'completed' : 'Pending';
+
+            $orderId = $orderModel->createOrder($userId, $customerName, $totalAmount, $orderType, $tableId, $paymentMethod, $items, $shiftSessionId, $initialStatus);
             
             if ($orderId) {
+                // Nếu hoàn thành ngay, trừ tồn kho nguyên liệu ngay lập tức
+                if ($initialStatus === 'completed') {
+                    require_once __DIR__ . '/../../services/InventoryService.php';
+                    $invService = new InventoryService();
+                    $invService->deductForOrder($orderId);
+                }
+
                 // If Dine-in, update table status to occupied
                 if ($orderType === 'dine_in' && $tableId > 0) {
                     require_once __DIR__ . '/../../models/Table.php';

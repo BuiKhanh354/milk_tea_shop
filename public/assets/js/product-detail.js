@@ -54,6 +54,72 @@ document.addEventListener('DOMContentLoaded', function() {
         const totalPrice = unitPrice * qty;
         totalPriceEl.textContent = formatCurrency(totalPrice);
     };
+
+    // Stock constraint & badge update
+    const stockBadgeContainer = document.getElementById('stock-badge-container');
+    const btnBuyNow = document.getElementById('btn-buy-now');
+
+    const updateStockDisplay = () => {
+        const checkedSize = document.querySelector('input[name="size"]:checked');
+        if (!checkedSize || !stockBadgeContainer) return;
+
+        const stockAttr = checkedSize.dataset.stock;
+        if (stockAttr === undefined || stockAttr === '') {
+            // Chưa có công thức hoặc không giới hạn
+            return;
+        }
+
+        const stock = parseInt(stockAttr);
+        if (isNaN(stock)) return;
+
+        if (stock <= 0) {
+            stockBadgeContainer.innerHTML = '<span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3 py-2 rounded-pill small fw-bold"><i class="fa-solid fa-ban me-1"></i> Tạm hết hàng</span>';
+            if (btnAddToCart) {
+                btnAddToCart.disabled = true;
+                btnAddToCart.textContent = 'HẾT HÀNG';
+                btnAddToCart.classList.add('opacity-50');
+            }
+            if (btnBuyNow) {
+                btnBuyNow.disabled = true;
+                btnBuyNow.textContent = 'HẾT HÀNG';
+                btnBuyNow.classList.add('opacity-50');
+            }
+            inputQty.value = 0;
+            inputQty.disabled = true;
+        } else if (stock <= 10) {
+            stockBadgeContainer.innerHTML = `<span class="badge bg-warning bg-opacity-15 text-dark border border-warning border-opacity-50 px-3 py-2 rounded-pill small fw-bold"> Sắp hết (Còn ${stock} ly)</span>`;
+            if (btnAddToCart) {
+                btnAddToCart.disabled = false;
+                btnAddToCart.textContent = 'THÊM VÀO GIỎ';
+                btnAddToCart.classList.remove('opacity-50');
+            }
+            if (btnBuyNow) {
+                btnBuyNow.disabled = false;
+                btnBuyNow.textContent = 'MUA NGAY';
+                btnBuyNow.classList.remove('opacity-50');
+            }
+            inputQty.disabled = false;
+            let currentQty = parseInt(inputQty.value);
+            if (currentQty <= 0) inputQty.value = 1;
+            if (currentQty > stock) inputQty.value = stock;
+        } else {
+            stockBadgeContainer.innerHTML = `<span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 rounded-pill small fw-bold"><i class="fa-solid fa-circle-check me-1"></i> Còn ${stock} ly</span>`;
+            if (btnAddToCart) {
+                btnAddToCart.disabled = false;
+                btnAddToCart.textContent = 'THÊM VÀO GIỎ';
+                btnAddToCart.classList.remove('opacity-50');
+            }
+            if (btnBuyNow) {
+                btnBuyNow.disabled = false;
+                btnBuyNow.textContent = 'MUA NGAY';
+                btnBuyNow.classList.remove('opacity-50');
+            }
+            inputQty.disabled = false;
+            let currentQty = parseInt(inputQty.value);
+            if (currentQty <= 0) inputQty.value = 1;
+            if (currentQty > stock) inputQty.value = stock;
+        }
+    };
     
     // Quantity Controls
     btnMinus.addEventListener('click', () => {
@@ -66,14 +132,29 @@ document.addEventListener('DOMContentLoaded', function() {
     
     btnPlus.addEventListener('click', () => {
         let qty = parseInt(inputQty.value);
-        inputQty.value = qty + 1;
-        calculatePrice();
+        const checkedSize = document.querySelector('input[name="size"]:checked');
+        const stockAttr = checkedSize ? checkedSize.dataset.stock : '';
+        const maxStock = (stockAttr !== undefined && stockAttr !== '') ? parseInt(stockAttr) : Infinity;
+
+        if (qty < maxStock) {
+            inputQty.value = qty + 1;
+            calculatePrice();
+        } else if (!isNaN(maxStock) && maxStock !== Infinity) {
+            alert('Rất tiếc, số lượng nguyên liệu chỉ đủ để phục vụ tối đa ' + maxStock + ' ly!');
+        }
     });
     
     inputQty.addEventListener('change', () => {
         let qty = parseInt(inputQty.value);
+        const checkedSize = document.querySelector('input[name="size"]:checked');
+        const stockAttr = checkedSize ? checkedSize.dataset.stock : '';
+        const maxStock = (stockAttr !== undefined && stockAttr !== '') ? parseInt(stockAttr) : Infinity;
+
         if (isNaN(qty) || qty < 1) {
-            inputQty.value = 1;
+            inputQty.value = (maxStock <= 0) ? 0 : 1;
+        } else if (qty > maxStock) {
+            inputQty.value = maxStock;
+            alert('Số lượng đã được điều chỉnh về mức tối đa có thể phục vụ (' + maxStock + ' ly).');
         }
         calculatePrice();
     });
@@ -95,17 +176,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event Listeners for Options
     sizeRadios.forEach(radio => {
-        radio.addEventListener('change', calculatePrice);
+        radio.addEventListener('change', () => {
+            calculatePrice();
+            updateStockDisplay();
+        });
     });
     
     toppingCheckboxes.forEach(cb => {
         cb.addEventListener('change', calculatePrice);
     });
     
-    // Initial Calculation
+    // Initial Calculation & Stock Display
     calculatePrice();
-    
-    const btnBuyNow = document.getElementById('btn-buy-now');
+    updateStockDisplay();
     
     // Process Cart Action (Add or Buy Now)
     const processCartAction = (redirect = false) => {

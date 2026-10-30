@@ -8,7 +8,7 @@
         <div class="col-md-6">
             <div class="card border-0 shadow-sm rounded-4">
                 <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 fw-bold text-dark"><i class="fa-solid fa-cube text-caramel me-2"></i> Toppings</h5>
+                    <h5 class="mb-0 fw-bold text-dark"><i class="fa-solid fa-cube fa-bounce text-caramel me-2"></i> Toppings</h5>
                     <button class="btn btn-sm btn-caramel rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#toppingModal" onclick="openToppingModal()"><i class="fa-solid fa-plus me-1"></i> Thêm Topping</button>
                 </div>
                 <div class="card-body p-0">

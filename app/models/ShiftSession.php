@@ -68,6 +68,20 @@ class ShiftSession {
                 $stmtInv->execute();
             }
 
+            // Tự động cập nhật trạng thái phân công ca sang 'in_progress' (Đang làm việc) cho nhân viên
+            if ($empShiftId) {
+                $sqlEmp = "UPDATE employee_shifts SET status = 'in_progress' WHERE id = ?";
+                $stmtEmp = $this->conn->prepare($sqlEmp);
+                $stmtEmp->bind_param("i", $empShiftId);
+                $stmtEmp->execute();
+            } else if ($sId) {
+                $today = date('Y-m-d');
+                $sqlEmp = "UPDATE employee_shifts SET status = 'in_progress' WHERE employee_id = ? AND shift_id = ? AND work_date = ? AND status = 'assigned'";
+                $stmtEmp = $this->conn->prepare($sqlEmp);
+                $stmtEmp->bind_param("iis", $userId, $sId, $today);
+                $stmtEmp->execute();
+            }
+
             $this->conn->commit();
             return $sessionId;
         } catch (Exception $e) {
@@ -187,6 +201,8 @@ class ShiftSession {
     public function closeSession($sessionId, $actualCash, $cashReason, array $inventoryEndings, $note = '') {
         $summary = $this->getSessionSummary($sessionId);
         if (!$summary) return false;
+
+        $session = $summary['session'];
 
         $this->conn->begin_transaction();
         try {

@@ -30,6 +30,7 @@
                                 $badgeClass = 'bg-secondary';
                                 $statusText = 'Assigned';
                                 if ($a['status'] === 'assigned') { $badgeClass = 'bg-warning text-dark'; $statusText = 'Chờ làm'; }
+                                if ($a['status'] === 'in_progress') { $badgeClass = 'bg-primary text-white'; $statusText = 'Đang làm việc'; }
                                 if ($a['status'] === 'completed') { $badgeClass = 'bg-success'; $statusText = 'Hoàn thành'; }
                                 if ($a['status'] === 'absent') { $badgeClass = 'bg-danger'; $statusText = 'Vắng mặt'; }
                                 if ($a['status'] === 'cancelled') { $badgeClass = 'bg-dark'; $statusText = 'Đã hủy'; }

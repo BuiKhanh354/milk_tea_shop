@@ -50,7 +50,7 @@ class DashboardController {
                 'customer' => $o['customer_name'],
                 'type' => ucfirst(str_replace('_', '-', $o['order_type'])),
                 'total' => number_format($o['final_amount'], 0, ',', '.') . ' ₫',
-                'payment' => $o['payment_method'],
+                'payment' => format_payment_method($o['payment_method']),
                 'status' => ucfirst($o['status']),
                 'time' => date('H:i d/m', strtotime($o['created_at']))
             ];

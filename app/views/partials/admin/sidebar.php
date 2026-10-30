@@ -84,12 +84,12 @@ $isStaff = isset($_SESSION['role']) && $_SESSION['role'] === 'staff';
             <ul class="nav flex-column mt-2">
                 <li class="nav-item">
                     <a href="admin.php?route=products" class="nav-link <?= $currentRoute === 'products' ? 'active' : '' ?>">
-                        <i class="fa-solid fa-cup-togo nav-icon"></i> Sản phẩm
+                        <i class="fa-solid fa-mug-hot fa-shake nav-icon"></i> Sản phẩm
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="admin.php?route=categories" class="nav-link <?= $currentRoute === 'categories' ? 'active' : '' ?>">
-                        <i class="fa-regular fa-folder nav-icon"></i> Danh mục
+                        <i class="fa-regular fa-folder fa-bounce nav-icon"></i> Danh mục
                     </a>
                 </li>
                 <li class="nav-item">
@@ -180,7 +180,7 @@ $isStaff = isset($_SESSION['role']) && $_SESSION['role'] === 'staff';
                     </a>
                 </li> -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link <?= $currentRoute === 'payments' ? 'active' : '' ?>">
+                    <a href="admin.php?route=payments" class="nav-link <?= $currentRoute === 'payments' ? 'active' : '' ?>">
                         <i class="fa-solid fa-credit-card nav-icon"></i> Thanh toán
                     </a>
                 </li>
@@ -306,7 +306,7 @@ $isStaff = isset($_SESSION['role']) && $_SESSION['role'] === 'staff';
                 <span class="nav-section-title px-3">KINH DOANH</span>
                 <ul class="nav flex-column mt-2">
                     <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-tags nav-icon"></i> Khuyến mãi</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-credit-card nav-icon"></i> Thanh toán</a></li>
+                    <li class="nav-item"><a href="admin.php?route=payments" class="nav-link <?= $currentRoute === 'payments' ? 'active' : '' ?>"><i class="fa-solid fa-credit-card nav-icon"></i> Thanh toán</a></li>
                     <li class="nav-item"><a href="admin.php?route=reports" class="nav-link"><i class="fa-solid fa-chart-pie nav-icon"></i> Báo cáo</a></li>
                     <li class="nav-item"><a href="admin.php?route=inventory_report" class="nav-link"><i class="fa-solid fa-boxes-stacked nav-icon"></i> Báo cáo tồn kho</a></li>
                 </ul>

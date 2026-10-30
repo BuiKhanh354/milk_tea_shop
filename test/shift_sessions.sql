@@ -59,3 +59,6 @@ SET @preparedStatement = (SELECT IF(
 PREPARE alterIfNotExists FROM @preparedStatement;
 EXECUTE alterIfNotExists;
 DEALLOCATE PREPARE alterIfNotExists;
+
+-- Bổ sung trạng thái 'in_progress' vào employee_shifts để tự động ghi nhận nhân viên đang làm ca
+ALTER TABLE employee_shifts MODIFY COLUMN status ENUM('assigned','in_progress','completed','absent','cancelled') DEFAULT 'assigned';

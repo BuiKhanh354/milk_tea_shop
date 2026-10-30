@@ -245,22 +245,38 @@ class Order {
         return $stmt->execute();
     }
 
-    public function createOrder($userId, $customerName, $totalAmount, $orderType, $tableId, $paymentMethod, $items, $shiftSessionId = null) {
+    public function assignShiftSession($id, $shiftSessionId) {
+        $sql = "UPDATE orders SET shift_session_id = ? WHERE id = ? AND shift_session_id IS NULL";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $shiftSessionId, $id);
+        return $stmt->execute();
+    }
+
+    public function markPaymentPaid($orderId) {
+        $sql = "UPDATE payments SET status = 'paid', paid_at = NOW() WHERE order_id = ? AND status = 'pending'";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $orderId);
+        return $stmt->execute();
+    }
+
+    public function createOrder($userId, $customerName, $totalAmount, $orderType, $tableId, $paymentMethod, $items, $shiftSessionId = null, $status = 'Pending') {
         $this->conn->begin_transaction();
         try {
             // Insert order
-            $sql = "INSERT INTO orders (user_id, status, total_amount, final_amount, order_type, table_id, shift_session_id) VALUES (?, 'Pending', ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO orders (user_id, status, total_amount, final_amount, order_type, table_id, shift_session_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($sql);
             $tId = ($tableId > 0) ? (int)$tableId : null;
             $sId = ($shiftSessionId > 0) ? (int)$shiftSessionId : null;
-            $stmt->bind_param("iddsii", $userId, $totalAmount, $totalAmount, $orderType, $tId, $sId);
+            $stmt->bind_param("isddsii", $userId, $status, $totalAmount, $totalAmount, $orderType, $tId, $sId);
             $stmt->execute();
             $orderId = $stmt->insert_id;
 
-            // Let's check if there is a payment table
-            $sqlPay = "INSERT INTO payments (order_id, method, amount, status) VALUES (?, ?, ?, 'pending')";
+            // Payment status
+            $paymentStatus = (strtolower($status) === 'completed') ? 'paid' : 'pending';
+            $paidAt = (strtolower($status) === 'completed') ? date('Y-m-d H:i:s') : null;
+            $sqlPay = "INSERT INTO payments (order_id, method, amount, status, paid_at) VALUES (?, ?, ?, ?, ?)";
             $stmtPay = $this->conn->prepare($sqlPay);
-            $stmtPay->bind_param("isd", $orderId, $paymentMethod, $totalAmount);
+            $stmtPay->bind_param("isdss", $orderId, $paymentMethod, $totalAmount, $paymentStatus, $paidAt);
             $stmtPay->execute();
 
             // Insert order details
@@ -327,10 +343,16 @@ class Order {
     public function createCustomerOrder($customerId, $totalAmount, $paymentMethod, $items, $note = '') {
         $this->conn->begin_transaction();
         try {
+            // Tự động tìm ca làm việc đang mở tại quầy nếu có
+            require_once __DIR__ . '/ShiftSession.php';
+            $shiftSessionModel = new ShiftSession();
+            $activeSession = $shiftSessionModel->getCurrentOpenSession();
+            $shiftSessionId = $activeSession ? (int)$activeSession['id'] : null;
+
             $orderType = 'delivery'; // Customer orders from web are usually delivery
-            $sql = "INSERT INTO orders (customer_id, status, total_amount, final_amount, order_type, note) VALUES (?, 'Pending', ?, ?, ?, ?)";
+            $sql = "INSERT INTO orders (customer_id, status, total_amount, final_amount, order_type, shift_session_id, note) VALUES (?, 'Pending', ?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($sql);
-            $stmt->bind_param("iddss", $customerId, $totalAmount, $totalAmount, $orderType, $note);
+            $stmt->bind_param("iddsis", $customerId, $totalAmount, $totalAmount, $orderType, $shiftSessionId, $note);
             $stmt->execute();
             $orderId = $stmt->insert_id;
 
@@ -368,7 +390,7 @@ class Order {
                 }
                 
                 $quantity = (int)$item['quantity'];
-                $price = (float)$item['total_price']; 
+                $price = (float)($item['total_price'] ?? ($item['price'] ?? 0)); 
                 $subtotal = $price * $quantity;
                 
                 // Parse sugar & ice

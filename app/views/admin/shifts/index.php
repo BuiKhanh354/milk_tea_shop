@@ -1,6 +1,9 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="font-serif fw-bold text-dark mb-0">Quản lý ca làm việc</h4>
     <div>
+        <a href="admin.php?route=shift_sessions" class="btn btn-outline-secondary fw-medium px-3 me-2">
+            <i class="fa-solid fa-cash-register me-2"></i> Lịch sử Mở / Kết ca
+        </a>
         <button class="btn btn-outline-forest fw-medium px-3 me-2" data-bs-toggle="modal" data-bs-target="#shiftListModal">
             <i class="fa-solid fa-list me-2"></i> Danh mục ca
         </button>
@@ -75,6 +78,7 @@
                                 $badgeClass = 'bg-secondary';
                                 $statusText = 'Assigned';
                                 if ($a['status'] === 'assigned') { $badgeClass = 'bg-warning text-dark'; $statusText = 'Chờ làm'; }
+                                if ($a['status'] === 'in_progress') { $badgeClass = 'bg-primary text-white'; $statusText = 'Đang làm việc'; }
                                 if ($a['status'] === 'completed') { $badgeClass = 'bg-success'; $statusText = 'Hoàn thành'; }
                                 if ($a['status'] === 'absent') { $badgeClass = 'bg-danger'; $statusText = 'Vắng mặt'; }
                                 if ($a['status'] === 'cancelled') { $badgeClass = 'bg-dark'; $statusText = 'Đã hủy'; }
@@ -102,6 +106,7 @@
                                             <p class="mb-3 text-muted small">Ca: <?= $a['shift_name'] ?> - <?= date('d/m/Y', strtotime($a['work_date'])) ?><br>Nhân viên: <?= $a['employee_name'] ?></p>
                                             <select name="status" class="form-select bg-light border-0">
                                                 <option value="assigned" <?= $a['status'] === 'assigned' ? 'selected' : '' ?>>Chờ làm (Assigned)</option>
+                                                <option value="in_progress" <?= $a['status'] === 'in_progress' ? 'selected' : '' ?>>Đang làm việc (In Progress)</option>
                                                 <option value="completed" <?= $a['status'] === 'completed' ? 'selected' : '' ?>>Hoàn thành</option>
                                                 <option value="absent" <?= $a['status'] === 'absent' ? 'selected' : '' ?>>Vắng mặt</option>
                                                 <option value="cancelled" <?= $a['status'] === 'cancelled' ? 'selected' : '' ?>>Đã hủy</option>

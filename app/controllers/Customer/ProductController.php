@@ -71,6 +71,11 @@ class ProductController {
             $isFavorited = $favoriteModel->isFavorite($_SESSION['customer_id'], $id);
         }
 
+        // Tính toán tồn kho sản phẩm dựa vào công thức định lượng nguyên liệu
+        require_once __DIR__ . '/../../models/ProductIngredient.php';
+        $piModel = new ProductIngredient();
+        $stockInfo = $piModel->calculateAvailableStock($id);
+
         require_once __DIR__ . '/../../views/customer/products/detail.php';
     }
 }

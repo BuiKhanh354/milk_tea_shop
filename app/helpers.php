@@ -48,3 +48,22 @@ if (!function_exists('verify_csrf')) {
         return !empty($submittedToken) && !empty($sessionToken) && hash_equals($sessionToken, $submittedToken);
     }
 }
+
+/**
+ * Định dạng phương thức thanh toán sang tiếng Việt hiển thị
+ *
+ * @param string|null $method Mã phương thức (cash, bank_transfer, momo,...)
+ * @return string Tên hiển thị tiếng Việt tương ứng
+ */
+if (!function_exists('format_payment_method')) {
+    function format_payment_method($method) {
+        $map = [
+            'cash'          => 'Tiền mặt',
+            'bank_transfer' => 'Chuyển khoản',
+            'bank'          => 'Chuyển khoản',
+            'momo'          => 'Ví MoMo',
+        ];
+        $key = strtolower(trim($method ?? ''));
+        return $map[$key] ?? ($method ?: 'Tiền mặt');
+    }
+}

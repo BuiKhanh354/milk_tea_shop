@@ -208,4 +208,146 @@ class ProductIngredient {
 
         return $row;
     }
+
+    /**
+     * Tính số lượng ly tối đa có thể pha chế dựa vào công thức và tồn kho nguyên liệu hiện tại
+     *
+     * @param int $productId ID sản phẩm
+     * @param int|null $sizeId ID kích cỡ cụ thể (hoặc null để tính cho tất cả kích cỡ)
+     * @return array
+     */
+    public function calculateAvailableStock($productId, $sizeId = null) {
+        $productId = (int)$productId;
+
+        // 1. Lấy toàn bộ tồn kho nguyên liệu hiện tại
+        $invRes = $this->conn->query("SELECT id, ingredient_name, quantity, unit FROM inventory");
+        $inventoryMap = [];
+        if ($invRes) {
+            while ($row = $invRes->fetch_assoc()) {
+                $inventoryMap[(int)$row['id']] = [
+                    'name' => $row['ingredient_name'],
+                    'stock' => (float)$row['quantity'],
+                    'unit' => $row['unit']
+                ];
+            }
+        }
+
+        // 2. Lấy danh sách sizes
+        $sizeRes = $this->conn->query("SELECT id, name FROM sizes WHERE status = 1 ORDER BY id ASC");
+        $sizes = [];
+        if ($sizeRes) {
+            while ($sRow = $sizeRes->fetch_assoc()) {
+                $sizes[] = $sRow;
+            }
+        }
+
+        // 3. Lấy công thức của sản phẩm
+        $allRecipes = $this->getByProductId($productId);
+        if (empty($allRecipes)) {
+            return [
+                'has_recipe' => false,
+                'available_quantity' => null, // Chưa cấu hình công thức
+                'bottleneck' => null,
+                'by_size' => []
+            ];
+        }
+
+        // Gom công thức theo size_id (size_id = 0 là công thức chung)
+        $recipeBySize = [];
+        foreach ($allRecipes as $item) {
+            $sid = (int)$item['size_id'];
+            $recipeBySize[$sid][] = $item;
+        }
+
+        $bySize = [];
+        $overallMin = null;
+        $overallBottleneck = null;
+
+        // Tính cho từng size
+        foreach ($sizes as $s) {
+            $sId = (int)$s['id'];
+
+            // Lấy công thức của size này, nếu không có thì fallback sang size_id = 0
+            $recipe = $recipeBySize[$sId] ?? ($recipeBySize[0] ?? []);
+
+            if (empty($recipe)) {
+                $bySize[$sId] = [
+                    'size_id' => $sId,
+                    'size_name' => $s['name'],
+                    'available_quantity' => 0,
+                    'bottleneck' => 'Chưa có công thức cho size này',
+                    'ingredients' => []
+                ];
+                continue;
+            }
+
+            $sizeMin = PHP_INT_MAX;
+            $sizeBottleneck = null;
+            $ingDetails = [];
+
+            foreach ($recipe as $ing) {
+                $invId = (int)$ing['inventory_id'];
+                $reqQty = (float)$ing['quantity'];
+                $invItem = $inventoryMap[$invId] ?? null;
+                $currentStock = $invItem ? $invItem['stock'] : 0.0;
+                $ingName = $invItem ? $invItem['name'] : $ing['ingredient_name'];
+
+                if ($reqQty > 0) {
+                    $canMake = (int)floor($currentStock / $reqQty);
+                    if ($canMake < 0) $canMake = 0;
+                } else {
+                    $canMake = PHP_INT_MAX;
+                }
+
+                $ingDetails[] = [
+                    'name' => $ingName,
+                    'required' => $reqQty,
+                    'stock' => $currentStock,
+                    'can_make' => $canMake
+                ];
+
+                if ($canMake < $sizeMin) {
+                    $sizeMin = $canMake;
+                    $sizeBottleneck = $ingName;
+                }
+            }
+
+            if ($sizeMin === PHP_INT_MAX) {
+                $sizeMin = 0;
+            }
+
+            $bySize[$sId] = [
+                'size_id' => $sId,
+                'size_name' => $s['name'],
+                'available_quantity' => $sizeMin,
+                'bottleneck' => $sizeBottleneck,
+                'ingredients' => $ingDetails
+            ];
+
+            if ($overallMin === null || $sizeMin < $overallMin) {
+                $overallMin = $sizeMin;
+                $overallBottleneck = $sizeBottleneck;
+            }
+        }
+
+        // Nếu người dùng truyền $sizeId cụ thể
+        $selectedAvailable = null;
+        $selectedBottleneck = null;
+        if ($sizeId !== null && isset($bySize[$sizeId])) {
+            $selectedAvailable = $bySize[$sizeId]['available_quantity'];
+            $selectedBottleneck = $bySize[$sizeId]['bottleneck'];
+        } else {
+            // Mặc định lấy size đầu tiên
+            $firstSize = reset($bySize);
+            $selectedAvailable = $firstSize ? $firstSize['available_quantity'] : ($overallMin ?? 0);
+            $selectedBottleneck = $firstSize ? $firstSize['bottleneck'] : $overallBottleneck;
+        }
+
+        return [
+            'has_recipe' => true,
+            'available_quantity' => $selectedAvailable,
+            'bottleneck' => $selectedBottleneck,
+            'by_size' => $bySize
+        ];
+    }
 }
