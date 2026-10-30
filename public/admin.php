@@ -17,7 +17,7 @@ if (!in_array($route, $publicRoutes)) {
     
     // Authorization: Nếu là Staff, không cho phép truy cập các trang của Admin
     if ($_SESSION['role'] === 'staff') {
-        $staffAllowedRoutes = ['staff_dashboard', 'orders', 'logout', 'tables', 'inventory', 'inventory_import', 'inventory_export', 'profile', 'shifts', 'my-shifts', 'shift_sessions', 'account'];
+        $staffAllowedRoutes = ['staff_dashboard', 'orders', 'logout', 'tables', 'inventory', 'inventory_import', 'inventory_export', 'profile', 'shifts', 'shift_types', 'my-shifts', 'shift_sessions', 'account'];
         if (!in_array($route, $staffAllowedRoutes)) {
             header('Location: admin.php?route=staff_dashboard');
             exit;
@@ -38,6 +38,7 @@ switch ($route) {
         }
         break;
 
+    case 'shift_types':
     case 'shifts':
         $dir = ($_SESSION['role'] === 'staff') ? 'Staff' : 'Admin';
         require_once "../app/controllers/$dir/ShiftController.php";

@@ -41,7 +41,7 @@ class ShiftController {
 
     public function store() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-            require_csrf('admin.php?route=shifts');
+            require_csrf('admin.php?route=shifts', 'Phiên biểu mẫu không hợp lệ hoặc mã CSRF đã hết hạn, vui lòng thử lại!');
             $name = trim($_POST['name'] ?? '');
             $startTime = trim($_POST['start_time'] ?? '');
             $endTime = trim($_POST['end_time'] ?? '');
@@ -64,7 +64,7 @@ class ShiftController {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-            require_csrf('admin.php?route=shifts');
+            require_csrf('admin.php?route=shifts', 'Phiên biểu mẫu không hợp lệ hoặc mã CSRF đã hết hạn, vui lòng thử lại!');
             $id = $_POST['id'] ?? 0;
             $name = trim($_POST['name'] ?? '');
             $startTime = trim($_POST['start_time'] ?? '');
@@ -107,7 +107,7 @@ class ShiftController {
 
     public function assign() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-            require_csrf('admin.php?route=shifts');
+            require_csrf('admin.php?route=shifts', 'Phiên biểu mẫu không hợp lệ hoặc mã CSRF đã hết hạn, vui lòng thử lại!');
             $employeeId = $_POST['employee_id'] ?? 0;
             $shiftId = $_POST['shift_id'] ?? 0;
             $workDate = $_POST['work_date'] ?? '';
@@ -129,7 +129,7 @@ class ShiftController {
 
     public function update_status() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-            require_csrf('admin.php?route=shifts');
+            require_csrf('admin.php?route=shifts', 'Phiên biểu mẫu không hợp lệ hoặc mã CSRF đã hết hạn, vui lòng thử lại!');
             $id = $_POST['assignment_id'] ?? 0;
             $status = $_POST['status'] ?? '';
             

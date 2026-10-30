@@ -13,12 +13,20 @@
     </div>
 </div>
 
+<?php if (isset($_SESSION['flash_error'])): ?>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="fa-solid fa-triangle-exclamation me-2"></i> <strong>Lỗi:</strong> <?= htmlspecialchars($_SESSION['flash_error']) ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<?php endif; ?>
+
 <?php if (isset($_GET['msg'])): ?>
 <div class="alert alert-success alert-dismissible fade show">
     Thao tác thành công!
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 </div>
 <?php endif; ?>
+
 <?php if (isset($_GET['error'])): ?>
 <div class="alert alert-danger alert-dismissible fade show">
     Thao tác thất bại. Lỗi: 
@@ -271,10 +279,19 @@ function validateShiftTimes(form) {
     return true;
 }
 
-<?php if (isset($_GET['msg']) || isset($_GET['error'])): ?>
+<?php if (isset($_SESSION['flash_error']) || isset($_GET['msg']) || isset($_GET['error'])): ?>
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof Swal !== 'undefined') {
-        <?php if (isset($_GET['error'])): ?>
+        <?php if (isset($_SESSION['flash_error'])): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Phiên biểu mẫu không hợp lệ!',
+                text: <?= json_encode($_SESSION['flash_error']) ?>,
+                confirmButtonColor: '#2b5a41',
+                confirmButtonText: 'Đóng'
+            });
+            <?php unset($_SESSION['flash_error']); ?>
+        <?php elseif (isset($_GET['error'])): ?>
             let errorText = 'Vui lòng kiểm tra lại.';
             <?php if ($_GET['error'] === 'invalid_time'): ?>
                 errorText = 'Giờ kết thúc phải lớn hơn giờ bắt đầu ca làm việc!';

@@ -16,3 +16,6 @@
 /.codex/pptx-build/
 /pptx-build/
 /outputs
+
+# Screenshots va anh minh chung kiem thu
+*.png
