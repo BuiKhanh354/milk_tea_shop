@@ -30,4 +30,23 @@ class InventoryTransaction {
         if (!$result) return [];
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    /**
+     * Lấy lịch sử giao dịch gần đây của 1 nguyên liệu cụ thể
+     */
+    public function getRecentByInventoryId($inventoryId, $limit = 10) {
+        $sql = "SELECT t.*, u.full_name as user_name 
+                FROM inventory_transactions t 
+                LEFT JOIN users u ON t.user_id = u.id 
+                WHERE t.inventory_id = ? 
+                ORDER BY t.created_at DESC 
+                LIMIT ?";
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("ii", $inventoryId, $limit);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
+        return [];
+    }
 }

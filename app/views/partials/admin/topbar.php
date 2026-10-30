@@ -22,17 +22,11 @@
         
         <!-- Shift Session Status Badge -->
         <?php
-            $topbarUserId = isset($_SESSION['user_id']) ? (is_array($_SESSION['user_id']) ? (int)current($_SESSION['user_id']) : (int)$_SESSION['user_id']) : 0;
-            $topbarIsAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
-            require_once __DIR__ . '/../../../models/ShiftSession.php';
-            require_once __DIR__ . '/../../../models/Shift.php';
-            $topbarShiftModel = new ShiftSession();
-            $topbarOpenSession = $topbarShiftModel->getCurrentOpenSession($topbarUserId);
-            $topbarTodayShift = null;
-            if (!$topbarOpenSession) {
-                $tShiftObj = new Shift();
-                $topbarTodayShift = $tShiftObj->getActiveAssignedShiftForStaffNow($topbarUserId);
-            }
+            $shiftStatus = get_current_user_shift_status();
+            $topbarUserId = $shiftStatus['user_id'];
+            $topbarIsAdmin = $shiftStatus['is_admin'];
+            $topbarOpenSession = $shiftStatus['open_session'];
+            $topbarTodayShift = $shiftStatus['today_shift'];
         ?>
         <?php if (!empty($topbarOpenSession)): ?>
             <a href="admin.php?route=shift_sessions&action=close" class="btn btn-sm btn-success rounded-pill px-3 py-1 shadow-sm d-flex align-items-center gap-2 text-decoration-none" title="Nhấn để kết ca & bàn giao">

@@ -1,6 +1,16 @@
 <?php
+require_once __DIR__ . '/../../models/User.php';
+require_once __DIR__ . '/../../models/Customer.php';
+require_once __DIR__ . '/../../models/Cart.php';
 
 class AuthController {
+    private $userModel;
+    private $customerModel;
+
+    public function __construct() {
+        $this->userModel = new User();
+        $this->customerModel = new Customer();
+    }
     
     public function login() {
         // If already logged in
@@ -13,16 +23,11 @@ class AuthController {
         $email_val = '';
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            require_once __DIR__ . '/../../config/database.php';
-            global $conn;
-            
-            $emailOrUsername = trim($_POST['email']);
-            $password = $_POST['password'];
+            $emailOrUsername = trim($_POST['email'] ?? '');
+            $password = $_POST['password'] ?? '';
             $email_val = htmlspecialchars($emailOrUsername);
 
-            require_once __DIR__ . '/../../models/User.php';
-            $userModel = new User();
-            $adminUser = $userModel->authenticate($emailOrUsername, $password);
+            $adminUser = $this->userModel->authenticate($emailOrUsername, $password);
 
             if ($adminUser) {
                 $_SESSION['user_id'] = $adminUser['id'];
@@ -36,31 +41,21 @@ class AuthController {
                 }
                 exit;
             } else {
-                $sql = "SELECT * FROM customers WHERE email = ? LIMIT 1";
-                $stmt = $conn->prepare($sql);
-                if ($stmt) {
-                    $stmt->bind_param("s", $emailOrUsername);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    $customer = $result->fetch_assoc();
+                $customer = $this->customerModel->findByEmail($emailOrUsername);
 
-                    if ($customer && password_verify($password, $customer['password'])) {
-                        $_SESSION['customer_id'] = $customer['id'];
-                        $_SESSION['customer_name'] = $customer['full_name'];
-                        $_SESSION['customer_email'] = $customer['email'];
+                if ($customer && password_verify($password, $customer['password'])) {
+                    $_SESSION['customer_id'] = $customer['id'];
+                    $_SESSION['customer_name'] = $customer['full_name'];
+                    $_SESSION['customer_email'] = $customer['email'];
 
-                        // Đồng bộ & tải giỏ hàng của tài khoản từ CSDL
-                        require_once __DIR__ . '/../../models/Cart.php';
-                        $cartModel = new Cart();
-                        $cartModel->mergeGuestCartToCustomer($customer['id'], $_COOKIE['cart_token'] ?? '');
+                    // Đồng bộ & tải giỏ hàng của tài khoản từ CSDL
+                    $cartModel = new Cart();
+                    $cartModel->mergeGuestCartToCustomer($customer['id'], $_COOKIE['cart_token'] ?? '');
 
-                        header("Location: index.php");
-                        exit;
-                    } else {
-                        $error = "Tài khoản hoặc mật khẩu không đúng!";
-                    }
+                    header("Location: index.php");
+                    exit;
                 } else {
-                    $error = "Lỗi kết nối CSDL!";
+                    $error = "Tài khoản hoặc mật khẩu không đúng!";
                 }
             }
         }
@@ -78,11 +73,8 @@ class AuthController {
         $success = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            require_once __DIR__ . '/../../config/database.php';
-            global $conn;
-            
-            $name = $_POST['name'] ?? '';
-            $email = $_POST['email'] ?? '';
+            $name = trim($_POST['name'] ?? '');
+            $email = trim($_POST['email'] ?? '');
             $password = $_POST['password'] ?? '';
             $confirm_password = $_POST['confirm_password'] ?? '';
 
@@ -95,25 +87,16 @@ class AuthController {
             } elseif ($confirm_password !== $password) {
                 $error = "Mật khẩu xác nhận không khớp";
             } else {
-                $sql = "SELECT id FROM customers WHERE email = ?";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("s", $email);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $customer = $result->fetch_assoc();
+                $existingCustomer = $this->customerModel->findByEmail($email);
 
-                if ($customer) {
+                if ($existingCustomer) {
                     $error = "Email này đã được đăng ký!";
                 } else {
-                    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                    $insert_sql = "INSERT INTO customers (full_name, email, password) VALUES (?, ?, ?)";
-                    $insert_stmt = $conn->prepare($insert_sql);
-                    $insert_stmt->bind_param("sss", $name, $email, $hashed_password);
-                    
-                    if ($insert_stmt->execute()) {
+                    $newId = $this->customerModel->register($name, $email, $password);
+                    if ($newId) {
                         $success = "Đăng ký thành công! Đang chuyển hướng đến đăng nhập...";
                     } else {
-                        $error = "Có lỗi xảy ra: " . $conn->error;
+                        $error = "Có lỗi xảy ra khi tạo tài khoản, vui lòng thử lại!";
                     }
                 }
             }

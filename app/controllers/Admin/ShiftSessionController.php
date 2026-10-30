@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../models/ShiftSession.php';
 require_once __DIR__ . '/../../models/Shift.php';
 require_once __DIR__ . '/../../models/Inventory.php';
+require_once __DIR__ . '/../../models/User.php';
 
 class ShiftSessionController {
     private $sessionModel;
@@ -45,9 +46,8 @@ class ShiftSessionController {
         // Danh sách nhân viên để lọc (cho admin)
         $users = [];
         if ($isAdmin) {
-            global $conn;
-            $res = $conn->query("SELECT id, full_name, username FROM users WHERE status = 1 ORDER BY full_name ASC");
-            if ($res) $users = $res->fetch_all(MYSQLI_ASSOC);
+            $userModel = new User();
+            $users = $userModel->getActiveUsers();
         }
 
         $pageTitle = 'Quản lý Ca làm việc (Mở & Kết ca)';

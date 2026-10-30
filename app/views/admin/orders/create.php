@@ -1,16 +1,3 @@
-<?php
-    $posUserId = isset($_SESSION['user_id']) ? (is_array($_SESSION['user_id']) ? (int)current($_SESSION['user_id']) : (int)$_SESSION['user_id']) : 0;
-    require_once __DIR__ . '/../../../models/ShiftSession.php';
-    require_once __DIR__ . '/../../../models/Shift.php';
-    $posShiftModel = new ShiftSession();
-    $posOpenSession = $posShiftModel->getCurrentOpenSession($posUserId);
-    $posTodayShift = null;
-    if (!$posOpenSession) {
-        $posShiftObj = new Shift();
-        $posTodayShift = $posShiftObj->getActiveAssignedShiftForStaffNow($posUserId);
-    }
-?>
-
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="font-serif fw-bold text-dark mb-0">
         <a href="admin.php?route=orders" class="text-muted me-2"><i class="fa-solid fa-arrow-left"></i></a> 

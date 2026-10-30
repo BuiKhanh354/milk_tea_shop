@@ -35,17 +35,7 @@ class InventoryController {
         require_once __DIR__ . '/../../models/InventoryTransaction.php';
         $transactionModel = new InventoryTransaction();
         
-        // Fetch recent history for this ingredient (e.g. 10 latest)
-        $sql = "SELECT t.*, u.full_name as user_name 
-                FROM inventory_transactions t 
-                LEFT JOIN users u ON t.user_id = u.id 
-                WHERE t.inventory_id = ? 
-                ORDER BY t.created_at DESC LIMIT 10";
-        global $conn;
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $history = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $history = $transactionModel->getRecentByInventoryId($id, 10);
 
         ob_start();
         require_once __DIR__ . '/../../views/admin/inventory/show.php';

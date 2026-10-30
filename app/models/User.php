@@ -110,4 +110,14 @@ class User {
         }
         return false;
     }
+
+    /**
+     * Lấy danh sách tất cả người dùng / nhân viên đang hoạt động
+     */
+    public function getActiveUsers() {
+        $sql = "SELECT id, full_name, username FROM users WHERE status = 1 ORDER BY full_name ASC";
+        $result = $this->conn->query($sql);
+        if (!$result) return [];
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }

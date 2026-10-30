@@ -108,6 +108,17 @@ class OrderController {
         $tableModel = new TableModel();
         $tables = $tableModel->getAll();
 
+        require_once __DIR__ . '/../../models/ShiftSession.php';
+        require_once __DIR__ . '/../../models/Shift.php';
+        $posUserId = isset($_SESSION['user_id']) ? (is_array($_SESSION['user_id']) ? (int)current($_SESSION['user_id']) : (int)$_SESSION['user_id']) : 0;
+        $posShiftModel = new ShiftSession();
+        $posOpenSession = $posShiftModel->getCurrentOpenSession($posUserId);
+        $posTodayShift = null;
+        if (!$posOpenSession) {
+            $posShiftObj = new Shift();
+            $posTodayShift = $posShiftObj->getActiveAssignedShiftForStaffNow($posUserId);
+        }
+
         ob_start();
         require_once __DIR__ . '/../../views/admin/orders/create.php';
         $content = ob_get_clean();

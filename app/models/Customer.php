@@ -9,7 +9,7 @@ class Customer {
         $this->conn = $conn;
     }
 
-            public function getPaginated($page = 1, $limit = 10, $filters = []) {
+    public function getPaginated($page = 1, $limit = 10, $filters = []) {
         $offset = ($page - 1) * $limit;
         
         $conditions = [];
@@ -70,7 +70,6 @@ class Customer {
     }
 
     public function getAll() {
-        // Lấy danh sách khách hàng và thống kê tổng đơn, tổng chi tiêu
         $sql = "SELECT c.*, 
                        COUNT(o.id) as total_orders, 
                        SUM(CASE WHEN o.status = 'completed' THEN o.final_amount ELSE 0 END) as total_spent
@@ -125,5 +124,74 @@ class Customer {
             return $stmtInsert->insert_id;
         }
         return null;
+    }
+
+    /**
+     * Tìm khách hàng theo email
+     */
+    public function findByEmail($email) {
+        $sql = "SELECT * FROM customers WHERE email = ? LIMIT 1";
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_assoc();
+        }
+        return null;
+    }
+
+    /**
+     * Đăng ký tài khoản khách hàng mới
+     */
+    public function register($name, $email, $plainPassword) {
+        $hashedPassword = password_hash($plainPassword, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO customers (full_name, email, password) VALUES (?, ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("sss", $name, $email, $hashedPassword);
+            if ($stmt->execute()) {
+                return $this->conn->insert_id;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Cập nhật thông tin cá nhân khách hàng
+     */
+    public function updateProfile($id, $name, $phone, $address) {
+        $sql = "UPDATE customers SET full_name = ?, phone = ?, address = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("sssi", $name, $phone, $address, $id);
+            return $stmt->execute();
+        }
+        return false;
+    }
+
+    /**
+     * Xác thực mật khẩu hiện tại của khách hàng
+     */
+    public function verifyPassword($id, $plainPassword) {
+        $customer = $this->getById($id);
+        if ($customer && !empty($customer['password'])) {
+            return password_verify($plainPassword, $customer['password']);
+        }
+        return false;
+    }
+
+    /**
+     * Cập nhật mật khẩu mới cho khách hàng
+     */
+    public function updatePassword($id, $plainPassword) {
+        $hashedPassword = password_hash($plainPassword, PASSWORD_DEFAULT);
+        $sql = "UPDATE customers SET password = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("si", $hashedPassword, $id);
+            return $stmt->execute();
+        }
+        return false;
     }
 }

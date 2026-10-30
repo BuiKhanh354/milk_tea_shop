@@ -41,6 +41,17 @@ class DashboardController {
             }
         }
 
+        require_once __DIR__ . '/../../models/ShiftSession.php';
+        require_once __DIR__ . '/../../models/Shift.php';
+        $staffUserId = isset($_SESSION['user_id']) ? (is_array($_SESSION['user_id']) ? (int)current($_SESSION['user_id']) : (int)$_SESSION['user_id']) : 0;
+        $shiftSessionModel = new ShiftSession();
+        $staffOpenSession = $shiftSessionModel->getCurrentOpenSession($staffUserId);
+        $staffTodayShift = null;
+        if (!$staffOpenSession) {
+            $staffShiftObj = new Shift();
+            $staffTodayShift = $staffShiftObj->getActiveAssignedShiftForStaffNow($staffUserId);
+        }
+
         ob_start();
         require_once __DIR__ . '/../../views/staff/dashboard/index.php';
         $content = ob_get_clean();

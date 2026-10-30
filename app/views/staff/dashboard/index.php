@@ -1,16 +1,3 @@
-<?php
-    $staffUserId = isset($_SESSION['user_id']) ? (is_array($_SESSION['user_id']) ? (int)current($_SESSION['user_id']) : (int)$_SESSION['user_id']) : 0;
-    require_once __DIR__ . '/../../../models/ShiftSession.php';
-    require_once __DIR__ . '/../../../models/Shift.php';
-    $shiftSessionModel = new ShiftSession();
-    $staffOpenSession = $shiftSessionModel->getCurrentOpenSession($staffUserId);
-    $staffTodayShift = null;
-    if (!$staffOpenSession) {
-        $staffShiftObj = new Shift();
-        $staffTodayShift = $staffShiftObj->getActiveAssignedShiftForStaffNow($staffUserId);
-    }
-?>
-
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
         <h4 class="font-serif fw-bold text-forest mb-1">Xử lý Đơn hàng (Ca làm việc)</h4>
