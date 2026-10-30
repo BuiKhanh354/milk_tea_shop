@@ -21,7 +21,13 @@
 <?php endif; ?>
 <?php if (isset($_GET['error'])): ?>
 <div class="alert alert-danger alert-dismissible fade show">
-    Thao tác thất bại. Lỗi: <?= $_GET['error'] === 'duplicate' ? 'Đã phân công nhân viên này vào ca trong ngày!' : 'Vui lòng kiểm tra lại.' ?>
+    Thao tác thất bại. Lỗi: 
+    <?php
+    if ($_GET['error'] === 'duplicate') echo 'Đã phân công nhân viên này vào ca trong ngày!';
+    elseif ($_GET['error'] === 'invalid_time') echo 'Giờ kết thúc phải lớn hơn giờ bắt đầu ca làm việc!';
+    elseif ($_GET['error'] === 'fk_constraint') echo 'Không thể xóa ca làm việc vì đang có phân công liên quan!';
+    else echo 'Vui lòng kiểm tra lại.';
+    ?>
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 </div>
 <?php endif; ?>
@@ -186,10 +192,10 @@
             </div>
             <div class="modal-body p-0">
                 <div class="p-3 bg-light border-bottom">
-                    <form action="admin.php?route=shifts&action=store" method="POST" class="row g-2 align-items-end">
+                    <form id="addShiftForm" action="admin.php?route=shifts&action=store" method="POST" class="row g-2 align-items-end" onsubmit="return validateShiftTimes(this);">
     <?= csrf_field() ?>
                         <div class="col-md-4">
-                            <input type="text" name="name" class="form-control border-0" placeholder="Tên ca (VD: Ca Sáng)" required>
+                            <input type="text" name="name" class="form-control border-0" placeholder="Tên ca (VD: Ca Sáng)" maxlength="100" required>
                         </div>
                         <div class="col-md-3">
                             <input type="time" name="start_time" class="form-control border-0" required>
@@ -238,3 +244,20 @@
         </div>
     </div>
 </div>
+
+<script>
+function validateShiftTimes(form) {
+    const startInput = form.querySelector('[name="start_time"]');
+    const endInput = form.querySelector('[name="end_time"]');
+    if (startInput && endInput) {
+        const start = startInput.value;
+        const end = endInput.value;
+        if (start && end && end <= start) {
+            alert('Lỗi logic: Giờ kết thúc (' + end + ') phải lớn hơn giờ bắt đầu (' + start + ')!');
+            endInput.focus();
+            return false;
+        }
+    }
+    return true;
+}
+</script>

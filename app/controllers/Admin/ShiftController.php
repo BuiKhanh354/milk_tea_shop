@@ -42,11 +42,15 @@ class ShiftController {
     public function store() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
             require_csrf('admin.php?route=shifts');
-            $name = $_POST['name'] ?? '';
-            $startTime = $_POST['start_time'] ?? '';
-            $endTime = $_POST['end_time'] ?? '';
+            $name = trim($_POST['name'] ?? '');
+            $startTime = trim($_POST['start_time'] ?? '');
+            $endTime = trim($_POST['end_time'] ?? '');
             
             if ($name && $startTime && $endTime) {
+                if (strtotime($endTime) <= strtotime($startTime)) {
+                    header('Location: admin.php?route=shifts&error=invalid_time');
+                    exit;
+                }
                 $shiftModel = new Shift();
                 if ($shiftModel->createShift($name, $startTime, $endTime)) {
                     header('Location: admin.php?route=shifts&msg=created');
@@ -62,12 +66,16 @@ class ShiftController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
             require_csrf('admin.php?route=shifts');
             $id = $_POST['id'] ?? 0;
-            $name = $_POST['name'] ?? '';
-            $startTime = $_POST['start_time'] ?? '';
-            $endTime = $_POST['end_time'] ?? '';
+            $name = trim($_POST['name'] ?? '');
+            $startTime = trim($_POST['start_time'] ?? '');
+            $endTime = trim($_POST['end_time'] ?? '');
             $status = $_POST['status'] ?? 1;
             
             if ($id && $name && $startTime && $endTime) {
+                if (strtotime($endTime) <= strtotime($startTime)) {
+                    header('Location: admin.php?route=shifts&error=invalid_time');
+                    exit;
+                }
                 $shiftModel = new Shift();
                 if ($shiftModel->updateShift($id, $name, $startTime, $endTime, $status)) {
                     header('Location: admin.php?route=shifts&msg=updated');
