@@ -97,6 +97,7 @@
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content border-0 rounded-4 shadow">
                                     <form action="admin.php?route=shifts&action=update_status" method="POST">
+    <?= csrf_field() ?>
                                         <div class="modal-header border-bottom-0 pb-0">
                                             <h5 class="modal-title fw-bold">Cập nhật trạng thái</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -133,6 +134,7 @@
     <div class="modal-dialog">
         <div class="modal-content border-0 rounded-4 shadow">
             <form action="admin.php?route=shifts&action=assign" method="POST">
+    <?= csrf_field() ?>
                 <div class="modal-header border-bottom-0 pb-0">
                     <h5 class="modal-title fw-bold">Phân công ca làm việc</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -185,6 +187,7 @@
             <div class="modal-body p-0">
                 <div class="p-3 bg-light border-bottom">
                     <form action="admin.php?route=shifts&action=store" method="POST" class="row g-2 align-items-end">
+    <?= csrf_field() ?>
                         <div class="col-md-4">
                             <input type="text" name="name" class="form-control border-0" placeholder="Tên ca (VD: Ca Sáng)" required>
                         </div>

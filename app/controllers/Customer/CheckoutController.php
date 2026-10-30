@@ -33,6 +33,7 @@ class CheckoutController {
 
     public function process() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('index.php?route=checkout');
             if (empty($_SESSION['cart'])) {
                 header('Location: index.php?route=cart');
                 exit;

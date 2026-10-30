@@ -78,6 +78,7 @@ class ProductIngredientController {
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=product_ingredients');
             $product_id = $_POST['product_id'] ?? null;
             $recipesInput = $_POST['recipes'] ?? [];
             $sugarInput = $_POST['sugar_levels'] ?? [];

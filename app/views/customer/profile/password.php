@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?= csrf_meta() ?>
     <title>Đổi mật khẩu - VAA THÉ</title>
 
     <!-- Bootstrap 5 CSS -->
@@ -74,6 +75,7 @@
                     </div>
 
                     <form class="mx-auto account-style-d99434"  method="POST" action="index.php?route=password">
+    <?= csrf_field() ?>
                         <div class="row g-4">
                             <div class="col-12 position-relative">
                                 <label class="form-label">Mật khẩu hiện tại</label>

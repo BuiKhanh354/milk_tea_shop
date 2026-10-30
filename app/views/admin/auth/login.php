@@ -24,6 +24,7 @@
             <?php endif; ?>
 
             <form action="admin.php?route=login" method="POST">
+    <?= csrf_field() ?>
                 <div class="mb-3">
                     <label class="form-label text-muted small fw-medium">Tài khoản</label>
                     <input type="text" name="username" class="form-control form-control-lg bg-light border-0 shadow-none fs-6" required placeholder="Nhập username...">

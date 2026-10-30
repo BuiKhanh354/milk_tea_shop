@@ -33,9 +33,21 @@ if (!function_exists('csrf_field')) {
 }
 
 /**
- * Xác minh CSRF Token gửi lên từ form có hợp lệ hay không
+ * Sinh thẻ meta chứa CSRF Token đặt trong thẻ <head>
+ * Sử dụng: <?= csrf_meta() ?> bên trong <head>
  *
- * @param string|null $token Token gửi lên (nếu null sẽ tự lấy từ $_POST['csrf_token'])
+ * @return string Mã HTML: <meta name="csrf-token" content="...">
+ */
+if (!function_exists('csrf_meta')) {
+    function csrf_meta() {
+        return '<meta name="csrf-token" content="' . htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') . '">';
+    }
+}
+
+/**
+ * Xác minh CSRF Token gửi lên từ form hoặc request header có hợp lệ hay không
+ *
+ * @param string|null $token Token gửi lên (nếu null sẽ tự lấy từ $_POST['csrf_token'] hoặc headers)
  * @return bool True nếu hợp lệ, False nếu không hợp lệ
  */
 if (!function_exists('verify_csrf')) {
@@ -43,9 +55,75 @@ if (!function_exists('verify_csrf')) {
         if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
             session_start();
         }
-        $submittedToken = $token ?? ($_POST['csrf_token'] ?? '');
+
         $sessionToken = $_SESSION['csrf_token'] ?? '';
-        return !empty($submittedToken) && !empty($sessionToken) && hash_equals($sessionToken, $submittedToken);
+        if (empty($sessionToken)) {
+            return false;
+        }
+
+        // Lấy từ tham số truyền vào
+        if ($token !== null && is_string($token) && !empty($token)) {
+            return hash_equals($sessionToken, $token);
+        }
+
+        // Lấy từ $_POST
+        if (!empty($_POST['csrf_token']) && is_string($_POST['csrf_token'])) {
+            return hash_equals($sessionToken, $_POST['csrf_token']);
+        }
+
+        // Lấy từ HTTP Headers (dành cho fetch/AJAX)
+        $headerToken = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? ($_SERVER['HTTP_X_XSRF_TOKEN'] ?? '');
+        if (!empty($headerToken) && is_string($headerToken)) {
+            return hash_equals($sessionToken, $headerToken);
+        }
+
+        if (function_exists('getallheaders')) {
+            $headers = getallheaders();
+            if (!empty($headers['X-CSRF-TOKEN']) && is_string($headers['X-CSRF-TOKEN'])) {
+                return hash_equals($sessionToken, $headers['X-CSRF-TOKEN']);
+            }
+            if (!empty($headers['x-csrf-token']) && is_string($headers['x-csrf-token'])) {
+                return hash_equals($sessionToken, $headers['x-csrf-token']);
+            }
+        }
+
+        return false;
+    }
+}
+
+/**
+ * Bắt buộc kiểm tra CSRF Token cho các action xử lý POST, tự động chặn nếu không hợp lệ
+ *
+ * @param string|null $redirectUrl Đường dẫn chuyển hướng khi lỗi (nếu rỗng sẽ trả về lỗi HTTP 403)
+ * @param string $errorMessage Thông báo lỗi bảo mật
+ */
+if (!function_exists('require_csrf')) {
+    function require_csrf($redirectUrl = null, $errorMessage = 'Mã bảo mật CSRF không hợp lệ hoặc đã hết hạn, vui lòng tải lại trang và thử lại!') {
+        if (!verify_csrf()) {
+            // Kiểm tra nếu là AJAX request
+            $isAjax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
+                      || (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false);
+            
+            if ($isAjax) {
+                http_response_code(403);
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode([
+                    'success' => false,
+                    'error' => 'csrf_invalid',
+                    'message' => $errorMessage
+                ], JSON_UNESCAPED_UNICODE);
+                exit;
+            }
+
+            if ($redirectUrl) {
+                $_SESSION['flash_error'] = $errorMessage;
+                header('Location: ' . $redirectUrl);
+                exit;
+            }
+
+            http_response_code(403);
+            die('<h3>403 Forbidden - Lỗi bảo mật CSRF</h3><p>' . htmlspecialchars($errorMessage, ENT_QUOTES, 'UTF-8') . '</p>');
+        }
     }
 }
 

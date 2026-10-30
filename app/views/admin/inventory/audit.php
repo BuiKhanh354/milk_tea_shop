@@ -47,6 +47,7 @@
     <!-- TAB 1: PHIẾU KIỂM KÊ MỚI -->
     <div class="tab-pane fade show active" id="new-audit" role="tabpanel">
         <form action="admin.php?route=inventory_audit&action=storeAudit" method="POST" id="auditForm">
+    <?= csrf_field() ?>
             <!-- Card Summary / Instructions -->
             <div class="row g-3 mb-4">
                 <div class="col-md-3">

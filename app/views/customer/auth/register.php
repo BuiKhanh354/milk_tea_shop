@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?= csrf_meta() ?>
     <title>Đăng ký - VAA THÉ</title>
 
     <!-- Bootstrap 5 CSS -->
@@ -69,6 +70,7 @@
                 <?php endif; ?>
 
                 <form id="register-form" method="POST" action="index.php?route=register" novalidate>
+    <?= csrf_field() ?>
 
                     <!-- Full Name -->
                     <div class="mb-4">

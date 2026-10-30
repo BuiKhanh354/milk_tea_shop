@@ -45,6 +45,7 @@
 
             <form action="admin.php?route=tables&action=store"
                 method="POST">
+    <?= csrf_field() ?>
 
                 <div class="modal-body">
                     <div class="mb-3">

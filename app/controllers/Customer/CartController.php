@@ -30,6 +30,7 @@ class CartController {
     }
 
     public function add() {
+        require_csrf();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Content-Type: application/json');
             
@@ -97,6 +98,7 @@ class CartController {
     }
 
     public function update() {
+        require_csrf();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Content-Type: application/json');
             $cart_id = $_POST['cart_id'] ?? '';
@@ -122,6 +124,7 @@ class CartController {
     }
 
     public function remove() {
+        require_csrf();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Content-Type: application/json');
             $cart_id = $_POST['cart_id'] ?? '';

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?= csrf_meta() ?>
     <title>Liên hệ - VAA THÉ</title>
     
     <!-- Bootstrap 5 CSS -->
@@ -126,6 +127,7 @@
                         <?php endif; ?>
 
                         <form action="index.php?route=contact" method="POST">
+    <?= csrf_field() ?>
                             <div class="row g-4">
                                 <div class="col-md-6">
                                     <label class="form-label fw-medium">Họ và tên <span class="text-danger">*</span></label>

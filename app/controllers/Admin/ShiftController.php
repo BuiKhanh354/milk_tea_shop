@@ -41,6 +41,7 @@ class ShiftController {
 
     public function store() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+            require_csrf('admin.php?route=shifts');
             $name = $_POST['name'] ?? '';
             $startTime = $_POST['start_time'] ?? '';
             $endTime = $_POST['end_time'] ?? '';
@@ -59,6 +60,7 @@ class ShiftController {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+            require_csrf('admin.php?route=shifts');
             $id = $_POST['id'] ?? 0;
             $name = $_POST['name'] ?? '';
             $startTime = $_POST['start_time'] ?? '';
@@ -97,6 +99,7 @@ class ShiftController {
 
     public function assign() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+            require_csrf('admin.php?route=shifts');
             $employeeId = $_POST['employee_id'] ?? 0;
             $shiftId = $_POST['shift_id'] ?? 0;
             $workDate = $_POST['work_date'] ?? '';
@@ -118,6 +121,7 @@ class ShiftController {
 
     public function update_status() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+            require_csrf('admin.php?route=shifts');
             $id = $_POST['assignment_id'] ?? 0;
             $status = $_POST['status'] ?? '';
             

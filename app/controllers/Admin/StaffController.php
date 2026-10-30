@@ -18,6 +18,7 @@ class StaffController {
 
     public function store() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=staff');
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
             $full_name = $_POST['full_name'] ?? '';
@@ -35,6 +36,7 @@ class StaffController {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=staff');
             $id = $_POST['id'] ?? 0;
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
@@ -53,6 +55,7 @@ class StaffController {
 
     public function toggle_status() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+            require_csrf('admin.php?route=staff');
             $userModel = new User();
             $userModel->toggleStatus($_POST['id']);
         }

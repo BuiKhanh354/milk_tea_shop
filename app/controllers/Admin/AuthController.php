@@ -12,6 +12,7 @@ class AuthController {
 
         $error = '';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=login');
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
 

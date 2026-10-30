@@ -28,6 +28,7 @@ class CustomerController {
 
     public function toggle_status() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+            require_csrf('admin.php?route=customers');
             $customerModel = new Customer();
             $customerModel->toggleStatus($_POST['id']);
         }

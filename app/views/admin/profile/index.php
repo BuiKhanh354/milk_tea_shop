@@ -21,6 +21,7 @@
         <div class="card border-0 shadow-sm rounded-4">
             <div class="card-body p-4">
                 <form action="admin.php?route=profile&action=update" method="POST">
+    <?= csrf_field() ?>
                     <div class="mb-3">
                         <label class="form-label fw-medium text-muted small">Tên đăng nhập (Username)</label>
                         <input type="text" name="username" class="form-control bg-light border-0" value="<?= htmlspecialchars($user['username']) ?>" required>

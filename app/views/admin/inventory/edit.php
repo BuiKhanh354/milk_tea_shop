@@ -26,6 +26,7 @@
         </div>
 
         <form action="admin.php?route=inventory&action=update" method="POST">
+    <?= csrf_field() ?>
             <input type="hidden" name="id" value="<?= $item['id'] ?>">
             
             <div class="row g-4">

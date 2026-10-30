@@ -71,6 +71,7 @@
         <div class="card border-0 shadow-sm rounded-4">
             <div class="card-body p-4">
                 <form action="admin.php?route=product_ingredients&action=store" method="POST" id="recipeForm">
+    <?= csrf_field() ?>
                     <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
 
                     <!-- Danh sách các Tab Size -->

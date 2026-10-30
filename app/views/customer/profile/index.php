@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?= csrf_meta() ?>
     <title>Thông tin cá nhân - VAA THÉ</title>
 
     <!-- Bootstrap 5 CSS -->
@@ -94,6 +95,7 @@
                     <?php endif; ?>
 
                     <form method="POST" action="index.php?route=profile">
+    <?= csrf_field() ?>
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <label class="form-label">Họ và Tên</label>

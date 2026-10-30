@@ -21,6 +21,7 @@ class FavoriteController {
     }
 
     public function toggle() {
+        require_csrf();
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             echo json_encode(['success' => false, 'message' => 'Invalid request']);
             return;

@@ -72,6 +72,7 @@
                 </div>
 
                 <form action="admin.php?route=orders&action=store" method="POST" id="checkoutForm">
+    <?= csrf_field() ?>
                     <input type="hidden" name="items" id="itemsInput" value="[]">
                     
                     <div class="mb-3">

@@ -107,6 +107,7 @@
     <div class="modal-dialog">
         <div class="modal-content border-0 shadow rounded-4">
             <form action="admin.php?route=toppings&action=storeTopping" method="POST" id="toppingForm">
+    <?= csrf_field() ?>
                 <input type="hidden" name="id" id="topping_id" value="">
                 <div class="modal-header border-0 pb-0">
                     <h5 class="modal-title fw-bold font-serif text-forest" id="toppingModalTitle">Thêm Topping</h5>
@@ -140,6 +141,7 @@
     <div class="modal-dialog">
         <div class="modal-content border-0 shadow rounded-4">
             <form action="admin.php?route=toppings&action=storeSize" method="POST" id="sizeForm">
+    <?= csrf_field() ?>
                 <input type="hidden" name="id" id="size_id" value="">
                 <div class="modal-header border-0 pb-0">
                     <h5 class="modal-title fw-bold font-serif text-forest" id="sizeModalTitle">Thêm Size</h5>

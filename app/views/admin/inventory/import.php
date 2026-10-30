@@ -16,6 +16,7 @@
 <div class="card border-0 shadow-sm rounded-4">
     <div class="card-body p-4">
         <form action="admin.php?route=inventory&action=storeImport" method="POST">
+    <?= csrf_field() ?>
             <div class="row g-4">
                 <div class="col-md-6">
                     <label class="form-label text-muted small fw-medium">Chọn Nguyên liệu cần nhập <span class="text-danger">*</span></label>

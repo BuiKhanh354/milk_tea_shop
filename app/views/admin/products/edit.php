@@ -12,6 +12,7 @@
         <div class="card border-0 shadow-sm rounded-4">
             <div class="card-body p-4">
                 <form action="admin.php?route=products&action=update" method="POST" enctype="multipart/form-data">
+    <?= csrf_field() ?>
                     <input type="hidden" name="id" value="<?= $product['id'] ?>">
                     <div class="row g-4">
                         <div class="col-12">

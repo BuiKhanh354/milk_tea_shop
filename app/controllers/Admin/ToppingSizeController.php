@@ -22,6 +22,7 @@ class ToppingSizeController {
 
     public function storeTopping() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=toppings');
             require_once __DIR__ . '/../../models/Product.php';
             $productModel = new Product();
             $data = [
@@ -37,6 +38,7 @@ class ToppingSizeController {
 
     public function updateTopping() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=toppings');
             require_once __DIR__ . '/../../models/Product.php';
             $productModel = new Product();
             $id = (int)$_POST['id'];
@@ -53,6 +55,7 @@ class ToppingSizeController {
 
     public function deleteTopping() {
         if (isset($_GET['id'])) {
+            require_csrf('admin.php?route=toppings');
             require_once __DIR__ . '/../../models/Product.php';
             $productModel = new Product();
             $productModel->deleteTopping((int)$_GET['id']);
@@ -63,6 +66,7 @@ class ToppingSizeController {
 
     public function storeSize() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=toppings');
             require_once __DIR__ . '/../../models/Product.php';
             $productModel = new Product();
             $data = [
@@ -78,6 +82,7 @@ class ToppingSizeController {
 
     public function updateSize() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=toppings');
             require_once __DIR__ . '/../../models/Product.php';
             $productModel = new Product();
             $id = (int)$_POST['id'];
@@ -94,6 +99,7 @@ class ToppingSizeController {
 
     public function deleteSize() {
         if (isset($_GET['id'])) {
+            require_csrf('admin.php?route=toppings');
             require_once __DIR__ . '/../../models/Product.php';
             $productModel = new Product();
             $productModel->deleteSize((int)$_GET['id']);

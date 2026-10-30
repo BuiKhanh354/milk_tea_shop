@@ -72,6 +72,7 @@ class InventoryController {
             exit;
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=inventory');
             $name = trim($_POST['name'] ?? '');
             $unit = trim($_POST['unit'] ?? '');
             $min_quantity = floatval($_POST['min_quantity'] ?? 0);
@@ -123,6 +124,7 @@ class InventoryController {
             exit;
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=inventory');
             $id = $_POST['id'] ?? null;
             $name = trim($_POST['name'] ?? '');
             $unit = trim($_POST['unit'] ?? '');
@@ -148,6 +150,7 @@ class InventoryController {
             exit;
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=inventory');
             $id = $_POST['id'] ?? null;
             if ($id) {
                 $inventoryModel = new Inventory();
@@ -215,6 +218,7 @@ class InventoryController {
 
     public function storeImport() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=inventory_import');
             require_once __DIR__ . '/../../services/InventoryService.php';
             $service = new InventoryService();
             
@@ -251,6 +255,7 @@ class InventoryController {
 
     public function storeExport() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=inventory_export');
             require_once __DIR__ . '/../../services/InventoryService.php';
             $service = new InventoryService();
             
@@ -330,6 +335,7 @@ class InventoryController {
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=inventory_audit');
             require_once __DIR__ . '/../../models/InventoryAudit.php';
             $auditModel = new InventoryAudit();
             $inventoryModel = new Inventory();

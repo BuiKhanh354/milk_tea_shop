@@ -38,6 +38,7 @@
 
                     <h5 class="fw-bold mb-3">Cập nhật trạng thái</h5>
                     <form action="admin.php?route=tables&action=update_status" method="POST">
+    <?= csrf_field() ?>
                         <input type="hidden" name="id" value="<?= $table['id'] ?>">
                         <div class="mb-3">
                             <select name="status" class="form-select form-select-lg shadow-none">

@@ -16,6 +16,7 @@
 <div class="card border-0 shadow-sm rounded-4 border-top border-danger border-3">
     <div class="card-body p-4">
         <form action="admin.php?route=inventory&action=storeExport" method="POST" id="exportForm">
+    <?= csrf_field() ?>
             <div class="row g-4">
                 <div class="col-md-6">
                     <label class="form-label text-muted small fw-medium">Chọn Nguyên liệu cần xuất <span class="text-danger">*</span></label>

@@ -42,6 +42,7 @@
 <?php else: ?>
 
 <form action="admin.php?route=shift_sessions&action=storeOpen" method="POST" id="openShiftForm">
+    <?= csrf_field() ?>
     <div class="row g-4">
         <!-- Cột trái: Thông tin ca & Tiền mặt ban đầu -->
         <div class="col-lg-5">

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?= csrf_meta() ?>
     <title>Đăng nhập - VAA THÉ</title>
 
     <!-- Bootstrap 5 CSS -->
@@ -60,6 +61,7 @@
                 <?php endif; ?>
 
                 <form id="login-form" method="POST" action="index.php?route=login" novalidate>
+    <?= csrf_field() ?>
 
                     <!-- Email / Username -->
                     <div class="mb-4">

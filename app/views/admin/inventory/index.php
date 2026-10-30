@@ -216,6 +216,7 @@
                                         <i class="fa-solid fa-pen"></i>
                                     </a>
                                     <form action="admin.php?route=inventory&action=delete" method="POST" class="m-0" onsubmit="return confirm('Bạn có chắc muốn xóa nguyên liệu này?');">
+    <?= csrf_field() ?>
                                         <input type="hidden" name="id" value="<?= $item['id'] ?>">
                                         <button type="submit" class="btn btn-sm btn-light border shadow-none text-danger" title="Xóa">
                                             <i class="fa-solid fa-trash"></i>

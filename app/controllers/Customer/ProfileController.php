@@ -19,6 +19,7 @@ class ProfileController {
         $error_msg = "";
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('index.php?route=profile');
             $name = trim($_POST['name'] ?? '');
             $phone = trim($_POST['phone'] ?? '');
             $address = trim($_POST['address'] ?? '');
@@ -51,6 +52,7 @@ class ProfileController {
         $error_msg = "";
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('index.php?route=password');
             $current_password = $_POST['current_password'] ?? '';
             $new_password = $_POST['new_password'] ?? '';
             $confirm_password = $_POST['confirm_password'] ?? '';

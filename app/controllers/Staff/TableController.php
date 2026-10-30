@@ -42,6 +42,7 @@ class TableController {
 
     public function update_status() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=tables');
             $id = $_POST['id'] ?? 0;
             $status = $_POST['status'] ?? '';
             

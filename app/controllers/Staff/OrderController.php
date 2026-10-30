@@ -56,6 +56,7 @@ class OrderController {
 
     public function update_status() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=staff_dashboard');
             $id = $_POST['id'] ?? 0;
             $status = $_POST['status'] ?? '';
             
@@ -128,6 +129,7 @@ class OrderController {
 
     public function store() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=orders&action=create');
             $customerName = $_POST['customer_name'] ?? 'Khách lẻ';
             $orderType = $_POST['order_type'] ?? 'takeaway';
             $tableId = $_POST['table_id'] ?? 0;

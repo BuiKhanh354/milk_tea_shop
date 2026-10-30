@@ -99,6 +99,7 @@ class ShiftSessionController {
      */
     public function storeOpen() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=shift_sessions&action=open');
             $userId = $this->getUserId();
             $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
             $shiftId = (int)($_POST['shift_id'] ?? 0);
@@ -195,6 +196,7 @@ class ShiftSessionController {
      */
     public function storeClose() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=shift_sessions&action=close');
             $sessionId = (int)($_POST['session_id'] ?? 0);
             $actualCash = (float)str_replace(['.', ',', ' '], '', $_POST['actual_cash'] ?? '0');
             $cashReason = trim($_POST['cash_difference_reason'] ?? '');

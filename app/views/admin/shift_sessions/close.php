@@ -13,6 +13,7 @@
 </div>
 
 <form action="admin.php?route=shift_sessions&action=storeClose" method="POST" id="closeShiftForm">
+    <?= csrf_field() ?>
     <input type="hidden" name="session_id" value="<?= $currentOpen['id'] ?>">
 
     <!-- PHẦN 1: TỔNG KẾT DOANH THU & KIỂM ĐẾM TIỀN MẶT -->

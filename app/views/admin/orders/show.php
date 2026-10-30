@@ -11,6 +11,7 @@
     <div class="d-flex gap-2">
         <?php if($order['status'] !== 'completed' && $order['status'] !== 'cancelled'): ?>
             <form action="admin.php?route=orders&action=update_status" method="POST">
+    <?= csrf_field() ?>
                 <input type="hidden" name="id" value="<?= $order['id'] ?>">
                 <?php if($order['status'] === 'pending'): ?>
                     <input type="hidden" name="status" value="confirmed">
@@ -27,6 +28,7 @@
                 <?php endif; ?>
             </form>
             <form action="admin.php?route=orders&action=update_status" method="POST" onsubmit="return confirm('Xác nhận hủy đơn hàng này?');">
+    <?= csrf_field() ?>
                 <input type="hidden" name="id" value="<?= $order['id'] ?>">
                 <input type="hidden" name="status" value="cancelled">
                 <button type="submit" class="btn btn-outline-danger fw-medium px-4">Hủy đơn</button>

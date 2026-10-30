@@ -23,6 +23,7 @@ class AuthController {
         $email_val = '';
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('index.php?route=login');
             $emailOrUsername = trim($_POST['email'] ?? '');
             $password = $_POST['password'] ?? '';
             $email_val = htmlspecialchars($emailOrUsername);
@@ -73,6 +74,7 @@ class AuthController {
         $success = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('index.php?route=register');
             $name = trim($_POST['name'] ?? '');
             $email = trim($_POST['email'] ?? '');
             $password = $_POST['password'] ?? '';

@@ -17,6 +17,7 @@ class OptionController {
 
     public function store() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=options');
             require_once __DIR__ . '/../../models/ItemOption.php';
             $optionModel = new ItemOption();
             
@@ -37,6 +38,7 @@ class OptionController {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=options');
             require_once __DIR__ . '/../../models/ItemOption.php';
             $optionModel = new ItemOption();
             
@@ -57,6 +59,7 @@ class OptionController {
 
     public function delete() {
         if (isset($_GET['id'])) {
+            require_csrf('admin.php?route=options');
             require_once __DIR__ . '/../../models/ItemOption.php';
             $optionModel = new ItemOption();
             

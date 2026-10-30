@@ -84,6 +84,7 @@
                     
                     <div class="d-flex gap-2">
                         <form action="admin.php?route=orders&action=update_status" method="POST" class="flex-grow-1">
+    <?= csrf_field() ?>
                             <input type="hidden" name="id" value="<?= $order['id'] ?>">
                             <input type="hidden" name="redirect" value="staff">
                             <?php if($order['status'] === 'pending'): ?>

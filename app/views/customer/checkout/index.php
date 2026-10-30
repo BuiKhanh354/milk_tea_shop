@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?= csrf_meta() ?>
     <title><?= $pageTitle ?? 'Thanh toán - VAA THÉ' ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -38,6 +39,7 @@
             <h2 class="font-serif fw-bold text-black mb-4">Thanh toán</h2>
 
             <form action="index.php?route=checkout&action=process" method="POST" id="checkout-form">
+    <?= csrf_field() ?>
                 <div class="row g-4">
                     <div class="col-lg-7">
                         <div class="card border-0 shadow-sm rounded-4">

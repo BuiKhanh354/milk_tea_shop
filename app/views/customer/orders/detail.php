@@ -11,6 +11,7 @@ if ($current_step_index === false) $current_step_index = -1;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?= csrf_meta() ?>
     <title>Chi tiết đơn hàng #<?= $order['id'] ?> - VAA THÉ</title>
     
     <!-- Bootstrap 5 CSS -->

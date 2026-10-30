@@ -61,6 +61,7 @@ class ProductController {
 
     public function store() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=products&action=create');
             $data = [
                 'name' => $_POST['name'] ?? '',
                 'category_id' => $_POST['category_id'] ?? 0,
@@ -120,6 +121,7 @@ class ProductController {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=products');
             $id = $_POST['id'] ?? 0;
             $data = [
                 'name' => $_POST['name'] ?? '',

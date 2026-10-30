@@ -21,6 +21,7 @@ class TableController
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=tables');
             $tableNumber = filter_input(INPUT_POST, 'table_number', FILTER_DEFAULT);
             $capacity = filter_input(INPUT_POST, 'capacity', FILTER_VALIDATE_INT);
 
@@ -72,6 +73,7 @@ class TableController
     public function update_status()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=tables');
             $id = $_POST['id'] ?? 0;
             $status = $_POST['status'] ?? '';
 

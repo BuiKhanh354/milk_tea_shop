@@ -115,6 +115,7 @@
     <div class="modal-dialog">
         <div class="modal-content border-0 shadow rounded-4">
             <form action="admin.php?route=options&action=store" method="POST" id="optionForm">
+    <?= csrf_field() ?>
                 <input type="hidden" name="id" id="option_id" value="">
                 <input type="hidden" name="type" id="option_type" value="sugar">
                 <div class="modal-header border-0 pb-0">

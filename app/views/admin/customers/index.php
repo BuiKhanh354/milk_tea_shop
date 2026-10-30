@@ -64,12 +64,14 @@
                                     <?php if($customer['status'] == 1): ?>
                                         <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill mb-0 me-2"><i class="fa-solid fa-check me-1"></i> Hoạt động</span>
                                         <form action="admin.php?route=customers&action=toggle_status" method="POST" class="m-0" onsubmit="return confirm('Bạn muốn khóa tài khoản này?');">
+    <?= csrf_field() ?>
                                             <input type="hidden" name="id" value="<?= $customer['id'] ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-danger" title="Khóa tài khoản"><i class="fa-solid fa-lock"></i></button>
                                         </form>
                                     <?php else: ?>
                                         <span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2 rounded-pill mb-0 me-2"><i class="fa-solid fa-lock me-1"></i> Đã khóa</span>
                                         <form action="admin.php?route=customers&action=toggle_status" method="POST" class="m-0" onsubmit="return confirm('Bạn muốn mở khóa tài khoản này?');">
+    <?= csrf_field() ?>
                                             <input type="hidden" name="id" value="<?= $customer['id'] ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-success" title="Mở khóa tài khoản"><i class="fa-solid fa-unlock"></i></button>
                                         </form>

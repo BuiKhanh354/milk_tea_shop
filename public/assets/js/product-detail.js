@@ -235,6 +235,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         let formData = new FormData();
+        const csrfTokenVal = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (csrfTokenVal) formData.append('csrf_token', csrfTokenVal);
         formData.append('product_id', productId);
         formData.append('product_name', productName);
         formData.append('product_image', productImage);

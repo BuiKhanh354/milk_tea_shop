@@ -63,6 +63,7 @@
                                         <i class="fa-solid fa-pen"></i>
                                     </button>
                                     <form action="admin.php?route=categories&action=delete" method="POST" class="m-0" onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục này?');">
+    <?= csrf_field() ?>
                                         <input type="hidden" name="id" value="<?= $cat['id'] ?>">
                                         <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa" <?= $cat['products_count'] > 0 ? 'disabled' : '' ?>>
                                             <i class="fa-solid fa-trash"></i>
@@ -84,6 +85,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 rounded-4 shadow">
             <form action="admin.php?route=categories&action=store" method="POST">
+    <?= csrf_field() ?>
                 <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
                     <h5 class="modal-title font-serif fw-bold text-forest">Thêm Danh Mục Mới</h5>
                     <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
@@ -112,6 +114,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 rounded-4 shadow">
             <form action="admin.php?route=categories&action=update" method="POST">
+    <?= csrf_field() ?>
                 <input type="hidden" name="id" id="edit_cat_id">
                 <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
                     <h5 class="modal-title font-serif fw-bold text-forest">Sửa Danh Mục</h5>

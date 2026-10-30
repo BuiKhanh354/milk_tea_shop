@@ -16,6 +16,7 @@ class CategoryController {
 
     public function store() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=categories');
             $name = trim($_POST['name'] ?? '');
             $description = trim($_POST['description'] ?? '');
 
@@ -34,6 +35,7 @@ class CategoryController {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=categories');
             $id = $_POST['id'] ?? null;
             $name = trim($_POST['name'] ?? '');
             $description = trim($_POST['description'] ?? '');
@@ -53,6 +55,7 @@ class CategoryController {
 
     public function delete() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=categories');
             $id = $_POST['id'] ?? null;
             if ($id) {
                 $categoryModel = new Category();

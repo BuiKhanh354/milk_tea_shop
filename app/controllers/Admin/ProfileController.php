@@ -20,6 +20,7 @@ class ProfileController {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_csrf('admin.php?route=account');
             $userId = $_SESSION['user_id'];
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';

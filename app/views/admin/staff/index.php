@@ -52,12 +52,14 @@
                                     <?php if($staff['status'] == 1): ?>
                                         <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill mb-0 me-2"><i class="fa-solid fa-check me-1"></i> Đang làm</span>
                                         <form action="admin.php?route=staff&action=toggle_status" method="POST" class="m-0" onsubmit="return confirm('Khóa tài khoản nhân viên này?');">
+    <?= csrf_field() ?>
                                             <input type="hidden" name="id" value="<?= $staff['id'] ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-danger" title="Khóa"><i class="fa-solid fa-lock"></i></button>
                                         </form>
                                     <?php else: ?>
                                         <span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2 rounded-pill mb-0 me-2"><i class="fa-solid fa-lock me-1"></i> Đã khóa</span>
                                         <form action="admin.php?route=staff&action=toggle_status" method="POST" class="m-0" onsubmit="return confirm('Mở khóa tài khoản nhân viên này?');">
+    <?= csrf_field() ?>
                                             <input type="hidden" name="id" value="<?= $staff['id'] ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-success" title="Mở khóa"><i class="fa-solid fa-unlock"></i></button>
                                         </form>
@@ -71,6 +73,7 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content border-0 rounded-4 shadow">
                                     <form action="admin.php?route=staff&action=update" method="POST">
+    <?= csrf_field() ?>
                                         <input type="hidden" name="id" value="<?= $staff['id'] ?>">
                                         <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
                                             <h5 class="modal-title font-serif fw-bold text-forest">Sửa Nhân Viên</h5>
@@ -121,6 +124,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 rounded-4 shadow">
             <form action="admin.php?route=staff&action=store" method="POST">
+    <?= csrf_field() ?>
                 <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
                     <h5 class="modal-title font-serif fw-bold text-forest" id="addStaffModalLabel">Thêm Nhân Viên Mới</h5>
                     <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
