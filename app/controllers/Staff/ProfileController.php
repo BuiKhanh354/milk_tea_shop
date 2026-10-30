@@ -32,9 +32,9 @@ class ProfileController {
                 // Update session
                 $_SESSION['full_name'] = $fullName;
                 $_SESSION['username'] = $username;
-                header('Location: admin.php?route=profile&msg=success');
+                header('Location: admin.php?route=account&msg=success');
             } else {
-                header('Location: admin.php?route=profile&error=failed');
+                header('Location: admin.php?route=account&error=failed');
             }
             exit;
         }

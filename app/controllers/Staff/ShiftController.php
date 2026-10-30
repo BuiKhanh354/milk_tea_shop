@@ -48,11 +48,11 @@ class ShiftController {
             if ($name && $startTime && $endTime) {
                 $shiftModel = new Shift();
                 if ($shiftModel->createShift($name, $startTime, $endTime)) {
-                    header('Location: admin.php?route=shifts&msg=created');
+                    header('Location: admin.php?route=my-shifts&msg=created');
                     exit;
                 }
             }
-            header('Location: admin.php?route=shifts&error=failed');
+            header('Location: admin.php?route=my-shifts&error=failed');
             exit;
         }
     }
@@ -68,11 +68,11 @@ class ShiftController {
             if ($id && $name && $startTime && $endTime) {
                 $shiftModel = new Shift();
                 if ($shiftModel->updateShift($id, $name, $startTime, $endTime, $status)) {
-                    header('Location: admin.php?route=shifts&msg=updated');
+                    header('Location: admin.php?route=my-shifts&msg=updated');
                     exit;
                 }
             }
-            header('Location: admin.php?route=shifts&error=failed');
+            header('Location: admin.php?route=my-shifts&error=failed');
             exit;
         }
     }
@@ -83,15 +83,15 @@ class ShiftController {
             $shiftModel = new Shift();
             try {
                 if ($shiftModel->deleteShift($id)) {
-                    header('Location: admin.php?route=shifts&msg=deleted');
+                    header('Location: admin.php?route=my-shifts&msg=deleted');
                     exit;
                 }
             } catch (Exception $e) {
-                header('Location: admin.php?route=shifts&error=fk_constraint');
+                header('Location: admin.php?route=my-shifts&error=fk_constraint');
                 exit;
             }
         }
-        header('Location: admin.php?route=shifts');
+        header('Location: admin.php?route=my-shifts');
         exit;
     }
 
@@ -104,14 +104,14 @@ class ShiftController {
             if ($employeeId && $shiftId && $workDate) {
                 $shiftModel = new Shift();
                 if ($shiftModel->assignEmployee($employeeId, $shiftId, $workDate)) {
-                    header('Location: admin.php?route=shifts&msg=assigned');
+                    header('Location: admin.php?route=my-shifts&msg=assigned');
                     exit;
                 } else {
-                    header('Location: admin.php?route=shifts&error=duplicate');
+                    header('Location: admin.php?route=my-shifts&error=duplicate');
                     exit;
                 }
             }
-            header('Location: admin.php?route=shifts&error=failed');
+            header('Location: admin.php?route=my-shifts&error=failed');
             exit;
         }
     }
@@ -124,11 +124,11 @@ class ShiftController {
             if ($id && $status) {
                 $shiftModel = new Shift();
                 if ($shiftModel->updateAssignmentStatus($id, $status)) {
-                    header('Location: admin.php?route=shifts&msg=status_updated');
+                    header('Location: admin.php?route=my-shifts&msg=status_updated');
                     exit;
                 }
             }
-            header('Location: admin.php?route=shifts&error=failed');
+            header('Location: admin.php?route=my-shifts&error=failed');
             exit;
         }
     }

@@ -33,7 +33,7 @@ class OrderController {
     public function show() {
         $id = $_GET['id'] ?? 0;
         if (!$id) {
-            header('Location: admin.php?route=orders');
+            header('Location: admin.php?route=staff_dashboard');
             exit;
         }
 
@@ -43,7 +43,7 @@ class OrderController {
         $order = $orderModel->findByIdWithDetails($id);
 
         if (!$order) {
-            header('Location: admin.php?route=orders');
+            header('Location: admin.php?route=staff_dashboard');
             exit;
         }
 
@@ -84,8 +84,8 @@ class OrderController {
                 }
             }
             
-            // Nếu có param redirect (từ staff_dashboard)
-            if (isset($_POST['redirect']) && $_POST['redirect'] === 'staff') {
+            // Đối với Staff: khi hoàn thành/hủy đơn hoặc gọi từ staff_dashboard, trở về staff_dashboard
+            if ((isset($_POST['redirect']) && $_POST['redirect'] === 'staff') || in_array($status, ['completed', 'cancelled'])) {
                 header('Location: admin.php?route=staff_dashboard');
             } else {
                 header('Location: admin.php?route=orders&action=show&id=' . $id);
@@ -175,7 +175,12 @@ class OrderController {
                     $tableModel = new TableModel();
                     $tableModel->updateStatus($tableId, 'occupied');
                 }
-                header('Location: admin.php?route=orders&action=show&id=' . $orderId);
+                // Đối với nhân viên, nếu đơn hoàn thành ngay tại quầy (mang đi), chuyển về staff_dashboard
+                if ($initialStatus === 'completed') {
+                    header('Location: admin.php?route=staff_dashboard');
+                } else {
+                    header('Location: admin.php?route=orders&action=show&id=' . $orderId);
+                }
             } else {
                 header('Location: admin.php?route=orders&action=create&error=failed');
             }

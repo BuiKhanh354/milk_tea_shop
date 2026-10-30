@@ -2,7 +2,7 @@
 class MyShiftController {
     public function index() {
         if (!isset($_SESSION['user_id'])) {
-            header('Location: login.php');
+            header('Location: index.php?route=login');
             exit;
         }
 

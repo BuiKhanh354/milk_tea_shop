@@ -94,9 +94,9 @@ class OrderController {
                 }
             }
             
-            // Nếu có param redirect (từ staff_dashboard)
-            if (isset($_POST['redirect']) && $_POST['redirect'] === 'staff') {
-                header('Location: admin.php?route=staff_dashboard');
+            // Đối với Admin: cập nhật trạng thái đơn xong quay lại trang chi tiết đơn hàng hoặc danh sách đơn
+            if (isset($_POST['redirect']) && $_POST['redirect'] === 'orders') {
+                header('Location: admin.php?route=orders');
             } else {
                 header('Location: admin.php?route=orders&action=show&id=' . $id);
             }
