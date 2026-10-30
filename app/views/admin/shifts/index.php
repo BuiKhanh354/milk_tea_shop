@@ -225,7 +225,7 @@
                                 <td><?= date('H:i', strtotime($sh['start_time'])) ?> - <?= date('H:i', strtotime($sh['end_time'])) ?></td>
                                 <td>
                                     <?php if($sh['status'] == 1): ?>
-                                        <span class="badge bg-success">Đang hoạt động</span>
+                                         <span class="badge bg-success">Đang hoạt động</span>
                                     <?php else: ?>
                                         <span class="badge bg-secondary">Tạm ngưng</span>
                                     <?php endif; ?>
@@ -253,11 +253,65 @@ function validateShiftTimes(form) {
         const start = startInput.value;
         const end = endInput.value;
         if (start && end && end <= start) {
-            alert('Lỗi logic: Giờ kết thúc (' + end + ') phải lớn hơn giờ bắt đầu (' + start + ')!');
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Lỗi logic thời gian!',
+                    text: 'Giờ kết thúc (' + end + ') phải lớn hơn giờ bắt đầu (' + start + ')!',
+                    confirmButtonColor: '#2b5a41',
+                    confirmButtonText: 'Đã hiểu'
+                });
+            } else {
+                alert('Lỗi logic: Giờ kết thúc (' + end + ') phải lớn hơn giờ bắt đầu (' + start + ')!');
+            }
             endInput.focus();
             return false;
         }
     }
     return true;
 }
+
+<?php if (isset($_GET['msg']) || isset($_GET['error'])): ?>
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof Swal !== 'undefined') {
+        <?php if (isset($_GET['error'])): ?>
+            let errorText = 'Vui lòng kiểm tra lại.';
+            <?php if ($_GET['error'] === 'invalid_time'): ?>
+                errorText = 'Giờ kết thúc phải lớn hơn giờ bắt đầu ca làm việc!';
+            <?php elseif ($_GET['error'] === 'duplicate'): ?>
+                errorText = 'Đã phân công nhân viên này vào ca trong ngày!';
+            <?php elseif ($_GET['error'] === 'fk_constraint'): ?>
+                errorText = 'Không thể xóa ca làm việc vì đang có phân công liên quan!';
+            <?php endif; ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Thao tác thất bại',
+                text: errorText,
+                confirmButtonColor: '#2b5a41',
+                confirmButtonText: 'Đóng'
+            });
+        <?php elseif (isset($_GET['msg'])): ?>
+            let msgText = 'Thao tác thành công!';
+            <?php if ($_GET['msg'] === 'created'): ?>
+                msgText = 'Đã tạo ca làm việc thành công!';
+            <?php elseif ($_GET['msg'] === 'updated'): ?>
+                msgText = 'Đã cập nhật ca làm việc thành công!';
+            <?php elseif ($_GET['msg'] === 'deleted'): ?>
+                msgText = 'Đã xóa ca làm việc thành công!';
+            <?php elseif ($_GET['msg'] === 'assigned'): ?>
+                msgText = 'Đã phân công ca làm việc thành công!';
+            <?php elseif ($_GET['msg'] === 'status_updated'): ?>
+                msgText = 'Đã cập nhật trạng thái ca thành công!';
+            <?php endif; ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: msgText,
+                timer: 2500,
+                showConfirmButton: false
+            });
+        <?php endif; ?>
+    }
+});
+<?php endif; ?>
 </script>
