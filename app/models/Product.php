@@ -56,7 +56,7 @@ class Product {
         return $product;
     }
 
-            public function getPaginated($page = 1, $limit = 8, $includeHidden = false, $filters = []) {
+    public function getPaginated($page , $limit, $includeHidden = false, $filters = []) {
         $offset = ($page - 1) * $limit;
         
         $conditions = [];
