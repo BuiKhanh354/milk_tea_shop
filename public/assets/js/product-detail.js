@@ -17,6 +17,19 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Base Price value
     const basePrice = parseInt(basePriceEl.dataset.price);
+
+    const sendFavoriteRequest = async () => {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || '';
+        const response = await fetch('index.php?route=favorites&action=toggle', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: new URLSearchParams({
+                product_id: btnFavorite.dataset.productId,
+                csrf_token: csrfToken
+            })
+        });
+        return response.json();
+    };
     
     // Format Currency
     const formatCurrency = (amount) => {
@@ -274,8 +287,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         cartBadge.classList.remove('d-none');
                     }
                 }
+            } else if (data.require_login) {
+                window.location.href = 'index.php?route=login';
+            } else {
+                alert(data.message || 'Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.');
             }
-        });
+        })
+        .catch(() => alert('Không thể kết nối với máy chủ. Vui lòng thử lại.'));
     };
 
     // Add to Cart
@@ -290,17 +308,29 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Favorite Toggle
     if (btnFavorite) {
-        btnFavorite.addEventListener('click', (e) => {
+        btnFavorite.addEventListener('click', async (e) => {
             e.preventDefault();
-            const icon = btnFavorite.querySelector('i');
-            if (icon.classList.contains('fa-regular')) {
-                icon.classList.remove('fa-regular');
-                icon.classList.add('fa-solid');
-                btnFavorite.classList.add('active');
-            } else {
-                icon.classList.remove('fa-solid');
-                icon.classList.add('fa-regular');
-                btnFavorite.classList.remove('active');
+            btnFavorite.disabled = true;
+            try {
+                const data = await sendFavoriteRequest();
+                if (data.require_login) {
+                    window.location.href = 'index.php?route=login';
+                    return;
+                }
+                if (!data.success) {
+                    alert(data.message || 'Không thể cập nhật danh sách yêu thích.');
+                    return;
+                }
+
+                const icon = btnFavorite.querySelector('i');
+                btnFavorite.classList.toggle('active', data.is_favorited);
+                icon.classList.toggle('fa-solid', data.is_favorited);
+                icon.classList.toggle('fa-regular', !data.is_favorited);
+                icon.classList.toggle('text-danger', data.is_favorited);
+            } catch (error) {
+                alert('Không thể kết nối với máy chủ. Vui lòng thử lại.');
+            } finally {
+                btnFavorite.disabled = false;
             }
         });
     }

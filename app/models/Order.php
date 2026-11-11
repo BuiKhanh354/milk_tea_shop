@@ -350,7 +350,7 @@ class Order {
             $shiftSessionId = $activeSession ? (int)$activeSession['id'] : null;
 
             $orderType = 'delivery'; // Customer orders from web are usually delivery
-            $sql = "INSERT INTO orders (customer_id, status, total_amount, final_amount, order_type, shift_session_id, note) VALUES (?, 'Pending', ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO orders (customer_id, status, total_amount, final_amount, order_type, shift_session_id, note) VALUES (?, 'pending', ?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param("iddsis", $customerId, $totalAmount, $totalAmount, $orderType, $shiftSessionId, $note);
             $stmt->execute();

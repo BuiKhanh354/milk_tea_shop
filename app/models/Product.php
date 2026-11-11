@@ -41,16 +41,8 @@ class Product {
         $rStmt->execute();
         $rRes = $rStmt->get_result()->fetch_assoc();
         
-        $product['rating'] = $rRes['rating'] ? (float)$rRes['rating'] : 5.0; // Default to 5.0 if no reviews
+        $product['rating'] = $rRes['rating'] !== null ? (float)$rRes['rating'] : 0.0;
         $product['review_count'] = $rRes['review_count'] ? (int)$rRes['review_count'] : 0;
-
-        // Generic mock data for fields that don't exist in the current database schema
-        if (empty($product['story'])) {
-            $product['story'] = 'Mỗi thức uống là một câu chuyện được VAA THÉ ấp ủ, tuyển chọn từ những nguyên liệu tươi ngon nhất để mang đến trải nghiệm tuyệt vời.';
-        }
-        if (empty($product['ingredients'])) {
-            $product['ingredients'] = 'Nguyên liệu tự nhiên, an toàn cho sức khỏe.';
-        }
 
         $product['image'] = $this->formatImageUrl($product['image'] ?? '');
         return $product;
@@ -286,11 +278,7 @@ class Product {
         $stmt->bind_param("ii", $categoryId, $excludeId);
         $stmt->execute();
         $result = $stmt->get_result();
-        $products = $result->fetch_all(MYSQLI_ASSOC);
-        foreach ($products as &$p) {
-            $p['image'] = $this->formatImageUrl($p['image']);
-        }
-        return $products;
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public function getReviews($id) {

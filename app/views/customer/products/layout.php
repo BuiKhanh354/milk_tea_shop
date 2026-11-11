@@ -19,11 +19,11 @@
 <body>
 
     <!-- Nạp components trực tiếp bằng PHP -->
-    <?php include '../app/views/partials/navbar_old.php'; ?>
+    <?php include __DIR__ . '/../../partials/navbar_old.php'; ?>
     
-    <?php include '../app/views/customer/products/index.php'; ?>
+    <?php include __DIR__ . '/index.php'; ?>
     
-    <?php include '../app/views/layouts/footer.php'; ?>
+    <?php include __DIR__ . '/../../layouts/footer.php'; ?>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

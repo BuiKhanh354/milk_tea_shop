@@ -117,9 +117,10 @@ class Customer {
             return $row['id'];
         }
 
-        $sqlInsert = "INSERT INTO customers (full_name, phone, address, point, tier, status) VALUES (?, ?, ?, 0, 'Thành viên', 1)";
+        $guestPassword = password_hash(bin2hex(random_bytes(24)), PASSWORD_DEFAULT);
+        $sqlInsert = "INSERT INTO customers (full_name, phone, address, password, status) VALUES (?, ?, ?, ?, 1)";
         $stmtInsert = $this->conn->prepare($sqlInsert);
-        $stmtInsert->bind_param("sss", $name, $phone, $address);
+        $stmtInsert->bind_param("ssss", $name, $phone, $address, $guestPassword);
         if ($stmtInsert->execute()) {
             return $stmtInsert->insert_id;
         }

@@ -54,25 +54,23 @@
         <div class="row g-4">
             <?php if (!empty($productsList)): ?>
                 <?php foreach ($productsList as $product): ?>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 product-item" data-category-id="<?= $product['category_id'] ?>">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 product-item" data-category-id="<?= (int)$product['category_id'] ?>">
                     <div class="product-card h-100 d-flex flex-column border-0 shadow-sm">
-                        <a href="index.php?route=product_detail&id=<?= $product['id'] ?>" class="text-decoration-none text-dark d-flex flex-column h-100">
-                            <div class="product-image-box position-relative" style="<?= empty($product['image']) ? 'background-color: var(--vaa-sage);' : '' ?>">
-                                <div class="fav-icon" onclick="toggleFavoriteList(event, <?= $product['id'] ?>, this)">
-                                    <i class="<?= in_array($product['id'], $favorites ?? []) ? 'fa-solid text-danger' : 'fa-regular' ?> fa-heart"></i>
-                                </div>
-                                <?php if (!empty($product['image'])): ?>
-                                    <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="img-fluid drop-shadow">
-                                <?php endif; ?>
-                            </div>
-                            <div class="p-4 bg-white d-flex flex-column flex-grow-1">
+                        <div class="product-image-box position-relative">
+                            <a href="index.php?route=product_detail&amp;id=<?= (int)$product['id'] ?>" class="product-image-link" aria-label="Xem chi tiết <?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>">
+                                <img src="<?= htmlspecialchars($product['image'], ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>" class="img-fluid drop-shadow">
+                            </a>
+                            <button type="button" class="fav-icon border-0" aria-label="Thêm hoặc bỏ yêu thích <?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>" onclick="toggleFavoriteList(event, <?= (int)$product['id'] ?>, this)">
+                                <i class="<?= in_array($product['id'], $favorites ?? []) ? 'fa-solid text-danger' : 'fa-regular' ?> fa-heart"></i>
+                            </button>
+                        </div>
+                        <a href="index.php?route=product_detail&amp;id=<?= (int)$product['id'] ?>" class="text-decoration-none text-dark p-4 bg-white d-flex flex-column flex-grow-1">
                                 <h6 class="font-serif fw-bold fs-5 mb-1 text-center"><?= htmlspecialchars($product['name']) ?></h6>
                                 <p class="text-muted small text-center mb-3 line-clamp-2"><?= htmlspecialchars($product['description'] ?? '') ?></p>
                                 <p class="text-caramel fw-bold mb-3 mt-auto fs-5 text-center"><?= number_format($product['price'], 0, ',', '.') ?>đ</p>
-                                <button type="button" class="btn btn-outline-forest w-100 rounded-pill py-2 fw-semibold products-style-e7992d" >
-                                    <i class="fa-solid fa-plus me-2"></i> Chi tiết
-                                </button>
-                            </div>
+                                <span class="btn btn-outline-forest w-100 rounded-pill py-2 fw-semibold products-style-e7992d">
+                                    <i class="fa-solid fa-arrow-right me-2"></i> Xem chi tiết
+                                </span>
                         </a>
                     </div>
                 </div>
@@ -123,12 +121,11 @@
         event.preventDefault(); // Ngan click vao the anchor <a>
         event.stopPropagation();
         
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || '';
         fetch('index.php?route=favorites&action=toggle', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: 'product_id=' + productId
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: new URLSearchParams({product_id: productId, csrf_token: csrfToken})
         })
         .then(response => response.json())
         .then(data => {
@@ -147,7 +144,7 @@
                     icon.classList.add('fa-regular');
                 }
             }
-        });
+        }).catch(() => alert('Không thể cập nhật danh sách yêu thích. Vui lòng thử lại.'));
     }
 
     document.addEventListener('DOMContentLoaded', function() {

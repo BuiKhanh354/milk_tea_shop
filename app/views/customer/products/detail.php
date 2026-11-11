@@ -99,7 +99,7 @@
                             <?php endif; ?>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-favorite <?= isset($isFavorited) && $isFavorited ? 'active' : '' ?>" id="btn-favorite" aria-label="Thêm vào yêu thích" onclick="toggleFavoriteDetail(<?= $product['id'] ?>)">
+                    <button type="button" class="btn btn-favorite <?= isset($isFavorited) && $isFavorited ? 'active' : '' ?>" id="btn-favorite" aria-label="Thêm hoặc bỏ yêu thích <?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>" data-product-id="<?= (int)$product['id'] ?>">
                         <i class="<?= isset($isFavorited) && $isFavorited ? 'fa-solid text-danger' : 'fa-regular' ?> fa-heart fs-4"></i>
                     </button>
                 </div>
@@ -202,12 +202,6 @@
                     </div>
                     <?php endif; ?>
                     
-                    <!-- Note -->
-                    <div class="mb-4 pb-4 border-bottom border-sage border-opacity-25">
-                        <span class="option-label">CHÚ THÍCH ĐỒ UỐNG CỦA BẠN</span>
-                        <textarea class="form-control bg-transparent border-sage rounded-0" rows="2" placeholder="Ví dụ: Ít ngọt hơn, nhiều trân châu..."></textarea>
-                    </div>
-
                     <!-- Quantity & Action Desktop -->
                     <div class="d-none d-lg-block">
                         <div class="row align-items-end g-4">
@@ -269,31 +263,29 @@
         </div>
     </div>
 
-    <!-- Product Story Section -->
-    <section class="story-section fade-up visible">
-        <div class="container text-center">
-            <span class="small-label d-block mb-3">THÔNG TIN SẢN PHẨM</span>
-            <h2 class="story-heading">The Story Behind The Tea</h2>
-            <div class="row justify-content-center mt-5">
-                <div class="col-md-8 text-start">
-                    <p class="fs-5 text-dark mb-4 text-center product-detail-style-806ff7" >"<?= htmlspecialchars($product['story']) ?>"</p>
-                    
-                    <div class="bg-white p-4 p-md-5 border border-sage border-opacity-25 mt-5">
-                        <h4 class="font-serif fw-bold text-forest mb-4 border-bottom pb-2">Thông tin</h4>
-                        <div class="row g-3">
-                            <div class="col-sm-4 fw-bold text-dark">Danh mục</div>
-                            <div class="col-sm-8 text-muted"><?= htmlspecialchars($product['category_name']) ?></div>
-                            
-                            <div class="col-sm-4 fw-bold text-dark">Thành phần</div>
-                            <div class="col-sm-8 text-muted"><?= htmlspecialchars($product['ingredients']) ?></div>
-                            
-                            <div class="col-sm-4 fw-bold text-dark">Các sizes khả dụng</div>
-                            <div class="col-sm-8 text-muted"><?= htmlspecialchars(implode(', ', array_column($sizes, 'name'))) ?></div>
-                            
-                            <div class="col-sm-4 fw-bold text-dark">Chất gây dị ứng</div>
-                             <div class="col-sm-8 text-muted">Contains Milk, Traces of Nuts</div>
-                        </div>
-                    </div>
+    <!-- Thông tin lấy từ dữ liệu sản phẩm và công thức trong CSDL -->
+    <section class="container py-5 fade-up visible">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="bg-white p-4 p-md-5 border border-sage border-opacity-25">
+                    <h2 class="font-serif fw-bold text-forest mb-4">Thông tin sản phẩm</h2>
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Danh mục</dt>
+                        <dd class="col-sm-8"><?= htmlspecialchars($product['category_name'] ?? 'Chưa phân loại', ENT_QUOTES, 'UTF-8') ?></dd>
+
+                        <dt class="col-sm-4">Mô tả</dt>
+                        <dd class="col-sm-8"><?= nl2br(htmlspecialchars($product['description'] ?? 'Chưa có mô tả.', ENT_QUOTES, 'UTF-8')) ?></dd>
+
+                        <dt class="col-sm-4">Kích cỡ</dt>
+                        <dd class="col-sm-8"><?= htmlspecialchars(implode(', ', array_column($sizes, 'name')), ENT_QUOTES, 'UTF-8') ?></dd>
+
+                        <dt class="col-sm-4">Nguyên liệu theo công thức</dt>
+                        <dd class="col-sm-8">
+                            <?= !empty($ingredientNames)
+                                ? htmlspecialchars(implode(', ', $ingredientNames), ENT_QUOTES, 'UTF-8')
+                                : 'Chưa cấu hình công thức nguyên liệu.' ?>
+                        </dd>
+                    </dl>
                 </div>
             </div>
         </div>
@@ -302,8 +294,7 @@
     <!-- Reviews Section -->
     <section class="container py-5 fade-up visible">
         <div class="text-center mb-5">
-            <span class="small-label d-block mb-2">TESTIMONIALS</span>
-            <h2 class="font-serif fw-bold text-forest">Customer Reviews</h2>
+            <h2 class="font-serif fw-bold text-forest">Đánh giá của khách hàng</h2>
             
             <div class="mt-4">
                 <h1 class="font-serif text-caramel mb-0 product-detail-style-394c9a" ><?= number_format($product['rating'], 1) ?></h1>
@@ -316,7 +307,7 @@
                         }
                     ?>
                 </div>
-                <p class="text-muted">Based on <?= $product['review_count'] ?> reviews</p>
+                <p class="text-muted"><?= (int)$product['review_count'] ?> lượt đánh giá</p>
             </div>
         </div>
 
@@ -341,27 +332,9 @@
                     </div>
                 <?php endif; ?>
                 
-                <div class="mt-5 text-center p-4 bg-cream border border-sage border-opacity-25 rounded-0">
-                    <h5 class="font-serif text-forest fw-bold mb-3">Write a review</h5>
-                    <?php if(isset($_SESSION['customer_id'])): ?>
-                        <form>
-                            <div class="mb-3 text-start">
-                                <label class="form-label text-dark fw-bold">Your Rating</label>
-                                <div class="fs-4 text-sage product-detail-style-24b531" >
-                                    <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
-                                </div>
-                            </div>
-                            <div class="mb-3 text-start">
-                                <label class="form-label text-dark fw-bold">Comment</label>
-                                <textarea class="form-control bg-white border-0" rows="3" placeholder="Share your experience..."></textarea>
-                            </div>
-                            <button type="button" class="btn btn-outline-forest px-5 py-2">SUBMIT REVIEW</button>
-                        </form>
-                    <?php else: ?>
-                        <p class="text-muted mb-4">Please login to write a review.</p>
-                        <a href="index.php?route=login" class="btn btn-caramel px-5 py-2">LOGIN</a>
-                    <?php endif; ?>
-                </div>
+                <?php if (empty($reviews)): ?>
+                    <p class="text-muted text-center mt-4">Sản phẩm chưa có đánh giá.</p>
+                <?php endif; ?>
             </div>
         </div>
     </section>
@@ -369,14 +342,14 @@
     <!-- Related Products -->
     <section class="container py-5 border-top border-sage border-opacity-25 fade-up visible">
         <div class="text-center mb-5">
-            <h2 class="font-serif fw-bold text-forest">You May Also Like</h2>
+            <h2 class="font-serif fw-bold text-forest">Sản phẩm liên quan</h2>
         </div>
         
         <div class="row g-4">
             <?php foreach($relatedProducts as $item): ?>
             <div class="col-6 col-md-3">
                 <div class="card product-card h-100 text-center p-2 p-md-3">
-                    <a href="index.php?route=product_detail?id=<?= $item['id'] ?>" class="text-decoration-none">
+                    <a href="index.php?route=product_detail&amp;id=<?= (int)$item['id'] ?>" class="text-decoration-none">
                         <img src="<?= htmlspecialchars($item['image']) ?>" class="card-img-top mb-3" alt="<?= htmlspecialchars($item['name']) ?>">
                         <h5 class="product-card-title"><?= htmlspecialchars($item['name']) ?></h5>
                         <p class="text-caramel fw-bold mb-0"><?= number_format($item['price'], 0, ',', '.') ?>đ</p>
@@ -398,48 +371,18 @@
     <!-- Sync mobile total with desktop total -->
     <script>
         // Update mobile total whenever desktop total changes
-        const observer = new MutationObserver((mutations) => {
+        const desktopTotal = document.getElementById('total-price');
+        const observer = new MutationObserver(() => {
             const mobileTotal = document.getElementById('mobile-total-price');
-            const desktopTotal = document.getElementById('total-price');
             if (mobileTotal && desktopTotal) {
                 mobileTotal.textContent = desktopTotal.textContent;
             }
         });
-        observer.observe(document.getElementById('total-price'), { childList: true, characterData: true, subtree: true });
+        if (desktopTotal) {
+            observer.observe(desktopTotal, { childList: true, characterData: true, subtree: true });
+        }
     </script>
 </body>
 </html>
 
-<script>
-    function toggleFavoriteDetail(productId) {
-        fetch('index.php?route=favorites&action=toggle', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: 'product_id=' + productId
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.require_login) {
-                alert(data.message);
-                window.location.href = 'index.php?route=login';
-                return;
-            }
-            if (data.success) {
-                const btn = document.getElementById('btn-favorite');
-                const icon = btn.querySelector('i');
-                if (data.is_favorited) {
-                    btn.classList.add('active');
-                    icon.classList.remove('fa-regular');
-                    icon.classList.add('fa-solid', 'text-danger');
-                } else {
-                    btn.classList.remove('active');
-                    icon.classList.remove('fa-solid', 'text-danger');
-                    icon.classList.add('fa-regular');
-                }
-            }
-        });
-    }
-</script>
 

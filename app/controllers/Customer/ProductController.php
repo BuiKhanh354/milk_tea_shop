@@ -5,13 +5,23 @@ class ProductController {
     public function index() {
         require_once __DIR__ . '/../../models/Product.php';
         $productModel = new Product();
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $page = max(1, (int)($_GET['page'] ?? 1));
         $limit = 12;
-        
+
+        $categoryId = trim((string)($_GET['category_id'] ?? 'all'));
+        if ($categoryId !== 'all' && (!ctype_digit($categoryId) || (int)$categoryId < 1)) {
+            $categoryId = 'all';
+        }
+        $sort = (string)($_GET['sort'] ?? 'default');
+        $allowedSorts = ['default', 'price_asc', 'price_desc', 'name_asc'];
+        if (!in_array($sort, $allowedSorts, true)) {
+            $sort = 'default';
+        }
+
         $filters = [
-            'search' => $_GET['search'] ?? '',
-            'category_id' => $_GET['category_id'] ?? 'all',
-            'sort' => $_GET['sort'] ?? 'default'
+            'search' => trim((string)($_GET['search'] ?? '')),
+            'category_id' => $categoryId,
+            'sort' => $sort
         ];
         
         $paginatedData = $productModel->getPaginated($page, $limit, false, $filters);
@@ -38,7 +48,7 @@ class ProductController {
     }
 
     public function detail() {
-        $id = $_GET['id'] ?? null;
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
         if (!$id) {
             header('Location: index.php?route=products');
             exit;
@@ -75,6 +85,8 @@ class ProductController {
         require_once __DIR__ . '/../../models/ProductIngredient.php';
         $piModel = new ProductIngredient();
         $stockInfo = $piModel->calculateAvailableStock($id);
+        $ingredientRows = $piModel->getByProductId($id);
+        $ingredientNames = array_values(array_unique(array_filter(array_column($ingredientRows, 'ingredient_name'))));
 
         require_once __DIR__ . '/../../views/customer/products/detail.php';
     }
