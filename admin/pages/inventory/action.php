@@ -2,8 +2,14 @@
 // admin/pages/inventory/action.php — Quản lý kho nguyên liệu
 $action = get_param('action', '');
 $userId = (int)($_SESSION['user_id'] ?? 1);
+$isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    // Chỉ Admin mới có quyền thêm/sửa/xóa hoặc nhập kho (Staff chỉ có quyền xuất kho)
+    if (in_array($action, ['store', 'update', 'delete', 'storeImport']) && !$isAdmin) {
+        set_flash('error', 'Nhân viên chỉ có quyền xuất kho, không có quyền nhập kho!');
+        redirect(admin_url('inventory'));
+    }
     // Thêm nguyên liệu mới
     if ($action === 'store') {
         $name = post_param('name');

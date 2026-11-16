@@ -147,11 +147,13 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                             <i class="fa-solid fa-boxes-stacked nav-icon"></i> Nguyên liệu
                         </a>
                     </li>
+                    <?php if ($isAdmin): ?>
                     <li class="nav-item">
                         <a href="<?= e(admin_url('inventory_import')) ?>" class="nav-link <?= $currentPage === 'inventory_import' ? 'active' : '' ?>">
                             <i class="fa-solid fa-box-open nav-icon"></i> Nhập kho
                         </a>
                     </li>
+                    <?php endif; ?>
                     <li class="nav-item">
                         <a href="<?= e(admin_url('inventory_export')) ?>" class="nav-link <?= $currentPage === 'inventory_export' ? 'active' : '' ?>">
                             <i class="fa-solid fa-truck-fast nav-icon"></i> Xuất kho
@@ -300,7 +302,9 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                     <span class="nav-section-title px-3">KHO</span>
                     <ul class="nav flex-column mt-2">
                         <li class="nav-item"><a href="<?= e(admin_url('inventory')) ?>" class="nav-link <?= $currentPage === 'inventory' ? 'active' : '' ?>"><i class="fa-solid fa-boxes-stacked nav-icon"></i> Nguyên liệu</a></li>
+                        <?php if ($isAdmin): ?>
                         <li class="nav-item"><a href="<?= e(admin_url('inventory_import')) ?>" class="nav-link <?= $currentPage === 'inventory_import' ? 'active' : '' ?>"><i class="fa-solid fa-box-open nav-icon"></i> Nhập kho</a></li>
+                        <?php endif; ?>
                         <li class="nav-item"><a href="<?= e(admin_url('inventory_export')) ?>" class="nav-link <?= $currentPage === 'inventory_export' ? 'active' : '' ?>"><i class="fa-solid fa-truck-fast nav-icon"></i> Xuất kho</a></li>
                         <?php if ($isAdmin): ?>
                         <li class="nav-item"><a href="<?= e(admin_url('product_ingredients')) ?>" class="nav-link <?= $currentPage === 'product_ingredients' ? 'active' : '' ?>"><i class="fa-solid fa-blender nav-icon"></i> Công thức sản phẩm</a></li>

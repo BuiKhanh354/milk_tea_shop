@@ -55,12 +55,12 @@ if (!in_array($userRole, ['admin', 'staff']) && !in_array($page, $publicPages)) 
     redirect(url('login'));
 }
 
-// Phân quyền cho nhân viên (Staff)
+// Phân quyền cho nhân viên (Staff: chỉ có quyền xuất, không có quyền nhập kho)
 $staffAllowedPages = [
     'dashboard', 'staff_dashboard', 'my-shifts',
     'orders', 'order-detail', 'order-create',
     'tables', 'shift_sessions',
-    'inventory', 'inventory_import', 'inventory_export',
+    'inventory', 'inventory_export',
     'profile', 'account', 'logout'
 ];
 

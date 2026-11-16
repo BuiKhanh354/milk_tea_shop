@@ -4,15 +4,19 @@
         <p class="text-muted fst-italic small mb-0">"The ingredients behind every good cup."</p>
     </div>
     <div class="d-flex gap-2">
+        <?php if ($isAdmin): ?>
         <a href="<?= e(admin_url('inventory_import')) ?>" class="btn btn-outline-forest rounded-pill px-3 fw-medium">
             <i class="fa-solid fa-box-open me-1"></i> Nhập kho
         </a>
+        <?php endif; ?>
         <a href="<?= e(admin_url('inventory_export')) ?>" class="btn btn-outline-danger rounded-pill px-3 fw-medium">
             <i class="fa-solid fa-truck-fast me-1"></i> Xuất kho
         </a>
+        <?php if ($isAdmin): ?>
         <button type="button" class="btn btn-forest rounded-pill fw-medium px-3" data-bs-toggle="modal" data-bs-target="#addIngredientModal">
             <i class="fa-solid fa-plus me-1"></i> Thêm nguyên liệu
         </button>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -92,12 +96,14 @@
                         <th class="py-3 fw-medium border-0 text-end">Mức tối thiểu</th>
                         <th class="py-3 fw-medium border-0 text-end">Giá nhập</th>
                         <th class="py-3 fw-medium border-0 text-center">Trạng thái</th>
+                        <?php if ($isAdmin): ?>
                         <th class="pe-4 py-3 fw-medium border-0 text-end">Hành động</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody class="border-top-0">
                     <?php if (empty($ingredients)): ?>
-                        <tr><td colspan="8" class="text-center py-5 text-muted">Kho trống. Chưa có nguyên liệu nào.</td></tr>
+                        <tr><td colspan="<?= $isAdmin ? 8 : 7 ?>" class="text-center py-5 text-muted">Kho trống. Chưa có nguyên liệu nào.</td></tr>
                     <?php else: ?>
                         <?php 
                         $stt = 1;
@@ -125,6 +131,7 @@
                                     <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">Còn hàng</span>
                                 <?php endif; ?>
                             </td>
+                            <?php if ($isAdmin): ?>
                             <td class="text-end pe-4">
                                 <div class="d-flex justify-content-end gap-2">
                                     <button class="btn btn-sm btn-outline-secondary" title="Sửa" data-bs-toggle="modal" data-bs-target="#editModal<?= (int)$item['id'] ?>">
@@ -138,6 +145,7 @@
                                     </form>
                                 </div>
                             </td>
+                            <?php endif; ?>
                         </tr>
 
                         <!-- Modal Sửa Nguyên Liệu -->
