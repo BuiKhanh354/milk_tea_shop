@@ -21,6 +21,7 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?= csrf_meta() ?>
     <title><?= e($pageTitle) ?> - VAA THÉ</title>
     
     <!-- Bootstrap 5 CSS -->
@@ -35,6 +36,10 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
     <link rel="stylesheet" href="<?= e(asset('assets/css/home.css')) ?>">
     <link rel="stylesheet" href="<?= e(asset('assets/css/products.css')) ?>">
     <link rel="stylesheet" href="<?= e(asset('assets/css/product-detail.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/about.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/store.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/account.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/global.css')) ?>">
     <?php if ($isAuthPage): ?>
     <link rel="stylesheet" href="<?= e(asset('assets/css/auth.css')) ?>">
     <?php endif; ?>

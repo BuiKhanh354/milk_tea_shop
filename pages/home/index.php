@@ -1,3 +1,24 @@
+<!-- INTRO SCREEN (VAA THE SIGNATURE) -->
+<div id="intro-video-wrapper" class="intro-video-wrapper">
+    <!-- Overlay UI -->
+    <div class="intro-overlay">
+        <div class="intro-brand">
+            <span>G</span><span>o</span><span>o</span><span>d</span><span>&nbsp;</span>
+            <span>T</span><span>e</span><span>a</span><span>,</span><span>&nbsp;</span>
+            <span>G</span><span>o</span><span>o</span><span>d</span><span>&nbsp;</span>
+            <span>M</span><span>o</span><span>o</span><span>d</span>
+        </div>
+        <button id="btn-skip-intro" class="btn-skip-intro" aria-label="Skip intro">
+            SKIP <i class="fa-solid fa-arrow-right arrow-icon"></i>
+        </button>
+    </div>
+
+    <video id="intro-video" class="intro-video" autoplay muted playsinline preload="auto">
+        <source src="<?= e(asset('assets/videos/upscaled-video.mp4')) ?>" type="video/mp4">
+        Trình duyệt của bạn không hỗ trợ thẻ video.
+    </video>
+</div>
+
 <!-- HERO SECTION -->
 <section class="hero-section home-hero bg-cream fade-up">
     <div class="container px-4 px-lg-5">

@@ -1,44 +1,182 @@
 <?php
-// pages/about/index.php
+// pages/about/index.php — Giới thiệu thương hiệu VAA THÉ chuẩn gốc
 $title = 'Giới thiệu';
 ?>
-<section class="about-hero py-5 bg-cream">
-    <div class="container text-center py-5">
-        <span class="small-label mb-2 d-inline-block text-caramel">Câu Chuyện Thương Hiệu</span>
-        <h1 class="font-serif display-4 fw-bold text-forest mb-4">VAA THÉ — Tinh Hoa Trà Việt</h1>
-        <p class="lead text-muted mx-auto" style="max-width: 750px;">
-            Khởi nguồn từ niềm đam mê sâu sắc với những lá trà truyền thống thượng hạng từ các đồi chè Tây Bắc và Bảo Lộc, chúng tôi mang tới một phong cách trà sữa hiện đại, thanh tao và chuẩn vị nguyên bản.
-        </p>
+<!-- ABOUT HERO -->
+<section class="about-hero">
+    <div class="container px-4 px-lg-5">
+        <div class="row align-items-center">
+            <div class="col-lg-5 mb-5 mb-lg-0 z-1 fade-up">
+                <span class="small-label mb-3 d-inline-block">OUR STORY</span>
+                <h1 class="mb-4 font-serif display-5 fw-bold">Câu chuyện của<br>VAA THÉ</h1>
+                <p class="text-muted mb-5 about-style-2383b5">
+                    Một ly trà ngon không chỉ bắt đầu từ những lá trà thượng hạng, mà còn từ sự tận tâm trong từng khoảnh khắc.
+                </p>
+                <div class="handwritten-deco position-relative mt-5">
+                    Good Tea,<br>Good Mood
+                    <i class="fa-solid fa-leaf position-absolute about-style-4acc6a"></i>
+                </div>
+            </div>
+            <div class="col-lg-6 offset-lg-1 position-relative fade-up about-style-429bd4">
+                <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80&w=1000" alt="Vaa The Hero" class="img-fluid about-hero-image">
+            </div>
+        </div>
     </div>
 </section>
 
-<section class="py-5">
-    <div class="container py-4">
-        <div class="row align-items-center g-5">
-            <div class="col-lg-6">
-                <img src="https://taiwan-scene.com/app/uploads/2019/07/yilan-taiwanese-tea-tour-tea-1.jpg" alt="VAA THE Farm" class="img-fluid rounded-4 shadow-sm w-100">
+<!-- OUR STORY -->
+<section class="section-padding bg-white fade-up py-5">
+    <div class="container px-4 px-lg-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="rounded-4 overflow-hidden shadow-sm about-style-c6408b">
+                    <img src="https://images.unsplash.com/photo-1594631252845-29fc4cc8cbf9?auto=format&fit=crop&q=80&w=1000" alt="Making Tea" class="w-100 h-100 about-style-3dc462" style="object-fit: cover;">
+                </div>
             </div>
-            <div class="col-lg-6">
-                <h3 class="font-serif fw-bold text-forest mb-3">Tôn Chỉ Của Chúng Tôi</h3>
+            <div class="col-lg-5 offset-lg-1">
+                <span class="small-label mb-3 d-inline-block">OUR STORY</span>
+                <h2 class="mb-4 font-serif fw-bold">Từ tình yêu với trà<br>đến một thương hiệu riêng</h2>
                 <p class="text-muted mb-4">
-                    Tại VAA THÉ, từng công đoạn pha chế đều được thực hiện theo tiêu chuẩn khắt khe: nước trà được hãm ở nhiệt độ và thời gian tối ưu, sữa tươi thanh trùng nguồn gốc chọn lọc, và trân châu thủ công nấu mới mỗi 3 giờ.
+                    VAA THÉ bắt đầu từ tình yêu mãnh liệt với trà và khát khao mang đến những thức uống chất lượng nhất. Chúng tôi không ngừng tìm tòi, thử nghiệm để tạo ra sự kết hợp hoàn hảo giữa hương vị trà truyền thống đậm đà và phong cách pha chế hiện đại, tươi trẻ.
                 </p>
-                <div class="row g-3">
-                    <div class="col-6">
-                        <div class="border-start border-3 border-caramel ps-3">
-                            <h5 class="fw-bold mb-1 text-forest">100% Tự Nhiên</h5>
-                            <small class="text-muted">Không phẩm màu hay hương liệu hoá học</small>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="border-start border-3 border-caramel ps-3">
-                            <h5 class="fw-bold mb-1 text-forest">Tươi Mới Mỗi Ngày</h5>
-                            <small class="text-muted">Nguyên liệu được chuẩn bị mới trong ngày</small>
-                        </div>
-                    </div>
+                <p class="text-muted mb-5">
+                    Mỗi ly trà tại VAA THÉ không chỉ là một thức uống giải khát, mà là một tác phẩm nghệ thuật nhỏ bé mang trong mình sự tận tâm của người pha chế, gửi gắm niềm vui và năng lượng tích cực đến bạn mỗi ngày.
+                </p>
+                <a href="<?= e(url('products')) ?>" class="link-caramel fw-bold about-style-e7ec96">Khám phá menu <i class="fa-solid fa-arrow-right ms-2"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- OUR PHILOSOPHY -->
+<section class="section-padding bg-ivory fade-up py-5">
+    <div class="container px-4 px-lg-5">
+        <div class="text-center mb-5">
+            <span class="small-label mb-2 d-inline-block">OUR PHILOSOPHY</span>
+            <h2 class="font-serif fw-bold">Đơn giản trong nguyên liệu,<br>tinh tế trong từng trải nghiệm.</h2>
+        </div>
+        
+        <div class="row g-5 mt-4">
+            <div class="col-md-4">
+                <div class="text-center px-lg-3">
+                    <div class="philosophy-number">01</div>
+                    <h5 class="fw-bold mb-3 mt-3">QUALITY<br><span class="fs-6 fw-normal text-muted">Chất lượng</span></h5>
+                    <p class="text-muted small">Khắt khe trong việc lựa chọn nguyên liệu đầu vào. Trà phải ngon, sữa phải tươi, và topping phải chuẩn vị.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center px-lg-3 border-start border-end border-light">
+                    <div class="philosophy-number">02</div>
+                    <h5 class="fw-bold mb-3 mt-3">CRAFT<br><span class="fs-6 fw-normal text-muted">Tận tâm</span></h5>
+                    <p class="text-muted small">Nghệ thuật pha chế tỉ mỉ. Lắng nghe từng công đoạn để đánh thức trọn vẹn hương vị tinh túy nhất của trà.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center px-lg-3">
+                    <div class="philosophy-number">03</div>
+                    <h5 class="fw-bold mb-3 mt-3">EMOTION<br><span class="fs-6 fw-normal text-muted">Cảm xúc</span></h5>
+                    <p class="text-muted small">Chúng tôi bán một trải nghiệm mang lại niềm vui. Một không gian ấm áp và một ly trà xoa dịu tâm hồn.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- THE CRAFT -->
+<section class="section-padding bg-white fade-up py-5">
+    <div class="container px-4 px-lg-5">
+        <div class="text-center mb-5">
+            <span class="small-label mb-2 d-inline-block">THE CRAFT</span>
+            <h2 class="font-serif fw-bold">Nghệ thuật tạo nên<br>một ly trà hoàn hảo</h2>
+        </div>
+        
+        <div class="rounded-4 overflow-hidden shadow-lg mb-5 about-style-faa395" style="max-height: 480px;">
+            <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&q=80&w=1200" alt="The Craft" class="w-100 h-100 about-style-3dc462" style="object-fit: cover;">
+        </div>
+        
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4 text-center">
+                <h3 class="font-serif text-sage mb-2">01</h3>
+                <h6 class="fw-bold mb-2">CHỌN TRÀ</h6>
+                <p class="text-muted small px-3">Ủ trà ở nhiệt độ chuẩn xác để đánh thức hương vị tinh túy nhất mà không làm mất đi các dưỡng chất.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <h3 class="font-serif text-sage mb-2">02</h3>
+                <h6 class="fw-bold mb-2">PHA CHẾ</h6>
+                <p class="text-muted small px-3">Sự nhịp nhàng trong kỹ thuật "shaking" kết hợp giữa cốt trà, sữa và đá lạnh tạo nên bọt trà mềm mịn.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <h3 class="font-serif text-sage mb-2">03</h3>
+                <h6 class="fw-bold mb-2">HOÀN THIỆN</h6>
+                <p class="text-muted small px-3">Tỉ mỉ thêm vào lớp topping và kiểm tra kỹ lưỡng trước khi trao đến tay khách hàng ly trà tuyệt vời nhất.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SIGNATURE MOMENT -->
+<section class="signature-moment section-padding fade-up py-5 bg-cream">
+    <div class="container px-4 px-lg-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="rounded-4 overflow-hidden shadow-sm about-style-ff89c5">
+                    <img src="https://images.unsplash.com/photo-1527661591475-527312dd65f5?auto=format&fit=crop&q=80&w=1000" alt="Signature Tea" class="w-100 h-100 about-style-89d244" style="object-fit: cover;">
+                </div>
+            </div>
+            <div class="col-lg-5 offset-lg-1">
+                <h2 class="font-serif text-caramel fs-1 fst-italic mb-4">GOOD TEA<br>GOOD MOOD</h2>
+                <p class="fs-5 mb-5 about-style-46f964 text-muted">
+                    Chúng tôi tin rằng một ly trà ngon có quyền năng kỳ diệu có thể làm một ngày của bạn trở nên tốt đẹp hơn, xua tan đi những mệt mỏi và mang lại nguồn năng lượng mới.
+                </p>
+                <a href="<?= e(url('products')) ?>" class="btn-vaa btn-outline-forest about-style-624f19">Khám phá sản phẩm <i class="fa-solid fa-arrow-right ms-2"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BRAND COMMITMENT -->
+<section class="section-padding bg-ivory fade-up py-5">
+    <div class="container px-4 px-lg-5">
+        <div class="text-center mb-5">
+            <h2 class="mb-4 font-serif fw-bold">Cam kết của VAA THÉ</h2>
+        </div>
+        
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-6 col-lg-3">
+                <div class="commitment-item p-4 bg-white rounded-4 shadow-sm text-center">
+                    <div class="commitment-icon text-caramel fs-2 mb-3"><i class="fa-solid fa-check"></i></div>
+                    <span class="fw-bold small d-block">Nguyên liệu được chọn lọc</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="commitment-item p-4 bg-white rounded-4 shadow-sm text-center">
+                    <div class="commitment-icon text-caramel fs-2 mb-3"><i class="fa-solid fa-check"></i></div>
+                    <span class="fw-bold small d-block">Pha chế chú trọng chất lượng</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="commitment-item p-4 bg-white rounded-4 shadow-sm text-center">
+                    <div class="commitment-icon text-caramel fs-2 mb-3"><i class="fa-solid fa-check"></i></div>
+                    <span class="fw-bold small d-block">Hương vị luôn cân bằng</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="commitment-item p-4 bg-white rounded-4 shadow-sm text-center">
+                    <div class="commitment-icon text-caramel fs-2 mb-3"><i class="fa-solid fa-check"></i></div>
+                    <span class="fw-bold small d-block">Trải nghiệm khách hàng tối đa</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- END CTA -->
+<section class="end-cta-section fade-up text-center py-5 bg-forest text-white">
+    <div class="container px-4 px-lg-5 py-4">
+        <div class="mb-4">
+            <i class="fa-solid fa-mug-hot text-caramel fs-1"></i>
+        </div>
+        <h2 class="mb-4 font-serif">Đã đến lúc tìm thấy<br>hương vị của riêng bạn.</h2>
+        <a href="<?= e(url('products')) ?>" class="btn-vaa btn-caramel px-5 py-3 fs-6">KHÁM PHÁ MENU <i class="fa-solid fa-arrow-right ms-2"></i></a>
+    </div>
+</section>

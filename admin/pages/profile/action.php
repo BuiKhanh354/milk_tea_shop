@@ -39,3 +39,4 @@ $user = db()->fetchOne("SELECT * FROM users WHERE id = ?", [$userId]);
 if (!$user) {
     redirect(admin_url('login'));
 }
+

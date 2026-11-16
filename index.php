@@ -6,20 +6,30 @@ $routes = array(
     'home'           => 'home/index.php',
     'products'       => 'products/index.php',
     'product-detail' => 'product-detail/index.php',
+    'product_detail' => 'product-detail/index.php',
     'cart'           => 'cart/index.php',
     'checkout'       => 'checkout/index.php',
     'about'          => 'about/index.php',
     'contact'        => 'contact/index.php',
     'stores'         => 'stores/index.php',
     'yeuthich'       => 'yeuthich/index.php',
+    'favorites'      => 'yeuthich/index.php',
     'login'          => 'auth/login.php',
     'register'       => 'auth/register.php',
     'logout'         => 'auth/logout.php',
     'profile'        => 'profile/index.php',
+    'password'       => 'profile/index.php',
     'orders'         => 'orders/index.php',
+    'order-detail'   => 'orders/detail.php',
 );
 
-$page = $_GET['page'] ?? 'home';
+$rawParam = $_GET['page'] ?? ($_GET['route'] ?? 'home');
+$aliases = array(
+    'product_detail' => 'product-detail',
+    'favorites'      => 'yeuthich',
+    'password'       => 'profile',
+);
+$page = $aliases[$rawParam] ?? $rawParam;
 
 if (!is_string($page) || !isset($routes[$page])) {
     http_response_code(404);
