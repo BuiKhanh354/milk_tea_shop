@@ -1,11 +1,11 @@
 <?php
-// admin/pages/shift_sessions/action.php — Phiên ca làm việc
+// admin/pages/shift_sessions/action.php — Phiên ca làm việc chuẩn gốc VAA THÉ
 $action = get_param('action', '');
 $userId = (int)($_SESSION['user_id'] ?? 1);
 $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 
 // Xử lý POST Mở ca
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'storeOpen') {
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && $action === 'storeOpen') {
     $shiftId = (int)post_param('shift_id');
     $initialCash = (float)str_replace(['.', ',', ' '], '', post_param('initial_cash', '0'));
     $note = post_param('note');
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'storeOpen') {
 }
 
 // Xử lý POST Đóng ca
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'storeClose') {
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && $action === 'storeClose') {
     $sessionId = (int)post_param('session_id');
     $actualCash = (float)str_replace(['.', ',', ' '], '', post_param('actual_cash', '0'));
     $cashReason = post_param('cash_difference_reason');
@@ -68,20 +68,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'storeClose') {
         if ($session) {
             $initialCash = (float)$session['initial_cash'];
             
-            // Tính doanh số tiền mặt trong ca
-            $cashOrders = db()->fetchOne("SELECT COALESCE(SUM(o.final_amount), 0) as cash_total 
+            // Tự động liên kết các đơn hàng phát sinh trong ca chưa gán shift_session_id
+            db()->execute("UPDATE orders SET shift_session_id = ? 
+                           WHERE (shift_session_id IS NULL OR shift_session_id = 0) 
+                             AND created_at >= ? AND created_at <= NOW()", 
+                           [$sessionId, $session['opened_at']]);
+
+            // Tính doanh số theo phương thức thanh toán
+            $summaryCash = db()->fetchOne("SELECT 
+                COALESCE(SUM(CASE WHEN LOWER(p.method) IN ('cash', 'tiền mặt', 'cod') OR p.method IS NULL THEN o.final_amount ELSE 0 END), 0) as cash_sales,
+                COALESCE(SUM(CASE WHEN LOWER(p.method) IN ('bank_transfer', 'chuyển khoản', 'bank') THEN o.final_amount ELSE 0 END), 0) as bank_sales,
+                COALESCE(SUM(CASE WHEN LOWER(p.method) IN ('momo', 'ví momo') THEN o.final_amount ELSE 0 END), 0) as momo_sales,
+                COALESCE(SUM(o.final_amount), 0) as total_sales,
+                COUNT(o.id) as total_orders
                 FROM orders o 
                 LEFT JOIN payments p ON o.id = p.order_id 
-                WHERE o.shift_session_id = ? AND (LOWER(p.method) IN ('cash', 'tiền mặt') OR p.method IS NULL)", [$sessionId]);
-            $cashSales = (float)($cashOrders['cash_total'] ?? 0);
+                WHERE o.shift_session_id = ? AND o.status != 'cancelled'", [$sessionId]);
+
+            $cashSales = (float)($summaryCash['cash_sales'] ?? 0);
+            $bankSales = (float)($summaryCash['bank_sales'] ?? 0);
+            $momoSales = (float)($summaryCash['momo_sales'] ?? 0);
+            $totalSales = (float)($summaryCash['total_sales'] ?? 0);
             $expectedCash = $initialCash + $cashSales;
             $cashDiff = $actualCash - $expectedCash;
 
-            $totalSalesRow = db()->fetchOne("SELECT COALESCE(SUM(final_amount), 0) as total FROM orders WHERE shift_session_id = ?", [$sessionId]);
-            $totalSales = (float)($totalSalesRow['total'] ?? 0);
-
-            db()->execute("UPDATE shift_sessions SET closed_at = NOW(), actual_cash = ?, expected_cash = ?, total_sales = ?, cash_difference = ?, cash_difference_reason = ?, status = 'closed', note = CONCAT(COALESCE(note, ''), ' | ', ?) WHERE id = ?", 
-                          [$actualCash, $expectedCash, $totalSales, $cashDiff, $cashReason, $note, $sessionId]);
+            db()->execute("UPDATE shift_sessions SET 
+                closed_at = NOW(), 
+                cash_sales = ?, 
+                bank_sales = ?, 
+                momo_sales = ?, 
+                total_sales = ?, 
+                expected_cash = ?, 
+                actual_cash = ?, 
+                cash_difference = ?, 
+                cash_difference_reason = ?, 
+                status = 'closed', 
+                note = CONCAT(COALESCE(note, ''), ' | ', ?) 
+                WHERE id = ?", 
+                [$cashSales, $bankSales, $momoSales, $totalSales, $expectedCash, $actualCash, $cashDiff, $cashReason, $note, $sessionId]);
 
             // Cập nhật nguyên liệu cuối ca
             foreach ($inventoryEndings as $invId => $endData) {
@@ -98,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'storeClose') {
                 db()->execute("UPDATE employee_shifts SET status = 'completed' WHERE id = ?", [$session['employee_shift_id']]);
             }
 
-            set_flash('success', "Kết ca thành công! Tiền két chốt: " . money($actualCash));
+            set_flash('success', "Kết ca thành công! Doanh thu: " . money($totalSales) . " - Tiền két chốt: " . money($actualCash));
             redirect(admin_url('shift_sessions', ['action' => 'show', 'id' => $sessionId]));
         }
     }
@@ -126,8 +150,15 @@ if ($action === 'open') {
         redirect(admin_url('shift_sessions', ['action' => 'open']));
     }
     $sessionId = (int)$currentOpenSession['id'];
+
+    // Tự động liên kết các đơn hàng tạo trong thời gian ca đang mở
+    db()->execute("UPDATE orders SET shift_session_id = ? 
+                   WHERE (shift_session_id IS NULL OR shift_session_id = 0) 
+                     AND created_at >= ? AND created_at <= NOW()", 
+                   [$sessionId, $currentOpenSession['opened_at']]);
+
     $summaryCash = db()->fetchOne("SELECT 
-        COALESCE(SUM(CASE WHEN LOWER(p.method) IN ('cash', 'tiền mặt') OR p.method IS NULL THEN o.final_amount ELSE 0 END), 0) as cash_sales,
+        COALESCE(SUM(CASE WHEN LOWER(p.method) IN ('cash', 'tiền mặt', 'cod') OR p.method IS NULL THEN o.final_amount ELSE 0 END), 0) as cash_sales,
         COALESCE(SUM(CASE WHEN LOWER(p.method) IN ('bank_transfer', 'chuyển khoản', 'bank') THEN o.final_amount ELSE 0 END), 0) as bank_sales,
         COALESCE(SUM(CASE WHEN LOWER(p.method) IN ('momo', 'ví momo') THEN o.final_amount ELSE 0 END), 0) as momo_sales,
         COALESCE(SUM(o.final_amount), 0) as total_sales,
@@ -135,7 +166,7 @@ if ($action === 'open') {
         COUNT(CASE WHEN o.status = 'completed' THEN 1 END) as completed_orders
         FROM orders o 
         LEFT JOIN payments p ON o.id = p.order_id 
-        WHERE o.shift_session_id = ?", [$sessionId]);
+        WHERE o.shift_session_id = ? AND o.status != 'cancelled'", [$sessionId]);
     
     $summary = array_merge($currentOpenSession, $summaryCash ?: []);
     $summary['expected_cash'] = (float)$currentOpenSession['initial_cash'] + (float)($summary['cash_sales'] ?? 0);
@@ -158,16 +189,59 @@ if ($action === 'open') {
     if (!$session) {
         redirect(admin_url('shift_sessions'));
     }
-    $inventoryDetails = db()->fetchAll("SELECT ssi.*, i.ingredient_name, i.unit 
-        FROM shift_session_inventory ssi 
-        JOIN inventory i ON ssi.inventory_id = i.id 
-        WHERE ssi.session_id = ? 
-        ORDER BY i.id ASC", [$id]);
+
+    // Tự động liên kết các đơn hàng phát sinh trong ca nếu chưa được gán shift_session_id
+    $closedAt = !empty($session['closed_at']) ? $session['closed_at'] : date('Y-m-d H:i:s');
+    db()->execute("UPDATE orders SET shift_session_id = ? 
+                   WHERE (shift_session_id IS NULL OR shift_session_id = 0) 
+                     AND created_at >= ? AND created_at <= ?", 
+                   [$id, $session['opened_at'], $closedAt]);
+
     $orders = db()->fetchAll("SELECT o.*, COALESCE(p.method, 'Tiền mặt') as payment_method 
         FROM orders o 
         LEFT JOIN payments p ON o.id = p.order_id 
         WHERE o.shift_session_id = ? 
         ORDER BY o.created_at DESC", [$id]);
+
+    // Tính toán tổng kết doanh số thực tế từ các đơn hàng trong ca
+    $realCashSales = 0;
+    $realBankSales = 0;
+    $realMomoSales = 0;
+    $realTotalSales = 0;
+
+    foreach ($orders as $ord) {
+        if ($ord['status'] === 'cancelled') continue;
+        $amt = (float)$ord['final_amount'];
+        $realTotalSales += $amt;
+        $m = strtolower(trim((string)$ord['payment_method']));
+        if (in_array($m, ['bank_transfer', 'chuyển khoản', 'bank'])) {
+            $realBankSales += $amt;
+        } elseif (in_array($m, ['momo', 'ví momo'])) {
+            $realMomoSales += $amt;
+        } else {
+            $realCashSales += $amt;
+        }
+    }
+
+    // Cập nhật lại số liệu nếu tổng kết trong DB trước đó là 0 mà thực tế có đơn hàng
+    if (((float)$session['total_sales'] == 0 && $realTotalSales > 0) || ((float)$session['cash_sales'] == 0 && $realCashSales > 0)) {
+        $session['total_sales'] = $realTotalSales;
+        $session['cash_sales'] = $realCashSales;
+        $session['bank_sales'] = $realBankSales;
+        $session['momo_sales'] = $realMomoSales;
+        $session['expected_cash'] = (float)$session['initial_cash'] + $realCashSales;
+        $session['cash_difference'] = (float)$session['actual_cash'] - (float)$session['expected_cash'];
+
+        db()->execute("UPDATE shift_sessions SET cash_sales = ?, bank_sales = ?, momo_sales = ?, total_sales = ?, expected_cash = ?, cash_difference = ? WHERE id = ?",
+            [$realCashSales, $realBankSales, $realMomoSales, $realTotalSales, $session['expected_cash'], $session['cash_difference'], $id]);
+    }
+
+    $inventoryDetails = db()->fetchAll("SELECT ssi.*, i.ingredient_name, i.unit 
+        FROM shift_session_inventory ssi 
+        JOIN inventory i ON ssi.inventory_id = i.id 
+        WHERE ssi.session_id = ? 
+        ORDER BY i.id ASC", [$id]);
+
     $pageTitle = 'Biên bản bàn giao ca #' . $session['session_code'];
 } else {
     $sessions = db()->fetchAll("SELECT s.*, u.full_name as user_name, sh.name as shift_name,
@@ -178,4 +252,3 @@ if ($action === 'open') {
         ORDER BY s.opened_at DESC LIMIT 50");
     $pageTitle = 'Quản lý Ca làm & Bàn giao';
 }
-
