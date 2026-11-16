@@ -257,6 +257,13 @@
                     <dt class="col-sm-4">Kích cỡ</dt>
                     <dd class="col-sm-8"><?= e(implode(', ', array_column($sizes, 'name'))) ?></dd>
 
+                    <dt class="col-sm-4">Topping áp dụng</dt>
+                    <dd class="col-sm-8">
+                        <?= !empty($toppings)
+                            ? e(implode(', ', array_column($toppings, 'name')))
+                            : 'Món này không áp dụng topping.' ?>
+                    </dd>
+
                     <dt class="col-sm-4">Nguyên liệu theo công thức</dt>
                     <dd class="col-sm-8">
                         <?= !empty($ingredientNames)
