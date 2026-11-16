@@ -88,6 +88,9 @@
                         </td>
                         <td class="text-muted"><?= e($product['date']) ?></td>
                         <td class="text-end pe-4">
+                            <a href="<?= e(url('product-detail', ['id' => $product['id']])) ?>" target="_blank" class="btn btn-sm btn-light border shadow-none me-1" title="Xem trên website">
+                                <i class="fa-solid fa-arrow-up-right-from-square text-forest"></i>
+                            </a>
                             <a href="<?= e(admin_url('product-edit', ['id' => $product['id']])) ?>" class="btn btn-sm btn-light border shadow-none me-1" title="Xem/Sửa">
                                 <i class="fa-solid fa-pen text-muted"></i>
                             </a>

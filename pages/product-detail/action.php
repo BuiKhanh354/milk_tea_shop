@@ -30,7 +30,7 @@ if (!empty($reviews)) {
     $sum = array_sum(array_column($reviews, 'rating'));
     $product['rating'] = round($sum / count($reviews), 1);
 } else {
-    $product['rating'] = 5.0;
+    $product['rating'] = 0.0;
 }
 
 // Sản phẩm liên quan

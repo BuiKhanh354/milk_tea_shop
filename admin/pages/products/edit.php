@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $imageFileName = $product['image'];
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = __DIR__ . '/../../public/assets/images/products/';
+        $uploadDir = dirname(__DIR__, 3) . '/public/assets/images/products/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
@@ -71,8 +71,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="<?= e(admin_url('products')) ?>" class="btn btn-light border shadow-none rounded-circle" style="width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;">
             <i class="fa-solid fa-arrow-left"></i>
         </a>
-        <h4 class="font-serif fw-bold text-dark mb-0">Chỉnh sửa sản phẩm</h4>
+        <h4 class="font-serif fw-bold text-dark mb-0">Chỉnh sửa sản phẩm: <?= e($product['name']) ?></h4>
     </div>
+    <a href="<?= e(url('product-detail', ['id' => $product['id']])) ?>" target="_blank" class="btn btn-outline-forest rounded-pill px-4 fw-medium">
+        <i class="fa-solid fa-arrow-up-right-from-square me-2"></i>Xem trên website
+    </a>
 </div>
 
 <?php if (!empty($errors)): ?>

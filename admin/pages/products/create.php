@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $imageFileName = '';
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = __DIR__ . '/../../public/assets/images/products/';
+        $uploadDir = dirname(__DIR__, 3) . '/public/assets/images/products/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }

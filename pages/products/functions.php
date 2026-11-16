@@ -50,26 +50,24 @@ function products_get_paginated($page = 1, $limit = 8, $filters = array())
     );
 }
 
-function product_get_by_id($id)
+function product_get_by_id($id, $includeHidden = false)
 {
+    $statusClause = ($includeHidden || isset($_SESSION['user_id'])) ? "" : "AND p.status = 1";
     $sql = "SELECT p.*, c.name as category_name 
             FROM products p 
             LEFT JOIN categories c ON p.category_id = c.id 
-            WHERE p.id = ? AND p.status = 1";
+            WHERE p.id = ? $statusClause";
     return db()->fetchOne($sql, array((int)$id));
 }
 
 function product_get_toppings($productId = null)
 {
-    if ($productId) {
+    if ($productId !== null) {
         $sql = "SELECT t.* FROM toppings t
                 JOIN product_toppings pt ON t.id = pt.topping_id
                 WHERE pt.product_id = ? AND (t.status = 'available' OR t.status = 1)
                 ORDER BY t.price ASC";
-        $toppings = db()->fetchAll($sql, array((int)$productId));
-        if (!empty($toppings)) {
-            return $toppings;
-        }
+        return db()->fetchAll($sql, array((int)$productId));
     }
     
     $sql = "SELECT * FROM toppings WHERE status = 'available' OR status = 1 ORDER BY price ASC";
@@ -133,15 +131,7 @@ function product_get_reviews($productId)
             JOIN customers c ON r.customer_id = c.id 
             WHERE r.product_id = ? AND (r.status = 1 OR r.status IS NULL) 
             ORDER BY r.created_at DESC";
-    $reviews = db()->fetchAll($sql, array((int)$productId));
-    if (empty($reviews)) {
-        $reviews = array(
-            array('name' => 'Nguyễn Minh Anh', 'date' => '12/10/2026', 'rating' => 5, 'comment' => 'Vị trà thơm tự nhiên, độ ngọt vừa vặn rất hợp gu mình.'),
-            array('name' => 'Trần Hoàng Long', 'date' => '05/10/2026', 'rating' => 5, 'comment' => 'Trân châu mềm dai, uống không bị gắt cổ. Sẽ ủng hộ dài dài!'),
-            array('name' => 'Lê Phương Thảo', 'date' => '28/09/2026', 'rating' => 4, 'comment' => 'Đóng gói cẩn thận, ly giữ nhiệt tốt và giao hàng nhanh.'),
-        );
-    }
-    return $reviews;
+    return db()->fetchAll($sql, array((int)$productId));
 }
 
 function product_is_favorited($customerId, $productId)
