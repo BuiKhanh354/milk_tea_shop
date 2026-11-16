@@ -280,7 +280,7 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
     <div class="admin-main-wrapper">
         
         <!-- Topbar Chuẩn Gốc -->
-        <header class="admin-topbar d-flex align-items-center justify-content-between px-4 py-3 bg-white border-bottom shadow-sm">
+        <header class="admin-topbar d-flex align-items-center justify-content-between px-4">
             <!-- Left side: Hamburger on mobile + Breadcrumb -->
             <div class="d-flex align-items-center gap-3">
                 <button class="btn btn-light d-lg-none btn-menu-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
@@ -297,7 +297,7 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
 
             <!-- Right side: Search, Shift Session Badge, Notification, User Dropdown -->
             <div class="d-flex align-items-center gap-3">
-                <div class="search-box d-none d-md-flex align-items-center bg-light rounded-pill px-3 py-2 border">
+                <div class="search-box d-none d-md-flex align-items-center bg-light rounded-pill px-3 py-2">
                     <i class="fa-solid fa-magnifying-glass text-muted"></i>
                     <input type="text" class="border-0 bg-transparent ms-2" placeholder="Tìm kiếm..." style="outline: none; font-size: 0.875rem;">
                 </div>

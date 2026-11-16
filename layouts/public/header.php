@@ -1,7 +1,7 @@
 <?php
 // layouts/public/header.php — Header chuẩn giao diện VAA THÉ gốc
 $pageTitle = $title ?? 'VAA THÉ';
-$currentActiveNav = get_param('page', 'home');
+$currentActiveNav = $page ?? get_param('page', get_param('route', 'home'));
 $isAuthPage = in_array($currentActiveNav, array('login', 'register'), true);
 
 $is_logged_in = isset($_SESSION['customer_id']);
@@ -24,6 +24,11 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
     <?= csrf_meta() ?>
     <title><?= e($pageTitle) ?> - VAA THÉ</title>
     
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     
@@ -67,10 +72,10 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
             <!-- Center Menu -->
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center text-lg-start mt-4 mt-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link <?= $currentActiveNav === 'home' ? 'active' : '' ?>" href="<?= e(url('home')) ?>">Trang chủ</a>
+                    <a class="nav-link <?= in_array($currentActiveNav, ['home', ''], true) ? 'active' : '' ?>" href="<?= e(url('home')) ?>">Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= $currentActiveNav === 'products' ? 'active' : '' ?>" href="<?= e(url('products')) ?>">Sản phẩm</a>
+                    <a class="nav-link <?= in_array($currentActiveNav, ['products', 'product-detail', 'product_detail'], true) ? 'active' : '' ?>" href="<?= e(url('products')) ?>">Sản phẩm</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <?= $currentActiveNav === 'stores' ? 'active' : '' ?>" href="<?= e(url('stores')) ?>">Cửa hàng</a>
@@ -85,14 +90,9 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
 
             <!-- Right Actions -->
             <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                <!-- Search link -->
+                <!-- Search -->
                 <a href="<?= e(url('products')) ?>" class="text-forest text-decoration-none fs-5 transition-fast hover-caramel" title="Tìm kiếm">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                </a>
-
-                <!-- Favorites link -->
-                <a href="<?= e(url('yeuthich')) ?>" class="text-forest text-decoration-none fs-5 transition-fast hover-caramel" title="Yêu thích">
-                    <i class="fa-regular fa-heart"></i>
                 </a>
                 
                 <!-- Account -->
@@ -142,4 +142,4 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
 </nav>
 
 <!-- Spacer to prevent content overlapping with fixed navbar -->
-<div class="global-style-849459" style="height: 90px;"></div>
+<div class="global-style-849459"></div>
