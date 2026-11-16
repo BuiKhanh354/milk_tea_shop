@@ -178,3 +178,4 @@ if ($action === 'open') {
         ORDER BY s.opened_at DESC LIMIT 50");
     $pageTitle = 'Quản lý Ca làm & Bàn giao';
 }
+

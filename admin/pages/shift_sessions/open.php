@@ -118,3 +118,4 @@ function setCash(amount) {
     document.getElementById('initialCashInput').value = new Intl.NumberFormat('vi-VN').format(amount);
 }
 </script>
+

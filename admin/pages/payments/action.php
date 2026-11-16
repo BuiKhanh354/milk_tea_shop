@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'update_status') {
         if ($status === 'paid') {
             $payment = db()->fetchOne("SELECT order_id FROM payments WHERE id = ?", [$id]);
             if ($payment && !empty($payment['order_id'])) {
-                db()->execute("UPDATE orders SET payment_status = 'paid' WHERE id = ?", [$payment['order_id']]);
+                db()->execute("UPDATE orders SET status = 'confirmed' WHERE id = ? AND status = 'pending'", [$payment['order_id']]);
             }
         }
         set_flash('success', "Cập nhật trạng thái thanh toán thành công!");
@@ -28,8 +28,9 @@ $conditions = [];
 $params = [];
 
 if ($search !== '') {
-    $conditions[] = "(p.transaction_code LIKE ? OR o.order_number LIKE ? OR c.full_name LIKE ?)";
+    $conditions[] = "(p.transaction_code LIKE ? OR CONCAT('ORD', o.id) LIKE ? OR o.id LIKE ? OR c.full_name LIKE ?)";
     $like = '%' . $search . '%';
+    $params[] = $like;
     $params[] = $like;
     $params[] = $like;
     $params[] = $like;
@@ -47,7 +48,7 @@ if ($status !== '') {
 
 $whereClause = !empty($conditions) ? "WHERE " . implode(" AND ", $conditions) : "";
 
-$payments = db()->fetchAll("SELECT p.*, o.order_number, o.status as order_status, c.full_name as customer_name 
+$payments = db()->fetchAll("SELECT p.*, o.id as order_id, o.status as order_status, c.full_name as customer_name 
     FROM payments p 
     LEFT JOIN orders o ON p.order_id = o.id 
     LEFT JOIN customers c ON o.customer_id = c.id 
@@ -78,3 +79,4 @@ foreach ($payments as $p) {
 }
 
 $pageTitle = 'Quản lý thanh toán';
+

@@ -80,7 +80,7 @@
                             </td>
                             <td>
                                 <a href="<?= e(admin_url('order-detail', ['id' => $p['order_id']])) ?>" class="fw-bold text-forest text-decoration-none">
-                                    #<?= e($p['order_number'] ?: $p['order_id']) ?>
+                                    #ORD<?= str_pad($p['order_id'], 3, '0', STR_PAD_LEFT) ?>
                                 </a>
                             </td>
                             <td><?= e($p['customer_name'] ?? 'Khách vãng lai') ?></td>
@@ -142,3 +142,4 @@
         </div>
     </div>
 </div>
+

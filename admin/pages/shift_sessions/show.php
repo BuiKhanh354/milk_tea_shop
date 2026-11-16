@@ -72,7 +72,7 @@
                         <tr>
                             <td class="ps-4 fw-bold font-monospace">
                                 <a href="<?= e(admin_url('order-detail', ['id' => $ord['id']])) ?>" class="text-forest text-decoration-none">
-                                    #<?= e($ord['order_number'] ?? $ord['id']) ?>
+                                    #ORD<?= str_pad($ord['id'], 3, '0', STR_PAD_LEFT) ?>
                                 </a>
                             </td>
                             <td class="small text-muted"><?= date('H:i:s d/m/Y', strtotime($ord['created_at'])) ?></td>
@@ -89,3 +89,4 @@
         </div>
     </div>
 </div>
+

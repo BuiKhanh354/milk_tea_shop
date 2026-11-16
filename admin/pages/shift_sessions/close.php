@@ -118,3 +118,4 @@ function calcCashDiff(input) {
     input.value = new Intl.NumberFormat('vi-VN').format(numVal);
 }
 </script>
+
