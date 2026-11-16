@@ -1,6 +1,9 @@
 <?php
 // admin/pages/products/edit.php — Chỉnh sửa sản phẩm chuẩn gốc VAA THÉ
 $id = (int)get_param('id');
+if ($id <= 0) {
+    $id = (int)post_param('id');
+}
 $product = db()->fetchOne("SELECT * FROM products WHERE id = ?", [$id]);
 if (!$product) {
     set_flash('error', 'Không tìm thấy sản phẩm yêu cầu.');
