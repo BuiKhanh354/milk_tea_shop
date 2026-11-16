@@ -1,11 +1,12 @@
 <?php
-// pages/cart/action.php — Xử lý logic giỏ hàng (Thêm, Sửa số lượng, Xóa) chuẩn gốc hỗ trợ cả Form POST và Fetch/AJAX
+// pages/cart/action.php — Xử lý logic giỏ hàng (Thêm, Sửa số lượng, Xóa) chuẩn gốc hỗ trợ cả Form POST, Fetch/AJAX và GET
 $action = get_param('action', 'view');
 
 $isAjax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
           || (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false)
           || isset($_POST['product_name'])
-          || isset($_POST['base_price']);
+          || isset($_POST['base_price'])
+          || isset($_POST['cart_id']);
 
 if ($action === 'add' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $productId = isset($_POST['product_id']) ? (int)$_POST['product_id'] : 0;
@@ -26,12 +27,15 @@ if ($action === 'add' && $_SERVER['REQUEST_METHOD'] === 'POST') {
                 $sizePrice = (float)$sizeRow['extra_price'];
             }
         } elseif (!empty($sizeName)) {
-            $sizeRow = db()->fetchOne("SELECT * FROM sizes WHERE name = ? OR code = ?", [$sizeName, $sizeName]);
+            $sizeRow = db()->fetchOne("SELECT * FROM sizes WHERE name = ?", [$sizeName]);
             if ($sizeRow) {
                 $sizeId = (int)$sizeRow['id'];
                 $sizePrice = (float)$sizeRow['extra_price'];
             }
         }
+
+        // Temperature (hot / cold)
+        $temperature = $_POST['temperature'] ?? 'cold';
 
         // Sugar
         $sugarId = isset($_POST['sugar_id']) ? (int)$_POST['sugar_id'] : null;
@@ -43,8 +47,8 @@ if ($action === 'add' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Ice
         $iceId = isset($_POST['ice_id']) ? (int)$_POST['ice_id'] : null;
-        $iceName = $_POST['ice'] ?? '';
-        if ($iceId) {
+        $iceName = ($temperature === 'hot') ? '' : ($_POST['ice'] ?? '');
+        if ($iceId && $temperature !== 'hot') {
             $iceRow = db()->fetchOne("SELECT * FROM item_options WHERE id = ?", [$iceId]);
             if ($iceRow) $iceName = $iceRow['name'];
         }
@@ -76,30 +80,34 @@ if ($action === 'add' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         $basePrice = (float)$product['price'];
         $unitPrice = $basePrice + $sizePrice + $toppingsPrice;
 
-        // Unique item key
+        // Unique cart ID
         $toppingIds = array_column($selectedToppings, 'id');
         sort($toppingIds);
-        $itemKey = md5($productId . '_' . ($sizeName ?: ($sizeId ?? '')) . '_' . ($sugarName ?: ($sugarId ?? '')) . '_' . ($iceName ?: ($iceId ?? '')) . '_' . implode('-', $toppingIds));
+        $cartId = md5($productId . '_' . ($sizeName ?: ($sizeId ?? '')) . '_' . ($sugarName ?: ($sugarId ?? '')) . '_' . ($iceName ?: ($iceId ?? '')) . '_' . $temperature . '_' . implode('-', $toppingIds));
 
         if (!isset($_SESSION['cart']) || !is_array($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
 
-        if (isset($_SESSION['cart'][$itemKey])) {
-            $_SESSION['cart'][$itemKey]['quantity'] += $quantity;
+        if (isset($_SESSION['cart'][$cartId])) {
+            $_SESSION['cart'][$cartId]['quantity'] += $quantity;
         } else {
-            $_SESSION['cart'][$itemKey] = [
-                'item_key'     => $itemKey,
-                'cart_id'      => $itemKey,
+            $_SESSION['cart'][$cartId] = [
+                'cart_id'      => $cartId,
+                'item_key'     => $cartId,
                 'product_id'   => $product['id'],
                 'product_name' => $product['name'],
                 'name'         => $product['name'],
                 'image'        => product_image($product['image']),
                 'base_price'   => $basePrice,
+                'size'         => $sizeName ?: 'Tiêu chuẩn',
                 'size_name'    => $sizeName ?: 'Tiêu chuẩn',
                 'size_id'      => $sizeId,
+                'temperature'  => $temperature,
+                'sugar'        => $sugarName,
                 'sugar_name'   => $sugarName ?: 'Tiêu chuẩn',
                 'sugar_id'     => $sugarId,
+                'ice'          => $iceName,
                 'ice_name'     => $iceName ?: 'Tiêu chuẩn',
                 'ice_id'       => $iceId,
                 'toppings'     => $selectedToppings,
@@ -111,7 +119,7 @@ if ($action === 'add' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $cartCount = 0;
         foreach ($_SESSION['cart'] as $it) {
-            $cartCount += $it['quantity'];
+            $cartCount += $it['quantity'] ?? 1;
         }
 
         if ($isAjax) {
@@ -137,15 +145,15 @@ if ($action === 'add' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     redirect(url('cart'));
 }
 
-if ($action === 'update' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    $itemKey = get_param('item_key', $_POST['cart_id'] ?? '');
-    $quantity = (int)($_POST['quantity'] ?? 1);
+if ($action === 'update') {
+    $cartId = get_param('item_key', $_POST['cart_id'] ?? ($_GET['cart_id'] ?? ''));
+    $quantity = (int)($_POST['quantity'] ?? ($_GET['quantity'] ?? 1));
 
-    if (isset($_SESSION['cart'][$itemKey])) {
+    if (isset($_SESSION['cart'][$cartId])) {
         if ($quantity <= 0) {
-            unset($_SESSION['cart'][$itemKey]);
+            unset($_SESSION['cart'][$cartId]);
         } else {
-            $_SESSION['cart'][$itemKey]['quantity'] = $quantity;
+            $_SESSION['cart'][$cartId]['quantity'] = $quantity;
         }
         if ($isAjax) {
             header('Content-Type: application/json; charset=utf-8');
@@ -162,16 +170,16 @@ if ($action === 'update' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     redirect(url('cart'));
 }
 
-if ($action === 'remove' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    $itemKey = get_param('item_key', $_POST['cart_id'] ?? '');
-    if ($itemKey && isset($_SESSION['cart'][$itemKey])) {
-        unset($_SESSION['cart'][$itemKey]);
+if ($action === 'remove') {
+    $cartId = get_param('item_key', $_POST['cart_id'] ?? ($_GET['cart_id'] ?? ''));
+    if ($cartId && isset($_SESSION['cart'][$cartId])) {
+        unset($_SESSION['cart'][$cartId]);
     }
     if ($isAjax) {
         $cartCount = 0;
         if (!empty($_SESSION['cart'])) {
             foreach ($_SESSION['cart'] as $it) {
-                $cartCount += $it['quantity'];
+                $cartCount += $it['quantity'] ?? 1;
             }
         }
         header('Content-Type: application/json; charset=utf-8');
@@ -192,12 +200,20 @@ if ($action === 'clear') {
 }
 
 // Chuẩn bị dữ liệu hiển thị giỏ hàng
-$title = 'Giỏ hàng của bạn';
+$title = 'Giỏ hàng - VAA THÉ';
 
-$cartItems = $_SESSION['cart'] ?? [];
+$cart_items = $_SESSION['cart'] ?? [];
+$cartItems = $cart_items;
+
 $subtotal = 0;
-foreach ($cartItems as $item) {
-    $subtotal += ($item['unit_price'] ?? $item['total_price'] ?? 0) * ($item['quantity'] ?? 1);
+foreach ($cart_items as $item) {
+    $price = (float)($item['total_price'] ?? ($item['unit_price'] ?? 0));
+    $qty = (int)($item['quantity'] ?? 1);
+    $subtotal += $price * $qty;
 }
-$shippingFee = $subtotal > 0 ? 15000 : 0;
-$total = $subtotal > 0 ? $subtotal + $shippingFee : 0;
+
+$shipping = $subtotal > 0 ? 15000 : 0;
+$shippingFee = $shipping;
+
+$total = $subtotal > 0 ? ($subtotal + $shipping) : 0;
+$totalCartAmount = $total;
