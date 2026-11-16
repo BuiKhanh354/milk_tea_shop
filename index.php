@@ -49,7 +49,7 @@ if (is_file($action)) {
 }
 
 // Các trang độc lập không dùng chung header/footer của website
-$standalonePages = array('login', 'register');
+$standalonePages = array('login', 'register', 'logout');
 
 if (in_array($page, $standalonePages)) {
     require $file;

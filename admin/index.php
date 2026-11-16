@@ -58,8 +58,8 @@ if (is_file($action)) {
     require $action;
 }
 
-if (in_array($page, ['login'])) {
-    // Đăng nhập render riêng không kèm header/sidebar admin
+if (in_array($page, ['login', 'logout'])) {
+    // Đăng nhập / đăng xuất render riêng không kèm header/sidebar admin
     require $file;
 } else {
     require __DIR__ . '/layouts/header.php';
