@@ -3,6 +3,10 @@
 require_once __DIR__ . '/../products/functions.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+if ($id <= 0) {
+    redirect(url('products'));
+}
+
 $product = product_get_by_id($id);
 
 if (!$product) {
@@ -13,29 +17,31 @@ if (!$product) {
 
 $title = $product['name'];
 
-// Thêm các trường mặc định nếu chưa có
-$product['rating'] = 4.8;
-$product['review_count'] = 42;
-
-// Lấy Topping, Size, Sugar, Ice
-$toppings = product_get_toppings();
+// Lấy danh sách kích cỡ, topping, đường, đá
 $sizes = product_get_sizes();
-$sugarLevels = product_get_sugar_levels();
-$iceLevels = product_get_ice_levels();
+$toppings = product_get_toppings($product['id']);
+$sugarOptions = product_get_sugar_options();
+$iceOptions = product_get_ice_options();
 
-// Đánh giá mẫu chuẩn
-$reviews = array(
-    array('name' => 'Nguyễn Minh Anh', 'date' => '12/10/2026', 'rating' => 5, 'comment' => 'Vị trà thơm tự nhiên, độ ngọt vừa vặn rất hợp gu mình.'),
-    array('name' => 'Trần Hoàng Long', 'date' => '05/10/2026', 'rating' => 5, 'comment' => 'Trân châu mềm dai, uống không bị gắt cổ. Sẽ ủng hộ dài dài!'),
-    array('name' => 'Lê Phương Thảo', 'date' => '28/09/2026', 'rating' => 4, 'comment' => 'Đóng gói cẩn thận, ly giữ nhiệt tốt và giao hàng nhanh.'),
-);
+// Đánh giá và số sao
+$reviews = product_get_reviews($product['id']);
+$product['review_count'] = count($reviews);
+if (!empty($reviews)) {
+    $sum = array_sum(array_column($reviews, 'rating'));
+    $product['rating'] = round($sum / count($reviews), 1);
+} else {
+    $product['rating'] = 5.0;
+}
 
 // Sản phẩm liên quan
-$relatedProducts = products_get_related($product['category_id'], $product['id'], 4);
+$relatedProducts = products_get_related($product['category_id'] ?? 1, $product['id'], 4);
 
 // Kiểm tra yêu thích
-$isFavorited = false;
-if (isset($_SESSION['customer_id'])) {
-    $fav = db()->fetchOne("SELECT id FROM favorites WHERE customer_id = ? AND product_id = ?", array((int)$_SESSION['customer_id'], (int)$product['id']));
-    $isFavorited = !empty($fav);
-}
+$customerId = isset($_SESSION['customer_id']) ? (int)$_SESSION['customer_id'] : 0;
+$isFavorited = product_is_favorited($customerId, $product['id']);
+
+// Tồn kho tính từ định lượng nguyên liệu
+$stockInfo = product_calculate_stock($product['id']);
+
+// Danh sách tên nguyên liệu
+$ingredientNames = product_get_ingredient_names($product['id']);
