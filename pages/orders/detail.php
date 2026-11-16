@@ -126,3 +126,4 @@ if ($current_step_index === false) $current_step_index = -1;
         </div>
     </div>
 </section>
+

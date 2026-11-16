@@ -23,6 +23,11 @@ class Database
         return $this->connection;
     }
 
+    public static function getInstance()
+    {
+        return db();
+    }
+
     private function run($sql, $params = array())
     {
         $statement = $this->connection->prepare($sql);

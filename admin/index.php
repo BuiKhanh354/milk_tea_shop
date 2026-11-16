@@ -26,6 +26,7 @@ $routes = array(
     'payments'            => 'payments/index.php',
     'reports'             => 'reports/index.php',
     'settings'            => 'settings/index.php',
+    'profile'             => 'profile/index.php',
     'login'               => 'auth/login.php',
     'logout'              => 'auth/logout.php',
 );

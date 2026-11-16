@@ -15,8 +15,8 @@ $totalSold = (int)($soldRow['total_sold'] ?? 0);
 $custRow = db()->fetchOne("SELECT COUNT(id) as total_cust FROM customers");
 $totalCustomers = (int)($custRow['total_cust'] ?? 0);
 
-// Top sản phẩm bán chạy
-$topProducts = db()->fetchAll("SELECT p.name, p.image, SUM(od.quantity) as sold_count, SUM(od.total_price) as total_sales
+// Top sản phẩm bán chạy (dùng od.subtotal thay vì od.total_price)
+$topProducts = db()->fetchAll("SELECT p.name, p.image, SUM(od.quantity) as sold_count, SUM(od.subtotal) as total_sales
     FROM order_details od
     JOIN orders o ON od.order_id = o.id
     JOIN products p ON od.product_id = p.id
@@ -26,4 +26,3 @@ $topProducts = db()->fetchAll("SELECT p.name, p.image, SUM(od.quantity) as sold_
     LIMIT 5");
 
 $pageTitle = 'Báo cáo & Thống kê';
-

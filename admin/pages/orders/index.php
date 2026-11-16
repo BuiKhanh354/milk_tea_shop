@@ -174,23 +174,24 @@ if ($action === 'show' || $action === 'detail' || get_param('page') === 'order-d
             $queryString = '';
             if (get_param('search') !== '') $queryString .= '&search=' . urlencode(get_param('search'));
             if (get_param('status') !== '') $queryString .= '&status=' . urlencode(get_param('status'));
+            $curP = $orderPage ?? 1;
         ?>
         <div class="card-footer bg-white border-top py-3 px-4 d-flex align-items-center justify-content-between">
-            <span class="text-muted small">Hiển thị trang <?= $currentPage ?> của <?= $totalPages ?> (Tổng <?= $total ?> đơn)</span>
+            <span class="text-muted small">Hiển thị trang <?= $curP ?> của <?= $totalPages ?> (Tổng <?= $total ?> đơn)</span>
             <nav aria-label="Page navigation">
                 <ul class="pagination pagination-sm mb-0">
-                    <li class="page-item <?= $currentPage <= 1 ? 'disabled' : '' ?>">
-                        <a class="page-link <?= $currentPage <= 1 ? '' : 'text-forest' ?>" href="<?= $currentPage > 1 ? admin_url('orders') . $queryString . '&p=' . ($currentPage - 1) : '#' ?>">Trước</a>
+                    <li class="page-item <?= $curP <= 1 ? 'disabled' : '' ?>">
+                        <a class="page-link <?= $curP <= 1 ? '' : 'text-forest' ?>" href="<?= $curP > 1 ? admin_url('orders') . $queryString . '&p=' . ($curP - 1) : '#' ?>">Trước</a>
                     </li>
                     
                     <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                        <li class="page-item <?= $i === $currentPage ? 'active' : '' ?>">
-                            <a class="page-link <?= $i === $currentPage ? 'bg-forest border-forest text-white' : 'text-forest' ?>" href="<?= admin_url('orders') . $queryString . '&p=' . $i ?>"><?= $i ?></a>
+                        <li class="page-item <?= $i === $curP ? 'active' : '' ?>">
+                            <a class="page-link <?= $i === $curP ? 'bg-forest border-forest text-white' : 'text-forest' ?>" href="<?= admin_url('orders') . $queryString . '&p=' . $i ?>"><?= $i ?></a>
                         </li>
                     <?php endfor; ?>
                     
-                    <li class="page-item <?= $currentPage >= $totalPages ? 'disabled' : '' ?>">
-                        <a class="page-link <?= $currentPage >= $totalPages ? '' : 'text-forest' ?>" href="<?= $currentPage < $totalPages ? admin_url('orders') . $queryString . '&p=' . ($currentPage + 1) : '#' ?>">Sau</a>
+                    <li class="page-item <?= $curP >= $totalPages ? 'disabled' : '' ?>">
+                        <a class="page-link <?= $curP >= $totalPages ? '' : 'text-forest' ?>" href="<?= $curP < $totalPages ? admin_url('orders') . $queryString . '&p=' . ($curP + 1) : '#' ?>">Sau</a>
                     </li>
                 </ul>
             </nav>

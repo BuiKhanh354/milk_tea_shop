@@ -110,3 +110,67 @@ function format_payment_method($method)
     $key = strtolower(trim((string)$method));
     return isset($map[$key]) ? $map[$key] : (ucfirst($method ?: 'Tiền mặt'));
 }
+
+/**
+ * Lấy trạng thái ca làm việc hiện tại của tài khoản đang đăng nhập (dùng cho topbar / layout admin)
+ */
+function get_current_user_shift_status()
+{
+    $userId = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 0;
+    $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+    $openSession = null;
+    $todayShift = null;
+
+    if ($userId > 0) {
+        $db = Database::getInstance();
+        $openSession = $db->fetchOne(
+            "SELECT s.*, u.full_name as user_name, sh.name as shift_name, sh.start_time, sh.end_time 
+             FROM shift_sessions s 
+             JOIN users u ON s.user_id = u.id 
+             LEFT JOIN shifts sh ON s.shift_id = sh.id 
+             WHERE s.status = 'open' AND s.user_id = ? 
+             ORDER BY s.opened_at DESC LIMIT 1",
+            [$userId]
+        );
+
+        if (!$openSession) {
+            $workDate = date('Y-m-d');
+            $assigned = $db->fetchAll(
+                "SELECT es.*, s.name as shift_name, s.start_time, s.end_time 
+                 FROM employee_shifts es
+                 JOIN shifts s ON es.shift_id = s.id
+                 WHERE es.employee_id = ? 
+                   AND es.work_date = ? 
+                   AND es.status != 'cancelled'
+                 ORDER BY s.start_time ASC",
+                [$userId, $workDate]
+            );
+
+            if (!empty($assigned)) {
+                if (count($assigned) === 1) {
+                    $todayShift = $assigned[0];
+                } else {
+                    $nowSec = time();
+                    foreach ($assigned as $sh) {
+                        $startSec = strtotime(date('Y-m-d ') . $sh['start_time']) - (45 * 60);
+                        $endSec = strtotime(date('Y-m-d ') . $sh['end_time']);
+                        if ($nowSec >= $startSec && $nowSec <= $endSec) {
+                            $todayShift = $sh;
+                            break;
+                        }
+                    }
+                    if (!$todayShift) {
+                        $todayShift = $assigned[0];
+                    }
+                }
+            }
+        }
+    }
+
+    return [
+        'user_id' => $userId,
+        'is_admin' => $isAdmin,
+        'open_session' => $openSession,
+        'today_shift' => $todayShift
+    ];
+}

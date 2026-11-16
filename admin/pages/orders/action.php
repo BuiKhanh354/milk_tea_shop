@@ -5,7 +5,8 @@ $orderId = (int)get_param('id', 0);
 $userId = (int)($_SESSION['user_id'] ?? 1);
 
 // Xử lý Cập nhật trạng thái
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($action, ['update_status', 'update-status'])) {
+$requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+if ($requestMethod === 'POST' && in_array($action, ['update_status', 'update-status'])) {
     $id = (int)post_param('id', $orderId);
     $status = post_param('status');
 
@@ -54,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($action, ['update_status',
 }
 
 // Xử lý Tạo đơn hàng mới từ POS
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($action, ['store', 'create'])) {
+if ($requestMethod === 'POST' && in_array($action, ['store', 'create'])) {
     $customerName = post_param('customer_name', 'Khách lẻ');
     $orderType = post_param('order_type', 'takeaway');
     $tableId = (int)post_param('table_id', 0);
@@ -217,6 +218,7 @@ $total = (int)($countRow['total'] ?? 0);
 $totalPages = ceil($total / $limit);
 
 $listParams = array_merge($params, [$limit, $offset]);
+$orderPage = $page;
 $ordersRaw = db()->fetchAll("SELECT o.*, 
        COALESCE(c.full_name, u.full_name, 'Khách vãng lai') as customer_name,
        COALESCE(p.method, 'Tiền mặt') as payment_method
