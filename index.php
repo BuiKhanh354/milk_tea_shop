@@ -38,8 +38,13 @@ if (is_file($action)) {
     require $action;
 }
 
-// Render layouts
-require __DIR__ . '/layouts/public/header.php';
-require $file;
-require __DIR__ . '/layouts/public/footer.php';
+// Các trang độc lập không dùng chung header/footer của website
+$standalonePages = array('login', 'register');
 
+if (in_array($page, $standalonePages)) {
+    require $file;
+} else {
+    require __DIR__ . '/layouts/public/header.php';
+    require $file;
+    require __DIR__ . '/layouts/public/footer.php';
+}

@@ -3,14 +3,30 @@
 require_once __DIR__ . '/../config/init.php';
 
 $routes = array(
-    'dashboard'       => 'dashboard/index.php',
-    'products'        => 'products/index.php',
-    'product-create'  => 'products/create.php',
-    'product-edit'    => 'products/edit.php',
-    'orders'          => 'orders/index.php',
-    'order-detail'    => 'orders/detail.php',
-    'login'           => 'auth/login.php',
-    'logout'          => 'auth/logout.php',
+    'dashboard'           => 'dashboard/index.php',
+    'orders'              => 'orders/index.php',
+    'order-detail'        => 'orders/detail.php',
+    'tables'              => 'tables/index.php',
+    'shift_sessions'      => 'shift_sessions/index.php',
+    'customers'           => 'customers/index.php',
+    'products'            => 'products/index.php',
+    'product-create'      => 'products/create.php',
+    'product-edit'        => 'products/edit.php',
+    'categories'          => 'categories/index.php',
+    'options'             => 'options/index.php',
+    'toppings'            => 'toppings/index.php',
+    'inventory'           => 'inventory/index.php',
+    'inventory_import'    => 'inventory/import.php',
+    'inventory_export'    => 'inventory/export.php',
+    'inventory_alerts'    => 'inventory/alerts.php',
+    'product_ingredients' => 'product_ingredients/index.php',
+    'staff'               => 'staff/index.php',
+    'shifts'              => 'shifts/index.php',
+    'payments'            => 'payments/index.php',
+    'reports'             => 'reports/index.php',
+    'settings'            => 'settings/index.php',
+    'login'               => 'auth/login.php',
+    'logout'              => 'auth/logout.php',
 );
 
 $page = $_GET['page'] ?? 'dashboard';

@@ -306,3 +306,126 @@ body, html {
 .auth-style-24b531 {
     cursor: pointer;
 }
+
+/* Full-screen customer authentication layout */
+html:has(body.auth-page),
+body.auth-page {
+    min-height: 100%;
+    height: auto;
+    background: var(--vaa-ivory, #f8f7f1);
+}
+
+body.auth-page {
+    margin: 0;
+}
+
+body.auth-page > .vaa-header,
+body.auth-page > .global-style-849459,
+body.auth-page > .vaa-footer {
+    display: none !important;
+}
+
+body.auth-page .auth-wrapper {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    background: var(--vaa-ivory, #f8f7f1);
+}
+
+body.auth-page .auth-visual {
+    width: 45%;
+    min-height: 100vh;
+    padding: 1rem;
+    background: var(--vaa-cream, #eee9de);
+}
+
+body.auth-page .auth-image-container {
+    flex: 1;
+    min-height: 0;
+    height: auto;
+}
+
+body.auth-page .auth-form-side {
+    width: 55%;
+    min-height: 100vh;
+    padding: 3rem clamp(2rem, 6vw, 6rem);
+}
+
+body.auth-page .auth-form-container {
+    max-width: 470px;
+}
+
+body.auth-page .auth-intro {
+    margin: 2rem 0 2.25rem;
+}
+
+body.auth-page .auth-intro h1 {
+    font-size: clamp(2rem, 3vw, 2.7rem);
+}
+
+body.auth-page .auth-input {
+    width: 100%;
+}
+
+body.auth-page .btn-back {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.5rem;
+    right: auto;
+    z-index: 2;
+    color: var(--vaa-forest, #26382c);
+    text-decoration: none;
+}
+
+body.auth-page .btn-back:hover {
+    width: auto;
+    height: auto;
+    padding: 10px 15px;
+    color: #fff;
+    background: var(--vaa-forest, #26382c);
+}
+
+body.auth-page .password-toggle {
+    border: 0;
+}
+
+body.auth-page .arrow-icon {
+    transition: transform .2s ease;
+}
+
+body.auth-page .auth-register-wrapper .auth-form-side {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+body.auth-page .auth-register-wrapper .auth-logo {
+    margin-bottom: 1rem;
+}
+
+body.auth-page .auth-register-wrapper .auth-intro {
+    margin: 1rem 0 1.25rem;
+}
+
+body.auth-page .auth-register-wrapper .mb-3 {
+    margin-bottom: .65rem !important;
+}
+
+@media (max-width: 991px) {
+    body.auth-page .auth-wrapper {
+        flex-wrap: nowrap;
+    }
+
+    body.auth-page .auth-visual {
+        display: none;
+    }
+
+    body.auth-page .auth-form-side {
+        width: 100%;
+        padding: 2rem 1.5rem;
+    }
+
+    body.auth-page .auth-form-container {
+        max-width: 440px;
+    }
+}

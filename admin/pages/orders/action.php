@@ -11,7 +11,7 @@ if ($action === 'update-status' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $title = 'Quản lý đơn hàng';
 
-$orders = db()->fetchAll("SELECT o.*, c.name as customer_name, c.phone as customer_phone 
+$orders = db()->fetchAll("SELECT o.*, c.full_name as customer_name, c.phone as customer_phone 
                           FROM orders o 
                           LEFT JOIN customers c ON o.customer_id = c.id 
                           ORDER BY o.id DESC");

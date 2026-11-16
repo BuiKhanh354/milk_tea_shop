@@ -1,118 +1,29 @@
 <?php
-session_start();
-require_once __DIR__ . '/../app/config/database.php';
+// Tự động chuyển hướng từ public/index.php về hệ thống mới ở thư mục gốc
+require_once __DIR__ . '/../config/init.php';
 
-// Tự động nạp giỏ hàng từ CSDL vào session nếu chưa có (khi mở lại trình duyệt)
-if (!isset($_SESSION['cart'])) {
-    require_once __DIR__ . '/../app/models/Cart.php';
-    $cartModel = new Cart();
-    $cartModel->loadCartToSession($_SESSION['customer_id'] ?? null, $_COOKIE['cart_token'] ?? null);
-}
+$routeMap = array(
+    'home'           => 'home',
+    'products'       => 'products',
+    'product_detail' => 'product-detail',
+    'cart'           => 'cart',
+    'checkout'       => 'checkout',
+    'favorites'      => 'yeuthich',
+    'about'          => 'about',
+    'contact'        => 'contact',
+    'stores'         => 'stores',
+    'login'          => 'login',
+    'register'       => 'register',
+    'logout'         => 'logout',
+    'profile'        => 'profile',
+    'orders'         => 'orders',
+);
 
+$oldRoute = $_GET['route'] ?? 'home';
+$newPage = $routeMap[$oldRoute] ?? 'home';
 
-$route = $_GET['route'] ?? 'home';
+$queryParams = $_GET;
+unset($queryParams['route']);
+$queryParams['page'] = $newPage;
 
-switch($route) {
-    case 'home':
-        require_once '../app/controllers/Customer/HomeController.php';
-        (new HomeController())->index();
-        break;
-    
-    case 'about':
-        require_once '../app/controllers/Customer/HomeController.php';
-        (new HomeController())->about();
-        break;
-        
-    case 'contact':
-        require_once '../app/controllers/Customer/HomeController.php';
-        (new HomeController())->contact();
-        break;
-        
-    case 'stores':
-        require_once '../app/controllers/Customer/HomeController.php';
-        (new HomeController())->stores();
-        break;
-
-    case 'login':
-        require_once '../app/controllers/Customer/AuthController.php';
-        (new AuthController())->login();
-        break;
-
-    case 'register':
-        require_once '../app/controllers/Customer/AuthController.php';
-        (new AuthController())->register();
-        break;
-
-    case 'logout':
-        require_once '../app/controllers/Customer/AuthController.php';
-        (new AuthController())->logout();
-        break;
-
-    case 'products':
-        require_once '../app/controllers/Customer/ProductController.php';
-        (new ProductController())->index();
-        break;
-
-    case 'product_detail':
-        require_once '../app/controllers/Customer/ProductController.php';
-        (new ProductController())->detail();
-        break;
-
-    case 'cart':
-        require_once '../app/controllers/Customer/CartController.php';
-        $controller = new CartController();
-        if (isset($_GET['action']) && method_exists($controller, $_GET['action'])) {
-            $action = $_GET['action'];
-            $controller->$action();
-        } else {
-            $controller->index();
-        }
-        break;
-
-    case 'checkout':
-        require_once '../app/controllers/Customer/CheckoutController.php';
-        $controller = new CheckoutController();
-        if (isset($_GET['action']) && method_exists($controller, $_GET['action'])) {
-            $action = $_GET['action'];
-            $controller->$action();
-        } else {
-            $controller->index();
-        }
-        break;
-
-    case 'orders':
-        require_once '../app/controllers/Customer/OrderController.php';
-        $controller = new OrderController();
-        if (isset($_GET['action']) && $_GET['action'] === 'detail') {
-            $controller->detail();
-        } else {
-            $controller->index();
-        }
-        break;
-
-    case 'profile':
-        require_once '../app/controllers/Customer/ProfileController.php';
-        (new ProfileController())->index();
-        break;
-
-    case 'password':
-        require_once '../app/controllers/Customer/ProfileController.php';
-        (new ProfileController())->password();
-        break;
-
-    case 'favorites':
-        require_once '../app/controllers/Customer/FavoriteController.php';
-        $controller = new FavoriteController();
-        if (isset($_GET['action']) && $_GET['action'] === 'toggle') {
-            $controller->toggle();
-        } else {
-            $controller->index();
-        }
-        break;
-
-    default:
-        // Handle 404
-        header("HTTP/1.0 404 Not Found");
-        require_once '../app/views/customer/not_found.php';
-        break;
-}
+redirect(url($newPage, $queryParams));

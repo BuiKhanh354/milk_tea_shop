@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $address = trim($_POST['address'] ?? '');
 
-    db()->execute("UPDATE customers SET name = ?, phone = ?, email = ?, address = ? WHERE id = ?",
+    db()->execute("UPDATE customers SET full_name = ?, phone = ?, email = ?, address = ? WHERE id = ?",
         array($name, $phone, $email, $address, $customerId)
     );
 

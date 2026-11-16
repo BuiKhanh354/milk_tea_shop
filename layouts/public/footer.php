@@ -1,6 +1,5 @@
-</div><!-- end .main-content-wrapper -->
-
-<!-- FOOTER -->
+<!-- FOOTER (Old UI style converted to PHP) -->
+<?php if (!$isAuthPage): ?>
 <footer class="vaa-footer" id="contact">
     <div class="container px-4 px-lg-5">
         <div class="row g-5 mb-5">
@@ -15,9 +14,9 @@
                     Thương hiệu trà sữa cao cấp, kiên định mang đến trải nghiệm trà thanh tao, tối giản và chất lượng nguyên bản.
                 </p>
                 <div class="d-flex gap-3">
-                    <a href="#" class="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" class="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center global-style-4271b4"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center global-style-4271b4"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center global-style-4271b4"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
             </div>
 
@@ -25,11 +24,11 @@
             <div class="col-6 col-lg-2 offset-lg-1">
                 <h5>Liên kết</h5>
                 <ul class="list-unstyled">
-                    <li><a href="<?= e(url('home')) ?>" class="text-white-50 text-decoration-none">Trang chủ</a></li>
-                    <li><a href="<?= e(url('products')) ?>" class="text-white-50 text-decoration-none">Sản phẩm</a></li>
-                    <li><a href="<?= e(url('stores')) ?>" class="text-white-50 text-decoration-none">Cửa hàng</a></li>
-                    <li><a href="<?= e(url('about')) ?>" class="text-white-50 text-decoration-none">Giới thiệu</a></li>
-                    <li><a href="<?= e(url('contact')) ?>" class="text-white-50 text-decoration-none">Liên hệ</a></li>
+                    <li><a href="<?= e(url('home')) ?>">Trang chủ</a></li>
+                    <li><a href="<?= e(url('products')) ?>">Sản phẩm</a></li>
+                    <li><a href="<?= e(url('stores')) ?>">Cửa hàng</a></li>
+                    <li><a href="<?= e(url('about')) ?>">Giới thiệu</a></li>
+                    <li><a href="<?= e(url('contact')) ?>">Liên hệ</a></li>
                 </ul>
             </div>
 
@@ -37,34 +36,43 @@
             <div class="col-6 col-lg-2">
                 <h5>Hỗ trợ</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#" class="text-white-50 text-decoration-none">Hướng dẫn mua hàng</a></li>
-                    <li><a href="#" class="text-white-50 text-decoration-none">Chính sách đổi trả</a></li>
-                    <li><a href="#" class="text-white-50 text-decoration-none">Chính sách bảo mật</a></li>
-                    <li><a href="#" class="text-white-50 text-decoration-none">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Hướng dẫn mua hàng</a></li>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">FAQ</a></li>
                 </ul>
             </div>
 
             <!-- Contact -->
             <div class="col-lg-3">
                 <h5>Liên hệ</h5>
-                <ul class="text-white-50 small list-unstyled">
+                <ul class="text-white-50 small list-unstyled global-style-35bb81">
                     <li class="mb-2"><i class="fa-solid fa-location-dot me-2 text-caramel"></i> 123 Nguyễn Văn Cừ, Q5, TP.HCM</li>
-                    <li class="mb-2"><i class="fa-solid fa-phone me-2 text-caramel"></i> 090 123 4567</li>
-                    <li class="mb-2"><i class="fa-solid fa-envelope me-2 text-caramel"></i> contact@vaathe.vn</li>
-                    <li><i class="fa-solid fa-clock me-2 text-caramel"></i> 08:00 - 22:30 mỗi ngày</li>
+                    <li class="mb-2"><i class="fa-solid fa-phone me-2 text-caramel"></i> 1900 633 988</li>
+                    <li class="mb-2"><i class="fa-solid fa-envelope me-2 text-caramel"></i> hello@vaathe.com</li>
+                    <li><i class="fa-regular fa-clock me-2 text-caramel"></i> 08:00 - 22:30 Hằng ngày</li>
                 </ul>
             </div>
         </div>
 
-        <div class="border-top border-secondary pt-4 text-center text-white-50 small">
-            &copy; <?= date('Y') ?> VAA THÉ. All rights reserved.
+        <div class="pt-4 mt-4 border-top border-secondary border-opacity-25 d-flex flex-column flex-md-row justify-content-between align-items-center text-white-50 small">
+            <p class="mb-2 mb-md-0">&copy; 2026 VAA THÉ. All rights reserved.</p>
+            <p class="mb-0">Designed for premium taste.</p>
         </div>
     </div>
 </footer>
+<?php endif; ?>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JS -->
+<?php if ($isAuthPage): ?>
+<script src="<?= e(asset('assets/js/auth.js')) ?>"></script>
+<?php else: ?>
+<script src="<?= e(asset('assets/js/intro.js')) ?>"></script>
 <script src="<?= e(asset('assets/js/main.js')) ?>"></script>
+<?php endif; ?>
+
 </body>
 </html>
-

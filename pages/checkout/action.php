@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($existingCustomer) {
                 $customerId = $existingCustomer['id'];
             } else {
-                db()->execute("INSERT INTO customers (name, phone, address, created_at) VALUES (?, ?, ?, NOW())", array($fullName, $phone, $address));
+                db()->execute("INSERT INTO customers (full_name, phone, address, created_at) VALUES (?, ?, ?, NOW())", array($fullName, $phone, $address));
                 $customerId = db()->insertId();
             }
         }
