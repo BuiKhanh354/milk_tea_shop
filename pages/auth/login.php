@@ -43,7 +43,7 @@
                 <div class="mb-5">
                     <span class="small-label mb-2 d-inline-block">WELCOME BACK</span>
                     <h2 class="font-serif fw-bold text-forest mb-3">Chào mừng trở lại</h2>
-                    <p class="text-muted">Đăng nhập để tiếp tục hành trình cùng hương vị yêu thích của bạn.</p>
+                    <p class="text-muted">Đăng nhập tài khoản Khách hàng, Nhân viên hoặc Quản trị viên.</p>
                 </div>
 
                 <?php if (!empty($error)): ?>
@@ -52,13 +52,20 @@
                     </div>
                 <?php endif; ?>
 
-                <form id="login-form" method="POST" action="<?= e(url('login')) ?>" novalidate>
+                <?php if ($successMsg = get_flash('success')): ?>
+                    <div class="alert alert-success rounded-4 mb-4 border-0 shadow-sm" role="alert">
+                        <i class="fa-solid fa-circle-check me-2"></i><?= e($successMsg) ?>
+                    </div>
+                <?php endif; ?>
+
+                <form id="login-form" method="POST" action="<?= e(url('login', !empty($redirect_val) ? ['redirect' => $redirect_val] : [])) ?>" novalidate>
+                    <input type="hidden" name="redirect" value="<?= e($redirect_val ?? '') ?>">
 
                     <!-- Email / Username -->
                     <div class="mb-4">
-                        <label for="email" class="form-label auth-form-label">Email hoặc Tên đăng nhập</label>
+                        <label for="email" class="form-label auth-form-label">Tài khoản / Email / Số điện thoại</label>
                         <input type="text" class="form-control auth-input" id="email" name="email"
-                            placeholder="Nhập email hoặc tên đăng nhập" autocomplete="email" value="<?= e($email_val) ?>" required>
+                            placeholder="Email, số điện thoại hoặc tên đăng nhập" autocomplete="username" value="<?= e($email_val) ?>" required>
                     </div>
 
                     <!-- Password -->

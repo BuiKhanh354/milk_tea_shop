@@ -33,11 +33,17 @@ $routes = array(
 
 $page = $_GET['page'] ?? 'dashboard';
 
-// Kiểm tra quyền đăng nhập admin
-$publicPages = ['login', 'logout'];
+// Nếu người dùng vào trang login của admin, chuyển hướng sang trang đăng nhập chung
+if ($page === 'login') {
+    $redirectTarget = get_param('redirect', admin_url('dashboard'));
+    redirect(url('login', ['redirect' => $redirectTarget]));
+}
+
+// Kiểm tra quyền đăng nhập admin/staff
+$publicPages = ['logout'];
 if (!in_array($page, $publicPages)) {
     if (!isset($_SESSION['user_id'])) {
-        redirect(admin_url('login'));
+        redirect(url('login', ['redirect' => admin_url($page)]));
     }
 }
 
