@@ -75,3 +75,4 @@ $assignments = db()->fetchAll("SELECT es.*, u.full_name as employee_name, s.name
     ORDER BY es.work_date DESC, s.start_time ASC", [$startDate, $endDate]);
 
 $pageTitle = 'Quản lý ca làm việc';
+

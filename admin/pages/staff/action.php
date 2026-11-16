@@ -58,3 +58,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $staffs = db()->fetchAll("SELECT * FROM users WHERE role = 'staff' ORDER BY created_at DESC");
 $pageTitle = 'Quản lý Nhân viên';
+

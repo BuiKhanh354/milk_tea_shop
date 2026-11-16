@@ -45,3 +45,4 @@ if ($action === 'delete') {
 $sugarOptions = db()->fetchAll("SELECT * FROM item_options WHERE type = 'sugar' ORDER BY value ASC");
 $iceOptions = db()->fetchAll("SELECT * FROM item_options WHERE type = 'ice' ORDER BY value ASC");
 $pageTitle = 'Tùy chọn (Sugar & Ice)';
+

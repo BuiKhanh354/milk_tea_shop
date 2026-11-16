@@ -98,3 +98,4 @@ if ($action === 'show' && !empty($table)) {
         <?php endforeach; ?>
     <?php endif; ?>
 </div>
+

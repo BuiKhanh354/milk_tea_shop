@@ -71,3 +71,4 @@ if ($action === 'deleteSize') {
 $toppings = db()->fetchAll("SELECT * FROM toppings ORDER BY id ASC");
 $sizes = db()->fetchAll("SELECT * FROM sizes ORDER BY extra_price ASC");
 $pageTitle = 'Quản lý Topping & Size';
+

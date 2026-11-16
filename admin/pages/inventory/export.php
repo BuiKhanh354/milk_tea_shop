@@ -100,3 +100,4 @@ function validateQuantity() {
 
 document.getElementById('quantity').addEventListener('input', validateQuantity);
 </script>
+

@@ -97,3 +97,16 @@ function csrf_field()
 {
     return '';
 }
+
+function format_payment_method($method)
+{
+    $map = array(
+        'cash'          => 'Tiền mặt',
+        'cod'           => 'COD (Tiền mặt)',
+        'bank_transfer' => 'Chuyển khoản',
+        'bank'          => 'Chuyển khoản',
+        'momo'          => 'Ví MoMo',
+    );
+    $key = strtolower(trim((string)$method));
+    return isset($map[$key]) ? $map[$key] : (ucfirst($method ?: 'Tiền mặt'));
+}

@@ -26,3 +26,4 @@ $topProducts = db()->fetchAll("SELECT p.name, p.image, SUM(od.quantity) as sold_
     LIMIT 5");
 
 $pageTitle = 'Báo cáo & Thống kê';
+

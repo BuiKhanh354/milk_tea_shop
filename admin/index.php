@@ -6,6 +6,7 @@ $routes = array(
     'dashboard'           => 'dashboard/index.php',
     'orders'              => 'orders/index.php',
     'order-detail'        => 'orders/detail.php',
+    'order-create'        => 'orders/create.php',
     'tables'              => 'tables/index.php',
     'shift_sessions'      => 'shift_sessions/index.php',
     'customers'           => 'customers/index.php',

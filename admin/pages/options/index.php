@@ -165,3 +165,4 @@ function openOptionModal(type, id = '', name = '', value = '', isDefault = false
     document.getElementById('option_status').checked = status;
 }
 </script>
+

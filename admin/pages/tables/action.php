@@ -41,3 +41,4 @@ if ($action === 'show') {
     $tables = db()->fetchAll("SELECT * FROM tables ORDER BY table_number ASC");
     $pageTitle = 'Quản lý Bàn';
 }
+

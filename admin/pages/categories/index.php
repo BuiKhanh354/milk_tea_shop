@@ -141,3 +141,4 @@ function fillEditModal(id, name, desc) {
     document.getElementById('edit_cat_desc').value = desc;
 }
 </script>
+

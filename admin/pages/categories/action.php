@@ -53,3 +53,4 @@ $categories = db()->fetchAll("SELECT c.*, COUNT(p.id) as products_count
     GROUP BY c.id 
     ORDER BY c.id ASC");
 $pageTitle = 'Quản lý Danh mục';
+

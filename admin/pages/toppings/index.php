@@ -192,3 +192,4 @@ function openSizeModal(id = '', name = '', extra_price = '', status = true) {
     document.getElementById('size_status').checked = status;
 }
 </script>
+
