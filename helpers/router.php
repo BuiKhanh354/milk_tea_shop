@@ -37,9 +37,9 @@ function asset($path)
 
 function get_param($name, $default = '')
 {
-    if (!isset($_GET[$name]) || !is_string($_GET[$name])) {
+    if (!isset($_GET[$name]) || (!is_string($_GET[$name]) && !is_numeric($_GET[$name]))) {
         return $default;
     }
-    return trim($_GET[$name]);
+    return trim((string)$_GET[$name]);
 }
 
