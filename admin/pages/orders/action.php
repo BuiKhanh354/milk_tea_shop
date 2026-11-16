@@ -47,7 +47,10 @@ if ($requestMethod === 'POST' && in_array($action, ['update_status', 'update-sta
         }
     }
 
-    if (post_param('redirect') === 'orders') {
+    $redir = post_param('redirect');
+    if ($redir === 'staff' || $redir === 'dashboard' || (isset($_SESSION['role']) && $_SESSION['role'] === 'staff' && in_array($status, ['completed', 'cancelled']))) {
+        redirect(admin_url('dashboard'));
+    } elseif ($redir === 'orders') {
         redirect(admin_url('orders'));
     } else {
         redirect(admin_url('orders', ['action' => 'show', 'id' => $id]));
@@ -126,7 +129,11 @@ if ($requestMethod === 'POST' && in_array($action, ['store', 'create'])) {
     }
 
     set_flash('success', "Tạo đơn hàng #ORD{$newOrderId} thành công!");
-    redirect(admin_url('orders', ['action' => 'show', 'id' => $newOrderId]));
+    if ($initialStatus === 'completed' && isset($_SESSION['role']) && $_SESSION['role'] === 'staff') {
+        redirect(admin_url('dashboard'));
+    } else {
+        redirect(admin_url('orders', ['action' => 'show', 'id' => $newOrderId]));
+    }
 }
 
 // Giao diện POS / Tạo đơn hàng

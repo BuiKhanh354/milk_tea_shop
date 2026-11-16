@@ -2,7 +2,7 @@
 // admin/pages/shifts/action.php — Quản lý ca làm việc
 $action = get_param('action', '');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     if ($action === 'store') {
         $name = post_param('name');
         $startTime = post_param('start_time');
@@ -61,18 +61,31 @@ if ($action === 'delete') {
     redirect(admin_url('shifts'));
 }
 
-$startDate = get_param('start_date', date('Y-m-d', strtotime('-30 days')));
-$endDate = get_param('end_date', date('Y-m-d', strtotime('+30 days')));
+$currentPageName = get_param('page', 'shifts');
+$currentUserId = (int)($_SESSION['user_id'] ?? 0);
 
-$shifts = db()->fetchAll("SELECT * FROM shifts ORDER BY start_time ASC");
-$staffs = db()->fetchAll("SELECT * FROM users WHERE role = 'staff' AND status = 1 ORDER BY full_name ASC");
+if ($currentPageName === 'my-shifts') {
+    $pageTitle = 'Lịch làm việc của tôi';
+    $title = 'Lịch làm việc của tôi';
+    $myShifts = db()->fetchAll("SELECT es.*, s.name as shift_name, s.start_time, s.end_time 
+                                FROM employee_shifts es 
+                                JOIN shifts s ON es.shift_id = s.id 
+                                WHERE es.employee_id = ? 
+                                ORDER BY es.work_date DESC, s.start_time ASC LIMIT 50", [$currentUserId]);
+} else {
+    $startDate = get_param('start_date', date('Y-m-d', strtotime('-30 days')));
+    $endDate = get_param('end_date', date('Y-m-d', strtotime('+30 days')));
 
-$assignments = db()->fetchAll("SELECT es.*, u.full_name as employee_name, s.name as shift_name, s.start_time, s.end_time 
-    FROM employee_shifts es
-    JOIN users u ON es.employee_id = u.id
-    JOIN shifts s ON es.shift_id = s.id
-    WHERE es.work_date BETWEEN ? AND ?
-    ORDER BY es.work_date DESC, s.start_time ASC", [$startDate, $endDate]);
+    $shifts = db()->fetchAll("SELECT * FROM shifts ORDER BY start_time ASC");
+    $staffs = db()->fetchAll("SELECT * FROM users WHERE role = 'staff' AND status = 1 ORDER BY full_name ASC");
 
-$pageTitle = 'Quản lý ca làm việc';
+    $assignments = db()->fetchAll("SELECT es.*, u.full_name as employee_name, s.name as shift_name, s.start_time, s.end_time 
+        FROM employee_shifts es
+        JOIN users u ON es.employee_id = u.id
+        JOIN shifts s ON es.shift_id = s.id
+        WHERE es.work_date BETWEEN ? AND ?
+        ORDER BY es.work_date DESC, s.start_time ASC", [$startDate, $endDate]);
+
+    $pageTitle = 'Quản lý ca làm việc';
+}
 

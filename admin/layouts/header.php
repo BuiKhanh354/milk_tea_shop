@@ -1,5 +1,5 @@
 <?php
-// admin/layouts/header.php — Layout Admin chuẩn gốc VAA THÉ với đầy đủ Sidebar, Mobile Offcanvas và Topbar
+// admin/layouts/header.php — Layout Admin chuẩn gốc VAA THÉ với phân quyền Staff & Admin
 $pageTitle = $title ?? 'Admin Dashboard';
 $currentPage = get_param('page', 'dashboard');
 $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
@@ -25,7 +25,7 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
 </head>
 <body class="admin-body">
 
-    <!-- Desktop Sidebar (Đầy đủ tất cả các menu chức năng gốc) -->
+    <!-- Desktop Sidebar -->
     <aside class="admin-sidebar d-none d-lg-flex flex-column">
         <div class="sidebar-brand px-4 py-4 text-center">
             <a href="<?= e(url('home')) ?>" class="text-decoration-none">
@@ -39,13 +39,41 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
             <div class="nav-section mb-4">
                 <span class="nav-section-title px-3">TỔNG QUAN</span>
                 <ul class="nav flex-column mt-2">
+                    <?php if ($isAdmin): ?>
                     <li class="nav-item">
                         <a href="<?= e(admin_url('dashboard')) ?>" class="nav-link <?= $currentPage === 'dashboard' ? 'active' : '' ?>">
                             <i class="fa-solid fa-chart-line nav-icon"></i> Tổng quan
                         </a>
                     </li>
+                    <?php endif; ?>
+                    <?php if ($isStaff): ?>
+                    <li class="nav-item">
+                        <a href="<?= e(admin_url('dashboard')) ?>" class="nav-link <?= in_array($currentPage, ['dashboard', 'staff_dashboard']) ? 'active' : '' ?>">
+                            <i class="fa-solid fa-house nav-icon"></i> Tổng quan
+                        </a>
+                    </li>
+                    <?php endif; ?>
                 </ul>
             </div>
+
+            <!-- CÁ NHÂN (Dành riêng cho Nhân viên) -->
+            <?php if ($isStaff): ?>
+            <div class="nav-section mb-4">
+                <span class="nav-section-title px-3">CÁ NHÂN</span>
+                <ul class="nav flex-column mt-2">
+                    <li class="nav-item">
+                        <a href="<?= e(admin_url('my-shifts')) ?>" class="nav-link <?= $currentPage === 'my-shifts' ? 'active' : '' ?>">
+                            <i class="fa-solid fa-calendar-check nav-icon"></i> Lịch làm việc
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= e(admin_url('profile')) ?>" class="nav-link <?= in_array($currentPage, ['profile', 'account']) ? 'active' : '' ?>">
+                            <i class="fa-solid fa-user-shield nav-icon"></i> Tài khoản
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <?php endif; ?>
 
             <!-- BÁN HÀNG -->
             <div class="nav-section mb-4">
@@ -71,15 +99,18 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                             <i class="fa-solid fa-cash-register nav-icon"></i> Ca làm & Bàn giao
                         </a>
                     </li>
+                    <?php if ($isAdmin): ?>
                     <li class="nav-item">
                         <a href="<?= e(admin_url('customers')) ?>" class="nav-link <?= $currentPage === 'customers' ? 'active' : '' ?>">
                             <i class="fa-solid fa-users nav-icon"></i> Khách hàng
                         </a>
                     </li>
+                    <?php endif; ?>
                 </ul>
             </div>
 
-            <!-- MENU -->
+            <?php if ($isAdmin): ?>
+            <!-- MENU (Chỉ Admin) -->
             <div class="nav-section mb-4">
                 <span class="nav-section-title px-3">MENU</span>
                 <ul class="nav flex-column mt-2">
@@ -105,6 +136,7 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                     </li>
                 </ul>
             </div>
+            <?php endif; ?>
 
             <!-- KHO -->
             <div class="nav-section mb-4">
@@ -125,6 +157,7 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                             <i class="fa-solid fa-truck-fast nav-icon"></i> Xuất kho
                         </a>
                     </li>
+                    <?php if ($isAdmin): ?>
                     <li class="nav-item">
                         <a href="<?= e(admin_url('product_ingredients')) ?>" class="nav-link <?= $currentPage === 'product_ingredients' ? 'active' : '' ?>">
                             <i class="fa-solid fa-blender nav-icon"></i> Công thức sản phẩm
@@ -135,10 +168,12 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                             <i class="fa-solid fa-triangle-exclamation nav-icon"></i> Cảnh báo tồn kho
                         </a>
                     </li>
+                    <?php endif; ?>
                 </ul>
             </div>
 
-            <!-- NHÂN SỰ -->
+            <?php if ($isAdmin): ?>
+            <!-- NHÂN SỰ (Chỉ Admin) -->
             <div class="nav-section mb-4">
                 <span class="nav-section-title px-3">NHÂN SỰ</span>
                 <ul class="nav flex-column mt-2">
@@ -155,7 +190,7 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                 </ul>
             </div>
 
-            <!-- KINH DOANH -->
+            <!-- KINH DOANH (Chỉ Admin) -->
             <div class="nav-section mb-4">
                 <span class="nav-section-title px-3">KINH DOANH</span>
                 <ul class="nav flex-column mt-2">
@@ -171,21 +206,24 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                     </li>
                 </ul>
             </div>
+            <?php endif; ?>
 
             <!-- HỆ THỐNG -->
             <div class="nav-section mb-4">
                 <span class="nav-section-title px-3">HỆ THỐNG</span>
                 <ul class="nav flex-column mt-2">
+                    <?php if ($isAdmin): ?>
                     <li class="nav-item">
                         <a href="<?= e(admin_url('settings')) ?>" class="nav-link <?= $currentPage === 'settings' ? 'active' : '' ?>">
                             <i class="fa-solid fa-gear nav-icon"></i> Cài đặt
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= e(admin_url('profile')) ?>" class="nav-link <?= $currentPage === 'profile' ? 'active' : '' ?>">
+                        <a href="<?= e(admin_url('profile')) ?>" class="nav-link <?= in_array($currentPage, ['profile', 'account']) ? 'active' : '' ?>">
                             <i class="fa-regular fa-user nav-icon"></i> Hồ sơ
                         </a>
                     </li>
+                    <?php endif; ?>
                     <li class="nav-item">
                         <a href="<?= e(url('home')) ?>" target="_blank" class="nav-link text-success">
                             <i class="fa-solid fa-arrow-up-right-from-square nav-icon"></i> Xem Website
@@ -214,9 +252,25 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                 <div class="nav-section mb-4">
                     <span class="nav-section-title px-3">TỔNG QUAN</span>
                     <ul class="nav flex-column mt-2">
+                        <?php if ($isAdmin): ?>
                         <li class="nav-item"><a href="<?= e(admin_url('dashboard')) ?>" class="nav-link <?= $currentPage === 'dashboard' ? 'active' : '' ?>"><i class="fa-solid fa-chart-line nav-icon"></i> Tổng quan</a></li>
+                        <?php endif; ?>
+                        <?php if ($isStaff): ?>
+                        <li class="nav-item"><a href="<?= e(admin_url('dashboard')) ?>" class="nav-link <?= in_array($currentPage, ['dashboard', 'staff_dashboard']) ? 'active' : '' ?>"><i class="fa-solid fa-house nav-icon"></i> Tổng quan</a></li>
+                        <?php endif; ?>
                     </ul>
                 </div>
+
+                <?php if ($isStaff): ?>
+                <div class="nav-section mb-4">
+                    <span class="nav-section-title px-3">CÁ NHÂN</span>
+                    <ul class="nav flex-column mt-2">
+                        <li class="nav-item"><a href="<?= e(admin_url('my-shifts')) ?>" class="nav-link <?= $currentPage === 'my-shifts' ? 'active' : '' ?>"><i class="fa-solid fa-calendar-check nav-icon"></i> Lịch làm việc</a></li>
+                        <li class="nav-item"><a href="<?= e(admin_url('profile')) ?>" class="nav-link <?= in_array($currentPage, ['profile', 'account']) ? 'active' : '' ?>"><i class="fa-solid fa-user-shield nav-icon"></i> Tài khoản</a></li>
+                    </ul>
+                </div>
+                <?php endif; ?>
+
                 <div class="nav-section mb-4">
                     <span class="nav-section-title px-3">BÁN HÀNG</span>
                     <ul class="nav flex-column mt-2">
@@ -224,9 +278,13 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                         <li class="nav-item"><a href="<?= e(admin_url('order-create')) ?>" class="nav-link <?= $currentPage === 'order-create' ? 'active' : '' ?>"><i class="fa-solid fa-cart-plus nav-icon"></i> Gọi món (POS)</a></li>
                         <li class="nav-item"><a href="<?= e(admin_url('tables')) ?>" class="nav-link <?= $currentPage === 'tables' ? 'active' : '' ?>"><i class="fa-solid fa-chair nav-icon"></i> Bàn</a></li>
                         <li class="nav-item"><a href="<?= e(admin_url('shift_sessions')) ?>" class="nav-link <?= $currentPage === 'shift_sessions' ? 'active' : '' ?>"><i class="fa-solid fa-cash-register nav-icon"></i> Ca làm & Bàn giao</a></li>
+                        <?php if ($isAdmin): ?>
                         <li class="nav-item"><a href="<?= e(admin_url('customers')) ?>" class="nav-link <?= $currentPage === 'customers' ? 'active' : '' ?>"><i class="fa-solid fa-users nav-icon"></i> Khách hàng</a></li>
+                        <?php endif; ?>
                     </ul>
                 </div>
+
+                <?php if ($isAdmin): ?>
                 <div class="nav-section mb-4">
                     <span class="nav-section-title px-3">MENU</span>
                     <ul class="nav flex-column mt-2">
@@ -236,16 +294,22 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                         <li class="nav-item"><a href="<?= e(admin_url('toppings')) ?>" class="nav-link <?= $currentPage === 'toppings' ? 'active' : '' ?>"><i class="fa-solid fa-cubes nav-icon"></i> Topping/Size</a></li>
                     </ul>
                 </div>
+                <?php endif; ?>
+
                 <div class="nav-section mb-4">
                     <span class="nav-section-title px-3">KHO</span>
                     <ul class="nav flex-column mt-2">
                         <li class="nav-item"><a href="<?= e(admin_url('inventory')) ?>" class="nav-link <?= $currentPage === 'inventory' ? 'active' : '' ?>"><i class="fa-solid fa-boxes-stacked nav-icon"></i> Nguyên liệu</a></li>
                         <li class="nav-item"><a href="<?= e(admin_url('inventory_import')) ?>" class="nav-link <?= $currentPage === 'inventory_import' ? 'active' : '' ?>"><i class="fa-solid fa-box-open nav-icon"></i> Nhập kho</a></li>
                         <li class="nav-item"><a href="<?= e(admin_url('inventory_export')) ?>" class="nav-link <?= $currentPage === 'inventory_export' ? 'active' : '' ?>"><i class="fa-solid fa-truck-fast nav-icon"></i> Xuất kho</a></li>
+                        <?php if ($isAdmin): ?>
                         <li class="nav-item"><a href="<?= e(admin_url('product_ingredients')) ?>" class="nav-link <?= $currentPage === 'product_ingredients' ? 'active' : '' ?>"><i class="fa-solid fa-blender nav-icon"></i> Công thức sản phẩm</a></li>
                         <li class="nav-item"><a href="<?= e(admin_url('inventory_alerts')) ?>" class="nav-link <?= $currentPage === 'inventory_alerts' ? 'active' : '' ?>"><i class="fa-solid fa-triangle-exclamation nav-icon"></i> Cảnh báo tồn kho</a></li>
+                        <?php endif; ?>
                     </ul>
                 </div>
+
+                <?php if ($isAdmin): ?>
                 <div class="nav-section mb-4">
                     <span class="nav-section-title px-3">NHÂN SỰ</span>
                     <ul class="nav flex-column mt-2">
@@ -253,6 +317,7 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                         <li class="nav-item"><a href="<?= e(admin_url('shifts')) ?>" class="nav-link <?= $currentPage === 'shifts' ? 'active' : '' ?>"><i class="fa-solid fa-calendar-days nav-icon"></i> Ca làm việc</a></li>
                     </ul>
                 </div>
+
                 <div class="nav-section mb-4">
                     <span class="nav-section-title px-3">KINH DOANH</span>
                     <ul class="nav flex-column mt-2">
@@ -260,11 +325,16 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                         <li class="nav-item"><a href="<?= e(admin_url('reports')) ?>" class="nav-link <?= $currentPage === 'reports' ? 'active' : '' ?>"><i class="fa-solid fa-chart-pie nav-icon"></i> Báo cáo</a></li>
                     </ul>
                 </div>
+                <?php endif; ?>
+
                 <div class="nav-section mb-4">
                     <span class="nav-section-title px-3">HỆ THỐNG</span>
                     <ul class="nav flex-column mt-2">
+                        <?php if ($isAdmin): ?>
                         <li class="nav-item"><a href="<?= e(admin_url('settings')) ?>" class="nav-link <?= $currentPage === 'settings' ? 'active' : '' ?>"><i class="fa-solid fa-gear nav-icon"></i> Cài đặt</a></li>
-                        <li class="nav-item"><a href="<?= e(admin_url('profile')) ?>" class="nav-link <?= $currentPage === 'profile' ? 'active' : '' ?>"><i class="fa-regular fa-user nav-icon"></i> Hồ sơ</a></li>
+                        <li class="nav-item"><a href="<?= e(admin_url('profile')) ?>" class="nav-link <?= in_array($currentPage, ['profile', 'account']) ? 'active' : '' ?>"><i class="fa-regular fa-user nav-icon"></i> Hồ sơ</a></li>
+                        <?php endif; ?>
+                        <li class="nav-item"><a href="<?= e(url('home')) ?>" target="_blank" class="nav-link text-success"><i class="fa-solid fa-arrow-up-right-from-square nav-icon"></i> Xem Website</a></li>
                     </ul>
                 </div>
             </nav>
@@ -350,7 +420,11 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="userDropdown">
                         <li><a class="dropdown-item" href="<?= e(admin_url('profile')) ?>"><i class="fa-regular fa-user me-2"></i> Hồ sơ</a></li>
+                        <?php if ($isAdmin): ?>
                         <li><a class="dropdown-item" href="<?= e(admin_url('settings')) ?>"><i class="fa-solid fa-gear me-2"></i> Cài đặt</a></li>
+                        <?php else: ?>
+                        <li><a class="dropdown-item" href="<?= e(admin_url('my-shifts')) ?>"><i class="fa-solid fa-calendar-check me-2"></i> Lịch làm việc</a></li>
+                        <?php endif; ?>
                         <li><a class="dropdown-item" href="<?= e(url('home')) ?>" target="_blank"><i class="fa-solid fa-globe me-2"></i> Xem Website</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item text-danger" href="<?= e(admin_url('logout')) ?>"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Đăng xuất</a></li>

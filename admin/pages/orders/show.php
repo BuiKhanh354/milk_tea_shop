@@ -1,6 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <div class="d-flex align-items-center gap-3">
-        <a href="<?= e(admin_url('orders')) ?>" class="btn btn-light border shadow-none rounded-pill">
+        <?php $orderBackUrl = (isset($_SESSION['role']) && $_SESSION['role'] === 'staff') ? admin_url('dashboard') : admin_url('orders'); ?>
+        <a href="<?= e($orderBackUrl) ?>" class="btn btn-light border shadow-none rounded-pill">
             <i class="fa-solid fa-arrow-left"></i>
         </a>
         <h4 class="font-serif fw-bold text-dark mb-0">Chi tiết đơn hàng #ORD<?= str_pad($order['id'], 3, '0', STR_PAD_LEFT) ?></h4>
