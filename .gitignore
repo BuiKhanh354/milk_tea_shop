@@ -19,3 +19,6 @@
 
 # Screenshots va anh minh chung kiem thu
 *.png
+
+# Reference repositories
+/minishop-basic/
