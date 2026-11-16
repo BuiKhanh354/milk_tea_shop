@@ -13,10 +13,20 @@ function money($value)
     return number_format((float) $value, 0, ',', '.') . 'đ';
 }
 
-// redirect(): chuyển trang
+// redirect(): chuyển trang an toàn, tránh lỗi headers already sent
 function redirect($location)
 {
-    header('Location: ' . $location);
+    while (ob_get_level() > 0) {
+        ob_end_clean();
+    }
+    if (!headers_sent()) {
+        header('Location: ' . $location);
+        exit;
+    }
+    echo '<!DOCTYPE html><html><head><meta charset="utf-8">';
+    echo '<script>window.location.href = ' . json_encode($location) . ';</script>';
+    echo '<meta http-equiv="refresh" content="0;url=' . htmlspecialchars($location, ENT_QUOTES, 'UTF-8') . '">';
+    echo '</head><body><p>Đang chuyển hướng tới <a href="' . htmlspecialchars($location, ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($location, ENT_QUOTES, 'UTF-8') . '</a>...</p></body></html>';
     exit;
 }
 
