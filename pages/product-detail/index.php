@@ -307,14 +307,40 @@
 
             <!-- Form gửi đánh giá -->
             <div class="review-card mb-5 bg-ivory border border-sage border-opacity-25" id="review-form">
-                <h5 class="font-serif fw-bold text-forest mb-3">Viết đánh giá của bạn</h5>
-                <?php if (isset($_SESSION['customer_id'])): ?>
+                <?php if (!isset($_SESSION['customer_id'])): ?>
+                    <h5 class="font-serif fw-bold text-forest mb-2">Đánh giá sản phẩm</h5>
+                    <p class="text-muted mb-3"><i class="fa-solid fa-lock me-2 text-caramel"></i>Bạn cần đăng nhập bằng tài khoản đã mua món này để gửi đánh giá.</p>
+                    <a href="<?= e(url('login')) ?>" class="btn btn-outline-forest btn-sm rounded-0 px-4 py-2">ĐĂNG NHẬP</a>
+                <?php elseif (!$hasPurchased): ?>
+                    <h5 class="font-serif fw-bold text-forest mb-3">Đánh giá sản phẩm</h5>
+                    <div class="p-3 bg-white border border-sage border-opacity-25 d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-circle bg-cream text-caramel d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px;">
+                                <i class="fa-solid fa-bag-shopping fs-5"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-forest mb-1">Chỉ khách hàng đã mua mới có thể đánh giá</h6>
+                                <p class="text-muted small mb-0">Bạn cần đặt và hoàn thành đơn hàng có món <strong><?= e($product['name']) ?></strong> để viết nhận xét.</p>
+                            </div>
+                        </div>
+                        <a href="#order-customization" class="btn btn-outline-forest btn-sm rounded-0 px-3 py-2">ĐẶT MÓN NGAY</a>
+                    </div>
+                <?php else: ?>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="font-serif fw-bold text-forest mb-0">
+                            <?= $customerReview ? 'Cập nhật đánh giá của bạn' : 'Viết đánh giá của bạn' ?>
+                        </h5>
+                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1 small fw-medium">
+                            <i class="fa-solid fa-circle-check me-1"></i>Đã mua hàng
+                        </span>
+                    </div>
+
                     <form action="<?= e(url('product-detail', ['id' => $product['id'], 'action' => 'review'])) ?>" method="POST">
                         <?= csrf_field() ?>
                         <div class="mb-3">
                             <label class="form-label small text-muted text-uppercase fw-semibold mb-1">Mức độ hài lòng:</label>
                             <div class="star-rating d-flex align-items-center gap-2 fs-4" style="cursor: pointer;">
-                                <input type="hidden" name="rating" id="reviewRatingInput" value="5">
+                                <input type="hidden" name="rating" id="reviewRatingInput" value="<?= (int)($customerReview['rating'] ?? 5) ?>">
                                 <div class="stars-picker text-caramel d-flex gap-1">
                                     <i class="fa-solid fa-star star-item" data-value="1"></i>
                                     <i class="fa-solid fa-star star-item" data-value="2"></i>
@@ -328,14 +354,13 @@
 
                         <div class="mb-3">
                             <label class="form-label small text-muted text-uppercase fw-semibold mb-1">Nhận xét chi tiết:</label>
-                            <textarea name="comment" class="form-control rounded-0 border-sage border-opacity-50" rows="3" placeholder="Chia sẻ cảm nhận của bạn về hương vị trà, độ ngọt, trân châu..." required></textarea>
+                            <textarea name="comment" class="form-control rounded-0 border-sage border-opacity-50" rows="3" placeholder="Chia sẻ cảm nhận của bạn về hương vị trà, độ ngọt, trân châu..." required><?= e($customerReview['comment'] ?? '') ?></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-caramel px-4 py-2 rounded-0">GỬI ĐÁNH GIÁ</button>
+                        <button type="submit" class="btn btn-caramel px-4 py-2 rounded-0">
+                            <?= $customerReview ? 'CẬP NHẬT ĐÁNH GIÁ' : 'GỬI ĐÁNH GIÁ' ?>
+                        </button>
                     </form>
-                <?php else: ?>
-                    <p class="text-muted mb-3">Bạn cần đăng nhập để gửi đánh giá cho sản phẩm này.</p>
-                    <a href="<?= e(url('login')) ?>" class="btn btn-outline-forest btn-sm rounded-0 px-4 py-2">ĐĂNG NHẬP ĐỂ ĐÁNH GIÁ</a>
                 <?php endif; ?>
             </div>
 
@@ -379,23 +404,29 @@ document.addEventListener('DOMContentLoaded', function() {
         5: '5 sao - Rất hài lòng'
     };
 
+    function setStars(val) {
+        if (!ratingInput) return;
+        ratingInput.value = val;
+        if (ratingText) {
+            ratingText.textContent = labels[val] || (val + ' sao');
+        }
+        starItems.forEach((s, idx) => {
+            if (idx < val) {
+                s.classList.remove('fa-regular');
+                s.classList.add('fa-solid');
+            } else {
+                s.classList.remove('fa-solid');
+                s.classList.add('fa-regular');
+            }
+        });
+    }
+
     if (starItems.length > 0 && ratingInput) {
+        setStars(parseInt(ratingInput.value) || 5);
         starItems.forEach(star => {
             star.addEventListener('click', function() {
                 const val = parseInt(this.getAttribute('data-value'));
-                ratingInput.value = val;
-                if (ratingText) {
-                    ratingText.textContent = labels[val] || (val + ' sao');
-                }
-                starItems.forEach((s, idx) => {
-                    if (idx < val) {
-                        s.classList.remove('fa-regular');
-                        s.classList.add('fa-solid');
-                    } else {
-                        s.classList.remove('fa-solid');
-                        s.classList.add('fa-regular');
-                    }
-                });
+                setStars(val);
             });
         });
     }
