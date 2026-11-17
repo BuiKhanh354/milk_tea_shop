@@ -277,7 +277,7 @@
 </section>
 
 <!-- Đánh giá của khách hàng -->
-<section class="container py-5 fade-up visible">
+<section class="container py-5 fade-up visible" id="reviews-section">
     <div class="text-center mb-5">
         <h2 class="font-serif fw-bold text-forest">Đánh giá của khách hàng</h2>
         
@@ -298,6 +298,48 @@
 
     <div class="row justify-content-center">
         <div class="col-lg-8">
+            <?php if ($flashSuccess = get_flash('success')): ?>
+                <div class="alert alert-success rounded-0 border-0 mb-4"><?= e($flashSuccess) ?></div>
+            <?php endif; ?>
+            <?php if ($flashError = get_flash('error')): ?>
+                <div class="alert alert-danger rounded-0 border-0 mb-4"><?= e($flashError) ?></div>
+            <?php endif; ?>
+
+            <!-- Form gửi đánh giá -->
+            <div class="review-card mb-5 bg-ivory border border-sage border-opacity-25" id="review-form">
+                <h5 class="font-serif fw-bold text-forest mb-3">Viết đánh giá của bạn</h5>
+                <?php if (isset($_SESSION['customer_id'])): ?>
+                    <form action="<?= e(url('product-detail', ['id' => $product['id'], 'action' => 'review'])) ?>" method="POST">
+                        <?= csrf_field() ?>
+                        <div class="mb-3">
+                            <label class="form-label small text-muted text-uppercase fw-semibold mb-1">Mức độ hài lòng:</label>
+                            <div class="star-rating d-flex align-items-center gap-2 fs-4" style="cursor: pointer;">
+                                <input type="hidden" name="rating" id="reviewRatingInput" value="5">
+                                <div class="stars-picker text-caramel d-flex gap-1">
+                                    <i class="fa-solid fa-star star-item" data-value="1"></i>
+                                    <i class="fa-solid fa-star star-item" data-value="2"></i>
+                                    <i class="fa-solid fa-star star-item" data-value="3"></i>
+                                    <i class="fa-solid fa-star star-item" data-value="4"></i>
+                                    <i class="fa-solid fa-star star-item" data-value="5"></i>
+                                </div>
+                                <span class="fs-6 text-muted ms-2" id="ratingText">5 sao - Rất hài lòng</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small text-muted text-uppercase fw-semibold mb-1">Nhận xét chi tiết:</label>
+                            <textarea name="comment" class="form-control rounded-0 border-sage border-opacity-50" rows="3" placeholder="Chia sẻ cảm nhận của bạn về hương vị trà, độ ngọt, trân châu..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-caramel px-4 py-2 rounded-0">GỬI ĐÁNH GIÁ</button>
+                    </form>
+                <?php else: ?>
+                    <p class="text-muted mb-3">Bạn cần đăng nhập để gửi đánh giá cho sản phẩm này.</p>
+                    <a href="<?= e(url('login')) ?>" class="btn btn-outline-forest btn-sm rounded-0 px-4 py-2">ĐĂNG NHẬP ĐỂ ĐÁNH GIÁ</a>
+                <?php endif; ?>
+            </div>
+
+            <!-- Danh sách đánh giá -->
             <?php if(!empty($reviews)): ?>
                 <div class="d-flex flex-column gap-4">
                     <?php foreach($reviews as $review): ?>
@@ -318,11 +360,47 @@
             <?php endif; ?>
             
             <?php if (empty($reviews)): ?>
-                <p class="text-muted text-center mt-4">Sản phẩm chưa có đánh giá.</p>
+                <p class="text-muted text-center mt-2">Sản phẩm chưa có đánh giá nào. Hãy là người đầu tiên đánh giá!</p>
             <?php endif; ?>
         </div>
     </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const starItems = document.querySelectorAll('.stars-picker .star-item');
+    const ratingInput = document.getElementById('reviewRatingInput');
+    const ratingText = document.getElementById('ratingText');
+    const labels = {
+        1: '1 sao - Rất tệ',
+        2: '2 sao - Chưa hài lòng',
+        3: '3 sao - Bình thường',
+        4: '4 sao - Hài lòng',
+        5: '5 sao - Rất hài lòng'
+    };
+
+    if (starItems.length > 0 && ratingInput) {
+        starItems.forEach(star => {
+            star.addEventListener('click', function() {
+                const val = parseInt(this.getAttribute('data-value'));
+                ratingInput.value = val;
+                if (ratingText) {
+                    ratingText.textContent = labels[val] || (val + ' sao');
+                }
+                starItems.forEach((s, idx) => {
+                    if (idx < val) {
+                        s.classList.remove('fa-regular');
+                        s.classList.add('fa-solid');
+                    } else {
+                        s.classList.remove('fa-solid');
+                        s.classList.add('fa-regular');
+                    }
+                });
+            });
+        });
+    }
+});
+</script>
 
 <!-- Sản phẩm liên quan -->
 <?php if (!empty($relatedProducts)): ?>

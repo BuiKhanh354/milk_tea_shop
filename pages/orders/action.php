@@ -29,6 +29,7 @@ if ($action === 'detail' || $pageParam === 'order-detail') {
     foreach ($rawItems as $item) {
         $toppings = db()->fetchAll("SELECT t.name FROM order_detail_toppings odt JOIN toppings t ON odt.topping_id = t.id WHERE odt.order_detail_id = ?", [$item['id']]);
         $items[] = [
+            'product_id' => (int)$item['product_id'],
             'name'     => $item['product_name'],
             'size'     => $item['size_name'] ?: 'M',
             'sugar'    => ($item['sugar_level'] ?? 100) . '%',

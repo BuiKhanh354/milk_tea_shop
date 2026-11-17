@@ -17,6 +17,42 @@ if (!$product) {
 
 $title = $product['name'];
 
+// Xử lý gửi đánh giá
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && get_param('action') === 'review') {
+    if (!isset($_SESSION['customer_id'])) {
+        set_flash('error', 'Vui lòng đăng nhập để gửi đánh giá sản phẩm.');
+        redirect(url('login'));
+    }
+
+    $customerId = (int)$_SESSION['customer_id'];
+    $rating = (int)post_param('rating', 5);
+    $comment = trim((string)post_param('comment', ''));
+
+    if ($rating < 1 || $rating > 5) {
+        $rating = 5;
+    }
+
+    if (empty($comment)) {
+        set_flash('error', 'Vui lòng nhập nội dung đánh giá của bạn.');
+    } else {
+        // Tìm xem khách đã có đơn hàng nào chứa sản phẩm này không (để gán order_id)
+        $orderItem = db()->fetchOne("SELECT od.order_id 
+                                     FROM order_details od 
+                                     JOIN orders o ON od.order_id = o.id 
+                                     WHERE o.customer_id = ? AND od.product_id = ? 
+                                     ORDER BY o.id DESC LIMIT 1", [$customerId, $id]);
+        $orderId = $orderItem ? (int)$orderItem['order_id'] : null;
+
+        db()->execute("INSERT INTO reviews (customer_id, product_id, order_id, rating, comment, status, created_at) 
+                       VALUES (?, ?, ?, ?, ?, 1, NOW())", 
+                       [$customerId, $id, $orderId, $rating, $comment]);
+
+        set_flash('success', 'Cảm ơn bạn đã gửi đánh giá cho món ' . $product['name'] . '!');
+    }
+
+    redirect(url('product-detail', ['id' => $id]) . '#reviews-section');
+}
+
 // Lấy danh sách kích cỡ, topping, đường, đá
 $sizes = product_get_sizes();
 $toppings = product_get_toppings($product['id']);

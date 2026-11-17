@@ -117,9 +117,16 @@ if ($current_step_index === false) $current_step_index = -1;
                                                         Size: <?= e($item['size']) ?> | Đường: <?= e($item['sugar']) ?> | Đá: <?= e($item['ice']) ?> <br>
                                                         Topping: <?= e($item['toppings']) ?>
                                                     </div>
-                                                    <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="d-flex justify-content-between align-items-center mt-2">
                                                         <span class="small fw-medium">Qty: <?= (int)$item['quantity'] ?></span>
-                                                        <span class="fw-bold text-caramel"><?= e($item['price']) ?></span>
+                                                        <div class="d-flex align-items-center gap-3">
+                                                            <?php if (!empty($item['product_id']) && ($order['status'] === 'Hoàn thành' || strtolower($order['status']) === 'completed')): ?>
+                                                                <a href="<?= e(url('product-detail', ['id' => $item['product_id']])) ?>#review-form" class="btn btn-outline-forest btn-sm py-1 px-2 rounded-0 small text-decoration-none">
+                                                                    <i class="fa-regular fa-star me-1 text-caramel"></i>Đánh giá món
+                                                                </a>
+                                                            <?php endif; ?>
+                                                            <span class="fw-bold text-caramel"><?= e($item['price']) ?></span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
