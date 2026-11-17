@@ -1,42 +1,10 @@
 <?php
 // pages/stores/index.php — Hệ thống cửa hàng VAA THÉ chuẩn gốc
-$title = 'Hệ thống Cửa hàng';
 
-$stores = [
-    [
-        'id' => 1,
-        'name' => 'VAA THÉ - Premium Flagship',
-        'address' => '123 Đường Sách, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh',
-        'phone' => '0901 234 567',
-        'open_time' => '07:30',
-        'close_time' => '22:30',
-        'status' => 'open',
-        'image' => 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=800',
-        'amenities' => ['Wi-Fi', 'Điều hòa', 'Chỗ ngồi', 'Thanh toán QR', 'Chỗ đậu xe ô tô']
-    ],
-    [
-        'id' => 2,
-        'name' => 'VAA THÉ - Cơ sở 02',
-        'address' => '45 Nguyễn Văn Cừ, Phường 4, Quận 5, TP. Hồ Chí Minh',
-        'phone' => '0901 234 568',
-        'open_time' => '08:00',
-        'close_time' => '22:00',
-        'status' => 'open',
-        'image' => 'https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&q=80&w=800',
-        'amenities' => ['Wi-Fi', 'Điều hòa', 'Chỗ ngồi', 'Thanh toán QR']
-    ],
-    [
-        'id' => 3,
-        'name' => 'VAA THÉ - Hồ Tây',
-        'address' => '88 Trích Sài, Quận Tây Hồ, Hà Nội',
-        'phone' => '0901 234 569',
-        'open_time' => '07:00',
-        'close_time' => '23:00',
-        'status' => 'closed',
-        'image' => 'https://media-cdn-v2.laodong.vn/storage/newsportal/2025/3/8/1474031/Ho-Hoan-Kiem-3.jpeg',
-        'amenities' => ['Wi-Fi', 'Điều hòa', 'Chỗ ngồi view hồ', 'Thanh toán QR']
-    ]
-];
+if (!empty($store)) {
+    require __DIR__ . '/detail.php';
+    return;
+}
 ?>
 <!-- Hero Section -->
 <section class="store-hero py-5 bg-cream">
@@ -74,7 +42,7 @@ $stores = [
                 
                 <div class="d-flex flex-column gap-4" id="store-list">
                     <?php foreach ($stores as $store): ?>
-                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden p-4 store-card" data-status="<?= $store['status'] ?>" data-name="<?= e(mb_strtolower($store['name'] . ' ' . $store['address'])) ?>">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden p-4 store-card" style="cursor: pointer;" onclick="window.location.href='<?= e(url('stores', ['id' => $store['id']])) ?>'" data-status="<?= $store['status'] ?>" data-name="<?= e(mb_strtolower($store['name'] . ' ' . $store['address'])) ?>">
                         <div class="d-flex justify-content-between align-items-start mb-2">
                             <h5 class="font-serif fw-bold text-forest mb-0"><?= e($store['name']) ?></h5>
                             <?php if ($store['status'] === 'open'): ?>
@@ -103,11 +71,14 @@ $stores = [
                             <?php endforeach; ?>
                         </div>
                         
-                        <div class="d-flex gap-2">
-                            <a href="https://maps.google.com/?q=<?= urlencode($store['address']) ?>" target="_blank" class="btn btn-outline-forest rounded-pill flex-grow-1 py-2 fw-medium">
-                                <i class="fa-solid fa-map-location-dot me-1"></i> Xem đường đi
+                        <div class="d-flex gap-2" onclick="event.stopPropagation();">
+                            <a href="<?= e(url('stores', ['id' => $store['id']])) ?>" class="btn btn-outline-forest rounded-pill flex-grow-1 py-2 fw-medium text-center">
+                                Xem chi tiết
                             </a>
-                            <a href="tel:<?= e($store['phone']) ?>" class="btn btn-light border rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">
+                            <a href="<?= e($store['map_url'] ?? ('https://maps.google.com/?q=' . urlencode($store['address']))) ?>" target="_blank" class="btn btn-forest rounded-circle p-2 d-flex align-items-center justify-content-center text-white" style="width: 42px; height: 42px;" title="Chỉ đường">
+                                <i class="fa-solid fa-directions"></i>
+                            </a>
+                            <a href="tel:<?= e($store['phone']) ?>" class="btn btn-light border rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;" title="Hotline">
                                 <i class="fa-solid fa-phone text-forest"></i>
                             </a>
                         </div>

@@ -12,6 +12,8 @@ $routes = array(
     'about'          => 'about/index.php',
     'contact'        => 'contact/index.php',
     'stores'         => 'stores/index.php',
+    'store-detail'   => 'stores/detail.php',
+    'store_detail'   => 'stores/detail.php',
     'yeuthich'       => 'yeuthich/index.php',
     'favorites'      => 'yeuthich/index.php',
     'login'          => 'auth/login.php',
@@ -26,6 +28,7 @@ $routes = array(
 $rawParam = $_GET['page'] ?? ($_GET['route'] ?? 'home');
 $aliases = array(
     'product_detail' => 'product-detail',
+    'store_detail'   => 'store-detail',
     'favorites'      => 'yeuthich',
 );
 $page = $aliases[$rawParam] ?? $rawParam;
