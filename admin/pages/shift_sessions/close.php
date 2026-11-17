@@ -52,7 +52,7 @@
 
                     <div class="p-3 bg-success bg-opacity-10 rounded-3 border border-success d-flex justify-content-between align-items-center">
                         <div>
-                            <span class="fw-bold text-dark fs-6">TỔNG DOANH THU CA:</span>
+                            <span class="fw-bold text-white fs-6">TỔNG DOANH THU CA:</span>
                             <small class="d-block text-muted">Toàn bộ tiền mặt, chuyển khoản và ví điện tử</small>
                         </div>
                         <h3 class="fw-bold text-forest mb-0 font-monospace"><?= money($summary['total_sales']) ?></h3>

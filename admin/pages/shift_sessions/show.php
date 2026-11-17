@@ -95,8 +95,8 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="p-3 bg-forest bg-opacity-10 rounded-4 border-0">
-                        <span class="text-forest small d-block fw-bold mb-1">TỔNG DOANH THU CA</span>
-                        <h5 class="fw-bold text-forest mb-0 font-monospace"><?= money($session['total_sales'] ?? 0) ?></h5>
+                        <span class="text-white small d-block fw-bold mb-1">TỔNG DOANH THU CA</span>
+                        <h5 class="fw-bold text-white mb-0 font-monospace"><?= money($session['total_sales'] ?? 0) ?></h5>
                     </div>
                 </div>
             </div>
