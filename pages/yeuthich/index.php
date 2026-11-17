@@ -1,67 +1,114 @@
-<!-- pages/yeuthich/index.php — Giao diện Danh Sách Yêu Thích -->
-<section class="favorites-section py-5">
-    <div class="container">
-        
-        <h1 class="font-serif display-5 fw-bold text-forest mb-4">Món Ngon Yêu Thích</h1>
+<?php
+// pages/yeuthich/index.php — Giao diện Sản phẩm yêu thích chuẩn gốc VAA THÉ
+?>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?= csrf_meta() ?>
+    <title><?= e($title ?? 'Sản phẩm yêu thích') ?> - VAA THÉ</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="<?= e(asset('assets/css/style.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/global.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/account.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/products.css')) ?>">
+</head>
+<body class="bg-ivory">
 
-        <?php if (!isset($_SESSION['customer_id'])): ?>
-            <div class="text-center py-5">
-                <i class="fa-regular fa-heart fa-4x text-muted mb-3 opacity-50"></i>
-                <h4 class="font-serif text-forest mb-2">Vui lòng đăng nhập</h4>
-                <p class="text-muted mb-4">Bạn cần đăng nhập tài khoản để lưu lại những món yêu thích của mình.</p>
-                <a href="<?= e(url('login')) ?>" class="btn btn-forest px-4 py-2 rounded-pill fw-semibold">Đăng Nhập Ngay</a>
+    <!-- Header tối giản -->
+    <?php include __DIR__ . '/../../layouts/account/header.php'; ?>
+    
+    <main class="container py-5 account-style-a6ee44">
+        <div class="row g-4">
+            <!-- Sidebar (Cột Trái) -->
+            <div class="col-lg-3">
+                <?php 
+                $activeTab = 'favorites';
+                include __DIR__ . '/../../layouts/account/sidebar.php'; 
+                ?>
             </div>
-        <?php elseif (!empty($favoritesList)): ?>
-            <div class="row g-4">
-                <?php foreach ($favoritesList as $product): ?>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 product-item" id="fav-item-<?= $product['id'] ?>">
-                    <div class="product-card h-100 d-flex flex-column border-0 shadow-sm">
-                        <div class="product-image-box position-relative">
-                            <a href="<?= e(url('product-detail', ['id' => $product['id']])) ?>">
-                                <img src="<?= e(product_image($product['image'])) ?>" alt="<?= e($product['name']) ?>" class="img-fluid drop-shadow">
-                            </a>
-                            <button type="button" class="fav-icon border-0" onclick="removeFavorite(<?= (int)$product['id'] ?>)">
-                                <i class="fa-solid fa-heart text-danger"></i>
-                            </button>
-                        </div>
-                        <a href="<?= e(url('product-detail', ['id' => $product['id']])) ?>" class="text-decoration-none text-dark p-4 bg-white d-flex flex-column flex-grow-1 text-center">
-                            <h6 class="font-serif fw-bold fs-5 mb-1"><?= e($product['name']) ?></h6>
-                            <p class="text-muted small mb-3 line-clamp-2"><?= e($product['description'] ?? '') ?></p>
-                            <p class="text-caramel fw-bold mb-3 mt-auto fs-5"><?= money($product['price']) ?></p>
-                            <span class="btn btn-outline-forest w-100 rounded-pill py-2 fw-semibold">
-                                <i class="fa-solid fa-arrow-right me-2"></i> Xem chi tiết
-                            </span>
-                        </a>
+            
+            <!-- Content (Cột Phải) -->
+            <div class="col-lg-9">
+                <div class="bg-white p-4 p-md-5 border border-sage border-opacity-25 shadow-sm h-100 fade-up visible">
+                    
+                    <div class="mb-5 pb-3 border-bottom border-light">
+                        <span class="small-label d-block mb-1">FAVORITES</span>
+                        <h3 class="font-serif fw-bold text-forest mb-0">Sản phẩm yêu thích</h3>
                     </div>
+
+                    <?php if (empty($favorites)): ?>
+                        <div class="text-center py-5">
+                            <i class="fa-regular fa-heart fs-1 text-muted opacity-25 mb-3"></i>
+                            <h4 class="font-serif text-forest">Bạn chưa có sản phẩm yêu thích</h4>
+                            <p class="text-muted">Hãy thêm những món trà yêu thích vào đây để dễ dàng đặt lại.</p>
+                            <a href="<?= e(url('products')) ?>" class="btn btn-caramel mt-3">KHÁM PHÁ MENU</a>
+                        </div>
+                    <?php else: ?>
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                            <?php foreach ($favorites as $product): ?>
+                            <div class="col" id="favorite-<?= (int)$product['id'] ?>">
+                                <div class="card h-100 border-0 rounded-4 shadow-sm product-card">
+                                    <div class="product-image-box position-relative rounded-top-4" style="background-color: var(--vaa-cream, #F4F1EA);">
+                                        <div class="fav-icon" onclick="toggleFavorite(<?= (int)$product['id'] ?>)" style="z-index: 10; cursor: pointer;">
+                                            <i class="fa-solid text-danger fa-heart"></i>
+                                        </div>
+                                        <img src="<?= e(product_image($product['image'])) ?>" alt="<?= e($product['name']) ?>" class="img-fluid drop-shadow">
+                                    </div>
+                                    <div class="card-body p-4 text-center">
+                                        <span class="small-label mb-2 d-block text-caramel"><?= e($product['category_name'] ?? 'Trà sữa') ?></span>
+                                        <h5 class="card-title font-serif fw-bold text-forest mb-3 text-truncate" title="<?= e($product['name']) ?>"><?= e($product['name']) ?></h5>
+                                        <div class="fw-bold fs-5 text-dark mb-4">
+                                            <?= money($product['price']) ?>
+                                        </div>
+                                        <a href="<?= e(url('product-detail', ['id' => $product['id']])) ?>" class="btn btn-outline-forest w-100 rounded-pill py-2 fw-medium">CHI TIẾT</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <script>
+                            function toggleFavorite(productId) {
+                                fetch('<?= e(url('yeuthich', ['action' => 'toggle'])) ?>', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded',
+                                    },
+                                    body: 'product_id=' + productId
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success && !data.is_favorited) {
+                                        // Xóa khỏi UI
+                                        const el = document.getElementById('favorite-' + productId);
+                                        if (el) el.remove();
+                                        // Nếu danh sách trống thì reload trang
+                                        if (document.querySelectorAll('.col[id^="favorite-"]').length === 0) {
+                                            location.reload();
+                                        }
+                                    } else if (data.require_login) {
+                                        alert(data.message);
+                                        window.location.href = '<?= e(url('login')) ?>';
+                                    }
+                                });
+                            }
+                        </script>
+                    <?php endif; ?>
+                    
                 </div>
-                <?php endforeach; ?>
             </div>
-        <?php else: ?>
-            <div class="text-center py-5">
-                <i class="fa-regular fa-heart fa-4x text-muted mb-3 opacity-50"></i>
-                <h4 class="font-serif text-forest mb-2">Chưa có món yêu thích nào</h4>
-                <p class="text-muted mb-4">Hãy bấm vào biểu tượng trái tim trên các món trà sữa để thêm vào đây nhé!</p>
-                <a href="<?= e(url('products')) ?>" class="btn btn-forest px-4 py-2 rounded-pill fw-semibold">Khám Phá Menu</a>
-            </div>
-        <?php endif; ?>
-
-    </div>
-</section>
-
-<script>
-function removeFavorite(productId) {
-    if (!confirm('Bỏ món này khỏi danh sách yêu thích?')) return;
-    fetch('<?= e(url('yeuthich', ['action' => 'toggle'])) ?>', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: new URLSearchParams({product_id: productId})
-    })
-    .then(r => r.json())
-    .then(data => {
-        if (data.status === 'success') {
-            document.getElementById('fav-item-' + productId)?.remove();
-        }
-    });
-}
-</script>
-
+        </div>
+    </main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= e(asset('assets/js/main.js')) ?>"></script>
+</body>
+</html>

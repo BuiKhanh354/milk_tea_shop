@@ -1,13 +1,14 @@
 <?php
-// pages/orders/action.php — Lịch sử & Chi tiết đơn hàng của khách
+// pages/orders/action.php — Lịch sử & Chi tiết đơn hàng của khách hàng chuẩn gốc VAA THÉ
 if (!isset($_SESSION['customer_id'])) {
     redirect(url('login'));
 }
 
 $customerId = (int)$_SESSION['customer_id'];
 $action = get_param('action', '');
+$pageParam = get_param('page', get_param('route', 'orders'));
 
-if ($action === 'detail') {
+if ($action === 'detail' || $pageParam === 'order-detail') {
     $id = (int)get_param('id', 0);
     $rawOrder = db()->fetchOne("SELECT o.*, p.method as payment_method, p.status as payment_status 
         FROM orders o 
@@ -73,20 +74,21 @@ foreach ($ordersRaw as $o) {
         $itemsSummary[] = $it['name'] . ' (x' . $it['quantity'] . ')';
     }
 
-    $statusLabel = 'Đang xử lý';
+    $statusLabel = 'Đang chuẩn bị';
     if ($o['status'] === 'completed') $statusLabel = 'Hoàn thành';
     elseif ($o['status'] === 'cancelled') $statusLabel = 'Đã hủy';
     elseif ($o['status'] === 'preparing') $statusLabel = 'Đang pha chế';
     elseif ($o['status'] === 'confirmed') $statusLabel = 'Đã xác nhận';
-    elseif ($o['status'] === 'ready') $statusLabel = 'Sẵn sàng giao';
+    elseif ($o['status'] === 'ready') $statusLabel = 'Sẵn sàng';
 
     $orders[] = [
-        'id'     => 'VT' . str_pad($o['id'], 3, '0', STR_PAD_LEFT),
-        'raw_id' => $o['id'],
-        'date'   => date('d/m/Y H:i', strtotime($o['date'])),
-        'total'  => money($o['total']),
-        'status' => $statusLabel,
-        'items'  => implode(', ', $itemsSummary) ?: 'Sản phẩm trà sữa'
+        'id'         => 'VT' . str_pad($o['id'], 3, '0', STR_PAD_LEFT),
+        'raw_id'     => $o['id'],
+        'date'       => date('d/m/Y', strtotime($o['date'])),
+        'total'      => money($o['total']),
+        'status'     => $statusLabel,
+        'raw_status' => $o['status'],
+        'items'      => implode(', ', $itemsSummary) ?: 'Sản phẩm trà sữa'
     ];
 }
 

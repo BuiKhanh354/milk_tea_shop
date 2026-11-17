@@ -8,6 +8,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+if (!defined('ROOT_PATH')) {
+    define('ROOT_PATH', dirname(__DIR__));
+}
+
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 require_once __DIR__ . '/../classes/Database.php';      // class Database (kết nối MySQL)

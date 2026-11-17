@@ -105,6 +105,7 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
                         <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-0 custom-dropdown" aria-labelledby="accountDropdown">
                             <li><a class="dropdown-item py-2" href="<?= e(url('profile')) ?>"><i class="fa-regular fa-id-card me-2"></i> Thông tin cá nhân</a></li>
                             <li><a class="dropdown-item py-2" href="<?= e(url('orders')) ?>"><i class="fa-solid fa-clock-rotate-left me-2"></i> Đơn đã mua</a></li>
+                            <li><a class="dropdown-item py-2" href="<?= e(url('yeuthich')) ?>"><i class="fa-regular fa-heart me-2"></i> Sản phẩm yêu thích</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item py-2 text-danger" href="<?= e(url('logout')) ?>"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Đăng xuất</a></li>
                         </ul>

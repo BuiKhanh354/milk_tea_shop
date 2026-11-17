@@ -1,6 +1,7 @@
 <?php
 // layouts/account/sidebar.php — Menu Sidebar tài khoản khách hàng chuẩn gốc VAA THÉ
-$currentTab = $activeTab ?? (get_param('page') === 'password' ? 'password' : (get_param('page', 'profile')));
+$currentPage = get_param('page', get_param('route', 'profile'));
+$currentTab = $activeTab ?? (in_array($currentPage, ['orders', 'order-detail']) ? 'orders' : (in_array($currentPage, ['yeuthich', 'favorites']) ? 'favorites' : ($currentPage === 'password' ? 'password' : 'profile')));
 ?>
 <div class="account-sidebar bg-white p-4 border border-sage border-opacity-25 shadow-sm rounded-0 h-100">
     <h5 class="font-serif fw-bold text-forest mb-4 pb-3 border-bottom border-sage border-opacity-25">MY ACCOUNT</h5>

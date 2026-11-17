@@ -1,61 +1,127 @@
 <?php
-if ($action === 'detail') {
+// pages/orders/index.php — Lịch sử đơn hàng chuẩn gốc VAA THÉ
+$action = get_param('action', '');
+$pageParam = get_param('page', get_param('route', 'orders'));
+
+if ($action === 'detail' || $pageParam === 'order-detail') {
     require __DIR__ . '/detail.php';
     return;
 }
 ?>
-<section class="orders-section py-5 bg-cream">
-    <div class="container">
-        
-        <div class="mb-4 pb-2 border-bottom border-secondary border-opacity-10">
-            <span class="small text-muted text-uppercase fw-bold letter-spacing-1 d-block mb-1">LỊCH SỬ GIAO DỊCH</span>
-            <h2 class="font-serif fw-bold text-forest mb-0">Đơn hàng của bạn</h2>
-        </div>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?= csrf_meta() ?>
+    <title><?= e($title ?? 'Đơn đã mua') ?> - VAA THÉ</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="<?= e(asset('assets/css/style.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/global.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/account.css')) ?>">
+    <style>
+        .order-card {
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all var(--transition-normal, 0.3s ease);
+        }
+        .order-card:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+        .status-badge {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+        }
+        .status-preparing {
+            background-color: var(--vaa-cream, #F4F1EA);
+            color: var(--vaa-caramel, #C68A4C);
+        }
+        .status-completed {
+            background-color: var(--vaa-sage, #AAB79F);
+            color: var(--vaa-forest, #263A30);
+        }
+    </style>
+</head>
+<body class="bg-ivory">
 
-        <?php if (empty($orders)): ?>
-            <div class="text-center py-5 bg-white rounded-4 shadow-sm p-4">
-                <i class="fa-solid fa-receipt fa-3x text-muted opacity-25 mb-3"></i>
-                <h4 class="font-serif text-forest mb-2">Chưa có đơn hàng nào</h4>
-                <p class="text-muted mb-4">Bạn chưa thực hiện bất kỳ giao dịch nào tại VAA THÉ.</p>
-                <a href="<?= e(url('products')) ?>" class="btn btn-forest px-4 py-2 rounded-pill fw-semibold">XEM MENU & ĐẶT HÀNG</a>
+    <!-- Header tối giản -->
+    <?php include __DIR__ . '/../../layouts/account/header.php'; ?>
+    
+    <main class="container py-5 account-style-a6ee44">
+        <div class="row g-4">
+            <!-- Sidebar (Cột Trái) -->
+            <div class="col-lg-3">
+                <?php 
+                $activeTab = 'orders';
+                include __DIR__ . '/../../layouts/account/sidebar.php'; 
+                ?>
             </div>
-        <?php else: ?>
-            <div class="d-flex flex-column gap-3">
-                <?php foreach ($orders as $order): ?>
-                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white" style="transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 pb-3 border-bottom">
-                        <div>
-                            <h5 class="font-serif fw-bold text-forest mb-1">Mã đơn: #<?= e($order['id']) ?></h5>
-                            <span class="text-muted small"><i class="fa-regular fa-clock me-1"></i> Ngày đặt: <?= e($order['date']) ?></span>
-                        </div>
-                        <div>
-                            <?php 
-                                $badgeClass = 'bg-warning text-dark';
-                                if ($order['status'] === 'Hoàn thành') $badgeClass = 'bg-success text-white';
-                                elseif ($order['status'] === 'Đã hủy') $badgeClass = 'bg-danger text-white';
-                                elseif ($order['status'] === 'Đang pha chế' || $order['status'] === 'Đã xác nhận') $badgeClass = 'bg-primary text-white';
-                            ?>
-                            <span class="badge <?= $badgeClass ?> rounded-pill px-3 py-2 fw-medium"><?= e($order['status']) ?></span>
-                        </div>
+            
+            <!-- Content (Cột Phải) -->
+            <div class="col-lg-9">
+                <div class="bg-white p-4 p-md-5 border border-sage border-opacity-25 shadow-sm h-100 fade-up visible">
+                    
+                    <div class="mb-5 pb-3 border-bottom border-light">
+                        <span class="small-label d-block mb-1">ORDER HISTORY</span>
+                        <h3 class="font-serif fw-bold text-forest mb-0">Đơn hàng của bạn</h3>
                     </div>
-                    <div class="row align-items-center">
-                        <div class="col-md-8 mb-3 mb-md-0">
-                            <p class="mb-0 text-dark fw-medium"><i class="fa-solid fa-mug-hot text-forest me-2"></i><?= e($order['items']) ?></p>
+
+                    <?php if (empty($orders)): ?>
+                        <div class="text-center py-5">
+                            <i class="fa-solid fa-receipt fs-1 text-muted opacity-25 mb-3"></i>
+                            <h4 class="font-serif text-forest">Chưa có đơn hàng nào</h4>
+                            <p class="text-muted">Bạn chưa thực hiện bất kỳ giao dịch nào.</p>
+                            <a href="<?= e(url('products')) ?>" class="btn btn-caramel mt-3">XEM MENU</a>
                         </div>
-                        <div class="col-md-4 text-md-end">
-                            <p class="small text-muted mb-1">Tổng tiền</p>
-                            <h4 class="text-forest fw-bold mb-0 font-monospace"><?= e($order['total']) ?></h4>
+                    <?php else: ?>
+                        <div class="d-flex flex-column gap-4">
+                            <?php foreach ($orders as $order): ?>
+                            <div class="order-card p-4 rounded-0 bg-ivory">
+                                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 pb-3 border-bottom border-sage border-opacity-25">
+                                    <div>
+                                        <h5 class="font-serif fw-bold text-forest mb-1">Mã đơn: #<?= e($order['id']) ?></h5>
+                                        <span class="text-muted small">Ngày đặt: <?= e($order['date']) ?></span>
+                                    </div>
+                                    <div>
+                                        <?php 
+                                            $badgeClass = ($order['status'] === 'Hoàn thành' || ($order['raw_status'] ?? '') === 'completed') ? 'status-completed' : 'status-preparing';
+                                        ?>
+                                        <span class="status-badge <?= $badgeClass ?> fw-bold"><?= e($order['status']) ?></span>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-8 mb-3 mb-md-0">
+                                        <p class="mb-0 text-dark fw-medium"><?= e($order['items']) ?></p>
+                                    </div>
+                                    <div class="col-md-4 text-md-end">
+                                        <p class="small text-muted mb-1">Tổng tiền</p>
+                                        <h4 class="text-caramel fw-bold mb-0"><?= e($order['total']) ?></h4>
+                                    </div>
+                                </div>
+                                <div class="mt-4 text-end">
+                                    <a href="<?= e(url('orders', ['action' => 'detail', 'id' => $order['raw_id']])) ?>" class="btn btn-outline-forest btn-sm px-4 py-2">XEM CHI TIẾT</a>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
                         </div>
-                    </div>
-                    <div class="mt-3 pt-3 border-top d-flex justify-content-end">
-                        <a href="<?= e(url('orders', ['action' => 'detail', 'id' => $order['raw_id']])) ?>" class="btn btn-outline-forest btn-sm rounded-pill px-4 py-2">
-                            XEM CHI TIẾT <i class="fa-solid fa-arrow-right ms-1"></i>
-                        </a>
-                    </div>
+                    <?php endif; ?>
+                    
                 </div>
-                <?php endforeach; ?>
             </div>
-        <?php endif; ?>
-
-    </div>
-</section>
+        </div>
+    </main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= e(asset('assets/js/main.js')) ?>"></script>
+</body>
+</html>
