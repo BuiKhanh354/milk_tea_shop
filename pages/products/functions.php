@@ -137,7 +137,7 @@ function product_get_reviews($productId)
 function product_is_favorited($customerId, $productId)
 {
     if (!$customerId) return false;
-    $row = db()->fetchOne("SELECT id FROM favorites WHERE customer_id = ? AND product_id = ?", array((int)$customerId, (int)$productId));
+    $row = db()->fetchOne("SELECT product_id FROM favorites WHERE customer_id = ? AND product_id = ?", array((int)$customerId, (int)$productId));
     return !empty($row);
 }
 
