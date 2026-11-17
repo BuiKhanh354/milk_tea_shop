@@ -18,7 +18,7 @@ $routes = array(
     'register'       => 'auth/register.php',
     'logout'         => 'auth/logout.php',
     'profile'        => 'profile/index.php',
-    'password'       => 'profile/index.php',
+    'password'       => 'profile/password.php',
     'orders'         => 'orders/index.php',
     'order-detail'   => 'orders/detail.php',
 );
@@ -27,7 +27,6 @@ $rawParam = $_GET['page'] ?? ($_GET['route'] ?? 'home');
 $aliases = array(
     'product_detail' => 'product-detail',
     'favorites'      => 'yeuthich',
-    'password'       => 'profile',
 );
 $page = $aliases[$rawParam] ?? $rawParam;
 
@@ -49,7 +48,7 @@ if (is_file($action)) {
 }
 
 // Các trang độc lập không dùng chung header/footer của website
-$standalonePages = array('login', 'register', 'logout');
+$standalonePages = array('login', 'register', 'logout', 'profile', 'password');
 
 if (in_array($page, $standalonePages)) {
     require $file;
