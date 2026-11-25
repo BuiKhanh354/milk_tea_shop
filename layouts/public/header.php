@@ -22,6 +22,7 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="<?= e(asset('assets/images/VAU-logo-text.svg')) ?>">
     <?= csrf_meta() ?>
     <title><?= e($pageTitle) ?> - VAA THÉ</title>
     
