@@ -4,8 +4,8 @@ require_once __DIR__ . '/functions.php';
 
 $title = 'Sản Phẩm';
 
-$page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
-if ($page < 1) $page = 1;
+$currentPage = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+if ($currentPage < 1) $currentPage = 1;
 
 $currentCategory = isset($_GET['category_id']) && $_GET['category_id'] !== '' ? $_GET['category_id'] : 'all';
 $currentSearch = isset($_GET['search']) ? trim($_GET['search']) : '';
@@ -35,7 +35,7 @@ $countRow = db()->fetchOne($countSql, $params);
 $total = (int)($countRow['total'] ?? 0);
 $limit = 12;
 $totalPages = $total > 0 ? (int)ceil($total / $limit) : 1;
-$offset = ($page - 1) * $limit;
+$offset = ($currentPage - 1) * $limit;
 
 // Order By
 $orderBy = "p.id DESC";
@@ -56,8 +56,6 @@ $sql = "SELECT p.*, c.name as category_name
 
 $paramsWithLimit = array_merge($params, array((int)$limit, (int)$offset));
 $productsList = db()->fetchAll($sql, $paramsWithLimit);
-
-$currentPage = $page;
 
 // Danh sách yêu thích của người dùng nếu đã đăng nhập
 $favorites = array();

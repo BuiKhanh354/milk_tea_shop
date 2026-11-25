@@ -24,8 +24,18 @@ function url($page = 'home', $params = array())
     return base_url('index.php?' . http_build_query($queryParams));
 }
 
+function staff_url($page = 'dashboard', $params = array())
+{
+    $queryParams = array_merge(array('page' => $page), $params);
+    return base_url('staff/index.php?' . http_build_query($queryParams));
+}
+
 function admin_url($page = 'dashboard', $params = array())
 {
+    if (isset($_SESSION['role']) && $_SESSION['role'] === 'staff') {
+        return staff_url($page, $params);
+    }
+
     $queryParams = array_merge(array('page' => $page), $params);
     return base_url('admin/index.php?' . http_build_query($queryParams));
 }

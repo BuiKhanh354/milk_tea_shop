@@ -174,7 +174,7 @@ $title = 'Giới thiệu';
 <section class="end-cta-section fade-up text-center py-5 bg-forest text-white">
     <div class="container px-4 px-lg-5 py-4">
         <div class="mb-4">
-            <i class="fa-solid fa-mug-hot text-caramel fs-1"></i>
+            <i class="fa-solid text-caramel fs-1"></i>
         </div>
         <h2 class="mb-4 font-serif black text-white">Đã đến lúc tìm thấy<br>hương vị của riêng bạn.</h2>
         <a href="<?= e(url('products')) ?>" class="btn-vaa btn-caramel px-5 py-3 fs-6">KHÁM PHÁ MENU <i class="fa-solid fa-arrow-right ms-2"></i></a>

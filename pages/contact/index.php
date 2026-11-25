@@ -14,7 +14,7 @@ $title = 'Liên hệ';
         border-radius: 16px;
         box-shadow: 0 10px 30px rgba(24, 35, 29, 0.05);
         height: 100%;
-        border: 1px solid rgba(170, 183, 159, 0.2);
+        border: solid 1px;
         transition: transform 0.3s ease;
     }
     .contact-info-card:hover {
@@ -31,14 +31,14 @@ $title = 'Liên hệ';
         justify-content: center;
         font-size: 1.25rem;
         margin-bottom: 20px;
-        border: 2px solid #E4DAC5;
+        border: solid 2px;
     }
     .contact-form {
         background-color: #fff;
-        padding: 45px;
+        padding: 34px;
         border-radius: 16px;
         box-shadow: 0 10px 30px rgba(24, 35, 29, 0.05);
-        border: 1px solid rgba(170, 183, 159, 0.2);
+        border: solid 1px;
     }
     .contact-form .form-control, .contact-form .form-select {
         background-color: #F7F4ED;
@@ -74,7 +74,7 @@ $title = 'Liên hệ';
                         <div class="contact-info-card">
                             <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
                             <h5 class="fw-bold text-forest mb-2">Trụ sở chính</h5>
-                            <p class="text-muted mb-0">123 Nguyễn Văn Cừ, Phường 4, Quận 5, TP. Hồ Chí Minh</p>
+                            <p class="text-muted mb-0">18/1A Cộng Hoà, Phường Tân Sân Nhất, Thành phố Hồ Chí Minh</p>
                         </div>
                     </div>
                     <div class="col-12">

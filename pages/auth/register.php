@@ -118,7 +118,7 @@
                     <!-- Social Login Button -->
                     <button type="button"
                         class="btn btn-social w-100 d-flex align-items-center justify-content-center gap-2">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                        <img src="https://img.org/assets/images/imgorg/Google__G__Logo.svg"
                             alt="Google" width="20" height="20">
                         Đăng ký với Google
                     </button>

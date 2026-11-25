@@ -3,16 +3,22 @@ if ($action === 'show' && !empty($table)) {
     require __DIR__ . '/show.php';
     return;
 }
+$isStaffRole = isset($_SESSION['role']) && $_SESSION['role'] === 'staff';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-    <h4 class="font-serif fw-bold text-dark mb-0">Sơ đồ Bàn</h4>
+    <h4 class="font-serif fw-bold text-dark mb-0">Sơ đồ Bàn & Theo dõi phục vụ</h4>
     <div class="d-flex gap-3 text-muted small align-items-center flex-wrap">
         <div><span class="d-inline-block rounded-circle bg-white border border-secondary me-1" style="width:10px;height:10px;"></span> Bàn trống</div>
         <div><span class="d-inline-block rounded-circle bg-primary bg-opacity-25 border border-primary me-1" style="width:10px;height:10px;"></span> Đang có khách</div>
         <div><span class="d-inline-block rounded-circle bg-warning bg-opacity-25 border border-warning me-1" style="width:10px;height:10px;"></span> Đã đặt trước</div>
+        <a href="<?= e(admin_url('orders', ['order_type' => 'dine_in'])) ?>" class="btn btn-outline-forest rounded-pill px-3">
+            <i class="fa-solid fa-bell-concierge me-1"></i> Đơn tại bàn
+        </a>
+        <?php if (!$isStaffRole): ?>
         <button type="button" class="btn btn-forest rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#addTableModal">
             <i class="fa-solid fa-plus me-1"></i> Thêm bàn
         </button>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -30,6 +36,7 @@ if ($action === 'show' && !empty($table)) {
     </div>
 <?php endif; ?>
 
+<?php if (!$isStaffRole): ?>
 <div class="modal fade" id="addTableModal" tabindex="-1" aria-labelledby="addTableModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 rounded-4 shadow">
@@ -60,6 +67,7 @@ if ($action === 'show' && !empty($table)) {
         </div>
     </div>
 </div>
+<?php endif; ?>
 
 <div class="row g-4">
     <?php if (empty($tables)): ?>
@@ -88,10 +96,22 @@ if ($action === 'show' && !empty($table)) {
             ?>
             <div class="col-6 col-md-3 col-xl-2">
                 <div class="card <?= $bgClass ?> <?= $borderClass ?> shadow-sm rounded-4 text-center h-100" style="cursor: pointer; transition: all 0.3s;" onmouseover="this.classList.add('shadow')" onmouseout="this.classList.remove('shadow')" onclick="window.location.href='<?= e(admin_url('tables', ['action' => 'show', 'id' => $table['id']])) ?>'">
-                    <div class="card-body p-4">
-                        <i class="fa-solid <?= $icon ?> fs-1 <?= $textClass ?> mb-3"></i>
-                        <h5 class="fw-bold text-dark mb-1">Bàn <?= e($table['table_number']) ?></h5>
-                        <div class="small text-muted mb-2">Sức chứa: <?= (int)$table['capacity'] ?> người</div>
+                    <div class="card-body p-4 d-flex flex-column justify-content-between">
+                        <div>
+                            <i class="fa-solid <?= $icon ?> fs-1 <?= $textClass ?> mb-3"></i>
+                            <h5 class="fw-bold text-dark mb-1">Bàn <?= e($table['table_number']) ?></h5>
+                            <div class="small text-muted mb-2">Sức chứa: <?= (int)$table['capacity'] ?> người</div>
+                        </div>
+                        <?php if ((int)($table['active_orders_count'] ?? 0) > 0): ?>
+                            <div class="mt-2 pt-2 border-top border-primary border-opacity-25">
+                                <span class="badge bg-primary text-white rounded-pill px-2 py-1 mb-1">
+                                    <?= (int)$table['active_orders_count'] ?> đơn đang phục vụ
+                                </span>
+                                <div class="small fw-bold text-forest font-monospace">
+                                    <?= money($table['active_total_amount']) ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

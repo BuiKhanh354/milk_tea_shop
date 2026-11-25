@@ -35,10 +35,18 @@ if ($action === 'show' || $action === 'detail' || get_param('page') === 'order-d
         <form action="<?= e(admin_url('orders')) ?>" method="GET">
             <input type="hidden" name="page" value="orders">
             <div class="row g-3">
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <input type="text" name="search" class="form-control bg-light border-0 shadow-none" placeholder="Tìm mã đơn, khách hàng..." value="<?= e(get_param('search')) ?>">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+                    <select name="order_type" class="form-select bg-light border-0 shadow-none">
+                        <option value="">Tất cả loại đơn</option>
+                        <option value="dine_in" <?= get_param('order_type') === 'dine_in' ? 'selected' : '' ?>>Tại quán (Tại bàn)</option>
+                        <option value="takeaway" <?= get_param('order_type') === 'takeaway' ? 'selected' : '' ?>>Mang đi</option>
+                        <option value="delivery" <?= get_param('order_type') === 'delivery' ? 'selected' : '' ?>>Giao hàng</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
                     <select name="status" class="form-select bg-light border-0 shadow-none">
                         <option value="">Tất cả trạng thái</option>
                         <option value="pending" <?= get_param('status') === 'pending' ? 'selected' : '' ?>>Chờ xác nhận</option>
@@ -49,7 +57,7 @@ if ($action === 'show' || $action === 'detail' || get_param('page') === 'order-d
                         <option value="cancelled" <?= get_param('status') === 'cancelled' ? 'selected' : '' ?>>Đã hủy</option>
                     </select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-outline-forest w-100 rounded-3"><i class="fa-solid fa-filter me-2"></i> Lọc</button>
                 </div>
             </div>
@@ -173,6 +181,7 @@ if ($action === 'show' || $action === 'detail' || get_param('page') === 'order-d
         <?php 
             $queryString = '';
             if (get_param('search') !== '') $queryString .= '&search=' . urlencode(get_param('search'));
+            if (get_param('order_type') !== '') $queryString .= '&order_type=' . urlencode(get_param('order_type'));
             if (get_param('status') !== '') $queryString .= '&status=' . urlencode(get_param('status'));
             $curP = $orderPage ?? 1;
         ?>

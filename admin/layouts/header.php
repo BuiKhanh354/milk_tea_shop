@@ -170,6 +170,21 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                             <i class="fa-solid fa-triangle-exclamation nav-icon"></i> Cảnh báo tồn kho
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="<?= e(admin_url('inventory_audits')) ?>" class="nav-link <?= $currentPage === 'inventory_audits' ? 'active' : '' ?>">
+                            <i class="fa-solid fa-clipboard-check nav-icon"></i> Kiểm kê kho
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= e(admin_url('inventory_transactions')) ?>" class="nav-link <?= $currentPage === 'inventory_transactions' ? 'active' : '' ?>">
+                            <i class="fa-solid fa-clock-rotate-left nav-icon"></i> Lịch sử kho
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= e(admin_url('inventory_report')) ?>" class="nav-link <?= $currentPage === 'inventory_report' ? 'active' : '' ?>">
+                            <i class="fa-solid fa-file-invoice nav-icon"></i> Báo cáo tồn kho
+                        </a>
+                    </li>
                     <?php endif; ?>
                 </ul>
             </div>
@@ -189,6 +204,11 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                             <i class="fa-solid fa-calendar-days nav-icon"></i> Ca làm việc
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="<?= e(admin_url('my-shifts')) ?>" class="nav-link <?= $currentPage === 'my-shifts' ? 'active' : '' ?>">
+                            <i class="fa-solid fa-calendar-check nav-icon"></i> Lịch làm việc của tôi
+                        </a>
+                    </li>
                 </ul>
             </div>
 
@@ -199,6 +219,11 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                     <li class="nav-item">
                         <a href="<?= e(admin_url('payments')) ?>" class="nav-link <?= $currentPage === 'payments' ? 'active' : '' ?>">
                             <i class="fa-solid fa-credit-card nav-icon"></i> Thanh toán
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= e(admin_url('reviews')) ?>" class="nav-link <?= $currentPage === 'reviews' ? 'active' : '' ?>">
+                            <i class="fa-solid fa-star nav-icon"></i> Đánh giá
                         </a>
                     </li>
                     <li class="nav-item">
@@ -290,7 +315,7 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                 <div class="nav-section mb-4">
                     <span class="nav-section-title px-3">MENU</span>
                     <ul class="nav flex-column mt-2">
-                        <li class="nav-item"><a href="<?= e(admin_url('products')) ?>" class="nav-link <?= in_array($currentPage, ['products', 'product-create', 'product-edit']) ? 'active' : '' ?>"><i class="fa-solid fa-mug-hot nav-icon"></i> Sản phẩm</a></li>
+                        <li class="nav-item"><a href="<?= e(admin_url('products')) ?>" class="nav-link <?= in_array($currentPage, ['products', 'product-create', 'product-edit']) ? 'active' : '' ?>"><i class="fa-solid nav-icon"></i> Sản phẩm</a></li>
                         <li class="nav-item"><a href="<?= e(admin_url('categories')) ?>" class="nav-link <?= $currentPage === 'categories' ? 'active' : '' ?>"><i class="fa-regular fa-folder nav-icon"></i> Danh mục</a></li>
                         <li class="nav-item"><a href="<?= e(admin_url('options')) ?>" class="nav-link <?= $currentPage === 'options' ? 'active' : '' ?>"><i class="fa-solid fa-sliders nav-icon"></i> Item Options</a></li>
                         <li class="nav-item"><a href="<?= e(admin_url('toppings')) ?>" class="nav-link <?= $currentPage === 'toppings' ? 'active' : '' ?>"><i class="fa-solid fa-cubes nav-icon"></i> Topping/Size</a></li>
@@ -309,6 +334,9 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                         <?php if ($isAdmin): ?>
                         <li class="nav-item"><a href="<?= e(admin_url('product_ingredients')) ?>" class="nav-link <?= $currentPage === 'product_ingredients' ? 'active' : '' ?>"><i class="fa-solid fa-blender nav-icon"></i> Công thức sản phẩm</a></li>
                         <li class="nav-item"><a href="<?= e(admin_url('inventory_alerts')) ?>" class="nav-link <?= $currentPage === 'inventory_alerts' ? 'active' : '' ?>"><i class="fa-solid fa-triangle-exclamation nav-icon"></i> Cảnh báo tồn kho</a></li>
+                        <li class="nav-item"><a href="<?= e(admin_url('inventory_audits')) ?>" class="nav-link <?= $currentPage === 'inventory_audits' ? 'active' : '' ?>"><i class="fa-solid fa-clipboard-check nav-icon"></i> Kiểm kê kho</a></li>
+                        <li class="nav-item"><a href="<?= e(admin_url('inventory_transactions')) ?>" class="nav-link <?= $currentPage === 'inventory_transactions' ? 'active' : '' ?>"><i class="fa-solid fa-clock-rotate-left nav-icon"></i> Lịch sử kho</a></li>
+                        <li class="nav-item"><a href="<?= e(admin_url('inventory_report')) ?>" class="nav-link <?= $currentPage === 'inventory_report' ? 'active' : '' ?>"><i class="fa-solid fa-file-invoice nav-icon"></i> Báo cáo tồn kho</a></li>
                         <?php endif; ?>
                     </ul>
                 </div>
@@ -319,6 +347,7 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                     <ul class="nav flex-column mt-2">
                         <li class="nav-item"><a href="<?= e(admin_url('staff')) ?>" class="nav-link <?= $currentPage === 'staff' ? 'active' : '' ?>"><i class="fa-solid fa-user-tie nav-icon"></i> Nhân viên</a></li>
                         <li class="nav-item"><a href="<?= e(admin_url('shifts')) ?>" class="nav-link <?= $currentPage === 'shifts' ? 'active' : '' ?>"><i class="fa-solid fa-calendar-days nav-icon"></i> Ca làm việc</a></li>
+                        <li class="nav-item"><a href="<?= e(admin_url('my-shifts')) ?>" class="nav-link <?= $currentPage === 'my-shifts' ? 'active' : '' ?>"><i class="fa-solid fa-calendar-check nav-icon"></i> Lịch làm việc của tôi</a></li>
                     </ul>
                 </div>
 
@@ -326,6 +355,7 @@ $adminName = $_SESSION['full_name'] ?? 'Admin';
                     <span class="nav-section-title px-3">KINH DOANH</span>
                     <ul class="nav flex-column mt-2">
                         <li class="nav-item"><a href="<?= e(admin_url('payments')) ?>" class="nav-link <?= $currentPage === 'payments' ? 'active' : '' ?>"><i class="fa-solid fa-credit-card nav-icon"></i> Thanh toán</a></li>
+                        <li class="nav-item"><a href="<?= e(admin_url('reviews')) ?>" class="nav-link <?= $currentPage === 'reviews' ? 'active' : '' ?>"><i class="fa-solid fa-star nav-icon"></i> Đánh giá</a></li>
                         <li class="nav-item"><a href="<?= e(admin_url('reports')) ?>" class="nav-link <?= $currentPage === 'reports' ? 'active' : '' ?>"><i class="fa-solid fa-chart-pie nav-icon"></i> Báo cáo</a></li>
                     </ul>
                 </div>

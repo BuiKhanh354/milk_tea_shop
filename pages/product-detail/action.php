@@ -63,6 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && get_param('action') === 'review') {
 
     if (empty($comment)) {
         set_flash('error', 'Vui lòng nhập nội dung đánh giá của bạn.');
+    } elseif (mb_strlen($comment) < 3) {
+        set_flash('error', 'Nội dung nhận xét quá ngắn (tối thiểu 3 ký tự).');
     } else {
         $existing = db()->fetchOne("SELECT id FROM reviews WHERE customer_id = ? AND product_id = ? LIMIT 1", [$customerId, $id]);
         if ($existing) {

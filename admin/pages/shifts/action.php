@@ -15,6 +15,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                 db()->execute("INSERT INTO shifts (name, start_time, end_time, status) VALUES (?, ?, ?, 1)", [$name, $startTime, $endTime]);
                 set_flash('success', 'Đã tạo ca làm việc thành công!');
             }
+        } else {
+            set_flash('error', 'Vui lòng điền đầy đủ tên ca, giờ bắt đầu và giờ kết thúc!');
         }
         redirect(admin_url('shifts'));
     }

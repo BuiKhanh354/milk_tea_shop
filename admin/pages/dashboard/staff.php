@@ -70,7 +70,7 @@
     <?php if (empty($orders)): ?>
         <div class="col-12 text-center py-5">
             <div class="mb-3 text-muted">
-                <i class="fa-solid fa-mug-hot fs-1 text-secondary opacity-50"></i>
+                <i class="fa-solid fs-1 text-secondary opacity-50"></i>
             </div>
             <h5 class="text-muted fw-normal">Không có đơn hàng nào cần xử lý lúc này.</h5>
             <p class="small text-muted mb-0">Các đơn hàng mới phát sinh từ Website hoặc POS sẽ hiển thị tại đây.</p>

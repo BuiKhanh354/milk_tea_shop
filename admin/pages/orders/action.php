@@ -43,12 +43,27 @@ if ($requestMethod === 'POST' && in_array($action, ['update_status', 'update-sta
                     }
                 }
             }
+            // Tự động giải phóng bàn hoặc đánh dấu có khách đối với đơn tại bàn
+            if ($oldOrder['order_type'] === 'dine_in' && !empty($oldOrder['table_id'])) {
+                $tId = (int)$oldOrder['table_id'];
+                if (in_array($status, ['completed', 'cancelled'], true)) {
+                    $otherOpen = db()->fetchOne("SELECT COUNT(*) as c FROM orders WHERE table_id = ? AND id != ? AND status NOT IN ('completed', 'cancelled')", [$tId, $id]);
+                    if ((int)($otherOpen['c'] ?? 0) === 0) {
+                        db()->execute("UPDATE tables SET status = 'available' WHERE id = ?", [$tId]);
+                    }
+                } else {
+                    db()->execute("UPDATE tables SET status = 'occupied' WHERE id = ?", [$tId]);
+                }
+            }
+
             set_flash('success', "Cập nhật trạng thái đơn #ORD{$id} thành công!");
         }
     }
 
     $redir = post_param('redirect');
-    if ($redir === 'staff' || $redir === 'dashboard' || (isset($_SESSION['role']) && $_SESSION['role'] === 'staff' && in_array($status, ['completed', 'cancelled']))) {
+    if ($redir === 'table' && !empty($oldOrder['table_id'])) {
+        redirect(admin_url('tables', ['action' => 'show', 'id' => (int)$oldOrder['table_id']]));
+    } elseif ($redir === 'staff' || $redir === 'dashboard' || (isset($_SESSION['role']) && $_SESSION['role'] === 'staff' && in_array($status, ['completed', 'cancelled']))) {
         redirect(admin_url('dashboard'));
     } elseif ($redir === 'orders') {
         redirect(admin_url('orders'));
@@ -142,6 +157,7 @@ if ($action === 'create' || get_param('page') === 'order-create') {
     $sizes = db()->fetchAll("SELECT * FROM sizes WHERE status = 1 ORDER BY extra_price ASC");
     $toppings = db()->fetchAll("SELECT * FROM toppings WHERE status = 1 ORDER BY name ASC");
     $tables = db()->fetchAll("SELECT * FROM tables ORDER BY table_number ASC");
+    $preselectedTableId = (int)get_param('table_id', 0);
 
     $posOpenSession = db()->fetchOne("SELECT s.*, sh.name as shift_name FROM shift_sessions s LEFT JOIN shifts sh ON s.shift_id = sh.id WHERE s.status = 'open' ORDER BY s.opened_at DESC LIMIT 1");
     $posTodayShift = null;
@@ -198,6 +214,7 @@ $offset = ($page - 1) * $limit;
 
 $search = get_param('search', '');
 $status = get_param('status', '');
+$orderTypeFilter = get_param('order_type', '');
 
 $conditions = [];
 $params = [];
@@ -215,6 +232,11 @@ if ($status !== '') {
     $params[] = $status;
 }
 
+if ($orderTypeFilter !== '' && in_array($orderTypeFilter, ['dine_in', 'takeaway', 'delivery'], true)) {
+    $conditions[] = "o.order_type = ?";
+    $params[] = $orderTypeFilter;
+}
+
 $whereClause = !empty($conditions) ? "WHERE " . implode(" AND ", $conditions) : "";
 
 $countRow = db()->fetchOne("SELECT COUNT(*) as total FROM orders o 
@@ -228,22 +250,34 @@ $listParams = array_merge($params, [$limit, $offset]);
 $orderPage = $page;
 $ordersRaw = db()->fetchAll("SELECT o.*, 
        COALESCE(c.full_name, u.full_name, 'Khách vãng lai') as customer_name,
-       COALESCE(p.method, 'Tiền mặt') as payment_method
+       COALESCE(p.method, 'Tiền mặt') as payment_method,
+       t.table_number
 FROM orders o 
 LEFT JOIN customers c ON o.customer_id = c.id
 LEFT JOIN users u ON o.user_id = u.id
 LEFT JOIN payments p ON o.id = p.order_id
+LEFT JOIN tables t ON o.table_id = t.id
 $whereClause
 ORDER BY o.created_at DESC
 LIMIT ? OFFSET ?", $listParams);
 
+$typeLabels = [
+    'dine_in'  => 'Tại quán',
+    'takeaway' => 'Mang đi',
+    'delivery' => 'Giao hàng'
+];
+
 $orders = [];
 foreach ($ordersRaw as $o) {
+    $typeDisplay = $typeLabels[$o['order_type']] ?? ucfirst(str_replace('_', '-', $o['order_type']));
+    if ($o['order_type'] === 'dine_in' && !empty($o['table_number'])) {
+        $typeDisplay .= ' (Bàn ' . $o['table_number'] . ')';
+    }
     $orders[] = [
         'id'       => $o['id'],
         'code'     => '#ORD' . str_pad($o['id'], 3, '0', STR_PAD_LEFT),
         'customer' => $o['customer_name'],
-        'type'     => ucfirst(str_replace('_', '-', $o['order_type'])),
+        'type'     => $typeDisplay,
         'total'    => money($o['final_amount']),
         'payment'  => format_payment_method($o['payment_method']),
         'status'   => ucfirst($o['status']),

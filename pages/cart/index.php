@@ -75,9 +75,9 @@
                                     <?php endif; ?>
 
                                     <?php if (!empty($item['temperature']) && $item['temperature'] === 'hot'): ?>
-                                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 me-1"><i class="fa-solid fa-mug-hot me-1"></i>Nóng</span>
+                                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 me-1"><i class="fa-solid me-1"></i>Nóng</span>
                                     <?php else: ?>
-                                        <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 me-1"><i class="fa-solid fa-snowflake me-1"></i>Lạnh</span>
+                                        <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 me-1"><i class="fa-solid me-1"></i>Lạnh</span>
                                         <?php if (isset($item['ice']) && $item['ice'] !== '' && $item['ice'] !== null): ?>
                                             <span class="badge bg-light text-dark border me-1">Đá <?= e($item['ice']) ?>%</span>
                                         <?php elseif (!empty($item['ice_name'])): ?>

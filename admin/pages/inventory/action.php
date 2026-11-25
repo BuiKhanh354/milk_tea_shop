@@ -143,5 +143,54 @@ $stats = [
     'out_of_stock' => $outOfStock
 ];
 
-$pageTitle = 'Quản lý Nguyên liệu';
+$currentSubPage = get_param('page', 'inventory');
+
+if ($currentSubPage === 'inventory_transactions') {
+    $transType = get_param('type', '');
+    $transSearch = trim((string)get_param('search', ''));
+    $tWhere = ["1=1"];
+    $tParams = [];
+    if ($transType !== '' && in_array($transType, ['IMPORT', 'EXPORT', 'USAGE', 'ADJUSTMENT'], true)) {
+        $tWhere[] = "t.type = ?";
+        $tParams[] = $transType;
+    }
+    if ($transSearch !== '') {
+        $tWhere[] = "(i.ingredient_name LIKE ? OR t.note LIKE ?)";
+        $tParams[] = '%' . $transSearch . '%';
+        $tParams[] = '%' . $transSearch . '%';
+    }
+    $tClause = implode(" AND ", $tWhere);
+    $transactions = db()->fetchAll("
+        SELECT t.*, i.ingredient_name, i.unit, COALESCE(u.full_name, 'Hệ thống') as user_name
+        FROM inventory_transactions t
+        JOIN inventory i ON t.inventory_id = i.id
+        LEFT JOIN users u ON t.user_id = u.id
+        WHERE $tClause
+        ORDER BY t.created_at DESC
+        LIMIT 100
+    ", $tParams);
+    $pageTitle = 'Lịch sử giao dịch kho';
+} elseif ($currentSubPage === 'inventory_report') {
+    $inventoryReportRows = db()->fetchAll("
+        SELECT i.*,
+               COALESCE(SUM(CASE WHEN t.type = 'IMPORT' THEN t.quantity ELSE 0 END), 0) as total_import,
+               COALESCE(SUM(CASE WHEN t.type IN ('EXPORT', 'USAGE') THEN t.quantity ELSE 0 END), 0) as total_out,
+               COALESCE(SUM(CASE WHEN t.type = 'ADJUSTMENT' THEN t.quantity ELSE 0 END), 0) as total_adjust
+        FROM inventory i
+        LEFT JOIN inventory_transactions t ON i.id = t.inventory_id
+        GROUP BY i.id
+        ORDER BY (i.quantity * i.price) DESC, i.ingredient_name ASC
+    ");
+    $totalInventoryValue = 0;
+    $totalImportAll = 0;
+    $totalOutAll = 0;
+    foreach ($inventoryReportRows as $r) {
+        $totalInventoryValue += (float)$r['quantity'] * (float)$r['price'];
+        $totalImportAll += (float)$r['total_import'];
+        $totalOutAll += (float)$r['total_out'];
+    }
+    $pageTitle = 'Báo cáo tồn kho';
+} else {
+    $pageTitle = 'Quản lý Nguyên liệu';
+}
 

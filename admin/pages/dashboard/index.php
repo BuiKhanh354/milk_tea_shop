@@ -48,7 +48,7 @@
         <div class="stat-card">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="stat-icon bg-warning bg-opacity-10 text-warning">
-                    <i class="fa-solid fa-mug-hot"></i>
+                    <i class="fa-solid"></i>
                 </div>
                 <span class="badge bg-success bg-opacity-10 text-success rounded-pill fw-medium px-2 py-1"><?= e($stats['products']['growth']) ?></span>
             </div>

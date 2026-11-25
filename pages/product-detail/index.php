@@ -119,11 +119,11 @@
                     <div class="vaa-radio-group">
                         <div class="vaa-radio-btn">
                             <input type="radio" name="temperature" id="temp-cold" value="cold" checked>
-                            <label for="temp-cold"><i class="fa-solid fa-snowflake me-1 text-primary"></i>Dùng lạnh</label>
+                            <label for="temp-cold"><i class="fa-solid me-1 text-primary"></i>Dùng lạnh</label>
                         </div>
                         <div class="vaa-radio-btn">
                             <input type="radio" name="temperature" id="temp-hot" value="hot">
-                            <label for="temp-hot"><i class="fa-solid fa-mug-hot me-1 text-danger"></i>Dùng nóng</label>
+                            <label for="temp-hot"><i class="fa-solid me-1 text-danger"></i>Dùng nóng</label>
                         </div>
                     </div>
                 </div>

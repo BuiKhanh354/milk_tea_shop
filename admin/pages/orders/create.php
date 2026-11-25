@@ -82,16 +82,16 @@
                     <div class="row g-2 mb-3">
                         <div class="col-6">
                             <select name="order_type" class="form-select bg-light border-0 shadow-none" onchange="toggleTableSelect(this.value)">
-                                <option value="takeaway">Mang đi</option>
-                                <option value="dine_in">Tại quán</option>
+                                <option value="takeaway" <?= empty($preselectedTableId) ? 'selected' : '' ?>>Mang đi</option>
+                                <option value="dine_in" <?= !empty($preselectedTableId) ? 'selected' : '' ?>>Tại quán</option>
                             </select>
                         </div>
-                        <div class="col-6 d-none" id="tableSelectWrapper">
+                        <div class="col-6 <?= !empty($preselectedTableId) ? '' : 'd-none' ?>" id="tableSelectWrapper">
                             <select name="table_id" class="form-select bg-light border-0 shadow-none">
                                 <option value="">-- Chọn bàn --</option>
                                 <?php foreach ($tables as $t): ?>
-                                    <option value="<?= (int)$t['id'] ?>" <?= $t['status'] === 'occupied' ? 'disabled' : '' ?>>
-                                        Bàn <?= e($t['table_number']) ?> <?= $t['status'] === 'occupied' ? '(Có khách)' : '' ?>
+                                    <option value="<?= (int)$t['id'] ?>" <?= (!empty($preselectedTableId) && (int)$preselectedTableId === (int)$t['id']) ? 'selected' : '' ?>>
+                                        Bàn <?= e($t['table_number']) ?> <?= $t['status'] === 'occupied' ? '(Đang phục vụ)' : '' ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>

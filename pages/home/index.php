@@ -34,7 +34,7 @@
             
             <div class="col-lg-7 position-relative mt-5 mt-lg-0">
                 <div class="hero-image-wrapper shadow-lg">
-                    <img src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.99422-6/719161390_1559162298984184_1470607750049226317_n.png?stp=dst-jpg_tt6&cstp=mx1152x1440&ctp=s1152x1440&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_ohc=axGAVhiL7u8Q7kNvwEpiBmE&_nc_oc=Ado4PsedEJ2_hHrj4Vsw0zR9bNjAOFI_n67rsxKgCqzobCNhc8AH941UllMLn-r1EXU-9oW-ik4cAvVuhGO2LqCK&_nc_zt=14&_nc_ht=scontent.fsgn5-10.fna&_nc_gid=NfHVWTR9aJKzhhf3s9I1wg&_nc_ss=7b2a8&oh=00_AQOg0_oK5evh24ZKtOFdDi9-f6bWE86erhC3IlNUxfAPHw&oe=6AD7C82C" alt="Premium Milk Tea" class="img-fluid">
+                    <img src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.99422-6/719161390_1559162298984184_1470607750049226317_n.png?stp=dst-jpg_tt6&cstp=mx1152x1440&ctp=s1152x1440&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_ohc=hFMYJQ2ZEnYQ7kNvwHmMm-y&_nc_oc=Adory5A0MNCYl8Gy9EAPWdqa0qxswGIx3ZC02eecP79dk4cPBxKGUcB1EyfV7c85rv57V2NdndtKbOKKZSErpdcx&_nc_zt=14&_nc_ht=scontent.fsgn5-10.fna&_nc_gid=0pg9lPps7R9OutbDMLETlg&_nc_ss=7b2a8&oh=00_AQSdR1HvnuqySuO80F2ek3L2jnQXOZyTiPBwuNB-BVCbVw&oe=6B06CDAC" alt="Premium Milk Tea" class="img-fluid">
                 </div>
                 <div class="position-absolute d-none d-lg-block hero-floating-text">
                     <span class="font-serif fs-3 text-caramel fw-bold fst-italic">Good Tea<br>Good Mood</span>
@@ -200,7 +200,7 @@
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="text-center">
                     <div class="bg-ivory rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center shadow-sm home-style-d8710e" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <i class="fa-solid fa-mug-hot text-caramel fs-1"></i>
+                        <i class="fa-solid text-caramel fs-1"></i>
                     </div>
                     <h6 class="font-serif fw-bold mb-1">Cà phê</h6>
                     <p class="text-muted small">6+ sản phẩm</p>

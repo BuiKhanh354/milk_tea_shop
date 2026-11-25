@@ -49,12 +49,25 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' || $action === 'process') {
 
     if ($name === '') {
         $errors[] = 'Vui lòng nhập họ và tên của bạn.';
+    } elseif (mb_strlen($name) < 2) {
+        $errors[] = 'Họ và tên quá ngắn (tối thiểu 2 ký tự).';
     }
+
     if ($phone === '') {
         $errors[] = 'Vui lòng nhập số điện thoại nhận hàng.';
+    } elseif (!preg_match('/^(0[35789])[0-9]{8}$/', $phone)) {
+        $errors[] = 'Số điện thoại không hợp lệ (gồm 10 số, bắt đầu bằng 03, 05, 07, 08, 09).';
     }
+
     if ($address === '') {
         $errors[] = 'Vui lòng nhập địa chỉ giao hàng chi tiết.';
+    } elseif (mb_strlen($address) < 5) {
+        $errors[] = 'Địa chỉ giao hàng quá ngắn, vui lòng nhập rõ số nhà, tên đường, phường/xã.';
+    }
+
+    $allowedPaymentMethods = ['cash', 'bank_transfer', 'momo', 'vnpay', 'cod'];
+    if (!in_array($paymentMethod, $allowedPaymentMethods, true)) {
+        $paymentMethod = 'cash';
     }
 
     if (empty($errors)) {

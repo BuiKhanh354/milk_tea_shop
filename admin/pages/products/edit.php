@@ -33,14 +33,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $imageFileName = $product['image'];
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = dirname(__DIR__, 3) . '/public/assets/images/products/';
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
-        $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-        $newFileName = time() . '_' . uniqid() . '.' . $ext;
-        if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadDir . $newFileName)) {
-            $imageFileName = $newFileName;
+        $allowedExts = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+        $ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+        $fileSize = $_FILES['image']['size'] ?? 0;
+
+        if (!in_array($ext, $allowedExts, true)) {
+            $errors[] = 'Định dạng ảnh không hợp lệ (chỉ chấp nhận: JPG, JPEG, PNG, WEBP, GIF).';
+        } elseif ($fileSize > 5 * 1024 * 1024) {
+            $errors[] = 'Dung lượng ảnh vượt quá giới hạn 5MB.';
+        } else {
+            $uploadDir = dirname(__DIR__, 3) . '/public/assets/images/products/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            $newFileName = time() . '_' . uniqid() . '.' . $ext;
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadDir . $newFileName)) {
+                $imageFileName = $newFileName;
+            } else {
+                $errors[] = 'Không thể lưu file ảnh tải lên máy chủ.';
+            }
         }
     }
 

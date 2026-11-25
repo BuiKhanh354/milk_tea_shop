@@ -1,11 +1,9 @@
 <?php
-// admin/index.php — Front Controller quản trị theo chuẩn minishop
+// Admin-only front controller.
 require_once __DIR__ . '/../config/init.php';
 
 $routes = array(
     'dashboard'           => 'dashboard/index.php',
-    'staff_dashboard'     => 'dashboard/staff.php',
-    'my-shifts'           => 'shifts/my_shifts.php',
     'orders'              => 'orders/index.php',
     'order-detail'        => 'orders/detail.php',
     'order-create'        => 'orders/create.php',
@@ -18,15 +16,20 @@ $routes = array(
     'categories'          => 'categories/index.php',
     'options'             => 'options/index.php',
     'toppings'            => 'toppings/index.php',
-    'inventory'           => 'inventory/index.php',
-    'inventory_import'    => 'inventory/import.php',
-    'inventory_export'    => 'inventory/export.php',
-    'inventory_alerts'    => 'inventory/alerts.php',
+    'inventory'              => 'inventory/index.php',
+    'inventory_import'       => 'inventory/import.php',
+    'inventory_export'       => 'inventory/export.php',
+    'inventory_alerts'       => 'inventory/alerts.php',
+    'inventory_transactions' => 'inventory/transactions.php',
+    'inventory_report'       => 'inventory/report.php',
+    'inventory_audits'       => 'inventory_audits/index.php',
     'product_ingredients' => 'product_ingredients/index.php',
     'staff'               => 'staff/index.php',
     'shifts'              => 'shifts/index.php',
+    'my-shifts'           => 'shifts/my_shifts.php',
     'payments'            => 'payments/index.php',
     'reports'             => 'reports/index.php',
+    'reviews'             => 'reviews/index.php',
     'settings'            => 'settings/index.php',
     'profile'             => 'profile/index.php',
     'account'             => 'profile/index.php',
@@ -35,44 +38,45 @@ $routes = array(
 );
 
 $page = $_GET['page'] ?? 'dashboard';
+$page = is_string($page) ? $page : '404';
+$userId = (int)($_SESSION['user_id'] ?? 0);
+$userRole = $_SESSION['role'] ?? '';
 
-// Nếu người dùng vào trang login của admin, chuyển hướng sang trang đăng nhập chung
-if ($page === 'login') {
-    $redirectTarget = get_param('redirect', admin_url('dashboard'));
-    redirect(url('login', ['redirect' => $redirectTarget]));
-}
-
-// Kiểm tra quyền đăng nhập admin/staff
-$publicPages = ['logout'];
-if (!in_array($page, $publicPages)) {
-    if (!isset($_SESSION['user_id'])) {
-        redirect(url('login', ['redirect' => admin_url($page)]));
+// A staff account must use its own router and shell.
+if ($userId > 0 && $userRole === 'staff') {
+    $staffPages = array(
+        'dashboard', 'my-shifts', 'orders', 'order-detail', 'order-create',
+        'tables', 'shift_sessions', 'inventory', 'inventory_export', 'profile',
+        'account', 'logout'
+    );
+    if (in_array($page, $staffPages, true)) {
+        $params = $_GET;
+        unset($params['page']);
+        redirect(staff_url($page, $params));
     }
+
+    set_flash('error', 'Tài khoản nhân viên không có quyền truy cập khu vực quản trị viên.');
+    redirect(staff_url('dashboard'));
 }
 
-$userRole = $_SESSION['role'] ?? 'guest';
-if (!in_array($userRole, ['admin', 'staff']) && !in_array($page, $publicPages)) {
+if ($page === 'login') {
+    if ($userId > 0 && $userRole === 'admin') {
+        redirect(admin_url('dashboard'));
+    }
+    redirect(url('login', array('redirect' => admin_url('dashboard'))));
+}
+
+if ($page !== 'logout' && $userId === 0) {
+    $params = $_GET;
+    unset($params['page']);
+    redirect(url('login', array('redirect' => admin_url($page, $params))));
+}
+
+if ($page !== 'logout' && $userRole !== 'admin') {
     redirect(url('login'));
 }
 
-// Phân quyền cho nhân viên (Staff: chỉ có quyền xuất, không có quyền nhập kho)
-$staffAllowedPages = [
-    'dashboard', 'staff_dashboard', 'my-shifts',
-    'orders', 'order-detail', 'order-create',
-    'tables', 'shift_sessions',
-    'inventory', 'inventory_export',
-    'profile', 'account', 'logout'
-];
-
-if ($userRole === 'staff' && !in_array($page, $staffAllowedPages)) {
-    set_flash('error', 'Bạn không có quyền truy cập vào chức năng quản trị này!');
-    redirect(admin_url('dashboard'));
-}
-
-// Điều hướng view cho nhân viên
-if ($page === 'dashboard' && $userRole === 'staff') {
-    $file = __DIR__ . '/pages/dashboard/staff.php';
-} elseif (!is_string($page) || !isset($routes[$page])) {
+if (!isset($routes[$page])) {
     http_response_code(404);
     $file = __DIR__ . '/pages/404/index.php';
 } else {
@@ -84,13 +88,12 @@ if (!is_file($file)) {
     $file = __DIR__ . '/pages/404/index.php';
 }
 
-$action = dirname($file) . '/action.php';
-if (is_file($action)) {
-    require $action;
+$actionFile = dirname($file) . '/action.php';
+if (is_file($actionFile)) {
+    require $actionFile;
 }
 
-if (in_array($page, ['login', 'logout'])) {
-    // Đăng nhập / đăng xuất render riêng không kèm header/sidebar admin
+if (in_array($page, array('login', 'logout'), true)) {
     require $file;
 } else {
     require __DIR__ . '/layouts/header.php';

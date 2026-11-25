@@ -1,11 +1,12 @@
 <?php
 // layouts/public/header.php — Header chuẩn giao diện VAA THÉ gốc
 $pageTitle = $title ?? 'VAA THÉ';
-$currentActiveNav = $page ?? get_param('page', get_param('route', 'home'));
+$currentActiveNav = (isset($page) && is_string($page)) ? $page : get_param('page', get_param('route', 'home'));
 $isAuthPage = in_array($currentActiveNav, array('login', 'register'), true);
 
 $is_logged_in = isset($_SESSION['customer_id']);
 $is_admin = isset($_SESSION['user_id']);
+$is_staff = $is_admin && (($_SESSION['role'] ?? '') === 'staff');
 $customer_name = $is_logged_in ? $_SESSION['customer_name'] : '';
 $admin_name = $is_admin ? $_SESSION['full_name'] : '';
 
@@ -70,7 +71,7 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
         <!-- CENTER: MENU & RIGHT: ACTIONS -->
         <div class="collapse navbar-collapse" id="vaaNavbar">
             <!-- Center Menu -->
-            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center text-lg-start mt-4 mt-lg-0">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center text-lg-start mt-4 mt-lg-0 gap-3 gap-lg-4">
                 <li class="nav-item">
                     <a class="nav-link <?= in_array($currentActiveNav, ['home', ''], true) ? 'active' : '' ?>" href="<?= e(url('home')) ?>">Trang chủ</a>
                 </li>
@@ -117,7 +118,7 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
                             <span class="d-none d-lg-inline global-style-33dd45"><?= e($admin_name) ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-0 custom-dropdown" aria-labelledby="adminDropdown">
-                            <li><a class="dropdown-item py-2" href="<?= e(admin_url('dashboard')) ?>"><i class="fa-solid fa-chart-pie me-2"></i> Trang quản trị</a></li>
+                            <li><a class="dropdown-item py-2" href="<?= e($is_staff ? staff_url('dashboard') : admin_url('dashboard')) ?>"><i class="fa-solid fa-chart-pie me-2"></i> <?= $is_staff ? 'Khu vực nhân viên' : 'Trang quản trị' ?></a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item py-2 text-danger" href="<?= e(admin_url('logout')) ?>"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Đăng xuất</a></li>
                         </ul>
@@ -131,7 +132,7 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
                 <!-- Cart -->
                 <a href="<?= e(url('cart')) ?>" class="text-forest text-decoration-none fs-5 position-relative transition-fast hover-caramel" title="Giỏ hàng">
                     <i class="fa-solid fa-bag-shopping"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-caramel text-dark global-style-559096" id="cart-badge">
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-caramel text-white border border-light global-style-559096" id="cart-badge">
                         <?= $cart_count ?>
                         <span class="visually-hidden">sản phẩm trong giỏ</span>
                     </span>

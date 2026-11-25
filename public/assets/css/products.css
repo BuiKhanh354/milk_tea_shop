@@ -130,6 +130,27 @@
     text-align: center;
 }
 
+.product-card {
+    outline: none !important;
+}
+
+.product-card:focus,
+.product-card:active,
+.product-card a:focus,
+.product-card a:active,
+.product-image-link:focus,
+.product-image-link:active {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.category-link:focus,
+.category-link:active {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
 /* Pagination */
 .vaa-pagination {
     display: flex;

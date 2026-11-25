@@ -66,7 +66,7 @@
                 <?php if (empty($products)): ?>
                     <tr>
                         <td colspan="7" class="text-center py-5 text-muted">
-                            <i class="fa-solid fa-mug-hot fa-3x mb-3 text-secondary opacity-50"></i>
+                            <i class="fa-solid fa-3x mb-3 text-secondary opacity-50"></i>
                             <p class="mb-0">Không tìm thấy sản phẩm nào phù hợp.</p>
                         </td>
                     </tr>

@@ -66,7 +66,7 @@
     <div class="col-md-6">
         <div class="card border-0 shadow-sm rounded-4 h-100">
             <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
-                <h5 class="mb-0 fw-bold text-dark"><i class="fa-solid fa-snowflake text-info me-2"></i> Mức đá (Ice Level)</h5>
+                <h5 class="mb-0 fw-bold text-dark"><i class="fa-solid text-info me-2"></i> Mức đá (Ice Level)</h5>
                 <button type="button" data-bs-toggle="modal" data-bs-target="#optionModal" onclick="openOptionModal('ice')" class="btn btn-sm btn-forest rounded-pill px-3"><i class="fa-solid fa-plus me-1"></i> Thêm mức</button>
             </div>
             <div class="card-body p-0">

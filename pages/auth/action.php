@@ -48,6 +48,9 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
                 if (!empty($redirect_val)) {
                     redirect($redirect_val);
                 }
+                if ($user['role'] === 'staff') {
+                    redirect(staff_url('dashboard'));
+                }
                 redirect(admin_url('dashboard'));
             }
 
@@ -82,6 +85,10 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
 
         if ($name === '' || $email === '' || $password === '') {
             $error = 'Vui lòng điền các thông tin bắt buộc.';
+        } elseif (mb_strlen($name) < 2) {
+            $error = 'Họ và tên phải có ít nhất 2 ký tự.';
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error = 'Địa chỉ email không đúng định dạng.';
         } elseif ($password !== $confirmPassword) {
             $error = 'Mật khẩu xác nhận không khớp.';
         } elseif (strlen($password) < 6) {

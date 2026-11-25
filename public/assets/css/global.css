@@ -8,7 +8,8 @@
     --c-dark: #18231D;
     --c-forest: #263A30;
     --c-sage: #AAB79F;
-    --c-caramel: #9A7654;
+    --c-caramel: #C28B4E;
+    --c-caramel-hover: #A8763E;
     
     /* Typography */
     --f-serif: 'Cormorant Garamond', serif;
@@ -111,54 +112,76 @@ p {
 }
 
 /* ==================================================
-   NAVBAR
+   NAVBAR (Chuẩn phong cách VAA THÉ gốc)
    ================================================== */
 .vaa-header {
-    background-color: rgba(247, 244, 237, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(170, 183, 159, 0.2);
-    padding: 1rem 0;
-    transition: var(--transition-fast);
+    background-color: rgba(253, 251, 247, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    height: 80px;
+    transition: all var(--transition-normal, 400ms ease);
 }
 
 .vaa-logo {
-    font-family: var(--f-serif);
-    font-size: 1.75rem;
+    font-family: var(--f-serif, 'Cormorant Garamond', serif);
+    font-size: 1.85rem;
     font-weight: 700;
-    color: var(--c-forest) !important;
-    letter-spacing: 2px;
+    color: var(--vaa-dark-charcoal, #1A2118) !important;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+}
+
+.vaa-header .navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+@media (min-width: 992px) {
+    .vaa-header .navbar-nav {
+        gap: 3.5rem; /* Cách rộng rãi rõ rệt theo yêu cầu */
+    }
 }
 
 .vaa-header .nav-link {
-    color: var(--c-dark);
-    font-size: 0.9rem;
+    font-family: var(--f-sans, 'Inter', sans-serif);
+    color: var(--vaa-forest, #2B4227);
+    font-size: 1.05rem;
     font-weight: 500;
-    letter-spacing: 1px;
-    padding: 0.5rem 1.5rem !important;
+    margin: 0;
+    padding: 0.5rem 0.5rem !important;
     position: relative;
-    transition: var(--transition-fast);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: color 200ms ease;
 }
 
 .vaa-header .nav-link:hover, 
 .vaa-header .nav-link.active {
-    color: var(--c-sage);
+    color: var(--vaa-caramel, #C28B4E) !important;
 }
 
+/* Border gạch chân nổi bật chuẩn VAA THÉ khi hover hoặc active */
 .vaa-header .nav-link::after {
     content: '';
     position: absolute;
-    width: 0;
-    height: 1px;
-    background-color: var(--c-sage);
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: var(--transition-fast);
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--vaa-caramel, #C28B4E);
+    transform: scaleX(0);
+    transition: transform 250ms ease;
+    transform-origin: right;
+    display: block !important;
 }
 
 .vaa-header .nav-link:hover::after, 
 .vaa-header .nav-link.active::after {
-    width: 30px;
+    transform: scaleX(1);
+    transform-origin: left;
+    width: 100%;
 }
 
 /* Main Content Padding for Fixed Navbar */
