@@ -391,48 +391,6 @@
     </div>
 </section>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const starItems = document.querySelectorAll('.stars-picker .star-item');
-    const ratingInput = document.getElementById('reviewRatingInput');
-    const ratingText = document.getElementById('ratingText');
-    const labels = {
-        1: '1 sao - Rất tệ',
-        2: '2 sao - Chưa hài lòng',
-        3: '3 sao - Bình thường',
-        4: '4 sao - Hài lòng',
-        5: '5 sao - Rất hài lòng'
-    };
-
-    function setStars(val) {
-        if (!ratingInput) return;
-        ratingInput.value = val;
-        if (ratingText) {
-            ratingText.textContent = labels[val] || (val + ' sao');
-        }
-        starItems.forEach((s, idx) => {
-            if (idx < val) {
-                s.classList.remove('fa-regular');
-                s.classList.add('fa-solid');
-            } else {
-                s.classList.remove('fa-solid');
-                s.classList.add('fa-regular');
-            }
-        });
-    }
-
-    if (starItems.length > 0 && ratingInput) {
-        setStars(parseInt(ratingInput.value) || 5);
-        starItems.forEach(star => {
-            star.addEventListener('click', function() {
-                const val = parseInt(this.getAttribute('data-value'));
-                setStars(val);
-            });
-        });
-    }
-});
-</script>
-
 <!-- Sản phẩm liên quan -->
 <?php if (!empty($relatedProducts)): ?>
 <section class="container py-5 border-top border-sage border-opacity-25 fade-up visible">
@@ -458,16 +416,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- Script điều khiển chi tiết sản phẩm chuẩn gốc -->
 <script src="<?= e(asset('assets/js/product-detail.js')) ?>"></script>
-<script>
-    // Đồng bộ tổng tiền trên mobile với desktop
-    const desktopTotal = document.getElementById('total-price');
-    const observer = new MutationObserver(() => {
-        const mobileTotal = document.getElementById('mobile-total-price');
-        if (mobileTotal && desktopTotal) {
-            mobileTotal.textContent = desktopTotal.textContent;
-        }
-    });
-    if (desktopTotal) {
-        observer.observe(desktopTotal, { childList: true, characterData: true, subtree: true });
-    }
-</script>

@@ -51,7 +51,7 @@
         </form>
 
         <!-- PRODUCT GRID -->
-        <div class="row g-4">
+        <div class="row g-4" id="products-grid-container" data-toggle-url="<?= e(url('yeuthich', ['action' => 'toggle'])) ?>" data-login-url="<?= e(url('login')) ?>">
             <?php if (!empty($productsList)): ?>
                 <?php foreach ($productsList as $product): ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 product-item" data-category-id="<?= (int)$product['category_id'] ?>">
@@ -115,48 +115,3 @@
 
     </div>
 </section>
-
-<script>
-    function toggleFavoriteList(event, productId, el) {
-        event.preventDefault();
-        event.stopPropagation();
-        
-        fetch('<?= e(url('yeuthich', ['action' => 'toggle'])) ?>', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: new URLSearchParams({product_id: productId})
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'unauthorized') {
-                alert('Vui lòng đăng nhập để lưu sản phẩm yêu thích.');
-                window.location.href = '<?= e(url('login')) ?>';
-                return;
-            }
-            if (data.status === 'success') {
-                const icon = el.querySelector('i');
-                if (data.action === 'added') {
-                    icon.classList.remove('fa-regular');
-                    icon.classList.add('fa-solid', 'text-danger');
-                } else {
-                    icon.classList.remove('fa-solid', 'text-danger');
-                    icon.classList.add('fa-regular');
-                }
-            }
-        }).catch(() => alert('Không thể cập nhật danh sách yêu thích. Vui lòng thử lại.'));
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const categoryLinks = document.querySelectorAll('#category-filter .category-link');
-        const categoryInput = document.getElementById('category_input');
-        const filterForm = document.getElementById('filter-form');
-
-        categoryLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                categoryInput.value = this.getAttribute('data-filter');
-                filterForm.submit();
-            });
-        });
-    });
-</script>

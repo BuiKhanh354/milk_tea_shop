@@ -1,6 +1,7 @@
 <?php
 // pages/cart/action.php — Xử lý logic giỏ hàng (Thêm, Sửa số lượng, Xóa) chuẩn gốc hỗ trợ cả Form POST, Fetch/AJAX và GET
 $action = get_param('action', 'view');
+$cartModel = new CartItem();
 
 $isAjax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
           || (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false)
@@ -149,12 +150,7 @@ if ($action === 'update') {
     $cartId = get_param('item_key', $_POST['cart_id'] ?? ($_GET['cart_id'] ?? ''));
     $quantity = (int)($_POST['quantity'] ?? ($_GET['quantity'] ?? 1));
 
-    if (isset($_SESSION['cart'][$cartId])) {
-        if ($quantity <= 0) {
-            unset($_SESSION['cart'][$cartId]);
-        } else {
-            $_SESSION['cart'][$cartId]['quantity'] = $quantity;
-        }
+    if ($cartModel->updateSessionQuantity((string)$cartId, $quantity)) {
         if ($isAjax) {
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode(['success' => true]);
@@ -172,25 +168,17 @@ if ($action === 'update') {
 
 if ($action === 'remove') {
     $cartId = get_param('item_key', $_POST['cart_id'] ?? ($_GET['cart_id'] ?? ''));
-    if ($cartId && isset($_SESSION['cart'][$cartId])) {
-        unset($_SESSION['cart'][$cartId]);
-    }
+    $cartModel->removeFromSession((string)$cartId);
     if ($isAjax) {
-        $cartCount = 0;
-        if (!empty($_SESSION['cart'])) {
-            foreach ($_SESSION['cart'] as $it) {
-                $cartCount += $it['quantity'] ?? 1;
-            }
-        }
         header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(['success' => true, 'cart_count' => $cartCount]);
+        echo json_encode(['success' => true, 'cart_count' => $cartModel->getSessionCount()]);
         exit;
     }
     redirect(url('cart'));
 }
 
 if ($action === 'clear') {
-    $_SESSION['cart'] = [];
+    $cartModel->clearSession();
     if ($isAjax) {
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode(['success' => true, 'cart_count' => 0]);
@@ -202,15 +190,10 @@ if ($action === 'clear') {
 // Chuẩn bị dữ liệu hiển thị giỏ hàng
 $title = 'Giỏ hàng - VAA THÉ';
 
-$cart_items = $_SESSION['cart'] ?? [];
+$cart_items = $cartModel->getSessionItems();
 $cartItems = $cart_items;
 
-$subtotal = 0;
-foreach ($cart_items as $item) {
-    $price = (float)($item['total_price'] ?? ($item['unit_price'] ?? 0));
-    $qty = (int)($item['quantity'] ?? 1);
-    $subtotal += $price * $qty;
-}
+$subtotal = $cartModel->getSessionSubtotal();
 
 $shipping = $subtotal > 0 ? 15000 : 0;
 $shippingFee = $shipping;

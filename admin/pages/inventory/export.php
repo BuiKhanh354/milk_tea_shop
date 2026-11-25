@@ -65,39 +65,3 @@
     </div>
 </div>
 
-<script>
-let currentMaxQty = 0;
-function updateUnit() {
-    const select = document.getElementById('inventory_id');
-    const display = document.getElementById('unit_display');
-    if (select.selectedIndex > 0) {
-        const option = select.options[select.selectedIndex];
-        display.textContent = option.getAttribute('data-unit');
-        currentMaxQty = parseFloat(option.getAttribute('data-qty'));
-        validateQuantity();
-    } else {
-        display.textContent = '--';
-        currentMaxQty = 0;
-    }
-}
-
-function validateQuantity() {
-    const qtyInput = document.getElementById('quantity');
-    const errorMsg = document.getElementById('qty_error');
-    const btnSubmit = document.getElementById('btnSubmit');
-    const val = parseFloat(qtyInput.value || 0);
-
-    if (val > currentMaxQty) {
-        errorMsg.style.display = 'block';
-        qtyInput.classList.add('is-invalid');
-        btnSubmit.disabled = true;
-    } else {
-        errorMsg.style.display = 'none';
-        qtyInput.classList.remove('is-invalid');
-        btnSubmit.disabled = false;
-    }
-}
-
-document.getElementById('quantity').addEventListener('input', validateQuantity);
-</script>
-

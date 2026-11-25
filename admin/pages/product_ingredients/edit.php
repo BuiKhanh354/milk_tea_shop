@@ -163,26 +163,3 @@
     </div>
 </template>
 
-<script>
-function updateRowUnit(select) {
-    const row = select.closest('.ingredient-row');
-    const label = row.querySelector('.unit-label');
-    if (select.selectedIndex > 0) {
-        label.textContent = select.options[select.selectedIndex].getAttribute('data-unit') || '--';
-    } else {
-        label.textContent = '--';
-    }
-}
-
-function addIngredientRow(sizeId) {
-    const container = document.getElementById('list-size-' + sizeId);
-    const template = document.getElementById('ingredientRowTemplate');
-    const clone = template.content.cloneNode(true);
-    const select = clone.querySelector('select');
-    const input = clone.querySelector('input');
-    select.name = `recipes[${sizeId}][ingredient_id][]`;
-    input.name = `recipes[${sizeId}][quantity][]`;
-    container.appendChild(clone);
-}
-</script>
-

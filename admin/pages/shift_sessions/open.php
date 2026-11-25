@@ -108,14 +108,3 @@
     </div>
 </form>
 
-<script>
-function formatCurrencyInput(input) {
-    let value = input.value.replace(/[^0-9]/g, '');
-    if (value === '') { input.value = '0'; return; }
-    input.value = new Intl.NumberFormat('vi-VN').format(parseInt(value));
-}
-function setCash(amount) {
-    document.getElementById('initialCashInput').value = new Intl.NumberFormat('vi-VN').format(amount);
-}
-</script>
-

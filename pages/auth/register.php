@@ -52,13 +52,8 @@
                         <?= e($error) ?>
                     </div>
                 <?php elseif (!empty($success)): ?>
-                    <div id="general-success" class="alert alert-success mb-4 auth-style-19fae4" role="alert">
+                    <div id="general-success" class="alert alert-success mb-4 auth-style-19fae4" role="alert" data-redirect-url="<?= e(url('login')) ?>">
                         <?= e($success) ?>
-                        <script>
-                            setTimeout(function() {
-                                window.location.href = '<?= e(url('login')) ?>';
-                            }, 2000);
-                        </script>
                     </div>
                 <?php endif; ?>
 

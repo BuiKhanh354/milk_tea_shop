@@ -111,7 +111,7 @@
 <div class="modal fade" id="toppingModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow rounded-4">
-            <form action="<?= e(admin_url('toppings', ['action' => 'storeTopping'])) ?>" method="POST" id="toppingForm">
+            <form action="<?= e(admin_url('toppings', ['action' => 'storeTopping'])) ?>" method="POST" id="toppingForm" data-store-url="<?= e(admin_url('toppings', ['action' => 'storeTopping'])) ?>" data-update-url="<?= e(admin_url('toppings', ['action' => 'updateTopping'])) ?>">
                 <input type="hidden" name="id" id="topping_id" value="">
                 <div class="modal-header border-0 pb-0 px-4 pt-4">
                     <h5 class="modal-title fw-bold font-serif text-forest" id="toppingModalTitle">Thêm Topping</h5>
@@ -144,7 +144,7 @@
 <div class="modal fade" id="sizeModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow rounded-4">
-            <form action="<?= e(admin_url('toppings', ['action' => 'storeSize'])) ?>" method="POST" id="sizeForm">
+            <form action="<?= e(admin_url('toppings', ['action' => 'storeSize'])) ?>" method="POST" id="sizeForm" data-store-url="<?= e(admin_url('toppings', ['action' => 'storeSize'])) ?>" data-update-url="<?= e(admin_url('toppings', ['action' => 'updateSize'])) ?>">
                 <input type="hidden" name="id" id="size_id" value="">
                 <div class="modal-header border-0 pb-0 px-4 pt-4">
                     <h5 class="modal-title fw-bold font-serif text-forest" id="sizeModalTitle">Thêm Size</h5>
@@ -172,24 +172,4 @@
         </div>
     </div>
 </div>
-
-<script>
-function openToppingModal(id = '', name = '', price = '', status = true) {
-    document.getElementById('toppingForm').action = id ? '<?= e(admin_url('toppings', ['action' => 'updateTopping'])) ?>' : '<?= e(admin_url('toppings', ['action' => 'storeTopping'])) ?>';
-    document.getElementById('toppingModalTitle').innerText = id ? 'Sửa Topping' : 'Thêm Topping';
-    document.getElementById('topping_id').value = id;
-    document.getElementById('topping_name').value = name;
-    document.getElementById('topping_price').value = price;
-    document.getElementById('topping_status').checked = status;
-}
-
-function openSizeModal(id = '', name = '', extra_price = '', status = true) {
-    document.getElementById('sizeForm').action = id ? '<?= e(admin_url('toppings', ['action' => 'updateSize'])) ?>' : '<?= e(admin_url('toppings', ['action' => 'storeSize'])) ?>';
-    document.getElementById('sizeModalTitle').innerText = id ? 'Sửa Size' : 'Thêm Size';
-    document.getElementById('size_id').value = id;
-    document.getElementById('size_name').value = name;
-    document.getElementById('size_extra_price').value = extra_price;
-    document.getElementById('size_status').checked = status;
-}
-</script>
 

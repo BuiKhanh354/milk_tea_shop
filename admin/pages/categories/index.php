@@ -134,11 +134,3 @@
     </div>
 </div>
 
-<script>
-function fillEditModal(id, name, desc) {
-    document.getElementById('edit_cat_id').value = id;
-    document.getElementById('edit_cat_name').value = name;
-    document.getElementById('edit_cat_desc').value = desc;
-}
-</script>
-

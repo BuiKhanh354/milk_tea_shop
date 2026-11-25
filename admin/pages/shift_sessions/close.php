@@ -109,13 +109,3 @@
     </div>
 </form>
 
-<script>
-const expectedCash = parseFloat(document.getElementById('expectedCashText').dataset.val) || 0;
-function calcCashDiff(input) {
-    let rawVal = input.value.replace(/[^0-9]/g, '');
-    if (rawVal === '') rawVal = '0';
-    const numVal = parseInt(rawVal);
-    input.value = new Intl.NumberFormat('vi-VN').format(numVal);
-}
-</script>
-

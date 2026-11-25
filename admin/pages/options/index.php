@@ -119,7 +119,7 @@
 <div class="modal fade" id="optionModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow rounded-4">
-            <form action="<?= e(admin_url('options', ['action' => 'store'])) ?>" method="POST" id="optionForm">
+            <form action="<?= e(admin_url('options', ['action' => 'store'])) ?>" method="POST" id="optionForm" data-store-url="<?= e(admin_url('options', ['action' => 'store'])) ?>" data-update-url="<?= e(admin_url('options', ['action' => 'update'])) ?>">
                 <input type="hidden" name="id" id="option_id" value="">
                 <input type="hidden" name="type" id="option_type" value="sugar">
                 <div class="modal-header border-0 pb-0 px-4 pt-4">
@@ -152,17 +152,4 @@
         </div>
     </div>
 </div>
-
-<script>
-function openOptionModal(type, id = '', name = '', value = '', isDefault = false, status = true) {
-    document.getElementById('optionForm').action = id ? '<?= e(admin_url('options', ['action' => 'update'])) ?>' : '<?= e(admin_url('options', ['action' => 'store'])) ?>';
-    document.getElementById('optionModalTitle').innerText = id ? 'Sửa tùy chọn' : 'Thêm tùy chọn';
-    document.getElementById('option_id').value = id;
-    document.getElementById('option_type').value = type;
-    document.getElementById('option_name').value = name;
-    document.getElementById('option_value').value = value;
-    document.getElementById('option_is_default').checked = isDefault;
-    document.getElementById('option_status').checked = status;
-}
-</script>
 

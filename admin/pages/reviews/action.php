@@ -3,13 +3,12 @@
 
 // Xử lý các thao tác POST / GET (Ẩn/Hiện, Xóa)
 $subAction = get_param('act', '');
+$reviewModel = new Review();
 
 if ($subAction === 'toggle_status') {
     $reviewId = (int)get_param('id', 0);
-    $review = db()->fetchOne("SELECT id, status FROM reviews WHERE id = ?", [$reviewId]);
-    if ($review) {
-        $newStatus = $review['status'] == 1 ? 0 : 1;
-        db()->execute("UPDATE reviews SET status = ? WHERE id = ?", [$newStatus, $reviewId]);
+    $newStatus = $reviewModel->toggleStatus($reviewId);
+    if ($newStatus !== null) {
         set_flash('success', $newStatus == 1 ? 'Đã hiển thị công khai đánh giá.' : 'Đã ẩn đánh giá khỏi giao diện khách hàng.');
     } else {
         set_flash('error', 'Không tìm thấy đánh giá.');
@@ -21,7 +20,7 @@ if ($subAction === 'delete') {
     $reviewId = (int)get_param('id', 0);
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         validate_csrf();
-        db()->execute("DELETE FROM reviews WHERE id = ?", [$reviewId]);
+        $reviewModel->deleteById($reviewId);
         set_flash('success', 'Đã xóa đánh giá thành công.');
         redirect(admin_url('reviews'));
     }

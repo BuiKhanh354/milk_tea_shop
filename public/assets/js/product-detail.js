@@ -334,4 +334,55 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Star Rating Picker (Review form)
+    const starItems = document.querySelectorAll('.stars-picker .star-item');
+    const ratingInput = document.getElementById('reviewRatingInput');
+    const ratingText = document.getElementById('ratingText');
+    const ratingLabels = {
+        1: '1 sao - Rất tệ',
+        2: '2 sao - Chưa hài lòng',
+        3: '3 sao - Bình thường',
+        4: '4 sao - Hài lòng',
+        5: '5 sao - Rất hài lòng'
+    };
+
+    function setStars(val) {
+        if (!ratingInput) return;
+        ratingInput.value = val;
+        if (ratingText) {
+            ratingText.textContent = ratingLabels[val] || (val + ' sao');
+        }
+        starItems.forEach((s, idx) => {
+            if (idx < val) {
+                s.classList.remove('fa-regular');
+                s.classList.add('fa-solid');
+            } else {
+                s.classList.remove('fa-solid');
+                s.classList.add('fa-regular');
+            }
+        });
+    }
+
+    if (starItems.length > 0 && ratingInput) {
+        setStars(parseInt(ratingInput.value) || 5);
+        starItems.forEach(star => {
+            star.addEventListener('click', function() {
+                const val = parseInt(this.getAttribute('data-value'));
+                setStars(val);
+            });
+        });
+    }
+
+    // Đồng bộ tổng tiền trên mobile với desktop
+    const desktopTotal = document.getElementById('total-price');
+    if (desktopTotal) {
+        const totalObserver = new MutationObserver(() => {
+            const mobileTotal = document.getElementById('mobile-total-price');
+            if (mobileTotal) {
+                mobileTotal.textContent = desktopTotal.textContent;
+            }
+        });
+        totalObserver.observe(desktopTotal, { childList: true, characterData: true, subtree: true });
+    }
 });

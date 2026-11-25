@@ -22,4 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
             button.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> ĐANG XỬ LÝ...';
         });
     });
+
+    const successAlert = document.getElementById('general-success');
+    if (successAlert && successAlert.dataset.redirectUrl) {
+        setTimeout(() => {
+            window.location.href = successAlert.dataset.redirectUrl;
+        }, 2000);
+    }
 });

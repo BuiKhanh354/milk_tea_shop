@@ -53,16 +53,3 @@
     </div>
 </div>
 
-<script>
-function updateUnit() {
-    const select = document.getElementById('inventory_id');
-    const display = document.getElementById('unit_display');
-    if (select.selectedIndex > 0) {
-        const option = select.options[select.selectedIndex];
-        display.textContent = option.getAttribute('data-unit');
-    } else {
-        display.textContent = '--';
-    }
-}
-</script>
-

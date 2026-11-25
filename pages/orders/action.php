@@ -48,7 +48,6 @@ if ($action === 'detail' || $pageParam === 'order-detail') {
         'date'           => date('d/m/Y H:i', strtotime($rawOrder['created_at'])),
         'payment_status' => ($rawOrder['payment_method'] === 'cash' || empty($rawOrder['payment_method'])) ? 'Thanh toán khi nhận hàng' : 'Đã thanh toán (' . strtoupper($rawOrder['payment_method']) . ')',
         'subtotal'       => money(max(0, (float)$rawOrder['total_amount'] - 15000)),
-        'discount'       => '0đ',
         'shipping'       => '15.000đ',
         'total'          => money($rawOrder['final_amount']),
         'items'          => $items

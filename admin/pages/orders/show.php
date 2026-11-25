@@ -162,13 +162,9 @@
                             <span class="text-muted">Phương thức thanh toán:</span>
                             <span class="fw-medium text-dark"><?= format_payment_method($order['payment_method']) ?></span>
                         </div>
-                        <div class="d-flex justify-content-between mb-2">
+                        <div class="d-flex justify-content-between mb-3">
                             <span class="text-muted">Tổng tiền hàng:</span>
                             <span class="fw-medium text-dark"><?= money($order['total_amount']) ?></span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3 text-success">
-                            <span>Giảm giá:</span>
-                            <span class="fw-medium">-<?= money($order['discount']) ?></span>
                         </div>
                         <div class="d-flex justify-content-between border-top pt-3">
                             <span class="fw-bold text-dark fs-5">TỔNG CỘNG:</span>

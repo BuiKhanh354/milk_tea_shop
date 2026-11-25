@@ -157,10 +157,6 @@ if ($current_step_index === false) $current_step_index = -1;
                                         <span class="text-muted">Tạm tính</span>
                                         <span><?= e($order['subtotal']) ?></span>
                                     </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="text-muted">Giảm giá</span>
-                                        <span class="text-success"><?= e($order['discount']) ?></span>
-                                    </div>
                                     <div class="d-flex justify-content-between mb-3 pb-3 border-bottom border-sage border-opacity-25">
                                         <span class="text-muted">Vận chuyển</span>
                                         <span><?= e($order['shipping']) ?></span>

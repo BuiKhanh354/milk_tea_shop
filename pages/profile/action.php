@@ -5,7 +5,8 @@ if (!isset($_SESSION['customer_id'])) {
 }
 
 $customerId = (int)$_SESSION['customer_id'];
-$customer = db()->fetchOne("SELECT * FROM customers WHERE id = ?", [$customerId]);
+$customerModel = new Customer();
+$customer = $customerModel->find($customerId);
 
 if (!$customer) {
     redirect(url('logout'));
@@ -32,8 +33,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
             $error_msg = "Mật khẩu mới phải có ít nhất 6 ký tự.";
         } else {
             if (!empty($customer['password']) && password_verify($currentPassword, $customer['password'])) {
-                $newHash = password_hash($newPassword, PASSWORD_DEFAULT);
-                db()->execute("UPDATE customers SET password = ? WHERE id = ?", [$newHash, $customerId]);
+                $customerModel->changePassword($customerId, $newPassword);
                 $success_msg = "Đổi mật khẩu thành công!";
             } else {
                 $error_msg = "Mật khẩu hiện tại không đúng.";
@@ -47,11 +47,10 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         if (empty($name)) {
             $error_msg = "Vui lòng nhập họ và tên.";
         } else {
-            db()->execute("UPDATE customers SET full_name = ?, phone = ?, address = ? WHERE id = ?", 
-                          [$name, $phone, $address, $customerId]);
+            $customerModel->updateProfile($customerId, $name, $phone, $address);
             $_SESSION['customer_name'] = $name;
             $_SESSION['customer_phone'] = $phone;
-            $customer = db()->fetchOne("SELECT * FROM customers WHERE id = ?", [$customerId]);
+            $customer = $customerModel->find($customerId);
             $success_msg = "Cập nhật thông tin thành công!";
         }
     }

@@ -92,23 +92,3 @@
         </div>
     </div>
 </form>
-
-<script>
-document.querySelectorAll('.audit-actual-input').forEach(function (input) {
-    input.addEventListener('input', function () {
-        const sysQty = parseFloat(this.dataset.system || '0');
-        const actualQty = parseFloat(this.value || '0');
-        const diff = actualQty - sysQty;
-        const target = document.getElementById(this.dataset.target);
-        if (!target) return;
-
-        target.textContent = (diff > 0 ? '+' : '') + diff.toFixed(2);
-        target.classList.remove('text-danger', 'text-success');
-        if (diff < -0.001) {
-            target.classList.add('text-danger');
-        } else if (diff > 0.001) {
-            target.classList.add('text-success');
-        }
-    });
-});
-</script>

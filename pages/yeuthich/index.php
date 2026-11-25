@@ -75,32 +75,6 @@
                             </div>
                             <?php endforeach; ?>
                         </div>
-                        <script>
-                            function toggleFavorite(productId) {
-                                fetch('<?= e(url('yeuthich', ['action' => 'toggle'])) ?>', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/x-www-form-urlencoded',
-                                    },
-                                    body: 'product_id=' + productId
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.success && !data.is_favorited) {
-                                        // Xóa khỏi UI
-                                        const el = document.getElementById('favorite-' + productId);
-                                        if (el) el.remove();
-                                        // Nếu danh sách trống thì reload trang
-                                        if (document.querySelectorAll('.col[id^="favorite-"]').length === 0) {
-                                            location.reload();
-                                        }
-                                    } else if (data.require_login) {
-                                        alert(data.message);
-                                        window.location.href = '<?= e(url('login')) ?>';
-                                    }
-                                });
-                            }
-                        </script>
                     <?php endif; ?>
                     
                 </div>

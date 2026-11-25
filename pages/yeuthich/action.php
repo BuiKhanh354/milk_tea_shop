@@ -26,9 +26,9 @@ if ($action === 'toggle' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $existing = db()->fetchOne("SELECT product_id FROM favorites WHERE customer_id = ? AND product_id = ?", [$customerId, $productId]);
-    if ($existing) {
-        db()->execute("DELETE FROM favorites WHERE customer_id = ? AND product_id = ?", [$customerId, $productId]);
+    $favoriteModel = new Favorite();
+    $resultAction = $favoriteModel->toggle($customerId, $productId);
+    if ($resultAction === 'removed') {
         echo json_encode([
             'status'       => 'success',
             'success'      => true,
@@ -37,7 +37,6 @@ if ($action === 'toggle' && $_SERVER['REQUEST_METHOD'] === 'POST') {
             'message'      => 'Đã bỏ yêu thích'
         ], JSON_UNESCAPED_UNICODE);
     } else {
-        db()->execute("INSERT INTO favorites (customer_id, product_id, created_at) VALUES (?, ?, NOW())", [$customerId, $productId]);
         echo json_encode([
             'status'       => 'success',
             'success'      => true,
@@ -56,11 +55,7 @@ if (!isset($_SESSION['customer_id'])) {
 $customerId = (int)$_SESSION['customer_id'];
 $title = 'Sản phẩm yêu thích';
 
-$favorites = db()->fetchAll("SELECT p.*, c.name as category_name 
-                             FROM favorites f 
-                             JOIN products p ON f.product_id = p.id 
-                             LEFT JOIN categories c ON p.category_id = c.id 
-                             WHERE f.customer_id = ? AND p.status = 1 
-                             ORDER BY f.created_at DESC", [$customerId]);
+$favoriteModel = new Favorite();
+$favorites = $favoriteModel->getByCustomer($customerId);
 
 $favoritesList = $favorites;

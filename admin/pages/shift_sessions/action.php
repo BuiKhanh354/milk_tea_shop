@@ -3,50 +3,17 @@
 $action = get_param('action', '');
 $userId = (int)($_SESSION['user_id'] ?? 1);
 $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+$shiftSessionModel = new ShiftSession();
 
 // Xử lý POST Mở ca
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && $action === 'storeOpen') {
     $shiftId = (int)post_param('shift_id');
     $initialCash = (float)str_replace(['.', ',', ' '], '', post_param('initial_cash', '0'));
     $note = post_param('note');
-    $employeeShiftId = null;
+    $invData = $_POST['inventory'] ?? [];
 
-    if ($shiftId > 0) {
-        $today = date('Y-m-d');
-        $validAssignment = db()->fetchOne("SELECT id FROM employee_shifts WHERE employee_id = ? AND shift_id = ? AND work_date = ? LIMIT 1", [$userId, $shiftId, $today]);
-        if ($validAssignment) {
-            $employeeShiftId = (int)$validAssignment['id'];
-        }
-    }
-
-    $sessionCode = 'CA-' . date('Ymd-His');
     try {
-        db()->execute("INSERT INTO shift_sessions (session_code, user_id, shift_id, employee_shift_id, opened_at, initial_cash, expected_cash, status, note) 
-                       VALUES (?, ?, ?, ?, NOW(), ?, ?, 'open', ?)", 
-                       [$sessionCode, $userId, $shiftId ?: null, $employeeShiftId, $initialCash, $initialCash, $note]);
-        $sessionId = db()->insertId();
-
-        // Lưu nguyên liệu đầu ca
-        $invData = $_POST['inventory'] ?? [];
-        if (!empty($invData)) {
-            foreach ($invData as $invId => $qty) {
-                $startQty = (float)$qty;
-                db()->execute("INSERT INTO shift_session_inventory (session_id, inventory_id, start_quantity, expected_ending_qty) VALUES (?, ?, ?, ?)", 
-                              [$sessionId, (int)$invId, $startQty, $startQty]);
-            }
-        } else {
-            $allInv = db()->fetchAll("SELECT id, quantity FROM inventory");
-            foreach ($allInv as $item) {
-                $startQty = (float)$item['quantity'];
-                db()->execute("INSERT INTO shift_session_inventory (session_id, inventory_id, start_quantity, expected_ending_qty) VALUES (?, ?, ?, ?)", 
-                              [$sessionId, (int)$item['id'], $startQty, $startQty]);
-            }
-        }
-
-        if ($employeeShiftId) {
-            db()->execute("UPDATE employee_shifts SET status = 'in_progress' WHERE id = ?", [$employeeShiftId]);
-        }
-
+        $shiftSessionModel->openSession($userId, $shiftId, $initialCash, $note, is_array($invData) ? $invData : []);
         set_flash('success', "Mở ca làm việc thành công! Tiền két: " . money($initialCash));
         redirect(admin_url('shift_sessions'));
     } catch (Exception $e) {

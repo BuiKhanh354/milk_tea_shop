@@ -21,18 +21,15 @@ $title = $product['name'];
 $customerId = isset($_SESSION['customer_id']) ? (int)$_SESSION['customer_id'] : 0;
 $hasPurchased = false;
 $customerReview = null;
+$reviewModel = new Review();
 
 if ($customerId > 0) {
-    $purchaseCheck = db()->fetchOne("SELECT od.order_id 
-                                     FROM order_details od 
-                                     JOIN orders o ON od.order_id = o.id 
-                                     WHERE o.customer_id = ? AND od.product_id = ? AND o.status IN ('completed', 'Hoàn thành') 
-                                     ORDER BY o.id DESC LIMIT 1", [$customerId, $id]);
-    if ($purchaseCheck) {
+    $purchasedOrderId = $reviewModel->getPurchasedOrderId($customerId, $id);
+    if ($purchasedOrderId !== null) {
         $hasPurchased = true;
     }
 
-    $customerReview = db()->fetchOne("SELECT * FROM reviews WHERE customer_id = ? AND product_id = ? LIMIT 1", [$customerId, $id]);
+    $customerReview = $reviewModel->findByCustomerAndProduct($customerId, $id);
 }
 
 // Xử lý gửi đánh giá
@@ -43,17 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && get_param('action') === 'review') {
     }
 
     // Kiểm tra điều kiện: chỉ người đã mua đơn hàng hoàn thành mới được đánh giá
-    $purchaseCheck = db()->fetchOne("SELECT od.order_id 
-                                     FROM order_details od 
-                                     JOIN orders o ON od.order_id = o.id 
-                                     WHERE o.customer_id = ? AND od.product_id = ? AND o.status IN ('completed', 'Hoàn thành') 
-                                     ORDER BY o.id DESC LIMIT 1", [$customerId, $id]);
-    if (!$purchaseCheck) {
+    $orderId = $reviewModel->getPurchasedOrderId($customerId, $id);
+    if ($orderId === null) {
         set_flash('error', 'Bạn chỉ có thể đánh giá sau khi đã mua và hoàn thành đơn hàng có món này.');
         redirect(url('product-detail', ['id' => $id]) . '#reviews-section');
     }
 
-    $orderId = (int)$purchaseCheck['order_id'];
     $rating = (int)post_param('rating', 5);
     $comment = trim((string)post_param('comment', ''));
 
@@ -66,16 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && get_param('action') === 'review') {
     } elseif (mb_strlen($comment) < 3) {
         set_flash('error', 'Nội dung nhận xét quá ngắn (tối thiểu 3 ký tự).');
     } else {
-        $existing = db()->fetchOne("SELECT id FROM reviews WHERE customer_id = ? AND product_id = ? LIMIT 1", [$customerId, $id]);
-        if ($existing) {
-            db()->execute("UPDATE reviews SET rating = ?, comment = ?, order_id = ?, created_at = NOW() WHERE id = ?", 
-                          [$rating, $comment, $orderId, $existing['id']]);
-            set_flash('success', 'Đã cập nhật đánh giá của bạn cho món ' . $product['name'] . '!');
-        } else {
-            db()->execute("INSERT INTO reviews (customer_id, product_id, order_id, rating, comment, status, created_at) 
-                           VALUES (?, ?, ?, ?, ?, 1, NOW())", 
-                           [$customerId, $id, $orderId, $rating, $comment]);
+        $created = $reviewModel->submitReview($customerId, $id, $rating, $comment, $orderId);
+        if ($created) {
             set_flash('success', 'Cảm ơn bạn đã gửi đánh giá cho món ' . $product['name'] . '!');
+        } else {
+            set_flash('success', 'Đã cập nhật đánh giá của bạn cho món ' . $product['name'] . '!');
         }
     }
 

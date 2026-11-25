@@ -94,8 +94,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' || $action === 'process') {
 
             // 3. Tạo đơn hàng (Orders)
             $orderType = 'delivery';
-            $sqlOrder = "INSERT INTO orders (customer_id, status, total_amount, discount, final_amount, order_type, shift_session_id, note, created_at) 
-                         VALUES (?, 'pending', ?, 0, ?, ?, ?, ?, NOW())";
+            $sqlOrder = "INSERT INTO orders (customer_id, status, total_amount, final_amount, order_type, shift_session_id, note, created_at) 
+                         VALUES (?, 'pending', ?, ?, ?, ?, ?, NOW())";
             db()->execute($sqlOrder, [$customerId, $total, $total, $orderType, $shiftSessionId, $note]);
             $newOrderId = db()->insertId();
 

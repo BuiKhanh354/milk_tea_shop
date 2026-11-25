@@ -3,6 +3,7 @@
 $action = get_param('action', '');
 $userId = (int)($_SESSION['user_id'] ?? 1);
 $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+$ingredientModel = new Ingredient();
 
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     // Chỉ Admin mới có quyền thêm/sửa/xóa hoặc nhập kho (Staff chỉ có quyền xuất kho)
@@ -20,13 +21,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
 
         if (!empty($name) && !empty($unit)) {
             try {
-                db()->execute("INSERT INTO inventory (ingredient_name, unit, quantity, min_quantity, price, status) VALUES (?, ?, ?, ?, ?, 1)", 
-                              [$name, $unit, $qty, $minQty, $price]);
-                $invId = db()->insertId();
-                if ($qty > 0) {
-                    db()->execute("INSERT INTO inventory_transactions (inventory_id, user_id, type, quantity, price, note) VALUES (?, ?, 'IMPORT', ?, ?, 'Khởi tạo tồn ban đầu')", 
-                                  [$invId, $userId, $qty, $price]);
-                }
+                $ingredientModel->store($name, $unit, $qty, $minQty, $price, $userId);
                 set_flash('success', "Thêm nguyên liệu thành công!");
             } catch (Exception $e) {
                 set_flash('error', "Có lỗi xảy ra khi thêm nguyên liệu!");
@@ -45,8 +40,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
 
         if ($id && !empty($name) && !empty($unit)) {
             try {
-                db()->execute("UPDATE inventory SET ingredient_name = ?, unit = ?, min_quantity = ?, price = ? WHERE id = ?", 
-                              [$name, $unit, $minQty, $price, $id]);
+                $ingredientModel->update($id, $name, $unit, $minQty, $price);
                 set_flash('success', "Cập nhật nguyên liệu thành công!");
             } catch (Exception $e) {
                 set_flash('error', "Có lỗi xảy ra khi cập nhật!");
@@ -60,7 +54,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         $id = (int)post_param('id');
         if ($id) {
             try {
-                db()->execute("DELETE FROM inventory WHERE id = ?", [$id]);
+                $ingredientModel->deleteById($id);
                 set_flash('success', "Đã xóa nguyên liệu thành công!");
             } catch (Exception $e) {
                 set_flash('error', "Không thể xóa do nguyên liệu đang có liên kết công thức hoặc lịch sử!");
@@ -75,13 +69,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         $qty = (float)post_param('quantity', 0);
         $note = post_param('note');
 
-        if ($invId && $qty > 0) {
-            $item = db()->fetchOne("SELECT price FROM inventory WHERE id = ?", [$invId]);
-            $price = (float)($item['price'] ?? 0);
-
-            db()->execute("UPDATE inventory SET quantity = quantity + ? WHERE id = ?", [$qty, $invId]);
-            db()->execute("INSERT INTO inventory_transactions (inventory_id, user_id, type, quantity, price, note) VALUES (?, ?, 'IMPORT', ?, ?, ?)", 
-                          [$invId, $userId, $qty, $price, $note]);
+        if ($ingredientModel->importStock($invId, $qty, $userId, $note)) {
             set_flash('success', "Nhập kho thành công (+{$qty})!");
         }
         redirect(admin_url('inventory'));
@@ -96,17 +84,11 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         $fullNote = $reason . (!empty($note) ? " - " . $note : "");
 
         if ($invId && $qty > 0) {
-            $item = db()->fetchOne("SELECT quantity, price FROM inventory WHERE id = ?", [$invId]);
-            $currQty = (float)($item['quantity'] ?? 0);
-            if ($qty > $currQty) {
-                set_flash('error', "Số lượng xuất không được vượt quá số lượng tồn ({$currQty})!");
+            $res = $ingredientModel->exportStock($invId, $qty, $userId, $fullNote);
+            if (!$res['ok']) {
+                set_flash('error', $res['message']);
                 redirect(admin_url('inventory_export'));
             }
-
-            $price = (float)($item['price'] ?? 0);
-            db()->execute("UPDATE inventory SET quantity = quantity - ? WHERE id = ?", [$qty, $invId]);
-            db()->execute("INSERT INTO inventory_transactions (inventory_id, user_id, type, quantity, price, note) VALUES (?, ?, 'EXPORT', ?, ?, ?)", 
-                          [$invId, $userId, $qty, $price, $fullNote]);
             set_flash('success', "Xuất kho thành công (-{$qty})!");
         }
         redirect(admin_url('inventory'));
@@ -114,7 +96,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
 }
 
 // Lấy danh sách cho các view
-$ingredients = db()->fetchAll("SELECT * FROM inventory ORDER BY id ASC");
+$ingredients = $ingredientModel->all('id ASC');
 
 // Thống kê cho inventory/index
 $total = count($ingredients);
@@ -148,39 +130,10 @@ $currentSubPage = get_param('page', 'inventory');
 if ($currentSubPage === 'inventory_transactions') {
     $transType = get_param('type', '');
     $transSearch = trim((string)get_param('search', ''));
-    $tWhere = ["1=1"];
-    $tParams = [];
-    if ($transType !== '' && in_array($transType, ['IMPORT', 'EXPORT', 'USAGE', 'ADJUSTMENT'], true)) {
-        $tWhere[] = "t.type = ?";
-        $tParams[] = $transType;
-    }
-    if ($transSearch !== '') {
-        $tWhere[] = "(i.ingredient_name LIKE ? OR t.note LIKE ?)";
-        $tParams[] = '%' . $transSearch . '%';
-        $tParams[] = '%' . $transSearch . '%';
-    }
-    $tClause = implode(" AND ", $tWhere);
-    $transactions = db()->fetchAll("
-        SELECT t.*, i.ingredient_name, i.unit, COALESCE(u.full_name, 'Hệ thống') as user_name
-        FROM inventory_transactions t
-        JOIN inventory i ON t.inventory_id = i.id
-        LEFT JOIN users u ON t.user_id = u.id
-        WHERE $tClause
-        ORDER BY t.created_at DESC
-        LIMIT 100
-    ", $tParams);
+    $transactions = $ingredientModel->getTransactions($transType, $transSearch, 100);
     $pageTitle = 'Lịch sử giao dịch kho';
 } elseif ($currentSubPage === 'inventory_report') {
-    $inventoryReportRows = db()->fetchAll("
-        SELECT i.*,
-               COALESCE(SUM(CASE WHEN t.type = 'IMPORT' THEN t.quantity ELSE 0 END), 0) as total_import,
-               COALESCE(SUM(CASE WHEN t.type IN ('EXPORT', 'USAGE') THEN t.quantity ELSE 0 END), 0) as total_out,
-               COALESCE(SUM(CASE WHEN t.type = 'ADJUSTMENT' THEN t.quantity ELSE 0 END), 0) as total_adjust
-        FROM inventory i
-        LEFT JOIN inventory_transactions t ON i.id = t.inventory_id
-        GROUP BY i.id
-        ORDER BY (i.quantity * i.price) DESC, i.ingredient_name ASC
-    ");
+    $inventoryReportRows = $ingredientModel->getInventoryReportRows();
     $totalInventoryValue = 0;
     $totalImportAll = 0;
     $totalOutAll = 0;

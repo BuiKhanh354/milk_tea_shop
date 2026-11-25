@@ -1,6 +1,7 @@
 <?php
-// admin/pages/options/action.php — Sugar & Ice options
+// admin/pages/options/action.php — Sugar & Ice options (OOP)
 $action = get_param('action', '');
+$optionModel = new ProductOption();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'store') {
@@ -11,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $status = isset($_POST['status']) ? 1 : 0;
 
         if (!empty($name)) {
-            db()->execute("INSERT INTO item_options (type, name, value, is_default, status) VALUES (?, ?, ?, ?, ?)", [$type, $name, $value, $isDefault, $status]);
+            $optionModel->store($type, $name, $value, $isDefault, $status);
             set_flash('success', "Đã thêm tùy chọn mới!");
         }
         redirect(admin_url('options'));
@@ -26,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $status = isset($_POST['status']) ? 1 : 0;
 
         if ($id && !empty($name)) {
-            db()->execute("UPDATE item_options SET name=?, value=?, is_default=?, status=? WHERE id=? AND type=?", [$name, $value, $isDefault, $status, $id, $type]);
+            $optionModel->update($id, $type, $name, $value, $isDefault, $status);
             set_flash('success', "Đã cập nhật tùy chọn!");
         }
         redirect(admin_url('options'));
@@ -36,13 +37,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if ($action === 'delete') {
     $id = (int)get_param('id');
     if ($id) {
-        db()->execute("DELETE FROM item_options WHERE id=?", [$id]);
+        $optionModel->deleteById($id);
         set_flash('success', "Đã xóa tùy chọn!");
     }
     redirect(admin_url('options'));
 }
 
-$sugarOptions = db()->fetchAll("SELECT * FROM item_options WHERE type = 'sugar' ORDER BY value ASC");
-$iceOptions = db()->fetchAll("SELECT * FROM item_options WHERE type = 'ice' ORDER BY value ASC");
+$sugarOptions = $optionModel->getByType('sugar');
+$iceOptions = $optionModel->getByType('ice');
 $pageTitle = 'Tùy chọn (Sugar & Ice)';
-

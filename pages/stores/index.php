@@ -105,39 +105,3 @@ if (!empty($store)) {
         </div>
     </div>
 </section>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('store-search-input');
-    const statusSelect = document.getElementById('store-status-select');
-    const storeCards = document.querySelectorAll('.store-card');
-    const storeCount = document.getElementById('store-count');
-
-    function filterStores() {
-        const query = searchInput.value.trim().toLowerCase();
-        const status = statusSelect.value;
-        let visibleCount = 0;
-
-        storeCards.forEach(card => {
-            const name = card.getAttribute('data-name');
-            const cardStatus = card.getAttribute('data-status');
-            const matchesQuery = query === '' || name.includes(query);
-            const matchesStatus = status === 'all' || cardStatus === status;
-
-            if (matchesQuery && matchesStatus) {
-                card.style.display = 'block';
-                visibleCount++;
-            } else {
-                card.style.display = 'none';
-            }
-        });
-
-        if (storeCount) {
-            storeCount.textContent = `${visibleCount} cửa hàng`;
-        }
-    }
-
-    searchInput?.addEventListener('input', filterStores);
-    statusSelect?.addEventListener('change', filterStores);
-});
-</script>
